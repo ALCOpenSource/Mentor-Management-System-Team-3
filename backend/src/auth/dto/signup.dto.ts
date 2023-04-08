@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsNotEmpty,
   MinLength,
+  IsOptional,
 } from "class-validator";
 
 export class SignupDTO {
@@ -18,6 +19,7 @@ export class SignupDTO {
 
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @IsStrongPassword(
     {
       minLength: 8,
@@ -32,4 +34,8 @@ export class SignupDTO {
     },
   )
   password: string;
+}
+
+export class GoogleUserDto {
+  googleAccessToken: string;
 }
