@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+import LoginForm from './Components/Auth/LoginForm';
 
-function App() {
+
+const App: React.FC = () => {
+  const handleLogin = (username: string, password: string) => {
+    // Handle login logic here
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mx-auto">
+      <LoginForm onSubmit={handleLogin} />
     </div>
   );
-}
+};
+
 
 export default App;
