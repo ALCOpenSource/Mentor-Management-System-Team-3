@@ -4,6 +4,8 @@ Import necessary modules and dependencies
 import { NestFactory } from "@nestjs/core";
 import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import * as admin from "firebase-admin";
+import { ServiceAccount } from "firebase-admin";
 import { AppModule } from "./app.module";
 import { HttpExceptionFilter } from "./filters/http-exception.filter";
 /*
@@ -31,6 +33,20 @@ async function bootstrap() {
   // instantiate exception filter globally
   // only added to transform the response to the specified format rather than default nestjs format
   app.useGlobalFilters(new HttpExceptionFilter());
+
+  // Set the config options
+  const adminConfig: ServiceAccount = {
+    projectId: configService.get<string>("FIREBASE_PROJECT_ID"),
+    privateKey: configService
+      .get<string>("FIREBASE_PRIVATE_KEY")
+      .replace(/\\n/g, "\n"),
+    clientEmail: configService.get<string>("FIREBASE_CLIENT_EMAIL"),
+  };
+  // Initialize the firebase admin app
+  admin.initializeApp({
+    credential: admin.credential.cert(adminConfig),
+    databaseURL: configService.get("FIREBASE_DATABASE_URL"),
+  });
 
   // Assign the port number to either the configured port or a default of 3000
   const PORT = assignedPort || 3000;
