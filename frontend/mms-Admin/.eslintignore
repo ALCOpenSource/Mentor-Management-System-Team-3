@@ -1,0 +1,11 @@
+node_modules
+.parcel-cache
+dist
+.eslintrc.js
+package.json
+package-lock.json
+coverage
+src/reportWebVitals.ts
+src/react-app-env.d.ts
+*.css
+*.svg

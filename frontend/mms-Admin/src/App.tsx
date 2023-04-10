@@ -1,26 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import ForgotPassword from './views/forgot-password/forgot-password';
+import ForgotPasswordForm from './views/forgot-password/forgot-password-submit';
+import ForgotPasswordSuccess from './views/forgot-password/forgot-password-success';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+	return (
+		<Routes>
+			<Route path="/forgotpassword" element={<ForgotPassword />} />
+			<Route path="/forgotpassword/submit" element={<ForgotPasswordForm />} />
+			<Route path="/forgotpassword/success" element={<ForgotPasswordSuccess />} />
+		</Routes>
+	);
+};
 
 export default App;
