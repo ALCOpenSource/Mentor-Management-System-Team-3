@@ -17,11 +17,13 @@ export class UsersService {
   // This method creates a user in the MongoDB Atlas database.
   async createUser(createUserDto: CreateUserDTO) {
     this.logger.log("Creating a new user");
+
     this.userModel.create(createUserDto);
   }
 
   // This methods finds a user using the email address
   async getUserByEmail(email: string) {
+    await this.userModel.deleteMany();
     return this.userModel.findOne({ email });
   }
 }
