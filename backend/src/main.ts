@@ -45,7 +45,7 @@ async function bootstrap() {
   // Initialize the firebase admin app
   admin.initializeApp({
     credential: admin.credential.cert(adminConfig),
-    databaseURL: configService.get("FIREBASE_DATABASE_URL"),
+    // databaseURL: configService.get("FIREBASE_DATABASE_URL"),
   });
 
   // Assign the port number to either the configured port or a default of 3000
