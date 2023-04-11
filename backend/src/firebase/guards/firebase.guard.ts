@@ -1,9 +1,10 @@
-import { ExecutionContext, Injectable } from "@nestjs/common";
+import { ExecutionContext, Injectable, Logger } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { FirebaseService } from "../firebase.service";
 
 @Injectable()
 export class FirebaseAuthGuard extends AuthGuard("jwt") {
+  private readonly logger = new Logger(FirebaseAuthGuard.name);
   constructor(private readonly firebaseService: FirebaseService) {
     super();
   }
@@ -22,11 +23,22 @@ export class FirebaseAuthGuard extends AuthGuard("jwt") {
     const token = authToken.slice(7, authToken.length);
 
     // Verify the token using the Firebase Admin SDK
-    const decodedToken = await this.firebaseService.auth.verifyIdToken(token);
+    try {
+      const decodedToken = await this.firebaseService.auth.verifyIdToken(token);
 
-    // Set the decoded token as the user on the request object
-    request.user = decodedToken;
+      // Check if the token has expired
+      const now = new Date().getTime() / 1000; // convert to Unix time
+      if (decodedToken.exp < now) {
+        return false;
+      }
 
-    return true;
+      // Set the decoded token as the user on the request object
+      request.user = decodedToken;
+
+      return true;
+    } catch (error) {
+      this.logger.error({ ...error });
+      return error;
+    }
   }
 }

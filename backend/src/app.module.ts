@@ -6,6 +6,7 @@ import { MongooseConfigService } from "./db/mongodb";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
 import { FirebaseModule } from "./firebase/firebase.module";
+import { CloudinaryModule } from "./cloudinary/cloudinary.module";
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { FirebaseModule } from "./firebase/firebase.module";
     UsersModule,
     AuthModule,
     FirebaseModule,
+    CloudinaryModule,
   ],
   controllers: [],
   providers: [],
