@@ -14,6 +14,7 @@ import { UpdateUserDTO } from "./dto/update-user.dto";
 import { startsWithHttp } from "../utils/starts-with-http";
 import { OperationStatus } from "../filters/interface/response.interface";
 import { HttpResponseType } from "../types/http-response.type";
+import { CloudinaryService } from "../cloudinary/cloudinary.service";
 
 @Injectable()
 export class UsersService {
@@ -21,12 +22,64 @@ export class UsersService {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
+    private readonly cloudinary: CloudinaryService,
   ) {}
+
+  // This method uploads user profile picture (avatar)
+  async uploadAvatar(uid: string, avatar: Express.Multer.File) {
+    if (!avatar) {
+      this.logger.error({
+        status: OperationStatus.ERROR,
+        message: "file is empty",
+        data: {},
+      });
+      throw new BadRequestException({
+        status: OperationStatus.ERROR,
+        message: "file is empty",
+        data: {},
+      });
+    }
+
+    const user: UserDocument = await this.userModel.findOne({ uid });
+    if (!user) {
+      const errorMessage = "User not found";
+      this.logger.error({
+        status: OperationStatus.ERROR,
+        message: errorMessage,
+        data: {},
+      });
+      throw new NotFoundException(errorMessage);
+    }
+
+    if (user?.avatar?.publicId) {
+      await this.cloudinary.deleteImage(user?.avatar?.publicId);
+    }
+
+    const { secure_url, public_id } = await this.cloudinary
+      .uploadImage(avatar)
+      .catch(() => {
+        const errorMessage = "file is empty";
+        this.logger.error({
+          status: OperationStatus.ERROR,
+          message: errorMessage,
+          data: {},
+        });
+        throw new BadRequestException("file is empty");
+      });
+
+    user.avatar = { url: secure_url, publicId: public_id };
+    user.updateOne(user).exec();
+
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Updated successfully",
+      data: {},
+    };
+  }
 
   // This method creates a user in the MongoDB Atlas database.
   async createUser(createUserDto: CreateUserDTO) {
     this.logger.log("Creating a new user");
-
     this.userModel.create(createUserDto);
   }
 
@@ -40,8 +93,13 @@ export class UsersService {
     const user: UserDocument = await this.userModel.findOne({ uid });
 
     if (!user) {
-      this.logger.error("User not found");
-      throw new NotFoundException("User not found");
+      const errorMessage = "User not found";
+      this.logger.error({
+        status: OperationStatus.ERROR,
+        message: errorMessage,
+        data: {},
+      });
+      throw new NotFoundException(errorMessage);
     }
 
     return {
@@ -65,8 +123,13 @@ export class UsersService {
     });
 
     if (!user) {
-      this.logger.error("User not found");
-      throw new NotFoundException("User not found");
+      const errorMessage = "User not found";
+      this.logger.error({
+        status: OperationStatus.ERROR,
+        message: errorMessage,
+        data: {},
+      });
+      throw new NotFoundException(errorMessage);
     }
 
     await user.updateOne({
