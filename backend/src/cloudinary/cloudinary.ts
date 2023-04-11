@@ -1,5 +1,6 @@
 import { ConfigOptions, v2 } from "cloudinary";
-import { CONSTANTS } from "../constants/constants";
+
+import { CONSTANTS } from "../constants";
 
 export const CloudinaryProvider = {
   provide: CONSTANTS.CLOUDINARY,
