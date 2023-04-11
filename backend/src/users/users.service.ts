@@ -68,7 +68,7 @@ export class UsersService {
       });
 
     user.avatar = { url: secure_url, publicId: public_id };
-    user.updateOne(user).exec();
+    await user.updateOne(user).exec();
 
     return {
       status: OperationStatus.SUCCESS,

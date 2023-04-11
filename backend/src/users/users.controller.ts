@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Logger,
+  Patch,
   Put,
   Req,
   UploadedFile,
@@ -28,7 +29,7 @@ export class UsersController {
     return this.usersService.getUserByUid(req.user.sub);
   }
 
-  @Put("/update")
+  @Put("update")
   @UseGuards(FirebaseAuthGuard)
   async updateUser(
     @Body() updateUserDto: UpdateUserDTO,
@@ -37,6 +38,7 @@ export class UsersController {
     return this.usersService.updateUser(req.user.sub, updateUserDto);
   }
 
+  @Patch("avatar")
   @UseInterceptors(FileInterceptor("avatar"))
   @UseGuards(FirebaseAuthGuard)
   async uploadDriverLicense(
