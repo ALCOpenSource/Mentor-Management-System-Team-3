@@ -1,25 +1,10 @@
 import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
 import { Iimage } from "./interface/image.interface";
+import { ISocials } from "./interface/socials.interface";
 
 export enum ROLE {
   ADMIN = "admin",
-}
-
-export interface IUser {
-  id?: string;
-  uid: string;
-  firstName?: string;
-  lastName?: string;
-  country?: string;
-  city?: string;
-  website?: string;
-  email?: string;
-  bio?: string;
-  avatar?: Iimage;
-  role: ROLE;
-  createdBy?: string;
-  updatedBy?: string;
 }
 
 export type UserDocument = HydratedDocument<User>;
@@ -31,13 +16,13 @@ export type UserDocument = HydratedDocument<User>;
   toObject: { virtuals: true },
 })
 export class User {
-  @Prop({ lower: true })
+  @Prop({ lowercase: true })
   firstName: string;
 
-  @Prop({ lower: true })
+  @Prop({ lowercase: true })
   lastName: string;
 
-  @Prop({ lower: true })
+  @Prop({ lowercase: true })
   email: string;
 
   @Prop()
@@ -54,14 +39,24 @@ export class User {
   @Prop()
   bio: string;
 
-  @Prop()
+  @Prop({ lowercase: true })
   country: string;
 
-  @Prop()
+  @Prop({ lowercase: true })
   city: string;
 
-  @Prop()
+  @Prop({ lowercase: true })
   website: string;
+
+  @Prop(
+    raw({
+      github: { type: String, lowercase: true },
+      linkedin: { type: String, lowercase: true },
+      twitter: { type: String, lowercase: true },
+      instagram: { type: String, lowercase: true },
+    }),
+  )
+  socials: ISocials;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, sparse: true })
   createdBy: MongooseSchema.Types.ObjectId;
