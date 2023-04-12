@@ -13,7 +13,7 @@ export class SignupDTO {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(1)
+  @MinLength(2)
   name: string;
 
   @IsEmail()
