@@ -83,6 +83,10 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     }
   };
 
+// Signup with Google authentication function
+
+
+
 //   Send a password reset link to an email address
 const sendPasswordReset = async (email) => {
     try {

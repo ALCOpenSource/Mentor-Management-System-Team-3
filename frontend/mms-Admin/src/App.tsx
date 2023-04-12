@@ -4,6 +4,7 @@ import LoginForm from "./views/login/LoginForm";
 // import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./views/dashboard/dashboard";
+import RegisterForm from "./views/signup/RegisterForm";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/register" element={<RegisterForm />} />
         </Routes>
       </Router>
       

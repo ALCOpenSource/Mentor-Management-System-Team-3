@@ -18,9 +18,9 @@ function LoginForm() {
     const handleSignInWithGoogle = async () => {
       try {
           await signInWithGoogle();
-          navigate('/dashboard');
+          navigate("/dashboard");
       } catch (error) {
-          console.error('Error signing in with Google', error);
+          console.error("Error signing in with Google", error);
       }
   };
     const handleLoginInWithEmailAndPassword = async (email: string, password: string) => {
