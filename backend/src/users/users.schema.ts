@@ -2,6 +2,7 @@ import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
 import { Iimage } from "./interface/image.interface";
 import { ISocials } from "./interface/socials.interface";
+import { Preferences } from "src/preferences/preferences.schema";
 
 export enum ROLE {
   ADMIN = "admin",
@@ -63,6 +64,13 @@ export class User {
 
   @Prop({ type: MongooseSchema.Types.ObjectId, sparse: true })
   updatedBy: MongooseSchema.Types.ObjectId;
+
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: "Preferences",
+    autopopulate: true,
+  })
+  preferences: MongooseSchema.Types.ObjectId | Preferences;
 
   @Prop({ default: ROLE.ADMIN })
   role: ROLE;

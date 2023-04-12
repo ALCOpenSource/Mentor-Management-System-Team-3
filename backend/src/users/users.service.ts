@@ -15,6 +15,7 @@ import { startsWithHttp } from "../utils/starts-with-http";
 import { OperationStatus } from "../filters/interface/response.interface";
 import { HttpResponseType } from "../types/http-response.type";
 import { CloudinaryService } from "../cloudinary/cloudinary.service";
+import { PreferencesService } from "src/preferences/preferences.service";
 
 @Injectable()
 export class UsersService {
@@ -23,6 +24,7 @@ export class UsersService {
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
     private readonly cloudinary: CloudinaryService,
+    private readonly preferenceService: PreferencesService,
   ) {}
 
   // This method uploads user profile picture (avatar)
@@ -81,6 +83,9 @@ export class UsersService {
   async createUser(createUserDto: CreateUserDTO) {
     this.logger.log("Creating a new user");
     this.userModel.create(createUserDto);
+    // while creating new user, we need to instantiate also a class for their preferences
+    this.logger.log("Creating user preferences");
+    this.preferenceService.createPreferences(createUserDto.uid);
   }
 
   // This methods finds a user using the email address
