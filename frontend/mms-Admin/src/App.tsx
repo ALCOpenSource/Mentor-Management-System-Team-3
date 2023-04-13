@@ -9,6 +9,7 @@ import ForgotPassword from "./views/forgot-password/forgot-password";
 import ForgotPasswordForm from "./views/forgot-password/forgot-password-submit";
 import ForgotPasswordSuccess from "./views/forgot-password/forgot-password-success";
 import Navbar from "./components/shared/navbar";
+import Sidebar from "./components/shared/sidebar";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/forgotpassword/submit" element={<ForgotPasswordForm />} />
           <Route path="/forgotpassword/sucess" element={<ForgotPasswordSuccess />} />
           <Route path="/navbar" element={<Navbar />} />
+          <Route path="/sidebar" element={<Sidebar />} />
         </Routes>
       </Router>      
     </div>
