@@ -11,34 +11,39 @@ export class MailService {
 
   constructor(private mailerService: MailerService) {}
 
+  // Function to send support email with attachment
   async sendSupportMail(
-    supportDto: SupportDTO,
-    attachment: Express.Multer.File,
+    supportDto: SupportDTO, // SupportDTO object containing user details
+    attachment: Express.Multer.File, // Multer file object containing attachment
   ): Promise<HttpResponseType> {
+    // Returns HttpResponseType object
     const attachments = [];
     if (attachment) {
+      // Check if attachment exists
       const attach = {
+        // Create attachment object
         filename: attachment.originalname,
         content: attachment.buffer,
       };
-      attachments.push(attach);
+      attachments.push(attach); // Add attachment to attachments array
     }
-    this.logger.log("Sending email...");
+    this.logger.log("Sending email..."); // Log email sending
     await this.mailerService.sendMail({
-      to: process.env.MAIL_SUPPORT,
-      from: `<${process.env.MAIL_USER}>`, // override default from
-      subject: "Support Request: " + supportDto.title,
-      template: "./support",
+      to: process.env.MAIL_SUPPORT, // Support email recipient
+      from: `<${process.env.MAIL_USER}>`, // Override default email sender
+      subject: "Support Request: " + supportDto.title, // Email subject line
+      template: "./support", // Email template path
       context: {
         name: supportDto.name,
         email: supportDto.email,
         message: supportDto.body,
-      },
-      attachments: attachments,
+      }, // Email template context with user details
+      attachments: attachments, // Email attachments array
     });
 
-    this.logger.log("Email sent");
+    this.logger.log("Email sent"); // Log email sent
 
+    // Return success response object
     return {
       status: OperationStatus.SUCCESS,
       message: "Email sent successfully",
