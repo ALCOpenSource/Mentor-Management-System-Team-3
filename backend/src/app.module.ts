@@ -9,6 +9,8 @@ import { FirebaseModule } from "./firebase/firebase.module";
 import { CloudinaryModule } from "./cloudinary/cloudinary.module";
 import { MailService } from "./mail/mail.service";
 import { MailModule } from "./mail/mail.module";
+import { ProgramsModule } from "./programs/programs.module";
+import { ProgramsArchiveModule } from "./programs-archive/programs-archive.module";
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { MailModule } from "./mail/mail.module";
     FirebaseModule,
     CloudinaryModule,
     MailModule,
+    ProgramsModule,
+    ProgramsArchiveModule,
   ],
   controllers: [],
   providers: [MailService],

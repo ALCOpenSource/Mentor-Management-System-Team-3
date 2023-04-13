@@ -25,6 +25,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get("user")
+  @UseGuards(FirebaseAuthGuard)
   async getUserByUid(@Req() req): Promise<HttpResponseType> {
     return this.usersService.getUserByUid(req.user.sub);
   }

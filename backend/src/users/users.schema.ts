@@ -1,13 +1,14 @@
 import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
-import { Iimage } from "./interface/image.interface";
+import { IImage } from "./interface/image.interface";
 import { ISocials } from "./interface/socials.interface";
+import { IUser } from "./interface/user.interface";
 
 export enum ROLE {
   ADMIN = "admin",
 }
 
-export type UserDocument = HydratedDocument<User>;
+export type UserDocument = HydratedDocument<User> & IUser;
 
 @Schema({
   timestamps: true,
@@ -34,7 +35,7 @@ export class User {
       publicId: { type: String },
     }),
   )
-  avatar: Iimage;
+  avatar: IImage;
 
   @Prop()
   bio: string;
