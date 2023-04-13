@@ -20,12 +20,12 @@ import {
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyDXGx73SGB4Uk5bd9DHVZc-S0RVTls4UDA",
-    authDomain: "mentor-management-system-admin.firebaseapp.com",
-    projectId: "mentor-management-system-admin",
-    storageBucket: "mentor-management-system-admin.appspot.com",
-    messagingSenderId: "658846302669",
-    appId: "1:658846302669:web:5a1323f71b24b9c4d48484",
+    apiKey: "API_KEY",
+    authDomain: "AUTH_DOMAIN",
+    projectId: "PROJECT_ID",
+    storageBucket: "STORAGE_BUCKET",
+    messagingSenderId: "MESSAGING_SENDER_ID",
+    appId: "APP_ID",
     measurementId: "G-8RGG93X3HS"
   };
 
@@ -84,7 +84,25 @@ const registerWithEmailAndPassword = async (name, email, password) => {
   };
 
 // Signup with Google authentication function
-
+const signUpWithGoogle = async () => {
+  try {
+    const res = await signInWithPopup(auth, googleProvider);
+    const user = res.user;
+    const q = query(collection(db, "users"), where("uid", "==", user.uid));
+    const docs = await getDocs(q);
+    if (docs.docs.length === 0) {
+      await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        name: user.displayName,
+        authProvider: "google",
+        email: user.email,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
 
 
 //   Send a password reset link to an email address
@@ -101,11 +119,15 @@ const sendPasswordReset = async (email) => {
   const logout = () => {
     signOut(auth);
   };
+
+
+  
   export {
     auth,
     db,
     signInWithGoogle,
     logInWithEmailAndPassword,
+    signUpWithGoogle,
     registerWithEmailAndPassword,
     sendPasswordReset,
     logout,
