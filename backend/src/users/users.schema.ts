@@ -5,7 +5,6 @@ import { ISocials } from "./interface/socials.interface";
 import { Preferences } from "src/preferences/preferences.schema";
 import { IUser } from "./interface/user.interface";
 
-
 export enum ROLE {
   ADMIN = "admin",
 }

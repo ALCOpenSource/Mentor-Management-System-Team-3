@@ -9,13 +9,10 @@ import {
   PreferencesSchema,
 } from "src/preferences/preferences.schema";
 import { UsersService } from "./../users/users.service";
-<<<<<<< HEAD
 import { CloudinaryModule } from "src/cloudinary/cloudinary.module";
 import { PreferencesModule } from "src/preferences/preferences.module";
 import { PreferencesService } from "src/preferences/preferences.service";
-=======
 import { CloudinaryService } from "../cloudinary/cloudinary.service";
->>>>>>> main
 
 @Module({
   imports: [
@@ -26,11 +23,7 @@ import { CloudinaryService } from "../cloudinary/cloudinary.service";
     CloudinaryModule,
     PreferencesModule,
   ],
-<<<<<<< HEAD
-  providers: [AuthService, UsersService, PreferencesService],
-=======
-  providers: [AuthService, UsersService, CloudinaryService],
->>>>>>> main
+  providers: [AuthService, UsersService, CloudinaryService, PreferencesService],
   controllers: [AuthController],
 })
 export class AuthModule {}
