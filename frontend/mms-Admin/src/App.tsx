@@ -3,13 +3,13 @@ import LoginForm from "./views/login/LoginForm";
 // import logo from './logo.svg';
 // import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Dashboard from "./views/dashboard/dashboard";
 import RegisterForm from "./views/signup/RegisterForm";
 import ForgotPassword from "./views/forgot-password/forgot-password";
 import ForgotPasswordForm from "./views/forgot-password/forgot-password-submit";
 import ForgotPasswordSuccess from "./views/forgot-password/forgot-password-success";
 import Navbar from "./components/shared/navbar";
 import Sidebar from "./components/shared/sidebar";
+import Dashboard from "./views/dashboard/dashboard";
 
 
 function App() {

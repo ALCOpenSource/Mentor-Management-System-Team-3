@@ -67,12 +67,8 @@ function Sidebar() {
                 </div>
             </div>
         </div>
- 
-
     );
-
 }
-
 export default Sidebar;
 
 
