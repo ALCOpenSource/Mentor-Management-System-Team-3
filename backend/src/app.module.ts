@@ -8,6 +8,8 @@ import { AuthModule } from "./auth/auth.module";
 import { FirebaseModule } from "./firebase/firebase.module";
 import { CloudinaryModule } from "./cloudinary/cloudinary.module";
 import { PreferencesModule } from "./preferences/preferences.module";
+import { MailService } from "./mail/mail.service";
+import { MailModule } from "./mail/mail.module";
 
 @Module({
   imports: [
@@ -23,8 +25,9 @@ import { PreferencesModule } from "./preferences/preferences.module";
     FirebaseModule,
     CloudinaryModule,
     PreferencesModule,
+    MailModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [MailService],
 })
 export class AppModule {}
