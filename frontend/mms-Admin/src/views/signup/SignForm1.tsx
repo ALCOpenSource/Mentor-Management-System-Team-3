@@ -37,7 +37,7 @@ function SignupForm1() {
                         </span>
                     </div>
                     <div className="flex flex-row items-center justify-center mb-6">
-                        <label className="text-customBlack-one text-normal mr-10">Full Name*</label>
+                        <label className="text-customBlack-one text-normal w-[83px] l-[284px] t-[441px] h-[27px]">Full Name*</label>
                         <div className="my-4 flex flex-row">
                         <input
                           type="text"
@@ -45,7 +45,7 @@ function SignupForm1() {
                           value={fname}
                           placeholder="First Name"
                           onChange={(event) => setFirstName(event.target.value)}
-                          className="mr-10 shadow appearance-none border rounded py-2 px-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
+                          className="w-[370px] h-[50px] t-[429px] l-[395px] shadow appearance-none border rounded py-2 px-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
                         />
                         <input
                           type="text"
@@ -53,12 +53,12 @@ function SignupForm1() {
                           value={lname}
                           placeholder="Last Name"
                           onChange={(event) => setLastName(event.target.value)}
-                          className="mr-10 shadow appearance-none border rounded py-2 px-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
+                          className="w-[370px] h-[50px] t-[429px] l-[395px] shadow appearance-none border rounded py-2 px-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
                         />
                         </div>
                     </div>
                     <div className="flex flex-row items-center justify-center mb-6">
-                        <label className="text-customBlack-one text-normal mr-20">About</label>
+                        <label className="text-customBlack-one text-normal w-[90px] t-[509px] l-283px]">About</label>
                         <div className="my-4">
                         <input
                           type="text"
@@ -66,12 +66,12 @@ function SignupForm1() {
                           value={about}
                           placeholder="Your bio"
                           onChange={(event) => setAbout(event.target.value)}
-                          className="shadow appearance-none border rounded w-full p-40 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
+                          className="shadow appearance-none border rounded w-[761px] px-[7px] py-[15px] text-gray-one leading-tight focus:outline-none focus:shadow-outline"
                         />
                         </div>
                     </div>
                     <div className="flex flex-row items-center justify-center mb-6">
-                        <label className="text-customBlack-one text-normal mr-10">Website</label>
+                        <label className="text-customBlack-one text-normal w-[90px] t-[509px] l-[283px]">Website</label>
                         <div className="my-4">
                         <input
                           type="url"
@@ -79,12 +79,12 @@ function SignupForm1() {
                           value={website}
                           placeholder="www.example.com"
                           onChange={(event) => setWebsite(event.target.value)}
-                          className="shadow appearance-none border rounded w-full px-2 py-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
+                          className="shadow appearance-none border rounded w-[761px] h-[50px] text-gray-one leading-tight focus:outline-none focus:shadow-outline"
                         />
                         </div>
                     </div>
                     <div className="flex flex-row items-center justify-center mb-6">                        
-                        <label className="text-customBlack-one text-normal mr-10">Country*</label>
+                        <label className="text-customBlack-one text-normal w-[87px] h-[27px] l-[283px]">Country*</label>
                         <div className="my-4 flex flex-row">
                         <input
                           type="search"
@@ -92,16 +92,16 @@ function SignupForm1() {
                           value={country}
                           placeholder="Select Country"
                           onChange={(event) => setCountry(event.target.value)}
-                          className="mr-10 shadow appearance-none border rounded py-2 px-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
+                          className="w-[319px] h-[50px] shadow appearance-none border rounded py-2 px-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
                         />
-                        <label className="text-customBlack-one text-normal mr-10">City*</label>
+                        <label className="justifu-center text-customBlack-one text-normal w-[87px] h-[27px] l-[283px]">City*</label>
                         <input
                           type="search"
                           id="text"
                           value={city}
                           placeholder="Select City"
                           onChange={(event) => setCity(event.target.value)}
-                          className="mr-10 shadow appearance-none border rounded py-2 px-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
+                          className="w-[319px] h-[50px] shadow appearance-none border rounded py-2 px-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
                         />
                         </div>
                     </div>
