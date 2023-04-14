@@ -30,7 +30,7 @@ function RegisterForm() {
         return (
           <div className="flex w-full h-screen ">
             <div className="flex-col flex-auto w-6/12">
-              <img src="/images/signup.png" alt="signup image"/>              
+              <img src="/images/signup.png" alt="signup"/>              
             </div>
             <div className="flex-col flex-auto w-6/12">
               <form onSubmit={handleSignUpWithEmailAndPassword} className="mt-[35%] m-10">

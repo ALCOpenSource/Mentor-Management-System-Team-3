@@ -24,7 +24,6 @@ function Sidebar() {
                                 <h2 className="text-customBlack-one">Hi, Alison</h2>
                                 <p className="text-gray-three mb-10">Mentor Manager</p>
                             </div>
-
                             <div className="relative flex items-center">
                                 <img src={profile} alt="profile logo" className="h-8 mr-5" />
                                 <span className="text-sm text-gray-one">Profile</span>
