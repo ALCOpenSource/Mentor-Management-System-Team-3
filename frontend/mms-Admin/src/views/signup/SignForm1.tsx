@@ -94,7 +94,7 @@ function SignupForm1() {
                           onChange={(event) => setCountry(event.target.value)}
                           className="w-[319px] h-[50px] shadow appearance-none border rounded py-2 px-3 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
                         />
-                        <label className="justifu-center text-customBlack-one text-normal w-[87px] h-[27px] l-[283px]">City*</label>
+                        <label className="text-customBlack-one text-normal w-[87px] h-[27px] l-[283px]">City*</label>
                         <input
                           type="search"
                           id="text"
