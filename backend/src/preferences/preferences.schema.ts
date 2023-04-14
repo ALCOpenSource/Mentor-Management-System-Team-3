@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory, raw } from "@nestjs/mongoose";
-import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
+import { HydratedDocument } from "mongoose";
 import {
   IGeneralNotifications,
   IDiscussionNotifications,
@@ -47,11 +47,11 @@ export class Preferences {
   )
   privacyPreferences: IPrivacyPreferences;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, sparse: true })
-  createdBy: MongooseSchema.Types.ObjectId;
+  @Prop({ type: String, sparse: true })
+  createdBy: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, sparse: true })
-  updatedBy: MongooseSchema.Types.ObjectId;
+  @Prop({ type: String, sparse: true })
+  updatedBy: string;
 }
 
 export const PreferencesSchema = SchemaFactory.createForClass(Preferences);

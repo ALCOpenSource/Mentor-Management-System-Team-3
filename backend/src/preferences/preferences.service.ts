@@ -8,23 +8,31 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User, UserDocument } from "src/users/users.schema";
+import { HttpResponseType } from "src/types/http-response.type";
+import { Logger } from "@nestjs/common/services";
+import { OperationStatus } from "src/filters/interface/response.interface";
 
 @Injectable()
 export class PreferencesService {
+  private readonly logger = new Logger(PreferencesService.name);
+
   constructor(
     @InjectModel(Preferences.name)
     private readonly preferencesModel: Model<PreferenceDocument>,
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
   ) {}
-
+  // creates a new preferences document for a user. This marks all the preferences as true.
   async createPreferences(userId: string): Promise<PreferenceDocument> {
+    this.logger.log("Creating preferences for user");
     const generalNotifications = new GeneralNotificationsDto();
     generalNotifications.enableAllNotifications = true;
     generalNotifications.enableProgramsNotifications = true;
     generalNotifications.enableTaskNotifcations = true;
     generalNotifications.enableApprovalRequestNotifications = true;
     generalNotifications.enableReportsNotifications = true;
+
+    this.logger.log(GeneralNotificationsDto);
 
     const discussionNotifications = new DiscussionNotificationsDto();
     discussionNotifications.enableCommentsOnMyPostsNotification = true;
@@ -33,12 +41,16 @@ export class PreferencesService {
     discussionNotifications.enableMentionsNotifications = true;
     discussionNotifications.enableDirectMessageNotifications = true;
 
+    this.logger.log(DiscussionNotificationsDto);
+
     const privacyPreferences = new PrivacyPreferencesDto();
     privacyPreferences.enableAllSocialLinksVisibility = true;
     privacyPreferences.enableGithubLinkVisibility = true;
     privacyPreferences.enableInstagramLinkVisibility = true;
     privacyPreferences.enableLinkedinLinkVisibility = true;
     privacyPreferences.enableTwitterLinkVisibility = true;
+
+    this.logger.log(PrivacyPreferencesDto);
     const preference = new this.preferencesModel({
       createdBy: userId,
       generalNotifications,
@@ -47,58 +59,91 @@ export class PreferencesService {
     });
     return preference.save();
   }
+  // checks if the user exists
+  async getUserByUId(userId: string) {
+    const user = await this.userModel.findOne({ uid: userId });
+    if (!user) {
+      const errorMessage = "User not found";
+      this.logger.error({
+        status: OperationStatus.ERROR,
+        message: errorMessage,
+        data: {},
+      });
+      throw new NotFoundException(errorMessage);
+    }
+  }
 
+  // updates the user's general preferences
   async updateGeneralNotifications(
     userId: string,
     generalNotificationsDto: GeneralNotificationsDto,
-  ): Promise<PreferenceDocument> {
-    const user = await this.userModel.findById(userId);
-    if (!user) {
-      throw new NotFoundException(`User with id ${userId} not found`);
-    }
-    const preferences = await this.preferencesModel
+  ): Promise<HttpResponseType> {
+    this.getUserByUId(userId);
+    await this.preferencesModel
       .findOneAndUpdate(
         { createdBy: userId },
         { generalNotifications: generalNotificationsDto },
         { new: true },
       )
       .exec();
-    return preferences;
+
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "General notifications updated successfully",
+      data: {},
+    };
   }
 
+  // patches the user's discussion preferences
   async updateDiscussionNotifications(
     userId: string,
     discussionNotificationsDto: DiscussionNotificationsDto,
-  ): Promise<PreferenceDocument> {
-    const user = await this.userModel.findById(userId);
-    if (!user) {
-      throw new NotFoundException(`User with id ${userId} not found`);
-    }
-    const preferences = await this.preferencesModel
+  ): Promise<HttpResponseType> {
+    this.getUserByUId(userId);
+    await this.preferencesModel
       .findOneAndUpdate(
         { createdBy: userId },
         { discussionNotifications: discussionNotificationsDto },
         { new: true },
       )
       .exec();
-    return preferences;
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Discussion notifications updated successfully",
+      data: {},
+    };
   }
-
+  // patches the user's privacy preferences
   async updatePrivacyPreferences(
     userId: string,
     privacyPreferencesDto: PrivacyPreferencesDto,
-  ): Promise<PreferenceDocument> {
-    const user = await this.userModel.findById(userId);
-    if (!user) {
-      throw new NotFoundException(`User with id ${userId} not found`);
-    }
-    const preferences = await this.preferencesModel
+  ): Promise<HttpResponseType> {
+    this.getUserByUId(userId);
+
+    const privacy = await this.preferencesModel
       .findOneAndUpdate(
         { createdBy: userId },
         { privacyPreferences: privacyPreferencesDto },
         { new: true },
       )
       .exec();
-    return preferences;
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Privacy preferences updated successfully",
+      data: { privacy },
+    };
+  }
+  // Gets the user's preferences
+
+  async getPreferencesByUid(userId: string): Promise<HttpResponseType> {
+    this.getUserByUId(userId);
+    const preferences = await this.preferencesModel
+      .find({ createdBy: userId })
+      .exec();
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Preferences fetched successfully",
+      data: preferences,
+    };
   }
 }
