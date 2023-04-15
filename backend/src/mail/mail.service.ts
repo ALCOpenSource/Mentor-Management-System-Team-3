@@ -15,7 +15,7 @@ export class MailService {
   async sendSupportMail(
     supportDto: SupportDTO, // SupportDTO object containing user details
     attachment: Express.Multer.File, // Multer file object containing attachment
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<object>> {
     // Returns HttpResponseType object
     const attachments = [];
     if (attachment) {

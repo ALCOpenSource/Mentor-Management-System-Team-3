@@ -89,7 +89,7 @@ export class UsersService {
   }
 
   // This methods finds a user using the uid
-  async getUserByUid(uid: string): Promise<HttpResponseType> {
+  async getUserByUid(uid: string): Promise<HttpResponseType<UserDocument>> {
     const user: UserDocument = await this.userModel.findOne({ uid });
 
     if (!user) {
@@ -113,7 +113,7 @@ export class UsersService {
   async updateUser(
     uid: string,
     updateUserDto: UpdateUserDTO,
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<UserDocument | object>> {
     if (!updateUserDto) {
       this.logger.error("No changes made");
       throw new BadRequestException("No changes made");
