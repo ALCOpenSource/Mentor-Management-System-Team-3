@@ -23,7 +23,7 @@ import { CloudinaryService } from "src/cloudinary/cloudinary.service";
     CloudinaryModule,
     PreferencesModule,
   ],
-  providers: [AuthService, UsersService, PreferencesService, CloudinaryService],
+  providers: [AuthService, UsersService, CloudinaryService, PreferencesService],
   controllers: [AuthController],
 })
 export class AuthModule {}
