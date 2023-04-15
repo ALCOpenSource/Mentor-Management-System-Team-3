@@ -10,7 +10,7 @@ interface FormValues {
 
 const initialValues: FormValues = {
 	password: ''
-};
+};      
 
 const validationSchema = Yup.object().shape({
 	password: Yup.string().required('Password is required')
@@ -63,5 +63,4 @@ const ForgotPasswordForm = () => {
 		</div>
 	);
 };
-
 export default ForgotPasswordForm;
