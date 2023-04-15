@@ -1,5 +1,5 @@
 import { ROLE } from "../users.schema";
-import { Iimage } from "./image.interface";
+import { IImage } from "./image.interface";
 import { ISocials } from "./socials.interface";
 
 export interface IUser {
@@ -12,7 +12,7 @@ export interface IUser {
   website?: string;
   email?: string;
   bio?: string;
-  avatar?: Iimage;
+  avatar?: IImage;
   role: ROLE;
   socials: ISocials;
   createdBy?: string;
