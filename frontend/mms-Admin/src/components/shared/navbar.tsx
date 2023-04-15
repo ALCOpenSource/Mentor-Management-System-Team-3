@@ -29,12 +29,9 @@ function Navbar() {
           <img src={chats} alt="Chats Icon" className="mx-2" />
           <img src={notifications} alt="Notifications Icon" className="mx-2" />
           <img src={avatar} alt="Avatar Icon" className="mx-2" />
-        </div>
-        
-
+        </div>    
       </div>
     </nav>
   );
 }
-
 export default Navbar;

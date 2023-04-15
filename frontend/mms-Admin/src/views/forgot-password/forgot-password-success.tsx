@@ -26,5 +26,4 @@ const ForgotPasswordSuccess = () => {
 		</div>
 	);
 };
-
 export default ForgotPasswordSuccess;
