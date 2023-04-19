@@ -4,6 +4,7 @@ import { OperationStatus } from "./../filters/interface/response.interface";
 import { SignupDTO } from "./dto/signup.dto";
 import { HttpResponseType } from "../types/http-response.type";
 import { UsersService } from "../users/users.service";
+import { UserDocument } from "../users/users.schema";
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,9 @@ export class AuthService {
    * @param signupDto An object that contains the user's email, uid,name and optional avatar.
    * @returns An object containing a status, message, and data.
    */
-  async signup(signupDto: SignupDTO): Promise<HttpResponseType> {
+  async signup(
+    signupDto: SignupDTO,
+  ): Promise<HttpResponseType<UserDocument | object>> {
     const { uid, email, name, avatar } = signupDto;
 
     const userExists = await this.usersService.getUserByEmail(email);

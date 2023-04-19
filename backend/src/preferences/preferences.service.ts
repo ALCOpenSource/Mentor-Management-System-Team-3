@@ -1,16 +1,17 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { Logger } from "@nestjs/common/services";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+
 import { Preferences, PreferenceDocument } from "./preferences.schema";
 import {
   GeneralNotificationsDto,
   DiscussionNotificationsDto,
   PrivacyPreferencesDto,
-} from "./interfaces/preference.dto";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { User, UserDocument } from "src/users/users.schema";
-import { HttpResponseType } from "src/types/http-response.type";
-import { Logger } from "@nestjs/common/services";
-import { OperationStatus } from "src/filters/interface/response.interface";
+} from "./dto/preference.dto";
+import { User, UserDocument } from "../users/users.schema";
+import { HttpResponseType } from "../types/http-response.type";
+import { OperationStatus } from "../filters/interface/response.interface";
 
 @Injectable()
 export class PreferencesService {
@@ -77,7 +78,7 @@ export class PreferencesService {
   async updateGeneralNotifications(
     userId: string,
     generalNotificationsDto: GeneralNotificationsDto,
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<PreferenceDocument | object>> {
     this.getUserByUId(userId);
     await this.preferencesModel
       .findOneAndUpdate(
@@ -98,7 +99,7 @@ export class PreferencesService {
   async updateDiscussionNotifications(
     userId: string,
     discussionNotificationsDto: DiscussionNotificationsDto,
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<PreferenceDocument | object>> {
     this.getUserByUId(userId);
     await this.preferencesModel
       .findOneAndUpdate(
@@ -117,7 +118,7 @@ export class PreferencesService {
   async updatePrivacyPreferences(
     userId: string,
     privacyPreferencesDto: PrivacyPreferencesDto,
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<PreferenceDocument>> {
     this.getUserByUId(userId);
 
     const privacy = await this.preferencesModel
@@ -130,12 +131,14 @@ export class PreferencesService {
     return {
       status: OperationStatus.SUCCESS,
       message: "Privacy preferences updated successfully",
-      data: { privacy },
+      data: privacy,
     };
   }
   // Gets the user's preferences
 
-  async getPreferencesByUid(userId: string): Promise<HttpResponseType> {
+  async getPreferencesByUid(
+    userId: string,
+  ): Promise<HttpResponseType<PreferenceDocument[]>> {
     this.getUserByUId(userId);
     const preferences = await this.preferencesModel
       .find({ createdBy: userId })

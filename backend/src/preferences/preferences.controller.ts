@@ -12,9 +12,10 @@ import {
   GeneralNotificationsDto,
   DiscussionNotificationsDto,
   PrivacyPreferencesDto,
-} from "./interfaces/preference.dto";
-import { HttpResponseType } from "src/types/http-response.type";
-import { FirebaseAuthGuard } from "src/firebase/guards/firebase.guard";
+} from "./dto/preference.dto";
+import { HttpResponseType } from "../types/http-response.type";
+import { FirebaseAuthGuard } from "../firebase/guards/firebase.guard";
+import { PreferenceDocument } from "./preferences.schema";
 
 @Controller("preferences")
 @UseGuards(FirebaseAuthGuard)
@@ -29,7 +30,7 @@ export class PreferencesController {
   async updateGeneralNotifications(
     @Body() generalNotificationsDto: GeneralNotificationsDto,
     @Req() req,
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<PreferenceDocument | object>> {
     return this.preferencesService.updateGeneralNotifications(
       req.user.sub,
       generalNotificationsDto,
@@ -44,7 +45,7 @@ export class PreferencesController {
   async updateDiscussionNotifications(
     @Body() discussionNotificationsDto: DiscussionNotificationsDto,
     @Req() req,
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<PreferenceDocument | object>> {
     return this.preferencesService.updateDiscussionNotifications(
       req.user.sub,
       discussionNotificationsDto,
@@ -59,7 +60,7 @@ export class PreferencesController {
   async updatePrivacyPreferences(
     @Body() privacyPreferencesDto: PrivacyPreferencesDto,
     @Req() req,
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<PreferenceDocument>> {
     return this.preferencesService.updatePrivacyPreferences(
       req.user.sub,
       privacyPreferencesDto,
@@ -71,7 +72,9 @@ export class PreferencesController {
    *  It returns an HTTP response with the preferences data in the body.
    */
   @Get()
-  async getPreferences(@Req() req): Promise<HttpResponseType> {
+  async getPreferences(
+    @Req() req,
+  ): Promise<HttpResponseType<PreferenceDocument[]>> {
     Logger.log("getPreferences");
     return this.preferencesService.getPreferencesByUid(req.user.sub);
   }
