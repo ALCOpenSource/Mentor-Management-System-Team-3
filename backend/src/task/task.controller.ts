@@ -9,11 +9,11 @@ import {
 } from "@nestjs/common";
 
 import { Task } from "./task.schema";
-import { CreateTaskDto } from "./dto/create-task.dto";
+import { CreateTaskDTO } from "./dto/create-task.dto";
 import { TaskService } from "./task.service";
 import { HttpResponseType } from "../types/http-response.type";
 import { FirebaseAuthGuard } from "../firebase/guards/firebase.guard";
-import { TaskIdDto } from "./dto/task-id.dto";
+import { TaskIdDTO } from "./dto/task-id.dto";
 
 @Controller("tasks")
 @UseGuards(FirebaseAuthGuard)
@@ -22,7 +22,7 @@ export class TaskController {
 
   @Post("create")
   async createTask(
-    @Body() createTaskDto: CreateTaskDto,
+    @Body() createTaskDto: CreateTaskDTO,
     @Req() req,
   ): Promise<HttpResponseType<Task>> {
     return this.taskService.createTask(req?.user?.sub, createTaskDto);
@@ -30,7 +30,7 @@ export class TaskController {
 
   @Delete(":taskId")
   async deleteTask(
-    @Param() taskIdDto: TaskIdDto,
+    @Param() taskIdDto: TaskIdDTO,
   ): Promise<HttpResponseType<string>> {
     return this.taskService.deleteTaskById(taskIdDto);
   }

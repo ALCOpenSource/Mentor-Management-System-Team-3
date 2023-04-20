@@ -3,10 +3,10 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
 import { Task, TaskDocument } from "./task.schema";
-import { CreateTaskDto } from "./dto/create-task.dto";
+import { CreateTaskDTO } from "./dto/create-task.dto";
 import { HttpResponseType } from "../types/http-response.type";
 import { OperationStatus } from "../filters/interface/response.interface";
-import { TaskIdDto } from "./dto/task-id.dto";
+import { TaskIdDTO } from "./dto/task-id.dto";
 
 @Injectable()
 export class TaskService {
@@ -16,7 +16,7 @@ export class TaskService {
 
   async createTask(
     userId: string,
-    createTaskDto: CreateTaskDto,
+    createTaskDto: CreateTaskDTO,
   ): Promise<HttpResponseType<Task>> {
     const { title, details, mentorManagers, mentors } = createTaskDto;
 
@@ -36,7 +36,7 @@ export class TaskService {
   }
 
   async deleteTaskById(
-    taskIdDto: TaskIdDto,
+    taskIdDto: TaskIdDTO,
   ): Promise<HttpResponseType<string>> {
     const result = await this.taskModel
       .deleteOne({ _id: taskIdDto.taskId })

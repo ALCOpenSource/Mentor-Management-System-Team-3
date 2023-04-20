@@ -1,7 +1,7 @@
 import { Type } from "class-transformer";
 import { IsString, IsArray, IsNotEmpty, MaxLength } from "class-validator";
 
-export class CreateTaskDto {
+export class CreateTaskDTO {
   @IsString()
   @IsNotEmpty()
   @MaxLength(32)
