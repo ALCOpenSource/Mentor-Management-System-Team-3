@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Logger,
+  Param,
   Patch,
   Put,
   Query,
@@ -19,6 +20,7 @@ import { HttpResponseType } from "../types/http-response.type";
 import { FirebaseAuthGuard } from "../firebase/guards/firebase.guard";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { UserDocument } from "./users.schema";
+import { MakeAdminDTO } from "./dto/make-admin.dto";
 
 @Controller("users")
 export class UsersController {
@@ -61,4 +63,7 @@ export class UsersController {
   async getUserByEmail(@Query("email") email: string) {
     return this.usersService.getUserByEmail(email);
   }
+
+  // @Put("/make/admin/:id")
+  // async makeAdmin(@Param() makeAdminDto: MakeAdminDTO) {}
 }
