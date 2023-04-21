@@ -12,7 +12,6 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 
-import { AuthService } from "src/auth/auth.service";
 import { UsersService } from "./users.service";
 import { UpdateUserDTO } from "./dto/update-user.dto";
 import { HttpResponseType } from "../types/http-response.type";
@@ -22,7 +21,7 @@ import { UserDocument } from "./users.schema";
 
 @Controller("users")
 export class UsersController {
-  private readonly logger = new Logger(AuthService.name);
+  private readonly logger = new Logger(UsersService.name);
 
   constructor(private readonly usersService: UsersService) {}
 
