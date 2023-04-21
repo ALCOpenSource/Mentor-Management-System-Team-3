@@ -13,7 +13,8 @@ type HttpResponseData =
   | ProgramArchiveDocument[]
   | PaginatedProgramArchiveDocuments[]
   | object
-  | [];
+  | []
+  | string;
 
 export type HttpResponseType<T extends HttpResponseData> = {
   status: OperationStatus;
