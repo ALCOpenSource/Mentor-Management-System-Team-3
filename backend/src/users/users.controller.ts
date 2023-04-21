@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Logger,
-  Param,
   Patch,
   Put,
   Query,
@@ -13,18 +12,16 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 
-import { AuthService } from "src/auth/auth.service";
 import { UsersService } from "./users.service";
 import { UpdateUserDTO } from "./dto/update-user.dto";
 import { HttpResponseType } from "../types/http-response.type";
 import { FirebaseAuthGuard } from "../firebase/guards/firebase.guard";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { UserDocument } from "./users.schema";
-import { MakeAdminDTO } from "./dto/make-admin.dto";
 
 @Controller("users")
 export class UsersController {
-  private readonly logger = new Logger(AuthService.name);
+  private readonly logger = new Logger(UsersService.name);
 
   constructor(private readonly usersService: UsersService) {}
 
@@ -63,7 +60,4 @@ export class UsersController {
   async getUserByEmail(@Query("email") email: string) {
     return this.usersService.getUserByEmail(email);
   }
-
-  // @Put("/make/admin/:id")
-  // async makeAdmin(@Param() makeAdminDto: MakeAdminDTO) {}
 }
