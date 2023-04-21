@@ -91,34 +91,33 @@ export class TaskService {
     const { mentorManagers, mentors } = updateTaskDto;
 
     const task = await this.taskModel.findById(taskId);
-    if (task) {
-      // Check if the length of the arrays exceeds 10
-      if (
-        task.mentorManagers &&
-        task.mentorManagers.length + mentorManagers.length > 10
-      ) {
-        throw new BadRequestException(
-          "The number of mentor managers cannot exceed 10",
-        );
-      }
 
-      if (task.mentors && task.mentors.length + mentors.length > 10) {
-        throw new BadRequestException("The number of mentors cannot exceed 10");
-      }
-    }
-    const updatedTask = await this.taskModel.findByIdAndUpdate(
-      taskId,
-      { $set: updateTaskDto },
-      { new: true },
-    );
-
-    if (!updatedTask) {
+    if (!task) {
       return {
         status: OperationStatus.ERROR,
         message: `Task with id ${taskId} not found`,
         data: {},
       };
     }
+
+    // Check if the length of the arrays exceeds 10
+    if (
+      task?.mentorManagers &&
+      task?.mentorManagers.length + mentorManagers.length > 10
+    ) {
+      throw new BadRequestException(
+        "The number of mentor managers cannot exceed 10",
+      );
+    }
+
+    if (task?.mentors && task?.mentors?.length + mentors?.length > 10) {
+      throw new BadRequestException("The number of mentors cannot exceed 10");
+    }
+
+    const updatedTask = await this.taskModel.updateOne(
+      { $set: updateTaskDto },
+      { new: true },
+    );
 
     return {
       status: OperationStatus.SUCCESS,
