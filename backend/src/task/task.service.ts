@@ -1,9 +1,16 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+/**
+ * This service handles CRUD operations for the Task entity
+ */
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
 import { Task, TaskDocument } from "./task.schema";
-import { CreateTaskDto } from "./dto/create-task.dto";
+import { CreateTaskDTO } from "./dto/create-task.dto";
 import { HttpResponseType } from "../types/http-response.type";
 import { OperationStatus } from "../filters/interface/response.interface";
 import { TaskIdDTO } from "./dto/task-id.dto";
@@ -15,9 +22,16 @@ export class TaskService {
     @InjectModel(Task.name) private readonly taskModel: Model<TaskDocument>,
   ) {}
 
+  /**
+   * Creates a new Task
+   *
+   * @param userId - The ID of the user creating the task
+   * @param createTaskDto - The DTO containing the task details
+   * @returns The newly created task
+   */
   async createTask(
     userId: string,
-    createTaskDto: CreateTaskDto,
+    createTaskDto: CreateTaskDTO,
   ): Promise<HttpResponseType<Task>> {
     const { title, details, mentorManagers, mentors } = createTaskDto;
 
@@ -36,6 +50,13 @@ export class TaskService {
     };
   }
 
+  /**
+   * Deletes a Task by ID
+   *
+   * @param taskIdDto - The DTO containing the ID of the task to be deleted
+   * @returns A success message if the task was successfully deleted
+   * @throws NotFoundException if the task is not found
+   */
   async deleteTaskById(
     taskIdDto: TaskIdDTO,
   ): Promise<HttpResponseType<string>> {
@@ -54,10 +75,37 @@ export class TaskService {
     };
   }
 
+  /**
+   * Updates a Task by ID
+   *
+   * @param taskId - The ID of the task to be updated
+   * @param updateTaskDto - The DTO containing the updated task details
+   * @returns The updated task
+   * @throws BadRequestException if the number of mentor managers or mentors exceeds 10
+   * @throws NotFoundException if the task is not found
+   */
   async updateTask(
     taskId: string,
     updateTaskDto: UpdateTaskDTO,
   ): Promise<HttpResponseType<Task | object>> {
+    const { mentorManagers, mentors } = updateTaskDto;
+
+    const task = await this.taskModel.findById(taskId);
+    if (task) {
+      // Check if the length of the arrays exceeds 10
+      if (
+        task.mentorManagers &&
+        task.mentorManagers.length + mentorManagers.length > 10
+      ) {
+        throw new BadRequestException(
+          "The number of mentor managers cannot exceed 10",
+        );
+      }
+
+      if (task.mentors && task.mentors.length + mentors.length > 10) {
+        throw new BadRequestException("The number of mentors cannot exceed 10");
+      }
+    }
     const updatedTask = await this.taskModel.findByIdAndUpdate(
       taskId,
       { $set: updateTaskDto },
@@ -66,7 +114,7 @@ export class TaskService {
 
     if (!updatedTask) {
       return {
-        status: OperationStatus.FAILURE,
+        status: OperationStatus.ERROR,
         message: `Task with id ${taskId} not found`,
         data: {},
       };

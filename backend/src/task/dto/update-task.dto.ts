@@ -1,4 +1,11 @@
-import { IsOptional, IsString, MaxLength } from "class-validator";
+import { Type } from "class-transformer";
+import {
+  ArrayMaxSize,
+  IsArray,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from "class-validator";
 
 export class UpdateTaskDTO {
   @IsOptional()
@@ -10,9 +17,15 @@ export class UpdateTaskDTO {
   @IsString()
   details?: string;
 
+  @IsArray()
+  @Type(() => String)
   @IsOptional()
+  @ArrayMaxSize(10)
   mentorManagers?: string[];
 
+  @IsArray()
+  @Type(() => String)
   @IsOptional()
+  @ArrayMaxSize(10)
   mentors?: string[];
 }
