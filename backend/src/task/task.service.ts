@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
 import { Task } from "./task.schema";
-import { CreateTaskDto } from "./dto/create-task.dto";
+import { CreateTaskDTO } from "./dto/create-task.dto";
 import { HttpResponseType } from "../types/http-response.type";
 import { OperationStatus } from "../filters/interface/response.interface";
 
@@ -15,7 +15,7 @@ export class TaskService {
 
   async createTask(
     userId: string,
-    createTaskDto: CreateTaskDto,
+    createTaskDto: CreateTaskDTO,
   ): Promise<HttpResponseType<Task>> {
     const { title, details, mentorManagers, mentors } = createTaskDto;
 
