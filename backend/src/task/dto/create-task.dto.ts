@@ -8,6 +8,7 @@ export class CreateTaskDto {
   title: string;
 
   @IsString()
+  @IsNotEmpty()
   details: string;
 
   @IsArray()
