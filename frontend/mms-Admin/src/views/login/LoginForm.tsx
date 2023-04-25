@@ -39,15 +39,15 @@ function LoginForm() {
       };
 
         return (
-          <div className="flex w-full h-screen ">
-            <div className="flex-col flex-auto w-6/12 bg-green-three">
-              <figure className="flex flex-col items-center jusfify-center bg-green-three w-full mt-[40%]">
+          <div className="flex w-full h-screen flex-wrap">
+            <div className="w-6/12 bg-green-three flex flex-col content-center justify-center">
+              <figure className="flex flex-col items-center jusfify-center bg-green-three w-full">
                 <img className="w-60 h-50 mb-5" src={logo} alt="MMS Logo"/>
-                <figcaption className="text-white text-sm font-bold">Mentor Management System</figcaption>
+                <figcaption className="text-white font-bold">Mentor Management System</figcaption>
               </figure>  
             </div>
-            <div className="flex-col flex-auto w-6/12">
-              <form onSubmit={handleSubmit} className="mt-[35%] m-10">
+            <div className="w-6/12 flex flex-col content-center justify-center">
+              <form onSubmit={handleSubmit} className="w-3/5 m-auto">
                 <h1 className="mb-2 text-4xl m-2 text-customBlack-one">Welcome!</h1>
                 <p className="mb-6 font-normal m-2 text-lightGray-one">Login to continue</p>
                 <div className="my-4">
@@ -68,7 +68,15 @@ function LoginForm() {
                   onChange={(event) => setPassword(event.target.value)}
                   className="shadow appearance-none border rounded w-full py-2 px-3 m-2 text-gray-one leading-tight focus:outline-none focus:shadow-outline"
                   />
-                  <img className="h-10 w-10 absolute inset-y-0 right-0 flex items-center pr-3" src="/images/eye-password.png" alt="Password"/>             
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute inset-y-0 right-0 flex items-center pr-3 mt-4">
+          <g fill="none">
+<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+</path>
+<line x1="1" y1="1" x2="23" y2="23"></line>
+</g>
+</svg>
+             
+                
                 </div>  
                 <button type="submit" className="bg-green-three text-white shadow appearance-none border rounded w-full py-2 px-3 m-2 leading-tight focus:outline-none focus:shadow-outline">Login</button>
                 <div className="flex flex-col">
@@ -77,7 +85,7 @@ function LoginForm() {
                     <img className="h-5 w-5 mx-2" src="/images/google.png" alt="Google"/>
                     <span className="mx-2">Sign in with Google</span>
                   </button>
-                  <span className="text-customBlack-three text-center text-sm w-full py-2 px-3">New user? <a href="/register" className="text-customBlack-one">Sign up</a></span>
+                 
                 </div>                
               </form>
             </div>          
