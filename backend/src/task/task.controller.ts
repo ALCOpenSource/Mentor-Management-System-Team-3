@@ -3,7 +3,6 @@ import {
   Post,
   Body,
   Req,
-  UseGuards,
   Delete,
   Param,
   Put,
@@ -13,12 +12,10 @@ import { Task } from "./task.schema";
 import { CreateTaskDTO } from "./dto/create-task.dto";
 import { TaskService } from "./task.service";
 import { HttpResponseType } from "../types/http-response.type";
-import { FirebaseAuthGuard } from "../firebase/guards/firebase.guard";
 import { TaskIdDTO } from "./dto/task-id.dto";
 import { UpdateTaskDTO } from "./dto/update-task.dto";
 
 @Controller("tasks")
-@UseGuards(FirebaseAuthGuard)
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 

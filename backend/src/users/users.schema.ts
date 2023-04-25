@@ -4,10 +4,7 @@ import { IImage } from "./interface/image.interface";
 import { ISocials } from "./interface/socials.interface";
 import { Preferences } from "src/preferences/preferences.schema";
 import { IUser } from "./interface/user.interface";
-
-export enum ROLE {
-  ADMIN = "admin",
-}
+import { ROLE } from "../auth/enums/role.enum";
 
 export type UserDocument = HydratedDocument<User> & IUser;
 
@@ -26,9 +23,6 @@ export class User {
 
   @Prop({ lowercase: true })
   email: string;
-
-  @Prop()
-  uid: string;
 
   @Prop(
     raw({
@@ -49,6 +43,9 @@ export class User {
 
   @Prop({ lowercase: true })
   website: string;
+
+  @Prop()
+  password: string;
 
   @Prop(
     raw({
@@ -73,7 +70,7 @@ export class User {
   })
   preferences: MongooseSchema.Types.ObjectId | Preferences;
 
-  @Prop({ default: ROLE.ADMIN })
+  @Prop({ default: ROLE.USER })
   role: ROLE;
 }
 

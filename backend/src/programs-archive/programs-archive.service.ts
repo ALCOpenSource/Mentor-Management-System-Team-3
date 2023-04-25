@@ -172,8 +172,6 @@ export class ProgramsArchiveService {
       };
     }
 
-    console.log(data[0], "DATA");
-
     // Check if the count array is not empty before accessing the totalCount property.
     const count = data[0]?.count[0]?.totalCount || 0;
 
