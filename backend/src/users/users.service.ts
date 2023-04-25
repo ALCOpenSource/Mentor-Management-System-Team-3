@@ -33,7 +33,7 @@ export class UsersService {
   ) {}
 
   // This method uploads user profile picture (avatar)
-  async uploadAvatar(uid: string, avatar: Express.Multer.File) {
+  async uploadAvatar(id: string, avatar: Express.Multer.File) {
     if (!avatar) {
       this.logger.error({
         status: OperationStatus.ERROR,
@@ -47,7 +47,7 @@ export class UsersService {
       });
     }
 
-    const user: UserDocument = await this.userModel.findOne({ uid });
+    const user: UserDocument = await this.userModel.findById(id);
     if (!user) {
       const errorMessage = "User not found";
       this.logger.error({
