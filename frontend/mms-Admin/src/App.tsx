@@ -24,8 +24,8 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/signup1" element={<SignupForm1 />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/forgotpassword/submit" element={<ForgotPasswordForm />} />
-          <Route path="/forgotpassword/sucess" element={<ForgotPasswordSuccess />} />
+          <Route path="/passwordreset" element={<ForgotPasswordForm />} />
+          <Route path="/passwordsucess" element={<ForgotPasswordSuccess />} />
           <Route path="/navbar" element={<Navbar />} />
           <Route path="/sidebar" element={<Sidebar />} />
         </Routes>

@@ -10,7 +10,7 @@ interface SuccessSplashProps {
 const SuccessSplashComponent: FC<SuccessSplashProps> = ({ btnText, title, imageSrc }) => {
 	return (
 		<>
-			<div className="bg-white rounded-[20px] mt-2 px-5 w-[600px] shadow-2xl">
+			<div className="bg-white rounded-[20px] mt-2 px-5 w-[600px]">
 				<div className='flex flex-col items-center'>
 					<h3 className='text-3xl font-bold leading-[53.18px] mt-4'>{title}</h3>
 					<img src={imageSrc} className="w-[220px] h-[165px] my-[28px]" alt="logo" />
