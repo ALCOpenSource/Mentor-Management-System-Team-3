@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Logger,
-  Patch,
-  Req,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, Get, Logger, Patch, Req } from "@nestjs/common";
 import { PreferencesService } from "./preferences.service";
 import {
   GeneralNotificationsDto,
@@ -14,11 +6,9 @@ import {
   PrivacyPreferencesDto,
 } from "./dto/preference.dto";
 import { HttpResponseType } from "../types/http-response.type";
-import { FirebaseAuthGuard } from "../firebase/guards/firebase.guard";
 import { PreferenceDocument } from "./preferences.schema";
 
 @Controller("preferences")
-@UseGuards(FirebaseAuthGuard)
 export class PreferencesController {
   constructor(private readonly preferencesService: PreferencesService) {}
 

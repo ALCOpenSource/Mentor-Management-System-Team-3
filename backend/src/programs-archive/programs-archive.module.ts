@@ -3,7 +3,6 @@ import { MongooseModule } from "@nestjs/mongoose";
 
 import { ProgramsArchiveController } from "./programs-archive.controller";
 import { ProgramsArchiveService } from "./programs-archive.service";
-import { FirebaseModule } from "../firebase/firebase.module";
 import {
   ProgramArchive,
   ProgramArchiveSchema,
@@ -19,7 +18,6 @@ import {
 
 @Module({
   imports: [
-    FirebaseModule,
     MongooseModule.forFeature([
       { name: ProgramArchive.name, schema: ProgramArchiveSchema },
       { name: User.name, schema: UserSchema },

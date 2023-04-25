@@ -2,22 +2,28 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Logger,
+  Param,
   Patch,
   Put,
   Query,
   Req,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
+  UseGuards,
 } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 import { UsersService } from "./users.service";
 import { UpdateUserDTO } from "./dto/update-user.dto";
 import { HttpResponseType } from "../types/http-response.type";
-import { FirebaseAuthGuard } from "../firebase/guards/firebase.guard";
-import { FileInterceptor } from "@nestjs/platform-express";
 import { UserDocument } from "./users.schema";
+import { UserIdDTO } from "./dto/user-id.dto";
+import { ROLE } from "../auth/enums/role.enum";
+import { Role } from "../auth/custom-decorator/role.decorator";
+import { RolesGuard } from "../auth/guards/role.guard";
 
 @Controller("users")
 export class UsersController {
@@ -25,16 +31,22 @@ export class UsersController {
 
   constructor(private readonly usersService: UsersService) {}
 
-  @Get("user")
-  @UseGuards(FirebaseAuthGuard)
-  async getUserByUid(
-    @Req() req,
+  @Get("user/:userId")
+  @Role(ROLE.SUPERADMIN)
+  @UseGuards(RolesGuard)
+  async getUserById(
+    @Param() userIdDto: UserIdDTO,
   ): Promise<HttpResponseType<UserDocument | object>> {
-    return this.usersService.getUserByUid(req.user.sub);
+    return this.usersService.getUserById(userIdDto.userId);
+  }
+
+  @Get("me")
+  async getMe(@Req() req): Promise<HttpResponseType<UserDocument | object>> {
+    return this.usersService.getUserById(req.user.sub);
   }
 
   @Put("update")
-  @UseGuards(FirebaseAuthGuard)
+  @HttpCode(HttpStatus.OK)
   async updateUser(
     @Body() updateUserDto: UpdateUserDTO,
     @Req() req,
@@ -43,8 +55,8 @@ export class UsersController {
   }
 
   @Patch("avatar")
+  @HttpCode(HttpStatus.OK)
   @UseInterceptors(FileInterceptor("avatar"))
-  @UseGuards(FirebaseAuthGuard)
   async uploadDriverLicense(
     @UploadedFile() avatar: Express.Multer.File,
     @Req() req,
@@ -59,5 +71,15 @@ export class UsersController {
   @Get()
   async getUserByEmail(@Query("email") email: string) {
     return this.usersService.getUserByEmail(email);
+  }
+
+  @Patch("make/admin/:userId")
+  @Role(ROLE.SUPERADMIN)
+  @UseGuards(RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  async makeAdmin(
+    @Param() userIdDto: UserIdDTO,
+  ): Promise<HttpResponseType<object>> {
+    return this.usersService.makeAdmin(userIdDto);
   }
 }

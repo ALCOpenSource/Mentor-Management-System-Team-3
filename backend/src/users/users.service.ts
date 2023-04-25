@@ -15,7 +15,12 @@ import { startsWithHttp } from "../utils/starts-with-http";
 import { OperationStatus } from "../filters/interface/response.interface";
 import { HttpResponseType } from "../types/http-response.type";
 import { CloudinaryService } from "../cloudinary/cloudinary.service";
-import { PreferencesService } from "src/preferences/preferences.service";
+import { PreferencesService } from "../preferences/preferences.service";
+import { SignupWithEmailAndPasswordDTO } from "../auth/dto/signup.dto";
+import { hashPassword } from "../utils/hash-password.utils";
+import { SignupWithGoogleDTO } from "./dto/signup-with-google.dto";
+import { UserIdDTO } from "./dto/user-id.dto";
+import { ROLE } from "../auth/enums/role.enum";
 
 @Injectable()
 export class UsersService {
@@ -88,14 +93,29 @@ export class UsersService {
     this.preferenceService.createPreferences(createUserDto.uid);
   }
 
+  async signUpwithGoogle(signupWithGoogleDTO: SignupWithGoogleDTO) {
+    this.logger.log("Creating a new user");
+    return this.userModel.create(signupWithGoogleDTO);
+  }
+
+  // This method creates a user with an email and password
+  async signUpWithEmailAndPassword(
+    signUpWithEmailAndPassword: SignupWithEmailAndPasswordDTO,
+  ): Promise<UserDocument> {
+    return this.userModel.create({
+      email: signUpWithEmailAndPassword.email,
+      password: hashPassword(signUpWithEmailAndPassword.password),
+    });
+  }
+
   // This methods finds a user using the email address
   async getUserByEmail(email: string) {
     return this.userModel.findOne({ email });
   }
 
-  // This methods finds a user using the uid
-  async getUserByUid(uid: string): Promise<HttpResponseType<UserDocument>> {
-    const user: UserDocument = await this.userModel.findOne({ uid });
+  // This methods finds a user using the id
+  async getUserById(id: string): Promise<HttpResponseType<UserDocument>> {
+    const user: UserDocument = await this.userModel.findById(id);
 
     if (!user) {
       const errorMessage = "User not found";
@@ -177,6 +197,27 @@ export class UsersService {
     return {
       status: OperationStatus.SUCCESS,
       message: "Account updated successfully",
+      data: {},
+    };
+  }
+
+  async makeAdmin(userIdDto: UserIdDTO): Promise<HttpResponseType<object>> {
+    const user = await this.userModel.findById(userIdDto.userId);
+
+    if (!user) {
+      const errorMessage = "User not found";
+      this.logger.error({
+        status: OperationStatus.ERROR,
+        message: errorMessage,
+        data: {},
+      });
+      throw new NotFoundException(errorMessage);
+    }
+
+    await user.updateOne({ role: ROLE.ADMIN });
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "User role updated successfully",
       data: {},
     };
   }

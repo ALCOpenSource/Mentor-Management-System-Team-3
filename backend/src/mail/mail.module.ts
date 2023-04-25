@@ -5,12 +5,10 @@ import { join } from "path";
 import { ConfigService } from "@nestjs/config";
 import { MailController } from "./mail.controller";
 import { MailService } from "./mail.service";
-import { FirebaseModule } from "../firebase/firebase.module";
 
 @Global()
 @Module({
   imports: [
-    FirebaseModule,
     MailerModule.forRootAsync({
       // imports: [ConfigModule], // import module if not enabled globally
       useFactory: async (config: ConfigService) => ({

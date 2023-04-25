@@ -3,21 +3,18 @@ import {
   Controller,
   Post,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { MailService } from "./mail.service";
 import { SupportDTO } from "./dto/support.dto";
 import { HttpResponseType } from "../types/http-response.type";
-import { FirebaseAuthGuard } from "../firebase/guards/firebase.guard";
 
 @Controller("mail")
 export class MailController {
   constructor(private readonly mailService: MailService) {}
 
   @Post("support")
-  @UseGuards(FirebaseAuthGuard)
   // Use the FileInterceptor to intercept and handle the file upload
   @UseInterceptors(FileInterceptor("attachment"))
   async sendSupportMail(

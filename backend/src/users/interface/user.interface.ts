@@ -1,4 +1,4 @@
-import { ROLE } from "../users.schema";
+import { ROLE } from "../../auth/enums/role.enum";
 import { IImage } from "./image.interface";
 import { ISocials } from "./socials.interface";
 
