@@ -16,10 +16,11 @@ export type ProgramArchiveDocument = HydratedDocument<ProgramArchive> &
 })
 export class ProgramArchive {
   @Prop({
-    type: String,
-    required: true, // userId is a required field
+    type: MongooseSchema.Types.ObjectId,
+    ref: "User",
+    required: true,
   })
-  userId: string; // Reference to the user who the program belongs to (the firebase uid)
+  userId: string; // Reference to the user who the program belongs to
 
   @Prop({
     type: MongooseSchema.Types.ObjectId, // Define type as ObjectId

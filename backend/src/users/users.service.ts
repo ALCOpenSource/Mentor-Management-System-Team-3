@@ -90,7 +90,7 @@ export class UsersService {
     this.userModel.create(createUserDto);
     // while creating new user, we need to instantiate also a class for their preferences
     this.logger.log("Creating user preferences");
-    this.preferenceService.createPreferences(createUserDto.uid);
+    this.preferenceService.createPreferences(createUserDto.id);
   }
 
   async signUpwithGoogle(signupWithGoogleDTO: SignupWithGoogleDTO) {
@@ -136,16 +136,14 @@ export class UsersService {
 
   // This methods updates a user profile
   async updateUser(
-    uid: string,
+    id: string,
     updateUserDto: UpdateUserDTO,
   ): Promise<HttpResponseType<UserDocument | object>> {
     if (!updateUserDto) {
       this.logger.error("No changes made");
       throw new BadRequestException("No changes made");
     }
-    const user: UserDocument | null = await this.userModel.findOne({
-      uid,
-    });
+    const user: UserDocument | null = await this.userModel.findById(id);
 
     if (!user) {
       const errorMessage = "User not found";
