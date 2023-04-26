@@ -15,7 +15,12 @@ import { startsWithHttp } from "../utils/starts-with-http";
 import { OperationStatus } from "../filters/interface/response.interface";
 import { HttpResponseType } from "../types/http-response.type";
 import { CloudinaryService } from "../cloudinary/cloudinary.service";
-import { PreferencesService } from "src/preferences/preferences.service";
+import { PreferencesService } from "../preferences/preferences.service";
+import { SignupWithEmailAndPasswordDTO } from "../auth/dto/signup.dto";
+import { hashPassword } from "../utils/hash-password.utils";
+import { SignupWithGoogleDTO } from "./dto/signup-with-google.dto";
+import { UserIdDTO } from "./dto/user-id.dto";
+import { ROLE } from "../auth/enums/role.enum";
 
 @Injectable()
 export class UsersService {
@@ -28,7 +33,7 @@ export class UsersService {
   ) {}
 
   // This method uploads user profile picture (avatar)
-  async uploadAvatar(uid: string, avatar: Express.Multer.File) {
+  async uploadAvatar(id: string, avatar: Express.Multer.File) {
     if (!avatar) {
       this.logger.error({
         status: OperationStatus.ERROR,
@@ -42,7 +47,7 @@ export class UsersService {
       });
     }
 
-    const user: UserDocument = await this.userModel.findOne({ uid });
+    const user: UserDocument = await this.userModel.findById(id);
     if (!user) {
       const errorMessage = "User not found";
       this.logger.error({
@@ -85,7 +90,22 @@ export class UsersService {
     this.userModel.create(createUserDto);
     // while creating new user, we need to instantiate also a class for their preferences
     this.logger.log("Creating user preferences");
-    this.preferenceService.createPreferences(createUserDto.uid);
+    this.preferenceService.createPreferences(createUserDto.id);
+  }
+
+  async signUpwithGoogle(signupWithGoogleDTO: SignupWithGoogleDTO) {
+    this.logger.log("Creating a new user");
+    return this.userModel.create(signupWithGoogleDTO);
+  }
+
+  // This method creates a user with an email and password
+  async signUpWithEmailAndPassword(
+    signUpWithEmailAndPassword: SignupWithEmailAndPasswordDTO,
+  ): Promise<UserDocument> {
+    return this.userModel.create({
+      email: signUpWithEmailAndPassword.email,
+      password: hashPassword(signUpWithEmailAndPassword.password),
+    });
   }
 
   // This methods finds a user using the email address
@@ -93,9 +113,9 @@ export class UsersService {
     return this.userModel.findOne({ email });
   }
 
-  // This methods finds a user using the uid
-  async getUserByUid(uid: string): Promise<HttpResponseType<UserDocument>> {
-    const user: UserDocument = await this.userModel.findOne({ uid });
+  // This methods finds a user using the id
+  async getUserById(id: string): Promise<HttpResponseType<UserDocument>> {
+    const user: UserDocument = await this.userModel.findById(id);
 
     if (!user) {
       const errorMessage = "User not found";
@@ -116,16 +136,14 @@ export class UsersService {
 
   // This methods updates a user profile
   async updateUser(
-    uid: string,
+    id: string,
     updateUserDto: UpdateUserDTO,
   ): Promise<HttpResponseType<UserDocument | object>> {
     if (!updateUserDto) {
       this.logger.error("No changes made");
       throw new BadRequestException("No changes made");
     }
-    const user: UserDocument | null = await this.userModel.findOne({
-      uid,
-    });
+    const user: UserDocument | null = await this.userModel.findById(id);
 
     if (!user) {
       const errorMessage = "User not found";
@@ -177,6 +195,27 @@ export class UsersService {
     return {
       status: OperationStatus.SUCCESS,
       message: "Account updated successfully",
+      data: {},
+    };
+  }
+
+  async makeAdmin(userIdDto: UserIdDTO): Promise<HttpResponseType<object>> {
+    const user = await this.userModel.findById(userIdDto.userId);
+
+    if (!user) {
+      const errorMessage = "User not found";
+      this.logger.error({
+        status: OperationStatus.ERROR,
+        message: errorMessage,
+        data: {},
+      });
+      throw new NotFoundException(errorMessage);
+    }
+
+    await user.updateOne({ role: ROLE.ADMIN });
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "User role updated successfully",
       data: {},
     };
   }

@@ -62,7 +62,7 @@ export class PreferencesService {
   }
   // checks if the user exists
   async getUserByUId(userId: string) {
-    const user = await this.userModel.findOne({ uid: userId });
+    const user = await this.userModel.findById(userId);
     if (!user) {
       const errorMessage = "User not found";
       this.logger.error({

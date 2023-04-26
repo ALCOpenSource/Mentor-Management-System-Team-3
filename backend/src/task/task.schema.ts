@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
 import { ITask } from "./interface/task.interface";
 
 export type TaskDocument = HydratedDocument<Task> & ITask;
@@ -12,11 +12,11 @@ export type TaskDocument = HydratedDocument<Task> & ITask;
 })
 export class Task {
   @Prop({
-    type: String,
-    required: true, // userId is a required field
+    type: MongooseSchema.Types.ObjectId,
+    ref: "User",
+    required: true,
   })
-  userId: string; // Reference to the user who the program belongs to (the firebase uid)
-
+  userId: string; // Reference to the user who the program belongs to
   @Prop({ required: true })
   title: string;
 

@@ -1,6 +1,5 @@
-import { Controller, Get, Param, Query, Req, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Query, Req } from "@nestjs/common";
 
-import { FirebaseAuthGuard } from "../firebase/guards/firebase.guard";
 import { ProgramsArchiveService } from "./programs-archive.service";
 import { FindByUserIdDto } from "./dto/findbyuserid.dto";
 import { FindByProgramIdDto } from "./dto/findbyprogramid.dto";
@@ -18,7 +17,6 @@ export class ProgramsArchiveController {
   }
 
   @Get("user")
-  @UseGuards(FirebaseAuthGuard)
   async findByUserId(@Query() findbyuserIdDto: FindByUserIdDto, @Req() req) {
     return this.programsArchiveService.findByUserId(
       req.user.sub,
@@ -27,7 +25,6 @@ export class ProgramsArchiveController {
   }
 
   @Get("search")
-  @UseGuards(FirebaseAuthGuard)
   async findByTitle(
     @Query() programArchiveSearchDto: ProgramsArchiveSearchDto,
     @Req() req,
@@ -39,7 +36,6 @@ export class ProgramsArchiveController {
   }
 
   @Get(":programId")
-  @UseGuards(FirebaseAuthGuard)
   async findByProgramId(
     @Param() findbyprogramIdDto: FindByProgramIdDto,
     @Req() req,

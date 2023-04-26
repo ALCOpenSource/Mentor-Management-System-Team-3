@@ -3,14 +3,12 @@ import { MongooseModule } from "@nestjs/mongoose";
 
 import { PreferencesService } from "./preferences.service";
 import { PreferencesController } from "./preferences.controller";
-import { FirebaseModule } from "../firebase/firebase.module";
 import { PreferencesSchema, Preferences } from "./preferences.schema";
 import { CloudinaryModule } from "../cloudinary/cloudinary.module";
 import { User, UserSchema } from "../users/users.schema";
 
 @Module({
   imports: [
-    FirebaseModule,
     CloudinaryModule,
     MongooseModule.forFeature([
       { name: Preferences.name, schema: PreferencesSchema },
