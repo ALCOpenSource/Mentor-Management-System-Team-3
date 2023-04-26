@@ -1,11 +1,12 @@
 import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+
 import { PreferencesService } from "./preferences.service";
 import { PreferencesController } from "./preferences.controller";
-import { FirebaseModule } from "src/firebase/firebase.module";
-import { MongooseModule } from "@nestjs/mongoose";
+import { FirebaseModule } from "../firebase/firebase.module";
 import { PreferencesSchema, Preferences } from "./preferences.schema";
-import { CloudinaryModule } from "src/cloudinary/cloudinary.module";
-import { User, UserSchema } from "src/users/users.schema";
+import { CloudinaryModule } from "../cloudinary/cloudinary.module";
+import { User, UserSchema } from "../users/users.schema";
 
 @Module({
   imports: [

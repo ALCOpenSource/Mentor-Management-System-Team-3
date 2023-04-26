@@ -12,6 +12,7 @@ import { MailService } from "./mail/mail.service";
 import { MailModule } from "./mail/mail.module";
 import { ProgramsModule } from "./programs/programs.module";
 import { ProgramsArchiveModule } from "./programs-archive/programs-archive.module";
+import { TaskModule } from "./task/task.module";
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ProgramsArchiveModule } from "./programs-archive/programs-archive.modul
     MailModule,
     ProgramsModule,
     ProgramsArchiveModule,
+    TaskModule,
   ],
   controllers: [],
   providers: [MailService],

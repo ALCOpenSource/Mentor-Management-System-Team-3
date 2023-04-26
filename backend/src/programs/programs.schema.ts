@@ -1,7 +1,6 @@
 // Import required modules
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
-import { User } from "../users/users.schema";
+import { HydratedDocument } from "mongoose";
 import { IProgram } from "./interface/program.interface";
 
 // Define interface for program document
@@ -16,15 +15,10 @@ export type ProgramDocument = HydratedDocument<Program> & IProgram;
 })
 export class Program {
   @Prop({
-    type: [
-      {
-        type: MongooseSchema.Types.ObjectId, // Define type as ObjectId
-        ref: "User", // Reference the User collection
-        required: true, // User is a required field
-      },
-    ],
+    type: String,
+    required: true, // User is a required field
   })
-  userId: User; // Reference to the user who the program belongs to
+  userId: string; // Reference to the user who the program belongs to (firebase uid)
 
   @Prop()
   title: string; // Title of the program
