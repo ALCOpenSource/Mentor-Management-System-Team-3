@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 // import Navbar from "./navbar";
 import profile from "../../assets/images/profile.svg";
 import Dashboard from "../../assets/images/dashboard.svg";
@@ -10,62 +10,67 @@ import Certificates from "../../assets/images/certificates.svg";
 import Messages from "../../assets/images/messages.svg";
 import DiscussionForum from "../../assets/images/discussion forums.svg";
 import Settings from "../../assets/images/settings/setting.svg";
-import Navbar from "./navbar";
+
+import { Link } from "react-router-dom";
 
 function Sidebar() {
+
+
+
+
+
     return (
-        <div>
-            <Navbar />
+        
             <div>
-                <div className="flex h-screen m-10">
-                    <div className="flex flex-wrap bg-white w-60">
+                <div className="flex h-screen bg-lighterGreen-three">
+                    <div className="flex flex-wrap w-60 p-8">
                         <div className="space-y-3">
                             <div className="relative flex flex-col items-center justify-center">
                                 <h2 className="text-customBlack-one">Hi, Alison</h2>
-                                <p className="text-gray-three mb-10">Mentor Manager</p>
+                                <p className="text-gray-three mb-10">Admin</p>
                             </div>
-                            <div className="relative flex items-center">
+                            <Link to="/dashboard/profile" className="relative flex items-center">
                                 <img src={profile} alt="profile logo" className="h-8 mr-5" />
                                 <span className="text-sm text-gray-one">Profile</span>
-                            </div>
+                            </Link>
 
-                            <div className="relative flex items-center">
+                            <Link to="/dashboard" className="relative flex items-center">
                                 <img src={Dashboard} alt="dashboard logo" className="h-8 mr-5" />
                                 <span className="text-sm text-customBlack-one">Dashboard</span>
-                            </div>
-                            <div className="relative flex items-center">
+                            </Link>
+                            <Link to="/dashboard/programs" className="relative flex items-center">
                                 <img src={Programs} alt="programs logo" className="h-8 mr-5" />
                                 <span className="text-sm text-gray-one">Programs</span>
-                            </div>
-                            <div className="relative flex items-center">
+                            </Link>
+                            <Link to="/dashboard/tasks" className="relative flex items-center">
                                 <img src={Tasks} alt="tasks logo" className="h-8 mr-5" />
                                 <span className="text-sm text-gray-one">Tasks</span>
-                            </div>
-                            <div className="relative flex items-center">
+                            </Link>
+                            <Link to="/dashboard/reports" className="relative flex items-center">
                                 <img src={Reports} alt="reports logo" className="h-8 mr-5" />
                                 <span className="text-sm text-gray-one">Reports</span>
-                            </div>
-                            <div className="relative flex items-center">
+                            </Link>
+                            <Link to="/dashboard/certificates" className="relative flex items-center">
                                 <img src={Certificates} alt="certificates logo" className="h-8 mr-5" />
                                 <span className="text-sm text-gray-one">Certificates</span>
-                            </div>
-                            <div className="relative flex items-center">
+                            </Link>
+                            <Link to="/dashboard/messages" className="relative flex items-center">
                                 <img src={Messages} alt="messages logo" className="h-8 mr-5" />
                                 <span className="text-sm text-gray-one">Messages</span>
-                            </div>
-                            <div className="relative flex items-center">
+                            </Link>
+                            <Link to="/dashboard/forums" className="relative flex items-center">
                                 <img src={DiscussionForum} alt="discussion forum logo" className="h-8 mr-5" />
                                 <span className="text-sm text-gray-one">Discussion Forum</span>
-                            </div>
-                            <div className="relative flex items-center">
+                            </Link>
+                            <Link to="/dashboard/settings" className="relative flex items-center">
                                 <img src={Settings} alt="settings logo" className="h-8 mr-5" />
                                 <span className="text-sm text-gray-one">Settings</span>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
     );
 }
 export default Sidebar;

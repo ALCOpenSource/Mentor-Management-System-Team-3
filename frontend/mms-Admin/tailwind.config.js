@@ -5,6 +5,17 @@ module.exports = {
   ],
   theme: {
           extend: {
+                fontSize: {
+                        xs: '0.75em',
+                        sm: '1em',
+                        md: '1.25em',
+                        base: '1.5em',
+                        lg: '1.75em',
+                        xl: '2em'
+                },
+                fontFamily: {
+                   mukta: ['Mukta', 'sans-serif']
+                },
                   colors: {
                           transparent: 'transparent',
                           current: 'currentColor',
@@ -38,7 +49,8 @@ module.exports = {
                           },
                           lighterGreen: {
                                   one: '#CEFAFD',
-                                  two: '#E6FDFE'
+                                  two: '#E6FDFE',
+                                  three: '#F7FEFF'
                           },
                           red: {
                                   one: '#660007',
