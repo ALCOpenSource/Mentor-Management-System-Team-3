@@ -2,6 +2,8 @@
 #env
 .env
 
+sample.env
+
 
 # compiled output
 /dist

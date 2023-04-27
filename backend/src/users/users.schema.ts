@@ -1,13 +1,12 @@
 import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
-import { Iimage } from "./interface/image.interface";
+import { IImage } from "./interface/image.interface";
 import { ISocials } from "./interface/socials.interface";
+import { Preferences } from "src/preferences/preferences.schema";
+import { IUser } from "./interface/user.interface";
+import { ROLE } from "../auth/enums/role.enum";
 
-export enum ROLE {
-  ADMIN = "admin",
-}
-
-export type UserDocument = HydratedDocument<User>;
+export type UserDocument = HydratedDocument<User> & IUser;
 
 @Schema({
   timestamps: true,
@@ -25,16 +24,13 @@ export class User {
   @Prop({ lowercase: true })
   email: string;
 
-  @Prop()
-  uid: string;
-
   @Prop(
     raw({
       url: String,
       publicId: { type: String },
     }),
   )
-  avatar: Iimage;
+  avatar: IImage;
 
   @Prop()
   bio: string;
@@ -47,6 +43,9 @@ export class User {
 
   @Prop({ lowercase: true })
   website: string;
+
+  @Prop()
+  password: string;
 
   @Prop(
     raw({
@@ -64,7 +63,14 @@ export class User {
   @Prop({ type: MongooseSchema.Types.ObjectId, sparse: true })
   updatedBy: MongooseSchema.Types.ObjectId;
 
-  @Prop({ default: ROLE.ADMIN })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: "Preferences",
+    autopopulate: true,
+  })
+  preferences: MongooseSchema.Types.ObjectId | Preferences;
+
+  @Prop({ default: ROLE.USER })
   role: ROLE;
 }
 
