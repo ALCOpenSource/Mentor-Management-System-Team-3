@@ -20,7 +20,7 @@ function Dashboard() {
     <div className="flex flex-col"> 
     <Navbar/>
     <section className="flex">
-       <section className="border-solid">
+       <section className="border-solid bg-lighterGreen-three">
     <Sidebar />
     </section>
     <section className="border-solid p-8">

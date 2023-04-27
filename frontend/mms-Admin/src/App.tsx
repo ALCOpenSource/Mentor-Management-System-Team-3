@@ -39,7 +39,7 @@ function App() {
                <Route path="reports" element={<Reports />} />
                <Route path="tasks" element={<Tasks />} />
                <Route path="profile" element={<Profile />} />
-               <Route path="forums" element={<Forums />} />
+               <Route path="forum" element={<Forums />} />
                {/* <Route path="*" element={<AdminDashboard />} /> */}
 
  
