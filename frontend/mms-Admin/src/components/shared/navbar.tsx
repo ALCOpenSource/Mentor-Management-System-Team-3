@@ -7,30 +7,35 @@ import avatar from "../../assets/images/avatar.svg";
 
 function Navbar() {
   return (
-    <nav className="bg-green-three border-green-three w-full p-4">
-      <div className="flex flex-wrap items-center mx-auto">
+    <nav className="relative flex flex-row w-full justify-between bg-green-three p-4">
+      <section className="flex flex-wrap items-center">
         <div className="relative flex justify-between items-center mr-20">
           <img src={logo} alt="MMS Logo" className="h-8 mr-2" />
           <span className="text-3xl text-white">Mentor Managers System</span>
         </div>
 
-        <div className="flex items-center mx-auto">
+        
+      </section>
+      <section className="flex flex-row">
+      <div className="flex flex-row">
           <button
             type="button"
-            className="flex flex-row justify-center items-center text-sm shadow appearance-none border rounded w-[533px] py-2 px-3 m-2 bg-white leading-tight focus:outline-none focus:shadow-outline"
+            className="flex flex-row  items-center text-md shadow appearance-none border rounded w-[533px] py-2 px-5 bg-white leading-tight focus:outline-none focus:shadow-outline"
           >
-            <img src={search} alt="Search icon" className="h-5 w-5 mr-60" />
+            <img src={search} alt="Search icon" className="h-5 w-5 mr-4" />
             <span className="text-customBlack-three ">
               Search for anything
             </span>
           </button>
         </div>
-        <div className="flex flex-row items-center justify-end mx-auto">
-          <img src={chats} alt="Chats Icon" className="mx-2" />
-          <img src={notifications} alt="Notifications Icon" className="mx-2" />
+        <div className="flex flex-row items-center justify-between">
+          <span  className="flex flex-row mx-4" >  <img src={chats} alt="Chats Icon" />   <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">3</span></sub></span>
+      
+          <span  className="flex flex-row mx-4" >  <img src={notifications} alt="Notifications Icon" />  <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">15</span></sub></span>
+
           <img src={avatar} alt="Avatar Icon" className="mx-2" />
-        </div>    
-      </div>
+        </div>   
+      </section>
     </nav>
   );
 }
