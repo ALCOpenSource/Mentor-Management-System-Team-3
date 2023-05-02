@@ -1,14 +1,9 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import avatar from "./../../../../assets/images/avatar.svg";
 import "./index.css";
 import VALIDATION_PATTERNS from "../../../../assets/validation-patterns";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
-import linkedInSVG from "../../../../assets/images/social/Linkedin.svg";
-import githubSVG from "../../../../assets/images/social/Github.svg";
-import twitterSVG from "../../../../assets/images/social/Twitter.svg";
-import instagramSVG from "../../../../assets/images/social/Instagram.svg";
 
 interface FormValues {
   userId: string;
@@ -17,22 +12,30 @@ interface FormValues {
   confirmNewPassword: string;
 }
 
-const ProfileForm: React.FC = () => {
+const PasswordPage: React.FC = () => {
   const initialValues: FormValues = {
     userId: "",
     currentPassword: "",
     newPassword: "",
-    confirmNewPassword: ""
+    confirmNewPassword: "",
   };
 
   const validationSchema = Yup.object().shape({
-    currentPassword: Yup.string().required("Current password is required for you change it"),    
-    newPassword: Yup.string().required("New password to change is required please").matches(
+    currentPassword: Yup.string().required(
+      "Current password is required for you change it"
+    ),
+    newPassword: Yup.string()
+      .required("New password to change is required please")
+      .matches(
         VALIDATION_PATTERNS.VALID_PASSWORD,
         "A valid password must have atleast a lower letter, upper letter, number and sysmbol"
       ),
-      confirmNewPassword: Yup.string().required("Re-type the new password to confirm please")
-      .oneOf([Yup.ref('newPassword')],"New password and confirm password must match")
+    confirmNewPassword: Yup.string()
+      .required("Re-type the new password to confirm please")
+      .oneOf(
+        [Yup.ref("newPassword")],
+        "New password and confirm password must match"
+      ),
   });
 
   const handleSubmit = (values: FormValues) => {
@@ -50,10 +53,14 @@ const ProfileForm: React.FC = () => {
         {({ errors, touched }) => (
           <Form className="w-full profile-form  h-screen">
             <div>
-              <div className="flex flex-col relative pt-10"> 
+              <div className="flex flex-col relative pt-10">
                 <div className="mb-5">
                   <div className="flex flex-row  relative  w-full">
-                    <label className="text-label" style={{width:"200px"}} htmlFor="currentpassword">
+                    <label
+                      className="text-label"
+                      style={{ width: "200px" }}
+                      htmlFor="currentpassword"
+                    >
                       Current Password
                     </label>
                     <Field
@@ -69,7 +76,11 @@ const ProfileForm: React.FC = () => {
 
                 <div className="mb-5">
                   <div className="flex flex-row  relative  w-full">
-                    <label className="text-label"  style={{width:"200px"}}  htmlFor="newPassword">
+                    <label
+                      className="text-label"
+                      style={{ width: "200px" }}
+                      htmlFor="newPassword"
+                    >
                       New Password
                     </label>
                     <Field
@@ -83,10 +94,13 @@ const ProfileForm: React.FC = () => {
                   <FormikValidationMessageComponent name="newPassword" />
                 </div>
 
-
                 <div className="mb-5">
                   <div className="flex flex-row  relative  w-full">
-                    <label className="text-label"  style={{width:"200px"}}  htmlFor="confirmNewPassword">
+                    <label
+                      className="text-label"
+                      style={{ width: "200px" }}
+                      htmlFor="confirmNewPassword"
+                    >
                       Confirm New Password
                     </label>
                     <Field
@@ -99,20 +113,27 @@ const ProfileForm: React.FC = () => {
                   </div>
                   <FormikValidationMessageComponent name="confirmNewPassword" />
                 </div>
-                </div>
-               </div>
+              </div>
+            </div>
             <div className="flex w-full">
               <button
                 type="submit"
                 style={{ marginLeft: "auto" }}
-                className="bg-green-three text-white rounded-[10px] p-[10px] pe-[40px] ps-[40px] font-medium mt-1">
+                className="bg-green-three text-white rounded-[10px] p-[10px] pe-[40px] ps-[40px] font-medium mt-1"
+              >
                 Save new password
               </button>
             </div>
 
             <div className="flex w-full">
-                <a className="text-[15px] text-link text-green-three" href="/forgotpassword"> Forgot password? </a>
-            </div>             
+              <a
+                className="text-[15px] text-link text-green-three"
+                href="/forgotpassword"
+              >
+                {" "}
+                Forgot password?{" "}
+              </a>
+            </div>
           </Form>
         )}
       </Formik>
@@ -120,4 +141,4 @@ const ProfileForm: React.FC = () => {
   );
 };
 
-export default ProfileForm;
+export default PasswordPage;

@@ -4,17 +4,11 @@ import './ToggleSwitch.css';
 
 interface SwitchProperties {
     id: string;
-
     label?: string;
-
-    onChange?: (isChecked: boolean) => void; 
-    
-    "data-on"?: string;
-    
-    isChecked?: boolean;
-    
-    "data-off"?: string;
-    
+    onChange?: (isChecked: boolean) => void;     
+    "data-on"?: string;    
+    isChecked?: boolean;    
+    "data-off"?: string;    
     description?: string;
 }
 

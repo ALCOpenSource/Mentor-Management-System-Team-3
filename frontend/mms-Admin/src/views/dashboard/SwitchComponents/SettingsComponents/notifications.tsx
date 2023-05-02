@@ -2,41 +2,58 @@ import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import "./index.css";
-import VALIDATION_PATTERNS from "../../../../assets/validation-patterns";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 
 interface FormValues {
   userId: string;
-  currentPassword: string;
-  newPassword: string;
-  confirmNewPassword: string;
+  allNotificationsEmail: boolean;
+  programsEmail: boolean;
+  tasksEmail: boolean;
+  approvalRequestsEmail: boolean;
+  reportsEmail: boolean;
+  commentsOnMyPostsEmail: boolean;
+  postsEmail: boolean;
+  commentsEmail: boolean;
+  mentionsEmail: boolean;
+  directMessagesEmail: boolean;
+  allNotificationsInApp: boolean;
+  programsInApp: boolean;
+  tasksInApp: boolean;
+  approvalRequestsInApp: boolean;
+  reportsInApp: boolean;
+  commentsOnMyPostsInApp: boolean;
+  postsInApp: boolean;
+  commentsInApp: boolean;
+  mentionsInApp: boolean;
+  directMessagesInApp: boolean;
 }
 
-const ProfileForm: React.FC = () => {
+const NotificationPage: React.FC = () => {
   const initialValues: FormValues = {
     userId: "",
-    currentPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
+    allNotificationsEmail: true,
+    programsEmail: true,
+    tasksEmail: true,
+    approvalRequestsEmail: false,
+    reportsEmail: true,
+    commentsOnMyPostsEmail: false,
+    postsEmail: true,
+    commentsEmail: true,
+    mentionsEmail: true,
+    directMessagesEmail: false,
+    allNotificationsInApp: false,
+    programsInApp: true,
+    tasksInApp: false,
+    approvalRequestsInApp: true,
+    reportsInApp: true,
+    commentsOnMyPostsInApp: true,
+    postsInApp: true,
+    commentsInApp: true,
+    mentionsInApp: true,
+    directMessagesInApp: true,
   };
 
-  const validationSchema = Yup.object().shape({
-    currentPassword: Yup.string().required(
-      "Current password is required for you change it"
-    ),
-    newPassword: Yup.string()
-      .required("New password to change is required please")
-      .matches(
-        VALIDATION_PATTERNS.VALID_PASSWORD,
-        "A valid password must have atleast a lower letter, upper letter, number and sysmbol"
-      ),
-    confirmNewPassword: Yup.string()
-      .required("Re-type the new password to confirm please")
-      .oneOf(
-        [Yup.ref("newPassword")],
-        "New password and confirm password must match"
-      ),
-  });
+  const validationSchema = Yup.object().shape({});
 
   const handleSubmit = (values: FormValues) => {
     console.log(values);
@@ -52,7 +69,7 @@ const ProfileForm: React.FC = () => {
       >
         {({ errors, touched }) => (
           <Form className="w-full profile-form  h-screen">
-            <div className="flex flex-col relative pt-1">
+            <div className="flex flex-col relative p-5">
               <div className="flex w-full">
                 <label className="text-[15px] strong-text">
                   {" "}
@@ -81,13 +98,19 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="allNotificationsEmail"
                   >
                     All Notifications
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="allNotificationsEmail"
+                    isChecked={initialValues.allNotificationsEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="allNotificationsInApp"
+                    isChecked={initialValues.allNotificationsInApp}
+                  />
                 </div>
               </div>
 
@@ -96,13 +119,19 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="programsEmail"
                   >
                     Programs
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="programsEmail"
+                    isChecked={initialValues.programsEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="programsInApp"
+                    isChecked={initialValues.programsInApp}
+                  />
                 </div>
               </div>
 
@@ -111,13 +140,19 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="tasksEmail"
                   >
                     Tasks
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="tasksEmail"
+                    isChecked={initialValues.tasksEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="tasksInApp"
+                    isChecked={initialValues.tasksInApp}
+                  />
                 </div>
               </div>
 
@@ -126,13 +161,19 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="approvalRequestsEmail"
                   >
                     Approval Requests
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="approvalRequestsEmail"
+                    isChecked={initialValues.approvalRequestsEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="allNotificationsInApp"
+                    isChecked={initialValues.allNotificationsInApp}
+                  />
                 </div>
               </div>
 
@@ -141,18 +182,24 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="reportsEmail"
                   >
                     Reports
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="reportsEmail"
+                    isChecked={initialValues.reportsEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="reportsInApp"
+                    isChecked={initialValues.reportsInApp}
+                  />
                 </div>
               </div>
             </div>
 
-            <div className="flex mt-5 flex-col relative pt-1">
+            <div className="flex mt-5 flex-col relative p-5">
               <div className="flex w-full">
                 <label className="text-[15px] strong-text">
                   {" "}
@@ -181,13 +228,19 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="commentsOnMyPostsEmail"
                   >
                     Comments on my post
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="commentsOnMyPostsEmail"
+                    isChecked={initialValues.commentsOnMyPostsEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="commentsOnMyPostsInApp"
+                    isChecked={initialValues.commentsOnMyPostsInApp}
+                  />
                 </div>
               </div>
 
@@ -196,13 +249,19 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="postsEmail"
                   >
                     Posts
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="postsEmail"
+                    isChecked={initialValues.postsEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="postsInApp"
+                    isChecked={initialValues.postsInApp}
+                  />
                 </div>
               </div>
 
@@ -211,13 +270,19 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="commentsEmail"
                   >
                     Comments
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="commentsEmail"
+                    isChecked={initialValues.commentsEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="commentsInApp"
+                    isChecked={initialValues.commentsInApp}
+                  />
                 </div>
               </div>
 
@@ -226,13 +291,19 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="mentionsEmail"
                   >
                     Mentions
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="mentionsEmail"
+                    isChecked={initialValues.mentionsEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="mentionsInApp"
+                    isChecked={initialValues.mentionsInApp}
+                  />
                 </div>
               </div>
 
@@ -241,13 +312,19 @@ const ProfileForm: React.FC = () => {
                   <label
                     className="toggle-switch-label"
                     style={{ width: "400px" }}
-                    htmlFor="confirmNewPassword"
+                    htmlFor="directMessagesEmail"
                   >
                     Direct Messages
                   </label>
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="directMessagesEmail"
+                    isChecked={initialValues.directMessagesEmail}
+                  />
                   <div style={{ width: "30px" }} />
-                  <ToggleSwitch id="fdfasdf" />
+                  <ToggleSwitch
+                    id="directMessagesInApp"
+                    isChecked={initialValues.directMessagesInApp}
+                  />
                 </div>
               </div>
             </div>
@@ -258,4 +335,4 @@ const ProfileForm: React.FC = () => {
   );
 };
 
-export default ProfileForm;
+export default NotificationPage;
