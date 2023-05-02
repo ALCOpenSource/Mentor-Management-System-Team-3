@@ -110,7 +110,7 @@ const ProfileForm: React.FC = () => {
               </button>
             </div>
 
-            <div style={{alignItems:"center"}} className="flex w-full">
+            <div className="flex w-full">
                 <a className="text-[15px] text-link text-green-three" href="/forgotpassword"> Forgot password? </a>
             </div>             
           </Form>
