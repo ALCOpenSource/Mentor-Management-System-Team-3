@@ -48,7 +48,7 @@ function App() {
             <Route path="settings" element={<Settings />}>
                 <Route index element={<SettingsGeneral />} />
                 <Route path="general" element={<SettingsGeneral />} />
-                <Route path="password" element={<SettingsPassword />}>
+                <Route path="password" element={<SettingsPassword />} />
                 <Route path="notifications" element={<SettingsNotifications />} />
                 <Route path="privacy" element={<SettingsPrivacy />} />
                 <Route path="archive" element={<SettingsArchive />} />
@@ -57,7 +57,6 @@ function App() {
                 <Route path="*" element={<SettingsGeneral />} /> 
               </Route>
               {/* <Route path="*" element={<AdminDashboard />} /> */}
-            </Route>
           </Route>
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/signup1" element={<SignupForm1 />} />
