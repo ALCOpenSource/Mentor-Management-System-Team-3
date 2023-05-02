@@ -88,7 +88,7 @@ const ProfileForm: React.FC = () => {
                   <h3 className="text-black text-2xl ms-11 font-bold">
                     Set Profile Picture
                   </h3>
-                  <button className="bg-green-three ms-11 text-white rounded-[10px] p-[10px] font-medium mt-1">
+                  <button className="bg-green-three ms-11 text-white rounded-[10px] p-[5px]  pe-[30px] ps-[30px]  font-medium mt-1">
                     Update Picture
                   </button>
                 </div>
@@ -265,7 +265,7 @@ const ProfileForm: React.FC = () => {
               <button
                 type="submit"
                 style={{ marginLeft: "auto" }}
-                className="bg-green-three text-white rounded-[10px] p-[10px] font-medium mt-1"
+                className="bg-green-three text-white rounded-[10px] p-[10px] pe-[40px] ps-[40px] font-medium mt-1"
               >
                 Save Changes
               </button>

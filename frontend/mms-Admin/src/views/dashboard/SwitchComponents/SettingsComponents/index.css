@@ -36,6 +36,14 @@
     font-weight: bold;
     width: 120px;
   }
+
+  .text-link {
+    outline: none;
+    font-size: 17px;
+    padding: 8px 12px;
+    font-weight: bold;
+    margin:auto;
+  }
   
   .input-icons img {
     position: absolute;
