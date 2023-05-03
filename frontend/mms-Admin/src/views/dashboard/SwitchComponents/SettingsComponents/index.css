@@ -1,7 +1,14 @@
 .sub-header {
-    font-size: 26px;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 39.89px;
     color: #333;
+  }
+
+  .profile-avatar{
+    width: 73px;
+    height: 73px;
+    border-radius: 50% ;
   }
   
   .profile-form {
@@ -39,24 +46,35 @@
 
   .toggle-switch-label {
     outline: none;
-    font-size: 17px;
+    font-size: 16px;
     width: 900px;
     padding: 2px 2px;
   }
 
   .strong-text {
     outline: none;
-    font-size: 17px;
+    font-size: 16px;
     padding: 2px 2px;
     font-weight: bold;
   }
 
   .text-link {
     outline: none;
-    font-size: 17px;
+    font-size: 16px;
     padding: 8px 12px;
     font-weight: bold;
     margin:auto;
+  }
+  
+  
+  .data-label {
+    outline: none;
+    font-size: 16px;
+    padding: 8px 22px;
+    font-family: "Mukta";
+    line-height: 26.59px;
+    color: #4D4D4D;
+    background-color: #E6FDFE;
   }
   
   
@@ -68,6 +86,12 @@
     width: 100%;
     margin-bottom: 5px;
     padding-left: 2px;
+  }
+
+  input[type="file"] {
+    opacity: 0;
+    z-index: -1;
+    position:absolute;
   }
   
   .icon {

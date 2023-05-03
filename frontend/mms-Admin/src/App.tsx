@@ -27,6 +27,7 @@ import SettingsPrivacy from "./views/dashboard/SwitchComponents/SettingsComponen
 import SettingsArchive from "./views/dashboard/SwitchComponents/SettingsComponents/archive";
 import SettingsSupport from "./views/dashboard/SwitchComponents/SettingsComponents/support";
 import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/faq";
+import SettingsEditProfile from "./views/dashboard/SwitchComponents/SettingsComponents/editProfile";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
             <Route path="settings" element={<Settings />}>
                 <Route index element={<SettingsGeneral />} />
                 <Route path="general" element={<SettingsGeneral />} />
+                <Route path="edit-profile" element={<SettingsEditProfile />} />
                 <Route path="password" element={<SettingsPassword />} />
                 <Route path="notifications" element={<SettingsNotifications />} />
                 <Route path="privacy" element={<SettingsPrivacy />} />

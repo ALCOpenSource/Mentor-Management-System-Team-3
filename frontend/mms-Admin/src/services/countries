@@ -1,0 +1,25 @@
+
+
+// class Country {
+//   Capital: string;
+//   Code: string;
+//   Continent: string;
+//   Flag_1x1: string;
+//   Flag_4x3: string;
+//   Iso: string;
+//   Name: string;
+
+//   constructor()
+
+//   function getCountryFlag(country: string) {
+//     fetch("./../assets/images/flag-icons-main/country.json")
+//       .then((response) => response.json())
+//       .then((json) => {
+//         const objs = JSON.parse(json);
+//         console.log(objs);
+//       });
+//   }
+// }
+
+
+// export default { getCountryFlag };
