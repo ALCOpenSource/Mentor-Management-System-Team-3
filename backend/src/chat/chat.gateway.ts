@@ -6,11 +6,12 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from "@nestjs/websockets";
-import { Logger, UseGuards } from "@nestjs/common";
+import { Logger, UnauthorizedException, UseGuards } from "@nestjs/common";
 import { Server, Socket } from "socket.io";
-import { MessagesService } from "./chat.service";
-import { FirebaseService } from "src/firebase/firebase.service";
-import { WsFirebaseAuthGuard } from "src/firebase/guards/websocket.guard";
+import { ChatService } from "./chat.service";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
+import { JwtWebSocketGuard } from "src/auth/guards/ws.auth.guard";
 
 @WebSocketGateway()
 export class ChatGateway
@@ -18,8 +19,9 @@ export class ChatGateway
 {
   private readonly logger = new Logger(ChatGateway.name);
   constructor(
-    private messagesService: MessagesService,
-    private firebaseService: FirebaseService,
+    private chatService: ChatService,
+    private jwtService: JwtService,
+    private configService: ConfigService, // private userService: UserService,
   ) {}
 
   @WebSocketServer()
@@ -28,6 +30,7 @@ export class ChatGateway
   private readonly connectedUsers = new Map<string, Socket>();
 
   async handleConnection(socket: Socket, ..._args: unknown[]) {
+    this.logger.debug("Starting connection");
     const authToken = socket.handshake.headers["authorization"];
     this.logger.debug(`Authorization header: ${authToken}`);
     if (!authToken || !authToken.startsWith("Bearer ")) {
@@ -37,27 +40,27 @@ export class ChatGateway
     }
     const token = authToken.slice(7, authToken.length);
     try {
-      const decodedToken = await this.firebaseService.auth.verifyIdToken(token);
-
-      // Check if the token has expired
-      const now = new Date().getTime() / 1000; // convert to Unix time
-      if (decodedToken.exp < now) {
-        socket.disconnect();
+      if (!token) {
+        throw new UnauthorizedException();
       }
 
-      // Pass the decoded token to the client for later use
-      socket["authUser"] = decodedToken;
+      try {
+        const payload = await this.jwtService.verifyAsync(token, {
+          secret: this.configService.get<string>("JWT_SECRET"),
+        });
 
-      this.logger.debug(`The user ${decodedToken.uid} is connected`);
+        socket.data.user = payload;
+        this.logger.debug(socket);
+        const userId = socket.data.user.sub;
+        this.logger.debug(`Client connected: ${socket.id} with user ${userId}`);
+
+        this.connectedUsers.set(userId, socket);
+      } catch (error) {
+        throw new UnauthorizedException();
+      }
     } catch (error) {
       socket.disconnect();
     }
-    const userId = socket["authUser"].uid;
-
-    this.connectedUsers.set(userId, socket);
-    const messages = await this.messagesService.getUnreadMessages(userId);
-    this.logger.debug(`Sending ${messages.length} unread messages`);
-    socket.emit("unreadMessages", messages);
   }
 
   async handleDisconnect(socket: Socket) {
@@ -68,47 +71,81 @@ export class ChatGateway
     this.connectedUsers.delete(uid);
   }
 
-  async afterInit(server: Server) {
-    console.log(server.getMaxListeners());
-    console.log("WebSocket server initialized");
+  async afterInit(_server: Server) {
+    this.logger.debug(`Initialized!`);
   }
-  @UseGuards(WsFirebaseAuthGuard)
-  @SubscribeMessage("chatMessage")
-  async handleChatMessage(
-    _client: Socket,
-    payload: { senderId: string; receiverId: string; text: string },
+  @UseGuards(JwtWebSocketGuard)
+  @SubscribeMessage("getChatMessages")
+  async handleGetChatMessages(socket: Socket, data: { chatId: string }) {
+    const messages = await this.chatService.getChatMessages(data.chatId);
+    socket.emit("chatMessages", messages);
+  }
+  @UseGuards(JwtWebSocketGuard)
+  @SubscribeMessage("sendMessage")
+  async handleSendMessage(
+    socket: Socket,
+    data: {
+      chatId: string;
+      senderId: string;
+      receiverId: string;
+      text: string;
+    },
   ) {
-    console.log(
-      `Received chat message from ${payload.senderId} to ${payload.receiverId}: ${payload.text}`,
+    const message = await this.chatService.sendMessage(
+      data.chatId,
+      data.senderId,
+      data.receiverId,
+      data.text,
     );
-    const { senderId, receiverId, text } = payload;
-    const message = await this.messagesService.createMessage(
-      senderId,
-      receiverId,
-      text,
+    // list sockets
+    const sockets = Array.from(this.connectedUsers.entries());
+    // find receiver socket
+    const receiverSocket = sockets.find(
+      ([userId]) => userId === data.receiverId,
     );
-    const receiverSocket = this.connectedUsers.get(receiverId);
+    // if receiver is connected, emit message to receiver
     if (receiverSocket) {
-      receiverSocket.emit("chatMessage", message);
+      this.server.to(receiverSocket[1].id).emit("newMessage", message);
     }
+    // Emit message to both sender and receiver
+    // this.server
+    //   .to(data.senderId)
+    //   .to(data.receiverId)
+    //   .emit("newMessage", message);
   }
-  @UseGuards(WsFirebaseAuthGuard)
-  @SubscribeMessage("markMessageAsRead")
-  async handleMarkMessageAsRead(
-    _client: Socket,
-    payload: { messageId: string; receiverId: string },
+
+  @UseGuards(JwtWebSocketGuard)
+  @SubscribeMessage("markMessageRead")
+  async handleMarkMessageRead(
+    socket: Socket,
+    data: { messageId: string; chatId: string },
   ) {
-    this.logger.log(
-      `Received mark message as read from ${payload.receiverId} for message ${payload.messageId}`,
+    const message = await this.chatService.markMessageRead(
+      data.messageId,
+      data.chatId,
     );
-    const { messageId, receiverId } = payload;
-    const message = await this.messagesService.markMessageAsRead(
-      messageId,
-      receiverId,
-    );
-    const senderSocket = this.connectedUsers.get(message.sender);
-    if (senderSocket) {
-      senderSocket.emit("markMessageAsRead", message);
-    }
+    // Emit updated message to sender and receiver
+    this.server
+      .to(message.senderId)
+      .to(message.receiverId)
+      .emit("messageRead", message);
   }
+
+  @UseGuards(JwtWebSocketGuard)
+  @SubscribeMessage("markMessageAsDelivered")
+  async handleMarkMessageAsDelivered(
+    socket: Socket,
+    data: { chatId: string; messageId: string },
+  ) {
+    await this.chatService.markMessageAsDelivered(data.chatId, data.messageId);
+    // Emit event to sender and receiver
+    this.server.to(data.chatId).emit("messageDelivered", {
+      chatId: data.chatId,
+      messageId: data.messageId,
+    });
+  }
+
+  // stop typing event
+
+  // delivered event
 }

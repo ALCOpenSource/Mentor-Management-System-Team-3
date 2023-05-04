@@ -1,30 +1,51 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
+import { HydratedDocument } from "mongoose";
 
 export type MessageDocument = HydratedDocument<Message>;
-
 @Schema()
 export class Message {
   @Prop({ required: true })
-  sender: string;
+  chatId: string;
 
   @Prop({ required: true })
-  recipient: string;
+  text: string;
 
   @Prop({ required: true })
-  message: string;
+  senderId: string;
 
-  @Prop({ default: Date.now })
-  createdAt: Date;
+  @Prop({ required: true })
+  receiverId: string;
 
-  @Prop({ default: null })
+  @Prop()
   readAt: Date;
 
   @Prop({ default: false })
-  read: boolean;
+  isRead: boolean;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, auto: true })
-  _id: string;
+  @Prop({ default: false })
+  isDelivered: boolean;
+
+  @Prop()
+  deliveredAt: Date;
+
+  @Prop({ required: true, default: Date.now })
+  createdAt: Date;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
+MessageSchema.index({ chatId: 1 });
+
+export type ChatDocument = HydratedDocument<Chat>;
+@Schema()
+export class Chat {
+  @Prop({ required: true, unique: true })
+  chatId: string;
+
+  @Prop({ required: true })
+  user1Id: string;
+
+  @Prop({ required: true })
+  user2Id: string;
+}
+
+export const ChatSchema = SchemaFactory.createForClass(Chat);

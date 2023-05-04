@@ -1,73 +1,181 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Message, MessageDocument } from "./chat.schema";
-import { Logger } from "@nestjs/common/services";
+import { Chat, ChatDocument } from "./chat.schema";
+import { Message, MessageDocument, MessageSchema } from "./chat.schema";
+import { UsersService } from "src/users/users.service";
+import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
-export class MessagesService {
-  private logger = new Logger(MessagesService.name);
+export class ChatService {
   constructor(
+    private readonly usersService: UsersService,
+    @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
     @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
   ) {}
 
-  async createMessage(
-    sender: string,
-    recipient: string,
-    message: string,
-  ): Promise<Message> {
-    const text = new this.messageModel({ sender, recipient, message });
-    return text.save();
+  async createChat(user1Id: string, user2Id: string): Promise<Chat> {
+    const existingChat = await this.chatModel.findOne({
+      $or: [
+        { user1Id: user1Id, user2Id: user2Id },
+        { user1Id: user2Id, user2Id: user1Id },
+      ],
+    });
+
+    if (existingChat) {
+      // A chat already exists, return it
+      return existingChat;
+    }
+    const chatId = this.generateChatId();
+    const chat = await this.chatModel.create({ chatId, user1Id, user2Id });
+    await this.createMessageCollection(chatId);
+    return chat;
   }
 
-  async markMessageAsRead(
-    messageId: string,
+  async createMessageCollection(chatId: string): Promise<void> {
+    const messageCollectionName = `messages_${chatId}`;
+    await this.messageModel.db.model<MessageDocument>(
+      messageCollectionName,
+      MessageSchema,
+    );
+    await this.messageModel.init();
+  }
+
+  private generateChatId(): string {
+    return uuidv4();
+  }
+  // function to get messages from a chat and get the last 50 messages
+  async getChatMessages(chatId: string): Promise<Message[]> {
+    // Get the message model for this chat
+    const MessageModel = this.messageModel[chatId];
+
+    if (!MessageModel) {
+      throw new Error(`No message model found for chat ${chatId}`);
+    }
+
+    // Query the database for the last 200 messages in this chat
+    const messages = await MessageModel.find({})
+      .sort({ created_at: "desc" })
+      .limit(200)
+      .exec();
+
+    return messages;
+  }
+
+  // function to get chats for a user
+  async getUserChats(userId: string): Promise<Chat[]> {
+    // Query the database for up to 20 chats where the given user is a participant
+    const chats = await this.chatModel
+      .find({
+        $or: [{ user1Id: userId }, { user2Id: userId }],
+      })
+      .limit(20)
+      .exec();
+
+    return chats;
+  }
+
+  // function that uses the getUserChats method and returns the User Information, chatId, and last message
+
+  // Other chat-related methods...
+  async getLastMessage(
+    chatId: string,
+  ): Promise<{ message: Message; unreadCount: number }> {
+    const messageCollectionName = `messages_${chatId}`;
+    const messageModel = this.messageModel.db.model<MessageDocument>(
+      messageCollectionName,
+      MessageSchema,
+    );
+
+    const messages = await messageModel
+      .find({ isRead: false })
+      .sort({ createdAt: -1 })
+      .limit(20)
+      .exec();
+
+    const lastMessage = messages.length > 0 ? messages[0] : null;
+    const unreadCount = messages.reduce((count, message) => {
+      return message.receiverId === lastMessage?.receiverId && !message.isRead
+        ? count + 1
+        : count;
+    }, 0);
+
+    return { message: lastMessage, unreadCount };
+  }
+
+  // user chat info
+  async getUserChatsInfo(userId: string): Promise<unknown[]> {
+    // Retrieve up to 20 chats where the user is a participant
+    const chats = await this.getUserChats(userId);
+
+    const chatPromises = chats.map(async (chat) => {
+      const otherUserId = chat.user1Id === userId ? chat.user2Id : chat.user1Id;
+      const otherUser = await this.usersService.getUserById(otherUserId);
+      const { message: lastMessage, unreadCount } = await this.getLastMessage(
+        chat.chatId,
+      );
+      return { chatId: chat.chatId, user: otherUser, lastMessage, unreadCount };
+    });
+
+    // Wait for all the chat promises to resolve
+    const chatData = await Promise.all(chatPromises);
+
+    return chatData;
+  }
+
+  // function to create a message
+  async sendMessage(
+    chatId: string,
+    senderId: string,
     receiverId: string,
+    text: string,
   ): Promise<Message> {
-    const message = await this.messageModel.findOneAndUpdate(
-      { _id: messageId, receiverId },
-      { read: true },
+    Logger.log("sendMessage");
+    const messageCollectionName = `messages_${chatId}`;
+    Logger.log(messageCollectionName);
+    const messageModel = this.messageModel.db.model<MessageDocument>(
+      messageCollectionName,
+      MessageSchema,
+    );
+    const message = await messageModel.create({
+      chatId,
+      senderId,
+      receiverId,
+      text,
+    });
+    return message.toObject({ getters: true });
+  }
+
+  // function to mark messages as read
+  async markMessageRead(messageId: string, chatId: string): Promise<Message> {
+    const messageCollectionName = `messages_${chatId}`;
+    const messageModel = this.messageModel.db.model<MessageDocument>(
+      messageCollectionName,
+      MessageSchema,
+    );
+    const message = await messageModel.findByIdAndUpdate(
+      messageId,
+      { $set: { isRead: true, readAt: new Date() } },
       { new: true },
     );
-    if (!message) {
-      throw new Error(
-        `Message with ID ${messageId} not found for user with ID ${receiverId}`,
-      );
-    }
-    return message;
+    return message.toObject({ getters: true });
   }
-
-  async getUnreadMessages(recipient: string): Promise<Message[]> {
-    this.logger.log(`Getting unread messages for user ${recipient}`);
-    this.logger.log(` messages: ${await this.messageModel.find().exec()}`);
-    return this.messageModel.find({ recipient, readAt: null }).exec();
-  }
-  getAllMessages() {
-    return this.messageModel.find().exec();
-  }
-
-  async getChatHistory(userId1: string, userId2: string): Promise<unknown> {
-    const messages = await this.messageModel
-      .find({
-        $or: [
-          { sender: userId1, recipient: userId2 },
-          { sender: userId2, recipient: userId1 },
-        ],
-      })
-      .exec();
-    const unreadMessages = messages.filter(
-      (message) => !message.read && message.recipient === userId1,
+  // mark message as delivered
+  async markMessageAsDelivered(
+    chatId: string,
+    messageId: string,
+  ): Promise<Message> {
+    const messageCollectionName = `messages_${chatId}`;
+    const messageModel = this.messageModel.db.model<MessageDocument>(
+      messageCollectionName,
+      MessageSchema,
     );
-    const unreadCount = unreadMessages.length;
-
-    // Mark the unread messages as read
-    if (unreadMessages.length > 0) {
-      const unreadMessageIds = unreadMessages.map((message) => message._id);
-      await this.messageModel
-        .updateMany({ _id: { $in: unreadMessageIds } }, { read: true })
-        .exec();
+    const message = await messageModel.findById(messageId);
+    if (!message) {
+      throw new NotFoundException(`Message with ID ${messageId} not found`);
     }
-
-    return { messages, unreadCount };
+    message.isDelivered = true;
+    message.deliveredAt = new Date();
+    return message.save();
   }
 }

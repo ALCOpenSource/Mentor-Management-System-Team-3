@@ -1,18 +1,23 @@
-import { Controller, Post, Body, UseGuards } from "@nestjs/common";
-import { MessagesService } from "./chat.service";
-import { Message } from "./chat.schema";
-import { FirebaseAuthGuard } from "src/firebase/guards/firebase.guard";
+import { Controller, Post, Body, UseGuards, Req, Get } from "@nestjs/common";
+import { ChatService } from "./chat.service";
+import { JwtAuthGuard } from "src/auth/guards/jwt.auth.guard";
+import { Chat } from "./chat.schema";
 
-@UseGuards(FirebaseAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller("chat")
 export class ChatController {
-  constructor(private readonly chatService: MessagesService) {}
+  constructor(private readonly chatService: ChatService) {}
 
-  @Post("/history/")
-  async getChatHistory(
+  @Post("/createchat")
+  async createChat(
     @Body("userId1") userId1: string,
     @Body("userId2") userId2: string,
-  ): Promise<unknown> {
-    return this.chatService.getChatHistory(userId1, userId2);
+  ): Promise<Chat> {
+    return this.chatService.createChat(userId1, userId2);
+  }
+
+  @Get("getchats")
+  async getChats(@Req() req): Promise<unknown[]> {
+    return this.chatService.getUserChatsInfo(req.user.sub);
   }
 }
