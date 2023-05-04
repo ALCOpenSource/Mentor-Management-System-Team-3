@@ -68,7 +68,7 @@ const NotificationPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form  h-screen">
+          <Form className="w-full profile-form h-screen">
             <div className="flex flex-col relative p-5">
               <div className="flex w-full">
                 <label className="text-[15px] strong-text">
@@ -104,12 +104,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="allNotificationsEmail"
-                    isChecked={initialValues.allNotificationsEmail}
+                    //isChecked={initialValues.allNotificationsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="allNotificationsInApp"
-                    isChecked={initialValues.allNotificationsInApp}
+                    //isChecked={initialValues.allNotificationsInApp}
                   />
                 </div>
               </div>
@@ -125,12 +125,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="programsEmail"
-                    isChecked={initialValues.programsEmail}
+                    //isChecked={initialValues.programsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="programsInApp"
-                    isChecked={initialValues.programsInApp}
+                    //isChecked={initialValues.programsInApp}
                   />
                 </div>
               </div>
@@ -146,12 +146,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="tasksEmail"
-                    isChecked={initialValues.tasksEmail}
+                    //isChecked={initialValues.tasksEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="tasksInApp"
-                    isChecked={initialValues.tasksInApp}
+                    //isChecked={initialValues.tasksInApp}
                   />
                 </div>
               </div>
@@ -167,12 +167,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="approvalRequestsEmail"
-                    isChecked={initialValues.approvalRequestsEmail}
+                    //isChecked={initialValues.approvalRequestsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="allNotificationsInApp"
-                    isChecked={initialValues.allNotificationsInApp}
+                    //isChecked={initialValues.allNotificationsInApp}
                   />
                 </div>
               </div>
@@ -188,12 +188,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="reportsEmail"
-                    isChecked={initialValues.reportsEmail}
+                    //isChecked={initialValues.reportsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="reportsInApp"
-                    isChecked={initialValues.reportsInApp}
+                    //isChecked={initialValues.reportsInApp}
                   />
                 </div>
               </div>
@@ -234,12 +234,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="commentsOnMyPostsEmail"
-                    isChecked={initialValues.commentsOnMyPostsEmail}
+                    //isChecked={initialValues.commentsOnMyPostsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="commentsOnMyPostsInApp"
-                    isChecked={initialValues.commentsOnMyPostsInApp}
+                    //isChecked={initialValues.commentsOnMyPostsInApp}
                   />
                 </div>
               </div>
@@ -255,12 +255,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="postsEmail"
-                    isChecked={initialValues.postsEmail}
+                    //isChecked={initialValues.postsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="postsInApp"
-                    isChecked={initialValues.postsInApp}
+                    //isChecked={initialValues.postsInApp}
                   />
                 </div>
               </div>
@@ -276,12 +276,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="commentsEmail"
-                    isChecked={initialValues.commentsEmail}
+                    //isChecked={initialValues.commentsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="commentsInApp"
-                    isChecked={initialValues.commentsInApp}
+                    //isChecked={initialValues.commentsInApp}
                   />
                 </div>
               </div>
@@ -297,12 +297,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="mentionsEmail"
-                    isChecked={initialValues.mentionsEmail}
+                    //isChecked={initialValues.mentionsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="mentionsInApp"
-                    isChecked={initialValues.mentionsInApp}
+                    //isChecked={initialValues.mentionsInApp}
                   />
                 </div>
               </div>
@@ -318,12 +318,12 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="directMessagesEmail"
-                    isChecked={initialValues.directMessagesEmail}
+                    //isChecked={initialValues.directMessagesEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="directMessagesInApp"
-                    isChecked={initialValues.directMessagesInApp}
+                    //isChecked={initialValues.directMessagesInApp}
                   />
                 </div>
               </div>

@@ -121,11 +121,11 @@ const EditProfilePage: React.FC = () => {
                   alt="user profile avatar"
                 />
                 <div>
-                  <h3 className="text-black text-2xl ms-11 pt-3 pb-1 font-bold">
+                  <h3 className="text-black text-2xl ms-11 pt-3 pb-3 font-bold">
                     Set Profile Picture
                   </h3>
                   <label
-                    className="bg-green-three ms-11 text-white rounded-[10px] p-[5px] pb-3 pe-3 pe-[30px] ps-[30px]  font-medium mt-1"
+                    className="bg-green-three ms-11 text-white rounded-[10px] p-[5px] pt-2 pb-2 pe-3 pe-[30px] ps-[30px]  font-medium mt-1"
                     htmlFor="uploadFile"
                   >
                     Update Picture

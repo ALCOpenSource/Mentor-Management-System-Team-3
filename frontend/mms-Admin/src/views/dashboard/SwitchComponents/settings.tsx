@@ -42,6 +42,9 @@ function Settings() {
 
     return (
     <div className="flex flex-col"> 
+    <h3 className="text-black text-2xl ms-0 pt-3 pb-1 font-bold">
+        Settings
+    </h3>
     <section className="flex">
        <section className="border-solid bg-lighterGreen-three">
        {

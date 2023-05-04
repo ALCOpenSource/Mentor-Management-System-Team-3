@@ -51,7 +51,7 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showContactInfo"
-                    isChecked={initialValues.showContactInfo}
+                    //isChecked={initialValues.showContactInfo}
                   />
                 </div>
               </div>
@@ -67,7 +67,7 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showGitHub"
-                    isChecked={initialValues.showGitHub}
+                    //isChecked={initialValues.showGitHub}
                   />
                 </div>
               </div>
@@ -83,7 +83,7 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showInstagram"
-                    isChecked={initialValues.showInstagram}
+                    //isChecked={initialValues.showInstagram}
                   />
                 </div>
               </div>
@@ -99,7 +99,7 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showLinkedin"
-                    isChecked={initialValues.showLinkedin}
+                    //isChecked={initialValues.showLinkedin}
                   />
                 </div>
               </div>
@@ -115,7 +115,7 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showTwitter"
-                    isChecked={initialValues.showTwitter}
+                    //isChecked={initialValues.showTwitter}
                   />
                 </div>
               </div>
