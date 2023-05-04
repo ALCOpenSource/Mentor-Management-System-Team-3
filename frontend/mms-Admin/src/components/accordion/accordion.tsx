@@ -1,6 +1,6 @@
-import './accordion.css';
-import AccordionItem, { AccordionData } from './accordion-item';
-import { useState } from 'react';
+import "./accordion.css";
+import AccordionItem, { AccordionData } from "./accordion-item";
+import { useState } from "react";
 
 function Accordion({ items }: { items: Array<AccordionData> }) {
   const [currentIdx, setCurrentIdx] = useState(-1);
@@ -11,18 +11,20 @@ function Accordion({ items }: { items: Array<AccordionData> }) {
 
   return (
     <ul className="accordion">
-      {items.map((item, idx) => (
-        <AccordionItem
-          key={idx}
-          data={item}
-          isOpen={idx === currentIdx}
-          btnOnClick={() => btnOnClick(idx)}
-        />
-      ))}
+      {items.map((item, idx) => {
+               
+        //console.log(idx, currentIdx, item);
+        return (
+          <AccordionItem
+            key={idx}
+            data={item}
+            isOpen={idx === currentIdx}
+            btnOnClick={() => btnOnClick(idx)}
+          />
+        );
+      })}
     </ul>
   );
 }
 
 export default Accordion;
-
-
