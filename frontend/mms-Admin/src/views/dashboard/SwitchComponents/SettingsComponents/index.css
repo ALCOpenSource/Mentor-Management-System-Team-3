@@ -120,3 +120,9 @@
     width: 35%;
   }
   
+  .scrollable-items-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow-y: scroll;
+  }
