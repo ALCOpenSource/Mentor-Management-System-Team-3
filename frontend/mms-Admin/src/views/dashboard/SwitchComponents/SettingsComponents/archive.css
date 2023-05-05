@@ -69,11 +69,12 @@
   top: 41.67px;
 }
 
-.items-container {
+.archives-items-container {
   display: flex;
   flex-direction: column;
   max-height: 100%;
   overflow-y: scroll;
+  height: calc(100vh - 0px);
 }
 
 .dropdown-icon {
@@ -126,4 +127,3 @@
   left: 780px;
   top: 107px;
 }
-

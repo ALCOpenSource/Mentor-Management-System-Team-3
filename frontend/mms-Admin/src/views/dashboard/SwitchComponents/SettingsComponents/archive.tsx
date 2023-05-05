@@ -16,30 +16,30 @@ import { getShortDate, getShortTime } from "../../../../services/dateFunctions";
 import { getRandomInteger } from "../../../../services/mathFunctions";
 
 interface ProgramProp {
-  Name: string;
-  Date: Date;
-  Icon: any;
+  name: string;
+  date: Date;
+  icon: any;
 }
 interface FormValues {
-  Programs: ProgramProp[];
+  programs: ProgramProp[];
 }
 
 const initialValues: FormValues = {
-  Programs: [],
+  programs: [],
 };
 
 for (let i = 0; i < 100; i++) {
   const date = new Date();
   date.setMinutes(date.getMinutes() - getRandomInteger(0, 1500000));
-  initialValues.Programs.push({
-    Name: "Google Africa Scholarship Program " + i,
-    Date: date,
-    Icon: googleIconSVG,
+  initialValues.programs.push({
+    name: "Google Africa Scholarship Program " + i,
+    date: date,
+    icon: googleIconSVG,
   });
 }
 
 const App: React.FC = () => (
-  <div className="w-full profile-form  h-screen">
+  <div className="w-full profile-form h-screen">
     <Formik
       initialValues={initialValues}
       onSubmit={(values: FormValues) => console.log(values)}
@@ -97,91 +97,99 @@ const App: React.FC = () => (
               </button>
             </div>
           </div>
-          <FieldArray
-            name="programs"
-            render={(helpers) => (
-              <div className="items-container">
-                {values.Programs && values.Programs.length > 0
-                  ? values.Programs.map(
-                      (
-                        program: ProgramProp,
-                        index: React.Key | null | undefined
-                      ) => (
-                        <React.Fragment key={index}>
-                          <label htmlFor="pet" className="w-full">
-                            <div className="program-border flex flex-row mt-[10px]">
-                              <img
-                                src={program.Icon}
-                                alt="profile logo"
-                                className="program-icon"
-                              />
-                              <div className="w-full">
-                                <label
-                                  className="program-title pt-0"
-                                  htmlFor="about"
-                                >
-                                  {program.Name}
-                                </label>
-                                <div className="flex flex-row mt-2 relative  w-full">
-                                  <button
-                                    type="submit"
-                                    className="calender-button"
-                                  >
-                                    <img
-                                      src={Calender}
-                                      alt="Attach file icon"
-                                      className="calender-icon"
-                                    />
-                                  </button>
-                                  <label className="small-text" htmlFor="about">
-                                    {getShortDate(program.Date)}
-                                  </label>
 
-                                  <button
-                                    type="submit"
-                                    className="timer-button"
-                                  >
-                                    <img
-                                      src={TimerIn}
-                                      alt="Attach file icon"
-                                      className="calender-icon p-1"
-                                      style={{ left: "2px", bottom: "3px" }}
-                                    />
-                                    <img
-                                      src={TimerOut}
-                                      alt="Attach file icon"
-                                      className="calender-icon"
-                                    />
-                                  </button>
+          <div className="w-full profile-form archives-items-container h-screen">
+            <FieldArray
+              name="programs"
+              render={(helpers) => (
+                <div>
+                  {values.programs && values.programs.length > 0
+                    ? values.programs.map(
+                        (
+                          program: ProgramProp,
+                          index: React.Key | null | undefined
+                        ) => (
+                          <React.Fragment key={index}>
+                            <label htmlFor="pet" className="w-full">
+                              <div className="program-border flex flex-row mt-[10px]">
+                                <img
+                                  src={program.icon}
+                                  alt="profile logo"
+                                  className="program-icon"
+                                />
+                                <div className="w-full">
                                   <label
-                                    className="small-text"
-                                    style={{ left: "302px" }}
+                                    className="program-title pt-0"
                                     htmlFor="about"
                                   >
-                                    {getShortTime(program.Date)}
+                                    {program.name}
                                   </label>
+                                  <div className="flex flex-row mt-2 relative  w-full">
+                                    <button
+                                      type="submit"
+                                      className="calender-button"
+                                    >
+                                      <img
+                                        src={Calender}
+                                        alt="Attach file icon"
+                                        className="calender-icon"
+                                      />
+                                    </button>
+                                    <label
+                                      className="small-text"
+                                      htmlFor="about"
+                                    >
+                                      {getShortDate(program.date)}
+                                    </label>
+
+                                    <button
+                                      type="submit"
+                                      className="timer-button"
+                                    >
+                                      <img
+                                        src={TimerIn}
+                                        alt="Attach file icon"
+                                        className="calender-icon p-1"
+                                        style={{ left: "2px", bottom: "3px" }}
+                                      />
+                                      <img
+                                        src={TimerOut}
+                                        alt="Attach file icon"
+                                        className="calender-icon"
+                                      />
+                                    </button>
+                                    <label
+                                      className="small-text"
+                                      style={{ left: "302px" }}
+                                      htmlFor="about"
+                                    >
+                                      {getShortTime(program.date)}
+                                    </label>
+                                  </div>
                                 </div>
+                                <button
+                                  type="submit"
+                                  className="dropdown-button"
+                                >
+                                  <img
+                                    src={DropdownListIcon}
+                                    alt="Attach file icon"
+                                    className="dropdown-icon"
+                                  />
+                                </button>
                               </div>
-                              <button type="submit" className="dropdown-button">
-                                <img
-                                  src={DropdownListIcon}
-                                  alt="Attach file icon"
-                                  className="dropdown-icon"
-                                />
-                              </button>
-                            </div>
-                          </label>
-                        </React.Fragment>
+                            </label>
+                          </React.Fragment>
+                        )
                       )
-                    )
-                  : null}
-              </div>
-            )}
-          />
+                    : null}
+                </div>
+              )}
+            />
+          </div>
         </Form>
       )}
     ></Formik>
   </div>
 );
-
 export default App;

@@ -27,7 +27,7 @@ import SettingsPrivacy from "./views/dashboard/SwitchComponents/SettingsComponen
 import SettingsArchive from "./views/dashboard/SwitchComponents/SettingsComponents/archive";
 import SettingsSupport from "./views/dashboard/SwitchComponents/SettingsComponents/support";
 import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/faq";
-import SettingsEditProfile from "./views/dashboard/SwitchComponents/SettingsComponents/editProfile";
+import SettingsEditProfile from "./views/dashboard/SwitchComponents/SettingsComponents/edit-profile";
 
 function App() {
   return (

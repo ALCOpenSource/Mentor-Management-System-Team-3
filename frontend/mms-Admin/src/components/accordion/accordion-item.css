@@ -64,4 +64,6 @@
   .accordion-item-content {
     border-top: 1px solid #cccccc;
     padding: 15px 20px;
+    color: #4D4D4D;
+    background-color: #E6FDFE;
   }

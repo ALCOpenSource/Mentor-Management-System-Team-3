@@ -241,6 +241,7 @@ const EditProfilePage: React.FC = () => {
                           <img
                             src={githubSVG}
                             alt="profile logo"
+                            style={{ marginTop: "-13px" }}
                             className="icon"
                           />
                           <Field
@@ -282,6 +283,7 @@ const EditProfilePage: React.FC = () => {
                         <div className="flex flex-row input-icons ms-1 w-full">
                           <img
                             src={linkedInSVG}
+                            style={{ marginTop: "-13px" }}
                             alt="profile logo"
                             className="icon"
                           />

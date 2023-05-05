@@ -71,7 +71,12 @@ const GeneralPage: React.FC = () => {
                     <h3 className="text-black text-2xl ms-4 font-bold">
                       {initialValues.firstName} {initialValues.lastName}
                     </h3>
-                    <img style={{ width: "24px" }} className="ms-2" src={nigerianFlagSVG} alt="country logo icon" />
+                    <img
+                      style={{ width: "24px" }}
+                      className="ms-2"
+                      src={nigerianFlagSVG}
+                      alt="country logo icon"
+                    />
                   </div>
                   <label
                     style={{ background: "transparent" }}

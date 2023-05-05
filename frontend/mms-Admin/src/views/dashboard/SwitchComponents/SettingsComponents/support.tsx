@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import "./index.css";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
 import liveChatIcon from "../../../../assets/images/LiveChat.svg";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
+import PopUpPage from "./pop-up-page";
+import LiveChatPage from "./live-chats-page";
 
 interface FormValues {
   userId: string;
@@ -30,6 +32,12 @@ const SupportPage: React.FC = () => {
   const handleSubmit = (values: FormValues) => {
     console.log(values);
     // save changes logic here
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -134,14 +142,18 @@ const SupportPage: React.FC = () => {
                 </div>
               </div>
             </Form>
-            <div className="flex w-full">
+            <div className="btn flex w-full" onClick={togglePopup}>
               <button
-                type="submit"
+                type="button"
                 style={{ marginLeft: "auto" }}
+                onClick={togglePopup}
                 className="rounded-[10px] p-[10px] pe-[40px] mt-[50px] font-medium mt-0"
               >
                 <img src={liveChatIcon} alt="Attach file icon"></img>
               </button>
+              {isOpen && (
+                <PopUpPage content={<LiveChatPage />} toggle={togglePopup} />
+              )}
             </div>
           </div>
         )}
