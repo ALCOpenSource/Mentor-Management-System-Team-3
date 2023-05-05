@@ -8,6 +8,7 @@ import FormikValidationMessageComponent from "../../../../components/error-messa
 import PopUpPage from "./pop-up-page";
 import LiveChatPage from "./live-chats-page";
 
+
 interface FormValues {
   userId: string;
   name: string;
@@ -152,7 +153,7 @@ const SupportPage: React.FC = () => {
                 <img src={liveChatIcon} alt="Attach file icon"></img>
               </button>
               {isOpen && (
-                <PopUpPage content={<LiveChatPage />} toggle={togglePopup} />
+                <PopUpPage persist={true} content={<LiveChatPage />} toggle={togglePopup} />
               )}
             </div>
           </div>
