@@ -10,25 +10,18 @@ import githubSVG from "../../../../assets/images/social/Github.svg";
 import twitterSVG from "../../../../assets/images/social/Twitter.svg";
 import instagramSVG from "../../../../assets/images/social/Instagram.svg";
 import { useLocation } from "react-router-dom";
+import { SystemUser } from "../../../../services/redux/types/system-user";
+import { useDispatch, useSelector } from "react-redux";
+import { Store } from "../../../../services/redux/Store";
 
-interface FormValues {
-  fName: string;
-  lastName: string;
-  about: string;
-  website: string;
-  country: string;
-  city: string;
-  github: string;
-  linkedin: string;
-  instagram: string;
-  twitter: string;
-}
+
+
 
 const EditProfilePage: React.FC = () => {
   const location = useLocation();
   const obj = location.state?.initialValues;
-  const initialValues: FormValues = {
-    fName: "",
+  const initialValues: SystemUser = {
+    firstName: "",
     lastName: "",
     about: "",
     website: "",
@@ -41,7 +34,7 @@ const EditProfilePage: React.FC = () => {
   };
 
   if (obj) {
-    initialValues.fName = obj.firstName;
+    initialValues.firstName = obj.firstName;
     initialValues.lastName = obj.lastName;
     initialValues.about = obj.about;
     initialValues.website = obj.website;
@@ -74,7 +67,7 @@ const EditProfilePage: React.FC = () => {
   }
 
   const validationSchema = Yup.object().shape({
-    fName: Yup.string().required("First name is required please"),
+    firstName: Yup.string().required("First name is required please"),
     lastName: Yup.string().required("Last name is required please"),
     about: Yup.string().required("Please your bio is required"),
     website: Yup.string().matches(
@@ -99,7 +92,7 @@ const EditProfilePage: React.FC = () => {
     ),
   });
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = (values: SystemUser) => {
     console.log(values);
     // save changes logic here
   };
@@ -150,8 +143,8 @@ const EditProfilePage: React.FC = () => {
                     </label>
                     <Field
                       type="text"
-                      id="fName"
-                      name="fName"
+                      id="firstName"
+                      name="firstName"
                       placeholder="First Name"
                       className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
@@ -163,7 +156,7 @@ const EditProfilePage: React.FC = () => {
                       className="text-input ms-6 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
-                  <FormikValidationMessageComponent name="fName" />
+                  <FormikValidationMessageComponent name="firstName" />
                   <FormikValidationMessageComponent name="lastName" />
                 </div>
 

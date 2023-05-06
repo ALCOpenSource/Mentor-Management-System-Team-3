@@ -28,48 +28,55 @@ import SettingsArchive from "./views/dashboard/SwitchComponents/SettingsComponen
 import SettingsSupport from "./views/dashboard/SwitchComponents/SettingsComponents/support";
 import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/faq";
 import SettingsEditProfile from "./views/dashboard/SwitchComponents/SettingsComponents/edit-profile";
+import { Provider } from "react-redux";
+import store from "./services/redux/reducers/current-user-reducers";
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<LoginForm />} />
-          <Route path="dashboard" element={<Dashboard />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="messages" element={<Messages />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="certificates" element={<Certificates />} />
-            <Route path="programs" element={<Programs />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="tasks" element={<Tasks />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="forum" element={<Forums />} />
+    <Provider store={store}>
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route path="/" element={<LoginForm />} />
+            <Route path="dashboard" element={<Dashboard />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="certificates" element={<Certificates />} />
+              <Route path="programs" element={<Programs />} />
+              <Route path="reports" element={<Reports />} />
+              <Route path="tasks" element={<Tasks />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="forum" element={<Forums />} />
 
-            <Route path="settings" element={<Settings />}>
+              <Route path="settings" element={<Settings />}>
                 <Route index element={<SettingsGeneral />} />
                 <Route path="general" element={<SettingsGeneral />} />
                 <Route path="edit-profile" element={<SettingsEditProfile />} />
                 <Route path="password" element={<SettingsPassword />} />
-                <Route path="notifications" element={<SettingsNotifications />} />
+                <Route
+                  path="notifications"
+                  element={<SettingsNotifications />}
+                />
                 <Route path="privacy" element={<SettingsPrivacy />} />
                 <Route path="archive" element={<SettingsArchive />} />
                 <Route path="support" element={<SettingsSupport />} />
                 <Route path="faq" element={<SettingsFAQ />} />
-                <Route path="*" element={<SettingsGeneral />} /> 
+                <Route path="*" element={<SettingsGeneral />} />
               </Route>
               {/* <Route path="*" element={<AdminDashboard />} /> */}
-          </Route>
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/signup1" element={<SignupForm1 />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/passwordreset" element={<ForgotPasswordForm />} />
-          <Route path="/passwordsucess" element={<ForgotPasswordSuccess />} />
-          <Route path="/navbar" element={<Navbar />} />
-          <Route path="/sidebar" element={<Sidebar />} />
-        </Routes>
-      </Router>
-    </div>
+            </Route>
+            <Route path="/register" element={<RegisterForm />} />
+            <Route path="/signup1" element={<SignupForm1 />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/passwordreset" element={<ForgotPasswordForm />} />
+            <Route path="/passwordsucess" element={<ForgotPasswordSuccess />} />
+            <Route path="/navbar" element={<Navbar />} />
+            <Route path="/sidebar" element={<Sidebar />} />
+          </Routes>
+        </Router>
+      </div>
+    </Provider>
   );
 }
 

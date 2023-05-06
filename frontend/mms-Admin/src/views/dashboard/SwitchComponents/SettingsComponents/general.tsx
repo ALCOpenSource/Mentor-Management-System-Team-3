@@ -8,40 +8,36 @@ import twitterSVG from "../../../../assets/images/social/Twitter.svg";
 import instagramSVG from "../../../../assets/images/social/Instagram.svg";
 import { useNavigate } from "react-router-dom";
 import nigerianFlagSVG from "./../../../../assets/images/ng.svg";
+import { SystemUser } from "../../../../services/redux/types/system-user";
+import { useDispatch, useSelector } from "react-redux";
+import { Store } from "../../../../services/redux/Store";
 
-interface FormValues {
-  firstName: string;
-  lastName: string;
-  userRole: string;
-  about: string;
-  email: string;
-  website: string;
-  country: string;
-  city: string;
-  github: string;
-  linkedin: string;
-  instagram: string;
-  twitter: string;
-}
+
 
 const GeneralPage: React.FC = () => {
-  const initialValues: FormValues = {
-    firstName: "Kabiru",
-    lastName: "Ibrahim",
-    userRole: "Admin",
-    about:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dignissim  ut cursus purus efficitur et. Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus.  Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus. ",
-    website: "www.pecular.com",
-    country: "Nigeria",
-    city: "Lagos",
-    email: "pecular@andela.com",
-    github: "@pecular.umeh",
-    linkedin: "@pecular.umeh",
-    instagram: "@pecular.umeh",
-    twitter: "@pecular.umeh",
-  };
+  // const initialValues: SystemUser = {
+  //   firstName: "Kabiru",
+  //   lastName: "Ibrahim",
+  //   userRole: "Admin",
+  //   about:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dignissim  ut cursus purus efficitur et. Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus.  Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus. ",
+  //   website: "www.pecular.com",
+  //   country: "Nigeria",
+  //   city: "Lagos",
+  //   email: "pecular@andela.com",
+  //   github: "@pecular.umeh",
+  //   linkedin: "@pecular.umeh",
+  //   instagram: "@pecular.umeh",
+  //   twitter: "@pecular.umeh"
+  // };
 
-  const handleSubmit = (values: FormValues) => {
+  
+const loggedIn = useSelector((state: Store) => state.currentUser);
+const dispatch = useDispatch();
+
+const initialValues = loggedIn?.user ?? {};
+
+  const handleSubmit = (values: SystemUser) => {
     console.log(values);
 
     // save changes logic here
