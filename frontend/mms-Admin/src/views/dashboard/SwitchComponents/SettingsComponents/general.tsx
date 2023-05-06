@@ -9,14 +9,14 @@ import instagramSVG from "../../../../assets/images/social/Instagram.svg";
 import { useNavigate } from "react-router-dom";
 import nigerianFlagSVG from "./../../../../assets/images/ng.svg";
 import { SystemUser } from "../../../../services/redux/types/system-user";
-import { useDispatch, useSelector } from "react-redux";
-import { Store } from "../../../../services/redux/Store";
+import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
+import { loginCurrentUser, updateLoggedInCurrentUser } from "../../../../services/redux/slices/login-slices";
 
-
+//const dispatch = useAppDispatch();
 
 const GeneralPage: React.FC = () => {
-  // const initialValues: SystemUser = {
-  //   firstName: "Kabiru",
+  // const oldUser: SystemUser = {
+  //   firstNames: "Kabiru",
   //   lastName: "Ibrahim",
   //   userRole: "Admin",
   //   about:
@@ -30,12 +30,10 @@ const GeneralPage: React.FC = () => {
   //   instagram: "@pecular.umeh",
   //   twitter: "@pecular.umeh"
   // };
-
   
-const loggedIn = useSelector((state: Store) => state.currentUser);
-const dispatch = useDispatch();
-
-const initialValues = loggedIn?.user ?? {};
+ 
+  
+const initialValues = useAppSelector(state=> state.currentUser.currentUser.user);
 
   const handleSubmit = (values: SystemUser) => {
     console.log(values);
@@ -65,7 +63,7 @@ const initialValues = loggedIn?.user ?? {};
                 <div style={{ marginTop: "20px" }}>
                   <div className="flex row w-full">
                     <h3 className="text-black text-2xl ms-4 font-bold">
-                      {initialValues.firstName} {initialValues.lastName}
+                      {initialValues.firstNames} {initialValues.lastName}
                     </h3>
                     <img
                       style={{ width: "24px" }}
@@ -82,6 +80,7 @@ const initialValues = loggedIn?.user ?? {};
                   </label>
                 </div>
                 <button
+                 type="button"
                   onClick={goToEditProfilePage}
                   style={{ marginLeft: "auto", marginTop: "20px" }}
                   className="bg-green-three text-white rounded-[10px] p-[10px]  pe-[30px] ps-[30px]  font-medium"

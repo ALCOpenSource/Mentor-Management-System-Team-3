@@ -1,30 +1,30 @@
 export interface SystemUser {
-    userId? :string;
-    firstName?: string;
-    lastName?: string;
-    userRole?: string;
-    about?: string;
-    email?: string;
-    website?: string;
-    country?: string;
-    city?: string;
-    github?: string;
-    linkedin?: string;
-    instagram?: string;
-    twitter?: string;
-    countryFlagIcon?:any;
-    userImage?:any;
-  }
+  userId?: string;
+  firstNames?: string;
+  lastName?: string;
+  userRole?: string;
+  about?: string;
+  email?: string;
+  website?: string;
+  country?: string;
+  city?: string;
+  github?: string;
+  linkedin?: string;
+  instagram?: string;
+  twitter?: string;
+  countryFlagIcon?: any;
+  userImage?: any;
+}
 
+export interface LoggedInUser {
+  user: SystemUser;
+  loginTime?: number;
+  userToken?: string;
+}
 
-  export interface LoggedInUser{
-     user: SystemUser;
-     loginTime?:Date;
-     userToken?: string;
-  }
-
-  
-  export interface UsernamePassword{
-    username: string;
-    password:Date;
- }
+export interface UsernamePassword {
+  username: string;
+  password: string;
+  afterSuccessful?: () => void;
+  afterUnSuccessful?: () => void;
+}

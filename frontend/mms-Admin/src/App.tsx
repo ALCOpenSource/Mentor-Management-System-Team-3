@@ -29,7 +29,7 @@ import SettingsSupport from "./views/dashboard/SwitchComponents/SettingsComponen
 import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/faq";
 import SettingsEditProfile from "./views/dashboard/SwitchComponents/SettingsComponents/edit-profile";
 import { Provider } from "react-redux";
-import store from "./services/redux/reducers/current-user-reducers";
+import { store } from "./services/redux/Store";
 
 function App() {
   return (
