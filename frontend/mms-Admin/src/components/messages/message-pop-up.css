@@ -12,9 +12,9 @@
   position: relative;
   width: 420px;
   margin-left: auto;
-  margin-right: 60px;
+  margin-right: auto;
   height: 100%;
-  max-height: 85vh;
+  max-height:370px;
   margin-top: calc(100vh - 85vh - 20px);
   background: #fff;
   border-radius: 4px;

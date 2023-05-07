@@ -26,5 +26,5 @@ export interface UsernamePassword {
   username: string;
   password: string;
   afterSuccessful?: () => void;
-  afterUnSuccessful?: () => void;
+  afterUnSuccessful?: (tt:Error) => void;
 }

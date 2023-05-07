@@ -1,43 +1,25 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import avatar from "./../../../../assets/images/avatar.svg";
 import "./index.css";
 import linkedInSVG from "../../../../assets/images/social/Linkedin.svg";
 import githubSVG from "../../../../assets/images/social/Github.svg";
 import twitterSVG from "../../../../assets/images/social/Twitter.svg";
 import instagramSVG from "../../../../assets/images/social/Instagram.svg";
 import { useNavigate } from "react-router-dom";
-import nigerianFlagSVG from "./../../../../assets/images/ng.svg";
 import { SystemUser } from "../../../../services/redux/types/system-user";
-import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
-import { loginCurrentUser, updateLoggedInCurrentUser } from "../../../../services/redux/slices/login-slices";
-
-//const dispatch = useAppDispatch();
+import { useAppSelector } from "../../../../services/redux/Store";
+import { selectCurrentUser } from "../../../../services/redux/slices/login-slices";
 
 const GeneralPage: React.FC = () => {
-  // const oldUser: SystemUser = {
-  //   firstNames: "Kabiru",
-  //   lastName: "Ibrahim",
-  //   userRole: "Admin",
-  //   about:
-  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dignissim  ut cursus purus efficitur et. Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus.  Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus. ",
-  //   website: "www.pecular.com",
-  //   country: "Nigeria",
-  //   city: "Lagos",
-  //   email: "pecular@andela.com",
-  //   github: "@pecular.umeh",
-  //   linkedin: "@pecular.umeh",
-  //   instagram: "@pecular.umeh",
-  //   twitter: "@pecular.umeh"
-  // };
-  
- 
-  
-const initialValues = useAppSelector(state=> state.currentUser.currentUser.user);
+  const initialValues =  useAppSelector(selectCurrentUser);
+
+  console.log("fgasdagsdg", initialValues);
 
   const handleSubmit = (values: SystemUser) => {
     console.log(values);
 
+    
+    
     // save changes logic here
   };
 
@@ -56,7 +38,7 @@ const initialValues = useAppSelector(state=> state.currentUser.currentUser.user)
             <div className="row w-full mb-6">
               <div className="flex items-start justify-start w-full flex-row mt-[2%]">
                 <img
-                  src={avatar}
+                  src={initialValues.userImage}
                   className="profile-avatar"
                   alt="user profile avatar"
                 />
@@ -68,7 +50,7 @@ const initialValues = useAppSelector(state=> state.currentUser.currentUser.user)
                     <img
                       style={{ width: "24px" }}
                       className="ms-2"
-                      src={nigerianFlagSVG}
+                      src={initialValues.countryFlagIcon}
                       alt="country logo icon"
                     />
                   </div>
@@ -80,7 +62,7 @@ const initialValues = useAppSelector(state=> state.currentUser.currentUser.user)
                   </label>
                 </div>
                 <button
-                 type="button"
+                  type="button"
                   onClick={goToEditProfilePage}
                   style={{ marginLeft: "auto", marginTop: "20px" }}
                   className="bg-green-three text-white rounded-[10px] p-[10px]  pe-[30px] ps-[30px]  font-medium"
@@ -198,7 +180,7 @@ const initialValues = useAppSelector(state=> state.currentUser.currentUser.user)
                             className="icon"
                           />
                           <label
-                            style={{ paddingLeft: "54px" }}
+                            style={{ paddingLeft: "54px", height: "44px" }}
                             className="data-label w-full "
                           >
                             {initialValues.instagram}
@@ -211,7 +193,7 @@ const initialValues = useAppSelector(state=> state.currentUser.currentUser.user)
                             className="icon"
                           />
                           <label
-                            style={{ paddingLeft: "54px" }}
+                            style={{ paddingLeft: "54px", height: "44px" }}
                             className="data-label w-full "
                           >
                             {initialValues.twitter}
@@ -226,7 +208,7 @@ const initialValues = useAppSelector(state=> state.currentUser.currentUser.user)
                             className="icon"
                           />
                           <label
-                            style={{ paddingLeft: "54px" }}
+                            style={{ paddingLeft: "54px", height: "44px" }}
                             className="data-label w-full "
                           >
                             {initialValues.github}
@@ -239,7 +221,7 @@ const initialValues = useAppSelector(state=> state.currentUser.currentUser.user)
                             className="icon"
                           />
                           <label
-                            style={{ paddingLeft: "54px" }}
+                            style={{ paddingLeft: "54px", height: "44px" }}
                             className="data-label w-full "
                           >
                             {initialValues.linkedin}

@@ -6,6 +6,7 @@ import { logInWithEmailAndPassword, signInWithGoogle } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../services/redux/Store";
 import { loginCurrentUser } from "../../services/redux/slices/login-slices";
+import { error } from "console";
 
 // interface LoginFormProps{
 //     onSubmit:(email:string, password:string) => void;
@@ -37,6 +38,11 @@ function LoginForm() {
           afterSuccessful: () => 
           {
             console.log("mmmmmnd");
+            navigate("/dashboard");
+          },
+          afterUnSuccessful: (tt) => 
+          {
+            console.log("error", tt);
             navigate("/dashboard");
           },
         })

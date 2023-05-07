@@ -62,10 +62,10 @@ const NotificationPage: React.FC = () => {
                 className="text-[15px] strong-text"
                 style={{ fontSize: "20px" }}
               >
-                General FAQ
+                Technical FAQ
               </label>
               <div className="flex scrollable-items-container">
-                <Accordion items={initialValues.generalFAQData} />
+                <Accordion items={initialValues.technicalFAQData} />
               </div>
             </div>
           </Form>
