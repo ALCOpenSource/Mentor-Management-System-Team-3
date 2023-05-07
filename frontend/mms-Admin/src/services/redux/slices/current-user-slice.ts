@@ -5,13 +5,20 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import {
+  ChangePasswordDetails,
   LoggedInUser,
+  NameDetails,
   SystemUser,
   UsernamePassword,
 } from "../types/system-user";
-import getCountryFlag from "../../countries";
 import { RootState } from "../Store";
-import "./../../../assets/images/flag-icons-main/flags/4x3/ac.svg"
+import "./../../../assets/images/flag-icons-main/flags/4x3/ac.svg";
+import {
+  changeCurrentUserPasswordApiAsync,
+  loginCurrentUserApiAsync,
+  updateCurrentUserApiAsync,
+  updateCurrentUserProfilePictureApiAsync,
+} from "../../axios/api-services/current-user";
 
 interface CurrentUserState {
   currentUser: LoggedInUser;
@@ -20,77 +27,36 @@ interface CurrentUserState {
 const getEmptyLoggedInUser = (): LoggedInUser => {
   return { user: {}, userToken: undefined, loginTime: undefined };
 };
+
 const initialState: CurrentUserState = {
   currentUser: getEmptyLoggedInUser(),
 };
 
-export const fetchCurrentUser = createAsyncThunk(
-  "current-user/fetch",
-  async (thunkAPI) => {
-    const response = await fetch("http://localhost:8000/current-user", {
-      method: "GET",
-    });
-    const data = response.json();
-    return data;
+export const changeCurrentUserPassword = createAsyncThunk(
+  "current-user/change-password",
+  async (userDetails: ChangePasswordDetails, thunkAPI) => {
+    return await changeCurrentUserPasswordApiAsync(userDetails);
+  }
+);
+
+export const updateCurrentUser = createAsyncThunk(
+  "current-user/update-user",
+  async (userDetails: SystemUser, thunkAPI) => {
+    return await updateCurrentUserApiAsync(userDetails);
+  }
+);
+
+export const updateCurrentUserProfilePicture = createAsyncThunk(
+  "current-user/update-user-profile-image",
+  async (image: any, thunkAPI) => {
+    return await updateCurrentUserProfilePictureApiAsync(image);
   }
 );
 
 export const loginCurrentUser = createAsyncThunk(
   "current-user/login",
   async (userDetails: UsernamePassword, thunkAPI) => {
-    // const response = await fetch("http://localhost:8000/current-user", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     name,
-    //   }),
-    //});
-    //const data = await response.json();
-    //return data;
-    try {
-      let loggedInUser: SystemUser = {
-        firstNames: "Eliud",
-        lastName: "Amukambwa",
-        userRole: "Admin",
-        about:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dignissim  ut cursus purus efficitur et. Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus.  Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus. ",
-        website: "www.pilgrims.com",
-        country: "Us",
-        city: "Nairobi",
-        email: "eliudfromkenya@gmail.com",
-        github: "@pecular.umeh",
-        linkedin: "@pecular.umeh",
-        instagram: "@pecular.umeh",
-        twitter: "@pecular.umeh",
-      };
-
-      //const userP =  `./../../../assets/images/flag-icons-main/flags/4x3/ug.svg`;
-      
-      console.log("fg 1",  loggedInUser);
-      const flag = getCountryFlag(loggedInUser.country ?? " ");
-      const profilePic = getCountryFlag("uganda");// await readFile(getCountryFlag(loggedInUser.country ?? " "));
-      const userToken = "my user token";
-
-      loggedInUser = {
-        ...loggedInUser,
-        countryFlagIcon: flag,
-        userImage: profilePic,
-      };
-
-      console.log("fg", loggedInUser);
-      const user: LoggedInUser = {
-        user: loggedInUser,
-        userToken: userToken,
-      };
-
-      if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
-      return user;
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
+    return await loginCurrentUserApiAsync(userDetails);
   }
 );
 
@@ -130,6 +96,18 @@ export const CurrentUserSlice = createSlice({
     builder.addCase(loginCurrentUser.fulfilled, (state, action) => {
       state.currentUser = action.payload;
     });
+
+    builder.addCase(updateCurrentUser.fulfilled, (state, action) => {
+      state.currentUser.user = action.payload;
+    });
+
+    builder.addCase(
+      updateCurrentUserProfilePicture.fulfilled,
+      (state, action) => {
+        state.currentUser.user.userImage = action.payload;
+        console.log("update image recieved mmmm", action.payload);
+      }
+    );
   },
 });
 
@@ -145,6 +123,17 @@ export const selectCurrentUserProfilePicture = createSelector(
 export const selectCurrentUserFlag = createSelector(
   [selectSelf],
   (user): any => user.currentUser.user.countryFlagIcon
+);
+export const selectCurrentUserNameSelector = createSelector(
+  [selectSelf],
+  (user): NameDetails => {
+    var person = user.currentUser.user;
+    return {
+      userId: person.userId,
+      email: person.email,
+      fullName: `{${person.firstNames} ${person.lastName}}`,
+    };
+  }
 );
 
 export default CurrentUserSlice.reducer;

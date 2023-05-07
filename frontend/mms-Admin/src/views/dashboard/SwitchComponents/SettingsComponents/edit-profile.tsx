@@ -11,13 +11,20 @@ import twitterSVG from "../../../../assets/images/social/Twitter.svg";
 import instagramSVG from "../../../../assets/images/social/Instagram.svg";
 import { useLocation } from "react-router-dom";
 import { SystemUser } from "../../../../services/redux/types/system-user";
-
-
-
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../services/redux/Store";
+import {
+  selectCurrentUser,
+  selectCurrentUserProfilePicture,
+  updateCurrentUser,
+  updateCurrentUserProfilePicture,
+} from "../../../../services/redux/slices/current-user-slice";
 
 const EditProfilePage: React.FC = () => {
-  const location = useLocation();
-  const obj = location.state?.initialValues;
+  const obj = useAppSelector(selectCurrentUser);
+
   const initialValues: SystemUser = {
     firstNames: "",
     lastName: "",
@@ -42,10 +49,13 @@ const EditProfilePage: React.FC = () => {
     initialValues.linkedin = obj.linkedin;
     initialValues.instagram = obj.instagram;
     initialValues.twitter = obj.twitter;
-    //getCountryFlag
+    initialValues.userImage = obj.userImage;
+    initialValues.countryFlagIcon = obj.countryFlagIcon;
   }
 
-  const [filebase64, setFileBase64] = useState<string>(avatar);
+  const [filebase64, setFileBase64] = useState<string>(
+    useAppSelector(selectCurrentUserProfilePicture) ?? avatar
+  );
   function convertFile(files: FileList | null) {
     try {
       if (files) {
@@ -54,9 +64,13 @@ const EditProfilePage: React.FC = () => {
         console.log("This file upload is of type:", fileType);
         const reader = new FileReader();
         reader.readAsBinaryString(fileRef);
-        reader.onload = (ev: any) => {
+        reader.onload = async (ev: any) => {
+          const img = `data:${fileType};base64,${btoa(ev.target.result)}`;
           // convert it to base64
-          setFileBase64(`data:${fileType};base64,${btoa(ev.target.result)}`);
+          setFileBase64(img);
+          try {
+            await dispatch(updateCurrentUserProfilePicture(img));
+          } catch (error) {console.log(error)}
         };
       }
     } catch (ee) {
@@ -90,9 +104,12 @@ const EditProfilePage: React.FC = () => {
     ),
   });
 
-  const handleSubmit = (values: SystemUser) => {
+  const dispatch = useAppDispatch();
+  const handleSubmit = async (values: SystemUser) => {
     console.log(values);
-    // save changes logic here
+    try {
+      await dispatch(updateCurrentUser(values));
+    } catch (error) {}
   };
 
   return (

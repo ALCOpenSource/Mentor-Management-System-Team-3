@@ -53,7 +53,7 @@ const App: React.FC = () => (
       render={({ handleSubmit, errors, touched, values }) => (
         <Form className="w-full h-screen">
           <div className="search-box-div">
-            <img src={searchIconSVG} alt="search icon" className="icon" />
+            <img src={searchIconSVG} style={{marginTop:"1px"}} alt="search icon" className="icon" />
             <Field
               type="text"
               id="searchArchive"

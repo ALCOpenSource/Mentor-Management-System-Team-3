@@ -20,20 +20,22 @@ import Settings from "./views/dashboard/SwitchComponents/settings";
 import Tasks from "./views/dashboard/SwitchComponents/tasks";
 import AdminDashboard from "./views/dashboard/SwitchComponents/admindashboard";
 import Forums from "./views/dashboard/SwitchComponents/forums";
-import SettingsGeneral from "./views/dashboard/SwitchComponents/SettingsComponents/general";
+import SettingsGeneral from "./views/dashboard/SwitchComponents/SettingsComponents/edit-profile";
 import SettingsPassword from "./views/dashboard/SwitchComponents/SettingsComponents/password";
 import SettingsNotifications from "./views/dashboard/SwitchComponents/SettingsComponents/notifications";
 import SettingsPrivacy from "./views/dashboard/SwitchComponents/SettingsComponents/privacy";
 import SettingsArchive from "./views/dashboard/SwitchComponents/SettingsComponents/archive";
 import SettingsSupport from "./views/dashboard/SwitchComponents/SettingsComponents/support";
 import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/faq";
-import SettingsEditProfile from "./views/dashboard/SwitchComponents/SettingsComponents/edit-profile";
+//import SettingsEditProfile from "./views/dashboard/SwitchComponents/SettingsComponents/edit-profile";
 import { Provider } from "react-redux";
-import { store } from "./services/redux/Store";
+import { persistor, store } from "./services/redux/Store";
+import { PersistGate } from "redux-persist/integration/react";
 
 function App() {
   return (
     <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <div className="App">
         <Router>
           <Routes>
@@ -48,11 +50,9 @@ function App() {
               <Route path="tasks" element={<Tasks />} />
               <Route path="profile" element={<Profile />} />
               <Route path="forum" element={<Forums />} />
-
               <Route path="settings" element={<Settings />}>
                 <Route index element={<SettingsGeneral />} />
                 <Route path="general" element={<SettingsGeneral />} />
-                <Route path="edit-profile" element={<SettingsEditProfile />} />
                 <Route path="password" element={<SettingsPassword />} />
                 <Route
                   path="notifications"
@@ -76,6 +76,7 @@ function App() {
           </Routes>
         </Router>
       </div>
+      </PersistGate>
     </Provider>
   );
 }

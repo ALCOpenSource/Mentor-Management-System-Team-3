@@ -1,35 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import "./index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
+import { Notification } from "../../../../services/redux/types/notification";
+import {  useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
+import { fetchNotifications, selectCurrentNotification } from "../../../../services/redux/slices/notification-slice";
 
-interface FormValues {
-  userId: string;
-  allNotificationsEmail: boolean;
-  programsEmail: boolean;
-  tasksEmail: boolean;
-  approvalRequestsEmail: boolean;
-  reportsEmail: boolean;
-  commentsOnMyPostsEmail: boolean;
-  postsEmail: boolean;
-  commentsEmail: boolean;
-  mentionsEmail: boolean;
-  directMessagesEmail: boolean;
-  allNotificationsInApp: boolean;
-  programsInApp: boolean;
-  tasksInApp: boolean;
-  approvalRequestsInApp: boolean;
-  reportsInApp: boolean;
-  commentsOnMyPostsInApp: boolean;
-  postsInApp: boolean;
-  commentsInApp: boolean;
-  mentionsInApp: boolean;
-  directMessagesInApp: boolean;
-}
 
 const NotificationPage: React.FC = () => {
-  const initialValues: FormValues = {
+  
+  const dispatch = useAppDispatch();
+  dispatch(fetchNotifications());
+  const obj = useAppSelector(selectCurrentNotification);
+  const [currentNotification, setCurrentNotification] = useState(obj);
+  console.log("values",currentNotification );
+
+  const setNotification = (key:string, value:boolean)=>{
+    setCurrentNotification({...currentNotification, [key]: value});
+    console.log("Notty", currentNotification);
+  }
+
+  const initialValues: Notification = {
     userId: "",
     allNotificationsEmail: true,
     programsEmail: true,
@@ -41,7 +33,7 @@ const NotificationPage: React.FC = () => {
     commentsEmail: true,
     mentionsEmail: true,
     directMessagesEmail: false,
-    allNotificationsInApp: false,
+    allNotificationsInApp: true,
     programsInApp: true,
     tasksInApp: false,
     approvalRequestsInApp: true,
@@ -52,10 +44,12 @@ const NotificationPage: React.FC = () => {
     mentionsInApp: true,
     directMessagesInApp: true,
   };
+  
+  
 
   const validationSchema = Yup.object().shape({});
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = (values: Notification) => {
     console.log(values);
     // save changes logic here
   };
@@ -104,7 +98,8 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="allNotificationsEmail"
-                    //isChecked={initialValues.allNotificationsEmail}
+                    //onChange={(event) => setNotification("allNotificationsEmail", event)}                     
+                    isChecked={initialValues.allNotificationsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch

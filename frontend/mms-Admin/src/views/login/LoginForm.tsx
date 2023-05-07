@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/mms_logo.svg";
-// import Button, { BUTTON_TYPE } from "../../components/shared/button";
-import { logInWithEmailAndPassword, signInWithGoogle } from "../../firebase";
+import { signInWithGoogle } from "../../firebase";
 // import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+import FormikValidationMessageComponent from "../../components/error-messages/formik-validation-message-component";
 import { useAppDispatch } from "../../services/redux/Store";
-import { loginCurrentUser } from "../../services/redux/slices/login-slices";
-import { error } from "console";
+import { loginCurrentUser } from "../../services/redux/slices/current-user-slice";
+import { Field } from "formik";
 
 // interface LoginFormProps{
 //     onSubmit:(email:string, password:string) => void;
@@ -15,6 +15,7 @@ import { error } from "console";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   // const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -42,13 +43,14 @@ function LoginForm() {
           },
           afterUnSuccessful: (tt) => 
           {
-            console.log("error", tt);
-            navigate("/dashboard");
+            console.log("dddsss");
+            setError(`${error}`);
           },
         })
       );
     } catch (error) {
       console.error("Your email or password is wrong", error);
+     setError(`${error}`);
     }
   };
   // modify the handlesubmit function to call the handleloginwithemailand password function
@@ -73,6 +75,56 @@ function LoginForm() {
           <p className="mb-6 font-normal m-2 text-lightGray-one">
             Login to continue
           </p>
+
+
+
+
+
+
+
+          <div className="mb-5">
+                  <div className="flex flex-row  relative  w-full">
+                    <label
+                      className="text-label"
+                      style={{ width: "250px" }}
+                      htmlFor="newPassword"
+                    >
+                      New Password
+                    </label>
+                    <Field
+                      type="password"
+                      id="newPassword"
+                      name="newPassword"
+                      placeholder="Must be atleast 8 characters"
+                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                    />
+                  </div>
+                  <FormikValidationMessageComponent name="newPassword" />
+                </div>
+
+                <div className="mb-5">
+                  <div className="flex flex-row  relative  w-full">
+                    <label
+                      className="text-label"
+                      style={{ width: "250px" }}
+                      htmlFor="confirmPassword"
+                    >
+                      Confirm New Password
+                    </label>
+                    <Field
+                      type="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      placeholder="Must match you new password"
+                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                    />
+                  </div>
+                  <FormikValidationMessageComponent name="confirmPassword" />
+                </div>
+
+
+
+                
           <div className="my-4">
             <input
               type="email"
@@ -135,6 +187,7 @@ function LoginForm() {
               />
               <span className="mx-2">Sign in with Google</span>
             </button>
+            <h5 style={{color:"orangered"}} className='text-3xl font-bold leading-[53.18px] mt-4'>{error}</h5>
           </div>
         </form>
       </div>
