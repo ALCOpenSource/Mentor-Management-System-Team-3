@@ -32,6 +32,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -44,9 +45,9 @@
 }
 
 @font-face {
-    font-family: 'Mukta';
-    font-weight: 700;
-    src: local('Mukta'), url(./fonts/Mukta/Mukta-Bold.ttf) format('truetype');
+  font-family: 'Mukta';
+  font-weight: 700;
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-Bold.ttf) format('truetype');
 }
 
 @font-face {
