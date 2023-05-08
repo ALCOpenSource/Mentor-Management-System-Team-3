@@ -10,15 +10,21 @@ import { fetchNotifications, selectCurrentNotification } from "../../../../servi
 
 const NotificationPage: React.FC = () => {
   
-  const dispatch = useAppDispatch();
-  dispatch(fetchNotifications());
-  const obj = useAppSelector(selectCurrentNotification);
-  const [currentNotification, setCurrentNotification] = useState(obj);
-  console.log("values",currentNotification );
+  //const dispatch = useAppDispatch();
+  //dispatch(fetchNotifications());
+  //const obj = useAppSelector(selectCurrentNotification);
+  //const [currentNotification, setCurrentNotification] = useState(obj);
+  //console.log("values",currentNotification );
+
+  let lastSetNotification = {key:"", value:false};
 
   const setNotification = (key:string, value:boolean)=>{
-    setCurrentNotification({...currentNotification, [key]: value});
-    console.log("Notty", currentNotification);
+    if(lastSetNotification.key === key && lastSetNotification.value === value)
+      return;
+
+    lastSetNotification = {key,value};
+    //setCurrentNotification({...currentNotification, [key]: value});
+   /// console.log("Notty", currentNotification);
   }
 
   const initialValues: Notification = {
@@ -99,7 +105,7 @@ const NotificationPage: React.FC = () => {
                   <ToggleSwitch
                     id="allNotificationsEmail"
                     //onChange={(event) => setNotification("allNotificationsEmail", event)}                     
-                    isChecked={initialValues.allNotificationsEmail}
+                    //isChecked={initialValues.allNotificationsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch

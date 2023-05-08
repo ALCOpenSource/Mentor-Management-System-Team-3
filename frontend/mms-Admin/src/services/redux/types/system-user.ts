@@ -26,7 +26,7 @@ export interface UsernamePassword {
   username: string;
   password: string;
   afterSuccessful?: () => void;
-  afterUnSuccessful?: (tt: Error) => void;
+  afterUnSuccessful?: (tt: any) => void;
 }
 
 export interface ChangePasswordDetails {

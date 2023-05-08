@@ -12,6 +12,8 @@ import forum from "../../assets/images/discussion forums.svg";
 import settings from "../../assets/images/settings/setting.svg";
 
 import { Link, NavLink } from "react-router-dom";
+import { useAppSelector } from "../../services/redux/Store";
+import { selectCurrentUser, selectCurrentUserNameSelector } from "../../services/redux/slices/current-user-slice";
 
 function Sidebar() {
 
@@ -64,6 +66,7 @@ function Sidebar() {
     ]
 
 
+    const { firstNames, lastName, userRole } = useAppSelector(selectCurrentUser);
 
     return (
         
@@ -72,8 +75,8 @@ function Sidebar() {
                     <div className="flex w-60">
                         <div className="w-full">
                             <div className="flex flex-col items-center justify-center p-8">
-                                <h2 className="text-customBlack-one">Hi, Alison</h2>
-                                <p className="text-gray-three mb-10">Admin</p>
+                                <h2 className="text-customBlack-one">Hi, {lastName ?? firstNames}</h2>
+                                <p className="text-gray-three mb-10">{userRole}</p>
                             </div>
                             {
                                 nav.map((item, i) => {
@@ -87,8 +90,7 @@ function Sidebar() {
                                     )
                                 })
 
-                            }
-                
+                            }               
 
                     
                         </div>

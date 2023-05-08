@@ -66,15 +66,14 @@ export const loginCurrentUserApiAsync = async (
     console.log("fg", loggedInUser);
     const user: LoggedInUser = {
       user: loggedInUser,
-      userToken: userToken,
+      userToken: userToken
     };
-    throw new Error("gshdhsgdfhsd");
-    //if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
-
+   // throw new Error("Invalid email or password, please check and try again.");
+    if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
     return user;
   } catch (err) {
     if (userDetails?.afterUnSuccessful)
-      userDetails?.afterUnSuccessful(new Error(JSON.stringify(err)));
+      userDetails?.afterUnSuccessful(err);
     console.log(err);
     throw err;
   }

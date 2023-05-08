@@ -4,8 +4,12 @@ import search from "../../assets/images/search.svg";
 import chats from "../../assets/images/chats.svg";
 import notifications from "../../assets/images/notifications.svg";
 import avatar from "../../assets/images/avatar.svg";
+import { selectCurrentUserProfilePicture } from "../../services/redux/slices/current-user-slice";
+import { useAppSelector } from "../../services/redux/Store";
 
 function Navbar() {
+  const userImage =  useAppSelector(selectCurrentUserProfilePicture);
+  
   return (
     <nav className="relative flex flex-row w-full justify-between bg-green-three p-4">
       <section className="flex flex-wrap items-center">
@@ -32,8 +36,7 @@ function Navbar() {
           <span  className="flex flex-row mx-4" >  <img src={chats} alt="Chats Icon" />   <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">3</span></sub></span>
       
           <span  className="flex flex-row mx-4" >  <img src={notifications} alt="Notifications Icon" />  <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">15</span></sub></span>
-
-          <img src={avatar} alt="Avatar Icon" className="mx-2" />
+          <img src={userImage} alt="Avatar Icon" style={{borderRadius:"50%", width:"42px" , height:"42px"}} className="mx-2" />
         </div>   
       </section>
     </nav>

@@ -28,6 +28,9 @@ import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/f
 import { Provider } from "react-redux";
 import { persistor, store } from "./services/redux/Store";
 import { PersistGate } from "redux-persist/integration/react";
+import Sidebar from "./components/shared/sidebar";
+import Navbar from "./components/shared/navbar";
+import RegisterForm from "./views/signup/RegisterForm";
 
 function App() {
   return (

@@ -68,7 +68,6 @@ export const CurrentUserSlice = createSlice({
       let user = state?.currentUser;
       user.user = action.payload;
       user.loginTime = new Date().getTime();
-      user.userToken = "";
       return state;
     },
     updateLoggedInUserCountryFlag: (state, action: PayloadAction<any>) => {
@@ -95,6 +94,7 @@ export const CurrentUserSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginCurrentUser.fulfilled, (state, action) => {
       state.currentUser = action.payload;
+      state.currentUser.loginTime = new Date().getTime();
     });
 
     builder.addCase(updateCurrentUser.fulfilled, (state, action) => {
