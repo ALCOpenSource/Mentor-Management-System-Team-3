@@ -5,6 +5,8 @@ import { Chat, ChatDocument } from "./chat.schema";
 import { Message, MessageDocument, MessageSchema } from "./chat.schema";
 import { UsersService } from "src/users/users.service";
 import { v4 as uuidv4 } from "uuid";
+import { HttpResponseType } from "src/types/http-response.type";
+import { OperationStatus } from "src/filters/interface/response.interface";
 
 @Injectable()
 export class ChatService {
@@ -14,7 +16,10 @@ export class ChatService {
     @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
   ) {}
 
-  async createChat(user1Id: string, user2Id: string): Promise<Chat> {
+  async createChat(
+    user1Id: string,
+    user2Id: string,
+  ): Promise<HttpResponseType<ChatDocument | object>> {
     const existingChat = await this.chatModel.findOne({
       $or: [
         { user1Id: user1Id, user2Id: user2Id },
@@ -24,12 +29,21 @@ export class ChatService {
 
     if (existingChat) {
       // A chat already exists, return it
-      return existingChat;
+      return {
+        status: OperationStatus.SUCCESS,
+        message: "Chat already exists",
+        data: existingChat,
+      };
     }
     const chatId = this.generateChatId();
     const chat = await this.chatModel.create({ chatId, user1Id, user2Id });
     await this.createMessageCollection(chatId);
-    return chat;
+
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Chat created successfully",
+      data: chat,
+    };
   }
 
   async createMessageCollection(chatId: string): Promise<void> {
@@ -45,7 +59,9 @@ export class ChatService {
     return uuidv4();
   }
   // function to get messages from a chat and get the last 50 messages
-  async getChatMessages(chatId: string): Promise<Message[]> {
+  async getChatMessages(
+    chatId: string,
+  ): Promise<HttpResponseType<MessageDocument | object>> {
     // Get the message model for this chat
     const messageCollectionName = `messages_${chatId}`;
     const messageModel = this.messageModel.db.model<MessageDocument>(
@@ -60,7 +76,11 @@ export class ChatService {
       .limit(200)
       .exec();
 
-    return messages;
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Messages retrieved successfully",
+      data: messages,
+    };
   }
 
   // function to get chats for a user
@@ -105,7 +125,7 @@ export class ChatService {
   }
 
   // user chat info
-  async getUserChatsInfo(userId: string): Promise<unknown[]> {
+  async getUserChatsInfo(userId: string): Promise<HttpResponseType<object>> {
     // Retrieve up to 20 chats where the user is a participant
     const chats = await this.getUserChats(userId);
 
@@ -121,7 +141,11 @@ export class ChatService {
     // Wait for all the chat promises to resolve
     const chatData = await Promise.all(chatPromises);
 
-    return chatData;
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "User chats retrieved successfully",
+      data: chatData,
+    };
   }
 
   // function to create a message
