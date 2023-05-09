@@ -33,16 +33,12 @@ export class PreferencesService {
     generalNotifications.enableApprovalRequestNotifications = true;
     generalNotifications.enableReportsNotifications = true;
 
-    this.logger.log(GeneralNotificationsDto);
-
     const discussionNotifications = new DiscussionNotificationsDto();
     discussionNotifications.enableCommentsOnMyPostsNotification = true;
     discussionNotifications.enablePostsNotifications = true;
     discussionNotifications.enableCommentsNotifications = true;
     discussionNotifications.enableMentionsNotifications = true;
     discussionNotifications.enableDirectMessageNotifications = true;
-
-    this.logger.log(DiscussionNotificationsDto);
 
     const privacyPreferences = new PrivacyPreferencesDto();
     privacyPreferences.enableAllSocialLinksVisibility = true;
@@ -51,7 +47,6 @@ export class PreferencesService {
     privacyPreferences.enableLinkedinLinkVisibility = true;
     privacyPreferences.enableTwitterLinkVisibility = true;
 
-    this.logger.log(PrivacyPreferencesDto);
     const preference = new this.preferencesModel({
       createdBy: userId,
       generalNotifications,

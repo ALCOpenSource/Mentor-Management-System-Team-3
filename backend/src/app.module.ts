@@ -25,6 +25,7 @@ import {
   PreferencesSchema,
 } from "./preferences/preferences.schema";
 import { JwtAuthGuard } from "./auth/guards/jwt.auth.guard";
+import { ChatModule } from "./chat/chat.module";
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { JwtAuthGuard } from "./auth/guards/jwt.auth.guard";
     ProgramsModule,
     ProgramsArchiveModule,
     TaskModule,
+    ChatModule,
   ],
   controllers: [],
   providers: [
