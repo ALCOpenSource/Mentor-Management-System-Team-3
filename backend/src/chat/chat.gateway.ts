@@ -29,7 +29,7 @@ export class ChatGateway
 
   private readonly connectedUsers = new Map<string, Socket>();
 
-  async handleConnection(socket: Socket, ..._args: unknown[]) {
+  async handleConnection(socket: Socket) {
     this.logger.debug("Starting connection");
     const authToken = socket.handshake.headers["authorization"];
     this.logger.debug(`Authorization header: ${authToken}`);
@@ -71,8 +71,8 @@ export class ChatGateway
     this.connectedUsers.delete(uid);
   }
 
-  async afterInit(_server: Server) {
-    this.logger.debug(`Initialized!`);
+  async afterInit(server: Server) {
+    this.logger.debug(`Initialized! ${server}`);
   }
   @UseGuards(JwtWebSocketGuard)
   @SubscribeMessage("getChatMessages")
@@ -107,11 +107,6 @@ export class ChatGateway
     if (receiverSocket) {
       this.server.to(receiverSocket[1].id).emit("newMessage", message);
     }
-    // Emit message to both sender and receiver
-    // this.server
-    //   .to(data.senderId)
-    //   .to(data.receiverId)
-    //   .emit("newMessage", message);
   }
 
   @UseGuards(JwtWebSocketGuard)
@@ -144,8 +139,47 @@ export class ChatGateway
       messageId: data.messageId,
     });
   }
+  // start typing event
+  @UseGuards(JwtWebSocketGuard)
+  @SubscribeMessage("startTyping")
+  async handleStartTyping(
+    socket: Socket,
+    data: { chatId: string; senderId: string; receiverId: string },
+  ) {
+    // list sockets
+    const sockets = Array.from(this.connectedUsers.entries());
+    // find receiver socket
+    const receiverSocket = sockets.find(
+      ([userId]) => userId === data.receiverId,
+    );
+    // if receiver is connected, emit message to receiver
+    if (receiverSocket) {
+      this.server.to(receiverSocket[1].id).emit("startTyping", {
+        chatId: data.chatId,
+        senderId: data.senderId,
+      });
+    }
+  }
 
   // stop typing event
-
-  // delivered event
+  @UseGuards(JwtWebSocketGuard)
+  @SubscribeMessage("stopTyping")
+  async handleStopTyping(
+    socket: Socket,
+    data: { chatId: string; senderId: string; receiverId: string },
+  ) {
+    // list sockets
+    const sockets = Array.from(this.connectedUsers.entries());
+    // find receiver socket
+    const receiverSocket = sockets.find(
+      ([userId]) => userId === data.receiverId,
+    );
+    // if receiver is connected, emit message to receiver
+    if (receiverSocket) {
+      this.server.to(receiverSocket[1].id).emit("stopTyping", {
+        chatId: data.chatId,
+        senderId: data.senderId,
+      });
+    }
+  }
 }
