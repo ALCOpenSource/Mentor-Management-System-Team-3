@@ -18,12 +18,12 @@ export class PreferencesController {
 
   @Patch("general")
   async updateGeneralNotifications(
-    @Body() generalNotificationsDto: GeneralNotificationsDto,
+    @Body() generalNotifications: GeneralNotificationsDto,
     @Req() req,
   ): Promise<HttpResponseType<PreferenceDocument | object>> {
     return this.preferencesService.updateGeneralNotifications(
       req.user.sub,
-      generalNotificationsDto,
+      generalNotifications,
     );
   }
   /**
@@ -33,12 +33,12 @@ export class PreferencesController {
    */
   @Patch("discussion")
   async updateDiscussionNotifications(
-    @Body() discussionNotificationsDto: DiscussionNotificationsDto,
+    @Body() discussionNotifications: DiscussionNotificationsDto,
     @Req() req,
   ): Promise<HttpResponseType<PreferenceDocument | object>> {
     return this.preferencesService.updateDiscussionNotifications(
       req.user.sub,
-      discussionNotificationsDto,
+      discussionNotifications,
     );
   }
 
@@ -48,12 +48,12 @@ export class PreferencesController {
    */
   @Patch("privacy")
   async updatePrivacyPreferences(
-    @Body() privacyPreferencesDto: PrivacyPreferencesDto,
+    @Body() privacy: PrivacyPreferencesDto,
     @Req() req,
   ): Promise<HttpResponseType<PreferenceDocument>> {
     return this.preferencesService.updatePrivacyPreferences(
       req.user.sub,
-      privacyPreferencesDto,
+      privacy,
     );
   }
 

@@ -54,7 +54,7 @@ export class UsersController {
     return this.usersService.updateUser(req.user.sub, updateUserDto);
   }
 
-  @Patch("avatar")
+  @Patch("avatar") //
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(FileInterceptor("avatar"))
   async uploadDriverLicense(
