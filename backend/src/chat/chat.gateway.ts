@@ -29,7 +29,7 @@ export class ChatGateway
 
   private readonly connectedUsers = new Map<string, Socket>();
 
-  async handleConnection(socket: Socket, ..._args: unknown[]) {
+  async handleConnection(socket: Socket) {
     this.logger.debug("Starting connection");
     const authToken = socket.handshake.headers["authorization"];
     this.logger.debug(`Authorization header: ${authToken}`);
@@ -71,8 +71,8 @@ export class ChatGateway
     this.connectedUsers.delete(uid);
   }
 
-  async afterInit(_server: Server) {
-    this.logger.debug(`Initialized!`);
+  async afterInit(server: Server) {
+    this.logger.debug(`Initialized! ${server}`);
   }
   @UseGuards(JwtWebSocketGuard)
   @SubscribeMessage("getChatMessages")
