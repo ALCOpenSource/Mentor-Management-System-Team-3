@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UseGuards, Req, Get } from "@nestjs/common";
 import { ChatService } from "./chat.service";
 import { JwtAuthGuard } from "src/auth/guards/jwt.auth.guard";
-import { Chat, ChatDocument, MessageDocument } from "./chat.schema";
+import { ChatDocument, MessageDocument } from "./chat.schema";
 import { HttpResponseType } from "src/types/http-response.type";
 
 @UseGuards(JwtAuthGuard)

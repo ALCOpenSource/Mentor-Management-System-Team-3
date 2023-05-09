@@ -7,6 +7,7 @@ import { UsersService } from "src/users/users.service";
 import { v4 as uuidv4 } from "uuid";
 import { HttpResponseType } from "src/types/http-response.type";
 import { OperationStatus } from "src/filters/interface/response.interface";
+import { WebsocketResponseType } from "src/types/ws-response.type";
 
 @Injectable()
 export class ChatService {
@@ -154,7 +155,7 @@ export class ChatService {
     senderId: string,
     receiverId: string,
     text: string,
-  ): Promise<Message> {
+  ): Promise<WebsocketResponseType<MessageDocument | object>> {
     Logger.log("sendMessage");
     const messageCollectionName = `messages_${chatId}`;
     Logger.log(messageCollectionName);
