@@ -20,4 +20,11 @@ export class ChatController {
   async getChats(@Req() req): Promise<unknown[]> {
     return this.chatService.getUserChatsInfo(req.user.sub);
   }
+  @Post("getchatmessages")
+  async getChatMessages(
+    @Req() req,
+    @Body("chatId") chatId: string,
+  ): Promise<unknown[]> {
+    return this.chatService.getChatMessages(chatId);
+  }
 }

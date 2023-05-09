@@ -47,14 +47,15 @@ export class ChatService {
   // function to get messages from a chat and get the last 50 messages
   async getChatMessages(chatId: string): Promise<Message[]> {
     // Get the message model for this chat
-    const MessageModel = this.messageModel[chatId];
-
-    if (!MessageModel) {
-      throw new Error(`No message model found for chat ${chatId}`);
-    }
+    const messageCollectionName = `messages_${chatId}`;
+    const messageModel = this.messageModel.db.model<MessageDocument>(
+      messageCollectionName,
+      MessageSchema,
+    );
 
     // Query the database for the last 200 messages in this chat
-    const messages = await MessageModel.find({})
+    const messages = await messageModel
+      .find({})
       .sort({ created_at: "desc" })
       .limit(200)
       .exec();
