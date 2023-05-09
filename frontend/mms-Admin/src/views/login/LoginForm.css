@@ -15,3 +15,30 @@
   line-height: 40px;
   color: #808080;
 }
+
+
+.text-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.text-input {
+  font-size: 16px;
+  color: #333;
+  min-height: 42px;
+  padding: 14px 12px;
+  width: calc(100%-0.1px);
+  border: 1px solid #ccc;
+  flex-grow: 1;
+  border-radius: 4px;
+}
+
+.icon {
+  padding: 8px;
+  padding-right: 15px;
+  top: 50px;
+  right:-10px;
+  min-width: 30px;
+  text-align: center;
+}

@@ -19,7 +19,7 @@ const PasswordPage: React.FC = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Email is required please"),
+    username: Yup.string().required("Email is required please").email("It should be a valid email address"),
     password: Yup.string().required("Password is required please"),
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -36,7 +36,7 @@ const PasswordPage: React.FC = () => {
           ...values,
           afterSuccessful: () => {
             navigate("/dashboard");
-          },
+           },
           afterUnSuccessful: (tt) => {
             console.log(tt);
             showErrorMessage(tt);
@@ -70,9 +70,9 @@ const PasswordPage: React.FC = () => {
               <div className="w-3/5 m-auto">
                 <h1 className="title-text">Welcome!</h1>
                 <p className="sub-title-text">Login to continue</p>
-                <div className="my-4">
+                <div className="my-0">
                   <Field
-                    type="email"
+                    type="text"
                     id="username"
                     name="username"
                     placeholder="Email"
@@ -80,22 +80,17 @@ const PasswordPage: React.FC = () => {
                   />
                   <FormikValidationMessageComponent name="username" />
                 </div>
-                <div className="relative my-4">
+                <div className="relative my-0">
                   <Field
                     type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     placeholder="Password"
-                    className="p-[10px] border-2 rounded-[5px] text-[20px] my-2 w-full text-input my-5"
+                    className="p-[10px] border-2 rounded-[5px] p-5 text-[20px] my-2 w-full text-input my-5"
                   />
                   <button
-                    className="transform -translate-y-1/2 focus:outline-none"
-                    type="button"
-                    style={{
-                      position: "relative",
-                      top: "-20px",
-                      left: "390px",
-                    }}
+                    className="transform -translate-y-1/2 focus:outline-none icon"
+                    type="button"                
                     onClick={() => {
                       setShowPassword(!showPassword);
                     }}
@@ -136,7 +131,7 @@ const PasswordPage: React.FC = () => {
                     className="text-1xl font-bold mt-4"
                   >
                     {errorMessage}
-                  </h5>
+                  </h5>                 
                 </div>
               </div>
             </Form>

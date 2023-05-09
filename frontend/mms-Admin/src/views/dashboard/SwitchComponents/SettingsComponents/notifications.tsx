@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import "./index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { Notification } from "../../../../services/redux/types/notification";
-import {  useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
-import { fetchNotifications, selectCurrentNotification } from "../../../../services/redux/slices/notification-slice";
 
 
 const NotificationPage: React.FC = () => {
@@ -16,16 +14,16 @@ const NotificationPage: React.FC = () => {
   //const [currentNotification, setCurrentNotification] = useState(obj);
   //console.log("values",currentNotification );
 
-  let lastSetNotification = {key:"", value:false};
+  //let lastSetNotification = {key:"", value:false};
 
-  const setNotification = (key:string, value:boolean)=>{
-    if(lastSetNotification.key === key && lastSetNotification.value === value)
-      return;
+  // const setNotification = (key:string, value:boolean)=>{
+  //   if(lastSetNotification.key === key && lastSetNotification.value === value)
+  //     return;
 
-    lastSetNotification = {key,value};
-    //setCurrentNotification({...currentNotification, [key]: value});
-   /// console.log("Notty", currentNotification);
-  }
+  //   lastSetNotification = {key,value};
+  //   //setCurrentNotification({...currentNotification, [key]: value});
+  //  /// console.log("Notty", currentNotification);
+  // }
 
   const initialValues: Notification = {
     userId: "",

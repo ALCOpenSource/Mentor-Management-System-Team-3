@@ -11,9 +11,9 @@ import messages from "../../assets/images/messages.svg";
 import forum from "../../assets/images/discussion forums.svg";
 import settings from "../../assets/images/settings/setting.svg";
 
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../services/redux/Store";
-import { selectCurrentUser, selectCurrentUserNameSelector } from "../../services/redux/slices/current-user-slice";
+import { selectCurrentUser } from "../../services/redux/slices/current-user-slice";
 
 function Sidebar() {
 

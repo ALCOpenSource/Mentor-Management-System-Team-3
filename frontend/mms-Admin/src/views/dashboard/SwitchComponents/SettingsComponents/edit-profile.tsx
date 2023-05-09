@@ -9,7 +9,6 @@ import linkedInSVG from "../../../../assets/images/social/Linkedin.svg";
 import githubSVG from "../../../../assets/images/social/Github.svg";
 import twitterSVG from "../../../../assets/images/social/Twitter.svg";
 import instagramSVG from "../../../../assets/images/social/Instagram.svg";
-import { useLocation } from "react-router-dom";
 import { SystemUser } from "../../../../services/redux/types/system-user";
 import {
   useAppDispatch,

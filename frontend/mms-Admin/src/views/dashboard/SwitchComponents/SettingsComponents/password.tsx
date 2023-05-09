@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import "./index.css";
@@ -13,6 +13,7 @@ import {
   changeCurrentUserPassword,
   selectCurrentUserNameSelector,
 } from "../../../../services/redux/slices/current-user-slice";
+import SVG_ICONS from "../../../../assets/svg-icons";
 
 const PasswordPage: React.FC = () => {
   const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
@@ -25,6 +26,21 @@ const PasswordPage: React.FC = () => {
   };
   console.log(initialValues);
   const dispatch = useAppDispatch();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState<boolean>(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const showErrorMessage = (tt: any) => {
+    try {
+      setErrorMessage(tt?.message ?? tt);
+      setSuccessMessage("Password reset has been sent to your email");
+    } catch (error: any) {
+      showErrorMessage(error.message);
+    }
+  };
+
 
   const validationSchema = Yup.object().shape({
     currentPassword: Yup.string().required(
@@ -55,7 +71,7 @@ const PasswordPage: React.FC = () => {
           username: email,
         })
       );
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -81,12 +97,23 @@ const PasswordPage: React.FC = () => {
                       Current Password
                     </label>
                     <Field
-                      type="password"
+                      type={showCurrentPassword ? "text" : "password"}
                       id="currentPassword"
                       name="currentPassword"
                       placeholder="Your current password"
                       className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
+                    <button
+                      className="transform -translate-y-1/2 focus:outline-none password-button-visibility-icon"
+                      type="button"
+                      onClick={() => {
+                        setShowCurrentPassword(!showCurrentPassword);
+                      }}
+                    >
+                      {showCurrentPassword
+                        ? SVG_ICONS.PASSWORD.SHOW
+                        : SVG_ICONS.PASSWORD.HIDE}
+                    </button>
                   </div>
                   <FormikValidationMessageComponent name="currentPassword" />
                 </div>
@@ -101,13 +128,25 @@ const PasswordPage: React.FC = () => {
                       New Password
                     </label>
                     <Field
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       id="newPassword"
                       name="newPassword"
                       placeholder="Must be atleast 8 characters"
                       className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
+                    <button
+                      className="transform -translate-y-1/2 focus:outline-none password-button-visibility-icon"
+                      type="button"
+                      onClick={() => {
+                        setShowPassword(!showPassword);
+                      }}
+                    >
+                      {showPassword
+                        ? SVG_ICONS.PASSWORD.SHOW
+                        : SVG_ICONS.PASSWORD.HIDE}
+                    </button>
                   </div>
+
                   <FormikValidationMessageComponent name="newPassword" />
                 </div>
 
@@ -121,13 +160,25 @@ const PasswordPage: React.FC = () => {
                       Confirm New Password
                     </label>
                     <Field
-                      type="password"
+                      type={showPasswordConfirm ? "text" : "password"}
                       id="confirmPassword"
                       name="confirmPassword"
                       placeholder="Must match you new password"
                       className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
+                    <button
+                      className="transform -translate-y-1/2 focus:outline-none password-button-visibility-icon"
+                      type="button"
+                      onClick={() => {
+                        setShowPasswordConfirm(!showPasswordConfirm);
+                      }}
+                    >
+                      {showPasswordConfirm
+                        ? SVG_ICONS.PASSWORD.SHOW
+                        : SVG_ICONS.PASSWORD.HIDE}
+                    </button>
                   </div>
+
                   <FormikValidationMessageComponent name="confirmPassword" />
                 </div>
               </div>
@@ -136,7 +187,7 @@ const PasswordPage: React.FC = () => {
               <button
                 type="submit"
                 style={{ marginLeft: "auto" }}
-                className="bg-green-three text-white rounded-[10px] p-[10px] pe-[40px] ps-[40px] font-medium mt-1"
+                className="bg-green-three text-white me-[46px] rounded-[10px] p-[10px] pe-[40px] ps-[40px] font-medium mt-1"
               >
                 Save new password
               </button>
@@ -147,10 +198,22 @@ const PasswordPage: React.FC = () => {
                 className="text-[15px] text-link text-green-three"
                 href="/forgotpassword"
               >
-                {" "}
-                Forgot password?{" "}
+                Forgot password?
               </a>
             </div>
+            <h5
+              className="text-1xl text-gray-two font-bold mt-4"
+            >
+              {successMessage}
+            </h5>
+
+
+            <h5
+              style={{ color: "orangered" }}
+              className="text-1xl font-bold mt-4"
+            >
+              {errorMessage}
+            </h5>
           </Form>
         )}
       </Formik>

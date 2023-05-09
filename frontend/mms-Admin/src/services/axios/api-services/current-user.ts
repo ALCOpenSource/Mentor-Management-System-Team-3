@@ -12,6 +12,12 @@ export const changeCurrentUserPasswordApiAsync = async (
   return userDetails;
 };
 
+export const resetCurrentUserPasswordApiAsync = async (
+  userEmail: string
+) => {
+  return userEmail;
+};
+
 export const updateCurrentUserApiAsync = async (userDetails: SystemUser) => {
   return userDetails;
 };

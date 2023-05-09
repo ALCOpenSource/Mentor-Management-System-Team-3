@@ -102,6 +102,19 @@ input[type="file"] {
   text-align: center;
 }
 
+.password-button-visibility-icon {
+  position: relative;
+  padding: 8px;
+  padding-right: 15px;
+  top: 24px;
+  right: 40px;
+  margin-right: auto;
+  display: flex;
+  min-width: 30px;
+  text-align: center;
+}
+
+
 .toggle-switch {
   padding: 8px;
   padding-left: 15px;

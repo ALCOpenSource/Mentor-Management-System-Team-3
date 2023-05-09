@@ -11,7 +11,6 @@ import {
   updateAllNotificationsApiAsync,
   updateNotificationItemApiAsync,
 } from "../../axios/api-services/notifications";
-import { NameDetails } from "../types/system-user";
 import { selectCurrentUserNameSelector } from "./current-user-slice";
 
 interface CurrentUserState {

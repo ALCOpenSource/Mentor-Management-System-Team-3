@@ -3,7 +3,6 @@ import logo from "../../assets/images/mms_logo.svg";
 import search from "../../assets/images/search.svg";
 import chats from "../../assets/images/chats.svg";
 import notifications from "../../assets/images/notifications.svg";
-import avatar from "../../assets/images/avatar.svg";
 import { selectCurrentUserProfilePicture } from "../../services/redux/slices/current-user-slice";
 import { useAppSelector } from "../../services/redux/Store";
 
