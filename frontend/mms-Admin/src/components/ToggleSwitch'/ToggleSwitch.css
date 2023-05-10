@@ -23,11 +23,6 @@
   border-color: #058b94;
 }
 
-.switch input:checked::before {
-  left: unset;
-  transform: translateX(calc(100% + 12px));
-}
-
 .switch input::before {
   content: '';
   position: absolute;
@@ -54,6 +49,11 @@
   top: 0.5em;
   left: 0.6em;
   bottom: 0.5em;
+}
+
+.switch input:checked::before {
+  left: unset;
+  transform: translateX(calc(100% + 12px));
 }
 
 .switch input:checked::after {
