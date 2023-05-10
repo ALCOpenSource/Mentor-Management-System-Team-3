@@ -28,13 +28,6 @@
   transform: translateX(calc(100% + 12px));
 }
 
-.switch input:checked::after {
-  content: url(./../../assets/images/components/ToggleOn.svg);
-  right: 0.6em;
-  z-index: 99;
-  left: unset;
-}
-
 .switch input::before {
   content: '';
   position: absolute;
@@ -61,6 +54,13 @@
   top: 0.5em;
   left: 0.6em;
   bottom: 0.5em;
+}
+
+.switch input:checked::after {
+  content: url(./../../assets/images/components/ToggleOn.svg);
+  right: 0.6em;
+  z-index: 99;
+  left: unset;
 }
 
 .switch-labels {

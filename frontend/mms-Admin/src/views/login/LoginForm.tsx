@@ -12,8 +12,8 @@ import SVG_ICONS from "../../assets/svg-icons";
 
 const PasswordPage: React.FC = () => {
   const initialValues: UsernamePassword = {
-    username: "",
-    password: "",
+    username: "admin@mmsa.com",
+    password: "test1234@QW",
   };
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

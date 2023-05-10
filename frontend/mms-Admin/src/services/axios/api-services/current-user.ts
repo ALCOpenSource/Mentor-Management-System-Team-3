@@ -1,4 +1,5 @@
 import getCountryFlag from "../../countries";
+import axiosWithBearer, { axiosWithoutBearer } from "../axios-services";
 import {
   ChangePasswordDetails,
   LoggedInUser,
@@ -9,7 +10,6 @@ import {
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails
 ) => {
-  throw new Error("ayt ghhgjgh iho p youyp y oyoyh oiuy uio");
   return userDetails;
 };
 
@@ -30,6 +30,19 @@ export const updateCurrentUserProfilePictureApiAsync = async (image: any) => {
 export const loginCurrentUserApiAsync = async (
   userDetails: UsernamePassword
 ) => {
+
+  const {username,password} = userDetails;
+  const {data} = await axiosWithoutBearer
+        .post<{data:{access_token:string, email:string, id:string,role:string}}>("/auth/login", 
+        {
+          email: `${username}`,
+          password: `${password}`
+        });
+    
+        const tokens = data.data.access_token;
+         const currentUser = await axiosWithBearer(data.data.access_token).get<{}>("/users/me")
+        
+  console.log("dxt", data.data.access_token, currentUser);
   // const response = await fetch("http://localhost:8000/current-user", {
   //   method: "POST",
   //   headers: {
@@ -75,7 +88,7 @@ export const loginCurrentUserApiAsync = async (
       user: loggedInUser,
       userToken: userToken
     };
-   // throw new Error("Invalid email or password, please check and try again.");
+    // throw new Error("Invalid email or password, please check and try again.");
     if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
     return user;
   } catch (err) {

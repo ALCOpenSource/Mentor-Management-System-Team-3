@@ -21,8 +21,8 @@ module.exports = {
                           current: 'currentColor',
                           customBlack: {
                                   one: '#141414',
-                                  two: '#333333',
-                                  three: '#4D4D4D',
+                                  two: '#333',
+                                  three: '#4d4d4d',
                           },
                           gray: {
                                   one: '#666666',
@@ -31,7 +31,7 @@ module.exports = {
                           },
                           lightGray: {
                                   one: '#B3B3B3',
-                                  two: '#CCCCCC',
+                                  two: '#ccc',
                                   three: '#E6E6E6',
                                   four: '#F2F2F2'
                           },
@@ -49,7 +49,7 @@ module.exports = {
                           },
                           lighterGreen: {
                                   one: '#CEFAFD',
-                                  two: '#E6FDFE',
+                                  two: '#e6fdfe',
                                   three: '#F7FEFF'
                           },
                           red: {

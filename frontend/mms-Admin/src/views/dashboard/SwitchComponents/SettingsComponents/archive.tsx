@@ -53,7 +53,7 @@ const App: React.FC = () => (
       render={({ handleSubmit, errors, touched, values }) => (
         <Form className="w-full h-screen">
           <div className="search-box-div">
-            <img src={searchIconSVG} style={{marginTop:"1px"}} alt="search icon" className="icon" />
+            <img src={searchIconSVG} style={{ marginTop: "1px" }} alt="search icon" className="icon" />
             <Field
               type="text"
               id="searchArchive"
@@ -105,83 +105,83 @@ const App: React.FC = () => (
                 <div>
                   {values.programs && values.programs.length > 0
                     ? values.programs.map(
-                        (
-                          program: ProgramProp,
-                          index: React.Key | null | undefined
-                        ) => (
-                          <React.Fragment key={index}>
-                            <label htmlFor="pet" className="w-full">
-                              <div className="program-border flex flex-row mt-[10px]">
-                                <img
-                                  src={program.icon}
-                                  alt="profile logo"
-                                  className="program-icon"
-                                />
-                                <div className="w-full">
+                      (
+                        program: ProgramProp,
+                        index: React.Key | null | undefined
+                      ) => (
+                        <React.Fragment key={index}>
+                          <label htmlFor="pet" className="w-full">
+                            <div className="program-border flex flex-row mt-[10px]">
+                              <img
+                                src={program.icon}
+                                alt="profile logo"
+                                className="program-icon"
+                              />
+                              <div className="w-full">
+                                <label
+                                  className="program-title pt-0"
+                                  htmlFor="about"
+                                >
+                                  {program.name}
+                                </label>
+                                <div className="flex flex-row mt-2 relative  w-full">
+                                  <button
+                                    type="submit"
+                                    className="calender-button"
+                                  >
+                                    <img
+                                      src={Calender}
+                                      alt="Attach file icon"
+                                      className="calender-icon"
+                                    />
+                                  </button>
                                   <label
-                                    className="program-title pt-0"
+                                    className="small-text"
                                     htmlFor="about"
                                   >
-                                    {program.name}
+                                    {getShortDate(program.date)}
                                   </label>
-                                  <div className="flex flex-row mt-2 relative  w-full">
-                                    <button
-                                      type="submit"
-                                      className="calender-button"
-                                    >
-                                      <img
-                                        src={Calender}
-                                        alt="Attach file icon"
-                                        className="calender-icon"
-                                      />
-                                    </button>
-                                    <label
-                                      className="small-text"
-                                      htmlFor="about"
-                                    >
-                                      {getShortDate(program.date)}
-                                    </label>
 
-                                    <button
-                                      type="submit"
-                                      className="timer-button"
-                                    >
-                                      <img
-                                        src={TimerIn}
-                                        alt="Attach file icon"
-                                        className="calender-icon p-1"
-                                        style={{ left: "2px", bottom: "3px" }}
-                                      />
-                                      <img
-                                        src={TimerOut}
-                                        alt="Attach file icon"
-                                        className="calender-icon"
-                                      />
-                                    </button>
-                                    <label
-                                      className="small-text"
-                                      style={{ left: "302px" }}
-                                      htmlFor="about"
-                                    >
-                                      {getShortTime(program.date)}
-                                    </label>
-                                  </div>
+                                  <button
+                                    type="submit"
+                                    className="timer-button"
+                                  >
+                                    <img
+                                      src={TimerIn}
+                                      alt="Attach file icon"
+                                      className="calender-icon p-1"
+                                      style={{ left: "2px", bottom: "3px" }}
+                                    />
+                                    <img
+                                      src={TimerOut}
+                                      alt="Attach file icon"
+                                      className="calender-icon"
+                                    />
+                                  </button>
+                                  <label
+                                    className="small-text"
+                                    style={{ left: "302px" }}
+                                    htmlFor="about"
+                                  >
+                                    {getShortTime(program.date)}
+                                  </label>
                                 </div>
-                                <button
-                                  type="submit"
-                                  className="dropdown-button"
-                                >
-                                  <img
-                                    src={DropdownListIcon}
-                                    alt="Attach file icon"
-                                    className="dropdown-icon"
-                                  />
-                                </button>
                               </div>
-                            </label>
-                          </React.Fragment>
-                        )
+                              <button
+                                type="submit"
+                                className="dropdown-button"
+                              >
+                                <img
+                                  src={DropdownListIcon}
+                                  alt="Attach file icon"
+                                  className="dropdown-icon"
+                                />
+                              </button>
+                            </div>
+                          </label>
+                        </React.Fragment>
                       )
+                    )
                     : null}
                 </div>
               )}

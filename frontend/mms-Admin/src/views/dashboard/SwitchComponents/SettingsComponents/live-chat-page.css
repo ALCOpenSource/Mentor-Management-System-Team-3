@@ -7,7 +7,7 @@
   font-weight: 700;
   font-size: 24px;
   line-height: 40px;
-  color: #ffffff;
+  color: #fff;
   flex: none;
   order: 0;
   flex-grow: 0;
@@ -25,14 +25,15 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 27px;
-  color: #ffffff;
+  color: #fff;
   left: 30px;
   top: 115px;
   word-wrap: break-word;
 }
 
 .recieved-message-block {
-  font-family: "Source Sans Pro";
+  font-family: "Source Sans Pro", sans-serif;
+  ;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -57,19 +58,17 @@
 .received-message-text {
   max-width: 289px;
   font-family: "Mukta", sans-serif;
-  font-weight: 400;
   line-height: 27px;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-  color: #ffffff;
+  color: #fff;
   flex: none;
 }
 
 .send-message-text {
   max-width: 270px;
   font-family: "Mukta", sans-serif;
-  font-weight: 400;
   line-height: 27px;
   font-style: normal;
   font-weight: 400;
@@ -81,7 +80,8 @@
 .recieved-time {
   position: absolute;
   margin-top: 10px;
-  font-family: "Source Sans Pro";
+  font-family: "Source Sans Pro", sans-serif;
+  ;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -97,7 +97,8 @@
   margin-top: 10px;
   margin-right: auto;
   right: 20px;
-  font-family: "Source Sans Pro";
+  font-family: "Source Sans Pro", sans-serif;
+  ;
   font-style: normal;
   display: block;
   align-self: flex-end;
@@ -115,7 +116,8 @@
 }
 
 .send-message-block {
-  font-family: "Source Sans Pro";
+  font-family: "Source Sans Pro", sans-serif;
+  ;
   position: relative;
   font-style: normal;
   font-weight: 400;
