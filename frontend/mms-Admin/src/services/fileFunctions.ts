@@ -1,7 +1,7 @@
-import { error } from "console";
-import { resolve } from "path";
+// import { error } from "console";
+// import { resolve } from "path";
 
-// const readFileAsBase64 = function (file: string): Promise<string> {
+// // const readFileAsBase64 = function (file: string): Promise<string> {
 //      return new Promise<string>((accept, reject)=>{
 //         const reader = new FileReader();
 //         reader.readAsDataURL(file);
@@ -9,3 +9,5 @@ import { resolve } from "path";
 //         reader.onerror=(error)=> reject(error);
 //      })
 //   };
+
+export {}

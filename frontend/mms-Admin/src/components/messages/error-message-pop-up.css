@@ -14,12 +14,12 @@
   margin-left: auto;
   margin-right: auto;
   height: 100%;
-  max-height:370px;
+  max-height: 370px;
   margin-top: calc(100vh - 85vh - 20px);
-  background: #fff;
+  background: #ffffff;
   border-radius: 4px;
-  padding: 0px;
-  border: 0px solid #999;
+  padding: 0;
+  border: 0 solid #999;
   overflow-y: hidden;
   overflow-x: hidden;
 }
@@ -32,7 +32,7 @@
   right: 20px;
   top: 30px;
   width: 40px;
-  color: #fff;
+  color: #ffffff;
   height: 40px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 100px;

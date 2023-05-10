@@ -3,6 +3,7 @@
   align-items: flex-start;
   gap: 4px;
 }
+
 .switch input {
   appearance: none;
   min-width: 48px;
@@ -16,20 +17,24 @@
   user-select: none;
   transition: background-color 0.3s, border-color 0.3s;
 }
+
 .switch input:checked {
-  background-color: #058B94;
-  border-color: #058B94;
+  background-color: #058b94;
+  border-color: #058b94;
 }
+
 .switch input:checked::before {
   left: unset;
   transform: translateX(calc(100% + 12px));
 }
+
 .switch input:checked::after {
   content: url(./../../assets/images/components/ToggleOn.svg);
   right: 0.6em;
   z-index: 99;
   left: unset;
 }
+
 .switch input::before {
   content: '';
   position: absolute;
@@ -44,6 +49,7 @@
   cursor: pointer;
   z-index: 1;
 }
+
 .switch input::after {
   content: url(./../../assets/images/components/ToggleOff.svg);
   color: white;
@@ -56,21 +62,20 @@
   left: 0.6em;
   bottom: 0.5em;
 }
-/* .switch input:focus {
-  outline: 2px solid #222;
-  outline-offset: 2px;
-} */
+
 .switch-labels {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
+
 .switch-labels span {
   cursor: pointer;
   line-height: 1.4;
   font-size: 16px;
   user-select: none;
 }
+
 .switch-labels p {
   font-size: 12px;
   letter-spacing: 0.4px;

@@ -1,68 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import "./index.css";
+import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { Notification } from "../../../../services/redux/types/notification";
+import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
+import { selectCurrentNotification, updateAllNotifications, updateNotificationItem } from "../../../../services/redux/slices/notification-slice";
 
 
 const NotificationPage: React.FC = () => {
-  
-  //const dispatch = useAppDispatch();
-  //dispatch(fetchNotifications());
-  //const obj = useAppSelector(selectCurrentNotification);
-  //const [currentNotification, setCurrentNotification] = useState(obj);
-  //console.log("values",currentNotification );
 
-  //let lastSetNotification = {key:"", value:false};
+  const dispatch = useAppDispatch();
+  const obj = useAppSelector(selectCurrentNotification);
+  const [currentNotification, setCurrentNotification] = useState(obj);
 
-  // const setNotification = (key:string, value:boolean)=>{
-  //   if(lastSetNotification.key === key && lastSetNotification.value === value)
-  //     return;
+  const setNotification = async (key: string, value: boolean) => {
+    var lastValue = Object.entries(currentNotification)
+      .filter(n => n[0] === key && n[1] === value);
 
-  //   lastSetNotification = {key,value};
-  //   //setCurrentNotification({...currentNotification, [key]: value});
-  //  /// console.log("Notty", currentNotification);
-  // }
+    if (lastValue[1])
+      return;
 
-  const initialValues: Notification = {
-    userId: "",
-    allNotificationsEmail: true,
-    programsEmail: true,
-    tasksEmail: true,
-    approvalRequestsEmail: false,
-    reportsEmail: true,
-    commentsOnMyPostsEmail: false,
-    postsEmail: true,
-    commentsEmail: true,
-    mentionsEmail: true,
-    directMessagesEmail: false,
-    allNotificationsInApp: true,
-    programsInApp: true,
-    tasksInApp: false,
-    approvalRequestsInApp: true,
-    reportsInApp: true,
-    commentsOnMyPostsInApp: true,
-    postsInApp: true,
-    commentsInApp: true,
-    mentionsInApp: true,
-    directMessagesInApp: true,
-  };
-  
-  
+    const obj = { ...currentNotification, [key]: value };
+    setCurrentNotification(obj);
+    await dispatch(updateNotificationItem({ key, value, obj }));
+  }
 
-  const validationSchema = Yup.object().shape({});
-
-  const handleSubmit = (values: Notification) => {
-    console.log(values);
-    // save changes logic here
+  const handleSubmit = async (values: Notification) => {
+    await dispatch(updateAllNotifications(obj));
   };
 
   return (
     <div>
       <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        initialValues={obj}
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
@@ -70,8 +40,7 @@ const NotificationPage: React.FC = () => {
             <div className="flex flex-col relative p-5">
               <div className="flex w-full">
                 <label className="text-[15px] strong-text">
-                  {" "}
-                  General Notifications{" "}
+                  General Notifications
                 </label>
               </div>
               <div className="flex w-full">
@@ -79,18 +48,15 @@ const NotificationPage: React.FC = () => {
                   className="text-[15px] strong-text"
                   style={{ marginLeft: "400px" }}
                 >
-                  {" "}
-                  Email{" "}
+                  Email
                 </label>
                 <label
                   className="text-[15px] strong-text"
                   style={{ marginLeft: "40px" }}
                 >
-                  {" "}
-                  In-app{" "}
+                  In-app
                 </label>
               </div>
-
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
@@ -102,13 +68,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="allNotificationsEmail"
-                    //onChange={(event) => setNotification("allNotificationsEmail", event)}                     
-                    //isChecked={initialValues.allNotificationsEmail}
+                    onChange={(event) => setNotification("allNotificationsEmail", event)}
+                    isChecked={currentNotification.allNotificationsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="allNotificationsInApp"
-                    //isChecked={initialValues.allNotificationsInApp}
+                    onChange={(event) => setNotification("allNotificationsInApp", event)}
+                    isChecked={currentNotification.allNotificationsInApp}
                   />
                 </div>
               </div>
@@ -124,12 +91,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="programsEmail"
-                    //isChecked={initialValues.programsEmail}
+                    onChange={(event) => setNotification("programsEmail", event)}
+                    isChecked={currentNotification.programsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="programsInApp"
-                    //isChecked={initialValues.programsInApp}
+                    onChange={(event) => setNotification("programsInApp", event)}
+                    isChecked={currentNotification.programsInApp}
                   />
                 </div>
               </div>
@@ -145,12 +114,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="tasksEmail"
-                    //isChecked={initialValues.tasksEmail}
+                    onChange={(event) => setNotification("tasksEmail", event)}
+                    isChecked={currentNotification.tasksEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="tasksInApp"
-                    //isChecked={initialValues.tasksInApp}
+                    onChange={(event) => setNotification("tasksInApp", event)}
+                    isChecked={currentNotification.tasksInApp}
                   />
                 </div>
               </div>
@@ -166,12 +137,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="approvalRequestsEmail"
-                    //isChecked={initialValues.approvalRequestsEmail}
+                    onChange={(event) => setNotification("approvalRequestsEmail", event)}
+                    isChecked={currentNotification.approvalRequestsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="allNotificationsInApp"
-                    //isChecked={initialValues.allNotificationsInApp}
+                    onChange={(event) => setNotification("approvalRequestsInApp", event)}
+                    isChecked={currentNotification.approvalRequestsInApp}
                   />
                 </div>
               </div>
@@ -187,12 +160,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="reportsEmail"
-                    //isChecked={initialValues.reportsEmail}
+                    onChange={(event) => setNotification("reportsEmail", event)}
+                    isChecked={currentNotification.reportsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="reportsInApp"
-                    //isChecked={initialValues.reportsInApp}
+                    onChange={(event) => setNotification("reportsInApp", event)}
+                    isChecked={currentNotification.reportsInApp}
                   />
                 </div>
               </div>
@@ -201,8 +176,8 @@ const NotificationPage: React.FC = () => {
             <div className="flex mt-5 flex-col relative p-5">
               <div className="flex w-full">
                 <label className="text-[15px] strong-text">
-                  {" "}
-                  Discussion Notifications{" "}
+
+                  Discussion Notifications
                 </label>
               </div>
               <div className="flex w-full">
@@ -210,15 +185,15 @@ const NotificationPage: React.FC = () => {
                   className="text-[15px] strong-text"
                   style={{ marginLeft: "400px" }}
                 >
-                  {" "}
-                  Email{" "}
+
+                  Email
                 </label>
                 <label
                   className="text-[15px] strong-text"
                   style={{ marginLeft: "40px" }}
                 >
-                  {" "}
-                  In-app{" "}
+
+                  In-app
                 </label>
               </div>
 
@@ -233,12 +208,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="commentsOnMyPostsEmail"
-                    //isChecked={initialValues.commentsOnMyPostsEmail}
+                    onChange={(event) => setNotification("commentsOnMyPostsEmail", event)}
+                    isChecked={currentNotification.commentsOnMyPostsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="commentsOnMyPostsInApp"
-                    //isChecked={initialValues.commentsOnMyPostsInApp}
+                    onChange={(event) => setNotification("commentsOnMyPostsInApp", event)}
+                    isChecked={currentNotification.commentsOnMyPostsInApp}
                   />
                 </div>
               </div>
@@ -254,12 +231,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="postsEmail"
-                    //isChecked={initialValues.postsEmail}
+                    onChange={(event) => setNotification("postsEmail", event)}
+                    isChecked={currentNotification.postsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="postsInApp"
-                    //isChecked={initialValues.postsInApp}
+                    onChange={(event) => setNotification("postsInApp", event)}
+                    isChecked={currentNotification.postsInApp}
                   />
                 </div>
               </div>
@@ -275,12 +254,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="commentsEmail"
-                    //isChecked={initialValues.commentsEmail}
+                    onChange={(event) => setNotification("commentsEmail", event)}
+                    isChecked={currentNotification.commentsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="commentsInApp"
-                    //isChecked={initialValues.commentsInApp}
+                    onChange={(event) => setNotification("commentsInApp", event)}
+                    isChecked={currentNotification.commentsInApp}
                   />
                 </div>
               </div>
@@ -296,12 +277,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="mentionsEmail"
-                    //isChecked={initialValues.mentionsEmail}
+                    onChange={(event) => setNotification("mentionsEmail", event)}
+                    isChecked={currentNotification.mentionsEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="mentionsInApp"
-                    //isChecked={initialValues.mentionsInApp}
+                    onChange={(event) => setNotification("mentionsInApp", event)}
+                    isChecked={currentNotification.mentionsInApp}
                   />
                 </div>
               </div>
@@ -317,12 +300,14 @@ const NotificationPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="directMessagesEmail"
-                    //isChecked={initialValues.directMessagesEmail}
+                    onChange={(event) => setNotification("directMessagesEmail", event)}
+                    isChecked={currentNotification.directMessagesEmail}
                   />
                   <div style={{ width: "30px" }} />
                   <ToggleSwitch
                     id="directMessagesInApp"
-                    //isChecked={initialValues.directMessagesInApp}
+                    onChange={(event) => setNotification("directMessagesInApp", event)}
+                    isChecked={currentNotification.directMessagesInApp}
                   />
                 </div>
               </div>

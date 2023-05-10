@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import avatar from "./../../../../assets/images/avatar.svg";
-import "./index.css";
+import "../index.css";
 import VALIDATION_PATTERNS from "../../../../assets/validation-patterns";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
 import linkedInSVG from "../../../../assets/images/social/Linkedin.svg";

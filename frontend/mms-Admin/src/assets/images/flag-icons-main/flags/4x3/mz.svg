@@ -6,13 +6,13 @@
   </defs>
   <g clip-path="url(#a)" transform="scale(.9375)">
     <path fill="#009a00" fill-rule="evenodd" d="M0 0h768v160H0z"/>
-    <path fill="#fff" fill-rule="evenodd" d="M0 160h768v16H0z"/>
+    <path fill="#ffffff" fill-rule="evenodd" d="M0 160h768v16H0z"/>
     <path fill-rule="evenodd" d="M0 176h768v160H0z"/>
-    <path fill="#fff" fill-rule="evenodd" d="M0 336h768v16H0z"/>
+    <path fill="#ffffff" fill-rule="evenodd" d="M0 336h768v16H0z"/>
     <path fill="#ffca00" fill-rule="evenodd" d="M0 352h768v160H0z"/>
     <path fill="red" fill-rule="evenodd" d="M0 0v512l336-256L0 0z"/>
     <path fill="#ffca00" fill-rule="evenodd" d="m198.5 333-51.2-37.5L96.1 333l19.9-60.3-51.5-37.1 63.5.2 19.3-60.4 19.4 60.5 63.5-.3-51.5 37.1z"/>
-    <path fill="#fff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M102.8 290.9h37c3 3.3 9.5 4.7 15.8 0 11.6-6.4 34 0 34 0l4.4-4.7-10.7-35.2-3.9-4.2s-8.3-5-24-3.3c-15.7 1.7-21.2-.5-21.2-.5s-13.7 1.6-17.6 3.6l-4.4 4.4-9.4 39.9z"/>
+    <path fill="#ffffff" fill-rule="evenodd" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M102.8 290.9h37c3 3.3 9.5 4.7 15.8 0 11.6-6.4 34 0 34 0l4.4-4.7-10.7-35.2-3.9-4.2s-8.3-5-24-3.3c-15.7 1.7-21.2-.5-21.2-.5s-13.7 1.6-17.6 3.6l-4.4 4.4-9.4 39.9z"/>
     <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="M110.3 281.8s35.2-4.4 45.4 9.1c-5.7 4-10.8 4.3-16.2.3.8-1.5 12.6-13.8 42.7-9.7"/>
     <path fill="none" stroke="#000" stroke-width="1.2" d="m148 246.6-.3 38.8m31.7-38.3L186 278"/>
     <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="m117 246.6-3.7 16"/>

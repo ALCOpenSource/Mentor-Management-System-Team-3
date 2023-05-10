@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import "./index.css";
+import "../index.css";
 import Accordion from "../../../../components/accordion/accordion";
 import { AccordionData } from "../../../../components/accordion/accordion-item";
 interface FormValues {

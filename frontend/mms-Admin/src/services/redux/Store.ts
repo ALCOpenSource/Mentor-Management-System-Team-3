@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { NotificationSlice } from "./slices/notification-slice";
+import { PrivacySlice } from "./slices/privacy-slice";
 
 
 const persistConfig = {
@@ -16,7 +17,8 @@ const persistConfig = {
 const reducer = combineReducers(
   {
     currentUser: CurrentUserSlice.reducer,
-    notification: NotificationSlice.reducer
+    privacy: PrivacySlice.reducer,
+    notification: NotificationSlice.reducer   
   }
 )
 

@@ -13,7 +13,7 @@
 
 .profile-form {
   font-size: 16px;
-  padding: 0px 12px;
+  padding: 0 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   max-width: 1600px;
@@ -31,7 +31,7 @@
   font-size: 16px;
   color: #333;
   padding: 1px 12px;
-  width: calc(100%-0.1px);
+  width: calc(100%-1px);
   border: 1px solid #ccc;
   flex-grow: 1;
   border-radius: 4px;
@@ -72,7 +72,7 @@
   width: 100%;
   height: 100%;
   padding: 8px 22px;
-  font-family: "Mukta";
+  font-family: "Mukta", sans-serif;
   line-height: 26.59px;
   color: #4d4d4d;
   background-color: #e6fdfe;
@@ -124,7 +124,7 @@ input[type="file"] {
 
 .input-icon-label {
   padding-left: 35px;
-  padding-right: 0px;
+  padding-right: 0;
   width: 5%;
   height: 38px;
   font-weight: 540;
@@ -140,4 +140,8 @@ input[type="file"] {
   max-height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.navbar {
+  background: red;
 }

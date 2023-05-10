@@ -4,9 +4,10 @@ import { NameDetails } from "../../redux/types/system-user";
 export const updateNotificationItemApiAsync = async (notificationDetails: {
   key: string;
   value: boolean;
+  obj:Notification;
 }) => {
   //update api call
-  console.log("changed password", notificationDetails);
+  console.log("changed notification", notificationDetails);
   //todo
 
   return notificationDetails;

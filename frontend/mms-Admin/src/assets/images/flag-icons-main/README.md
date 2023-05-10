@@ -65,5 +65,5 @@ To have only specific countries in the css file, remove the ones that you don't 
 
 ## Credits
 
-- This project wouldn't exist without the awesome and now deleted collection of SVG flags by [koppi](https://github.com/koppi).
-- Thank you [Andrejs Abrickis](https://twitter.com/andrejsabrickis) for providing the `flag-icons` name on [npm](https://www.npmjs.com/package/flag-icons).
+-This project wouldn't exist without the awesome and now deleted collection of SVG flags by [koppi](https://github.com/koppi).
+-Thank you [Andrejs Abrickis](https://twitter.com/andrejsabrickis) for providing the `flag-icons` name on [npm](https://www.npmjs.com/package/flag-icons).

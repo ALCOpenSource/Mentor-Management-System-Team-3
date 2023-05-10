@@ -38,7 +38,7 @@ module.exports = {
                           green: {
                                   one: '#023C40',
                                   two: '#035D63',
-                                  three: '#058B94',
+                                  three: '#058b94',
                                   four: '#06B9C6'
                           },
                           lightGreen: {

@@ -1,8 +1,5 @@
-import SuccessSplashComponent from "../success-splash-component/success-splash-component";
-import logo from "../../assets/images/mms_logo.svg";
 import passwordSuccessLogo from "../../assets/images/password-reset-success.svg";
 import "./message-pop-up.css";
-import Button from "../shared/button";
 
 function MessagePopUpPage(props: {
   message: string;

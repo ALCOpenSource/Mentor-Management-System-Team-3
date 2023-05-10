@@ -13,7 +13,7 @@ import {
 } from "../../axios/api-services/notifications";
 import { selectCurrentUserNameSelector } from "./current-user-slice";
 
-interface CurrentUserState {
+interface CurrentNotificationState {
   notification: Notification;
 }
 
@@ -43,13 +43,16 @@ function getEmptyNotification(): Notification {
   };
 }
 
-const initialState: CurrentUserState = {
+const initialState: CurrentNotificationState = {
   notification: getEmptyNotification(),
 };
 
 export const updateNotificationItem = createAsyncThunk(
   "current-notification/change-notification-item",
-  async (notificationDetails: { key: string; value: boolean }, thunkAPI) => {
+  async (
+    notificationDetails: { key: string; value: boolean; obj: Notification },
+    thunkAPI
+  ) => {
     return await updateNotificationItemApiAsync(notificationDetails);
   }
 );

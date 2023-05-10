@@ -1,4 +1,3 @@
-import passwordSuccessLogo from "../../assets/images/password-reset-success.svg";
 import "./error-message-pop-up.css";
 
 function ErrorPopUpMessage(props: {

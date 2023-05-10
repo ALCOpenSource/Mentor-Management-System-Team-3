@@ -5,7 +5,6 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import {
-  ChangePasswordDetails,
   LoggedInUser,
   NameDetails,
   SystemUser,
@@ -14,7 +13,6 @@ import {
 import { RootState } from "../Store";
 import "./../../../assets/images/flag-icons-main/flags/4x3/ac.svg";
 import {
-  changeCurrentUserPasswordApiAsync,
   loginCurrentUserApiAsync,
   updateCurrentUserApiAsync,
   updateCurrentUserProfilePictureApiAsync,
@@ -31,13 +29,6 @@ const getEmptyLoggedInUser = (): LoggedInUser => {
 const initialState: CurrentUserState = {
   currentUser: getEmptyLoggedInUser(),
 };
-
-export const changeCurrentUserPassword = createAsyncThunk(
-  "current-user/change-password",
-  async (userDetails: ChangePasswordDetails, thunkAPI) => {
-    return await changeCurrentUserPasswordApiAsync(userDetails);
-  }
-);
 
 export const updateCurrentUser = createAsyncThunk(
   "current-user/update-user",

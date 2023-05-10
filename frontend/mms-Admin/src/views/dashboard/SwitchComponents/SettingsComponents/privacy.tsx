@@ -1,40 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import "./index.css";
+import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
+import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
+import { selectCurrentPrivacy, updateAllPrivacies, updatePrivacyItem } from "../../../../services/redux/slices/privacy-slice";
+import { Privacy } from "../../../../services/redux/types/privacy";
 
-interface FormValues {
-  userId: string;
-  showLinkedin: boolean;
-  showTwitter: boolean;
-  showGitHub: boolean;
-  showInstagram: boolean;
-  showContactInfo: boolean;
-}
 
 const PrivacyPage: React.FC = () => {
-  const initialValues: FormValues = {
-    userId: "",
-    showLinkedin: true,
-    showTwitter: false,
-    showGitHub: true,
-    showInstagram: false,
-    showContactInfo: true,
-  };
+  const dispatch = useAppDispatch();
+  const obj = useAppSelector(selectCurrentPrivacy);
+  const [currentPrivacy, setCurrentPrivacy] = useState(obj);
 
-  const validationSchema = Yup.object().shape({});
+  const setPrivacy = async (key: string, value: boolean) => {
+    var lastValue = Object.entries(currentPrivacy)
+      .filter(n => n[0] === key && n[1] === value);
 
-  const handleSubmit = (values: FormValues) => {
-    console.log(values);
-    // save changes logic here
+    if (lastValue[1])
+      return;
+
+    const obj = { ...currentPrivacy, [key]: value };
+    setCurrentPrivacy(obj);
+    await dispatch(updatePrivacyItem({ key, value, obj }));
+  }
+
+  const handleSubmit = async (values: Privacy) => {
+    await dispatch(updateAllPrivacies(obj));
   };
 
   return (
     <div>
       <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        initialValues={obj}
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
@@ -51,7 +48,8 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showContactInfo"
-                    //isChecked={initialValues.showContactInfo}
+                    isChecked={currentPrivacy.showContactInfo}
+                    onChange={(event) => setPrivacy("showContactInfo", event)}
                   />
                 </div>
               </div>
@@ -67,7 +65,8 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showGitHub"
-                    //isChecked={initialValues.showGitHub}
+                    isChecked={currentPrivacy.showGitHub}
+                    onChange={(event) => setPrivacy("showGitHub", event)}
                   />
                 </div>
               </div>
@@ -83,7 +82,8 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showInstagram"
-                    //isChecked={initialValues.showInstagram}
+                    isChecked={currentPrivacy.showInstagram}
+                    onChange={(event) => setPrivacy("showInstagram", event)}
                   />
                 </div>
               </div>
@@ -99,7 +99,8 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showLinkedin"
-                    //isChecked={initialValues.showLinkedin}
+                    isChecked={currentPrivacy.showLinkedin}
+                    onChange={(event) => setPrivacy("showLinkedin", event)}
                   />
                 </div>
               </div>
@@ -115,7 +116,8 @@ const PrivacyPage: React.FC = () => {
                   </label>
                   <ToggleSwitch
                     id="showTwitter"
-                    //isChecked={initialValues.showTwitter}
+                    isChecked={currentPrivacy.showTwitter}
+                    onChange={(event) => setPrivacy("showTwitter", event)}
                   />
                 </div>
               </div>
@@ -128,3 +130,5 @@ const PrivacyPage: React.FC = () => {
 };
 
 export default PrivacyPage;
+
+

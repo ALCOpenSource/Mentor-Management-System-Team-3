@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import "../SwitchComponents/SettingsComponents/index.css";
+import "../SwitchComponents/index.css";
 import linkedInSVG from "../../../assets/images/social/Linkedin.svg";
 import githubSVG from "../../../assets/images/social/Github.svg";
 import twitterSVG from "../../../assets/images/social/Twitter.svg";

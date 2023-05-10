@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import "./index.css";
+import "../index.css";
 import VALIDATION_PATTERNS from "../../../../assets/validation-patterns";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
 import { ChangePasswordDetails } from "../../../../services/redux/types/system-user";
 import {
-  useAppDispatch,
   useAppSelector,
 } from "../../../../services/redux/Store";
 import {
-  changeCurrentUserPassword,
   selectCurrentUserNameSelector,
 } from "../../../../services/redux/slices/current-user-slice";
 import SVG_ICONS from "../../../../assets/svg-icons";
+import { changeCurrentUserPasswordApiAsync } from "../../../../services/axios/api-services/current-user";
 
 const PasswordPage: React.FC = () => {
   const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
@@ -25,22 +24,21 @@ const PasswordPage: React.FC = () => {
     username: email,
   };
   console.log(initialValues);
-  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showCurrentPassword, setShowCurrentPassword] = useState<boolean>(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false);
+  const [showCurrentPassword, setShowCurrentPassword] =
+    useState<boolean>(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] =
+    useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const showErrorMessage = (tt: any) => {
     try {
       setErrorMessage(tt?.message ?? tt);
-      setSuccessMessage("Password reset has been sent to your email");
-    } catch (error: any) {
-      showErrorMessage(error.message);
+    } catch (err) {
+      setErrorMessage(tt);
     }
   };
-
 
   const validationSchema = Yup.object().shape({
     currentPassword: Yup.string().required(
@@ -61,17 +59,20 @@ const PasswordPage: React.FC = () => {
   });
 
   const handleSubmit = async (values: ChangePasswordDetails) => {
-    console.log(values);
     try {
-      console.log(userId, email);
-      await dispatch(
-        changeCurrentUserPassword({
+      await
+        changeCurrentUserPasswordApiAsync({
           ...values,
           userId: userId,
           username: email,
-        })
-      );
-    } catch (error) { }
+        }
+     );
+      setSuccessMessage("Password has been changed successifully");
+      setErrorMessage("");
+    } catch (error: any) {
+      showErrorMessage(error.message);
+      setSuccessMessage("");
+    }
   };
 
   return (
@@ -201,12 +202,9 @@ const PasswordPage: React.FC = () => {
                 Forgot password?
               </a>
             </div>
-            <h5
-              className="text-1xl text-gray-two font-bold mt-4"
-            >
+            <h5 className="text-1xl text-gray-two font-bold mt-4">
               {successMessage}
             </h5>
-
 
             <h5
               style={{ color: "orangered" }}

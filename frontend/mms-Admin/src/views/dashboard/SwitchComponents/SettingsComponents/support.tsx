@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import "./index.css";
+import "../index.css";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
 import liveChatIcon from "../../../../assets/images/LiveChat.svg";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";

@@ -18,8 +18,8 @@
       <stop offset="1" stop-color="#4c0505"/>
     </radialGradient>
     <radialGradient id="o" cx="489.1" cy="210.3" r=".3" fx="489.1" fy="210.3" gradientTransform="scale(.97707 1.02346)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#fff"/>
-      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="i" x1="473.9" x2="472.4" y1="259.2" y2="232" gradientUnits="userSpaceOnUse">
       <stop offset=".2" stop-color="#b07e09" stop-opacity="0"/>
@@ -39,7 +39,7 @@
     </linearGradient>
   </defs>
   <path fill="#4997d0" d="M0 0h640v480H0Z"/>
-  <path fill="#fff" d="M213.3 0h213.4v480H213.3Z"/>
+  <path fill="#ffffff" d="M213.3 0h213.4v480H213.3Z"/>
   <g transform="matrix(.81133 0 0 .8264 -69.4 -8)">
     <g stroke="#24420e">
       <g fill="none" stroke-width=".4">

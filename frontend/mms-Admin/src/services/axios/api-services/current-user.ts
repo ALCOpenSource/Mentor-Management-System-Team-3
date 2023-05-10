@@ -9,6 +9,7 @@ import {
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails
 ) => {
+  throw new Error("ayt ghhgjgh iho p youyp y oyoyh oiuy uio");
   return userDetails;
 };
 
