@@ -6,20 +6,29 @@ import {
   SystemUser,
   UsernamePassword,
 } from "../../redux/types/system-user";
-
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails
 ) => {
   return userDetails;
 };
 
-export const resetCurrentUserPasswordApiAsync = async (
-  userEmail: string
-) => {
+export const resetCurrentUserPasswordApiAsync = async (userEmail: string) => {
   return userEmail;
 };
 
-export const updateCurrentUserApiAsync = async (userDetails: SystemUser) => {
+export const updateCurrentUserApiAsync = async (
+  userDetails: SystemUser,
+  token: string
+) => {
+  await axiosWithBearer(token ?? "")
+    .put("users/update", userDetails)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+      throw err;
+    });
   return userDetails;
 };
 
@@ -30,71 +39,109 @@ export const updateCurrentUserProfilePictureApiAsync = async (image: any) => {
 export const loginCurrentUserApiAsync = async (
   userDetails: UsernamePassword
 ) => {
+  const { username, password } = userDetails;
+  let role: string | undefined = undefined;
+  let token: string | undefined = undefined;
 
-  const {username,password} = userDetails;
-  const {data} = await axiosWithoutBearer
-        .post<{data:{access_token:string, email:string, id:string,role:string}}>("/auth/login", 
-        {
-          email: `${username}`,
-          password: `${password}`
-        });
-    
-        const tokens = data.data.access_token;
-         const currentUser = await axiosWithBearer(data.data.access_token).get<{}>("/users/me")
-        
-  console.log("dxt", data.data.access_token, currentUser);
-  // const response = await fetch("http://localhost:8000/current-user", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     name,
-  //   }),
-  //});
-  //const data = await response.json();
-  //return data;
-  try {
-    let loggedInUser: SystemUser = {
-      firstNames: "Eliud",
-      lastName: "Amukambwa",
-      userRole: "Admin",
-      about:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dignissim  ut cursus purus efficitur et. Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus.  Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus. ",
-      website: "www.pilgrims.com",
-      country: "Us",
-      city: "Nairobi",
-      email: "eliudfromkenya@gmail.com",
-      github: "@pecular.umeh",
-      linkedin: "@pecular.umeh",
-      instagram: "@pecular.umeh",
-      twitter: "@pecular.umeh",
-    };
+  const getToken = axiosWithoutBearer
+    .post<{
+      data: { access_token: string; email: string; id: string; role: string };
+    }>("/auth/login", {
+      email: `${username}`,
+      password: `${password}`,
+    })
+    .then((data) => {
+      const obj = data.data.data;
+      role = obj.role;
+      token = obj.access_token;
+      return obj;
+    })
+    .catch((err) => {
+      if (userDetails?.afterUnSuccessful) userDetails?.afterUnSuccessful(err);
+      throw err;
+    });
 
-    //const userP =  `./../../../assets/images/flag-icons-main/flags/4x3/ug.svg`;
+  const getUser = getToken
+    .then(() =>
+      axiosWithBearer(token ?? "")
+        .get("/users/me")
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          if (userDetails?.afterUnSuccessful)
+            userDetails?.afterUnSuccessful(err);
+          throw err;
+        })
+    )
+    .catch((err) => {
+      if (userDetails?.afterUnSuccessful) userDetails?.afterUnSuccessful(err);
+      throw err;
+    });
 
-    console.log("fg 1", loggedInUser);
-    const flag = getCountryFlag(loggedInUser.country ?? " ");
-    const profilePic = getCountryFlag("uganda"); // await readFile(getCountryFlag(loggedInUser.country ?? " "));
-    const userToken = "my user token";
+  const getUserAvatar = getToken
+    .then((tt) =>
+      axiosWithBearer(token ?? "").get("/auth/avatar", {
+        responseType: "text",
+        responseEncoding: "base64",
+      })
+    )
+    .then((res) => {
+      return Buffer.from(res.data, "base64");
+    })
+    .catch((err) => {
+      // if (userDetails?.afterUnSuccessful)
+      //   userDetails?.afterUnSuccessful(err);
+    });
 
-    loggedInUser = {
-      ...loggedInUser,
-      countryFlagIcon: flag,
-      userImage: profilePic,
-    };
-    console.log("fg", loggedInUser);
-    const user: LoggedInUser = {
-      user: loggedInUser,
-      userToken: userToken
-    };
-    // throw new Error("Invalid email or password, please check and try again.");
-    if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
-    return user;
-  } catch (err) {
-    if (userDetails?.afterUnSuccessful)
-      userDetails?.afterUnSuccessful(err);
-    console.log(err);
-    throw err;
-  }
+  const finalize = Promise.all([getUser, getUserAvatar])
+    .then((userData) => {
+      const mx = userData[0].data.data;
+      const userProfileImage = userData[1];
+
+      let loggedInUser: SystemUser = {
+        firstNames: mx.firstName,
+        lastName: mx.lastName,
+        userRole: role,
+        website: mx.website,
+        about: mx.bio,
+        country: mx.country,
+        city: mx.city,
+        email: mx.email,
+        github: mx.socials.github,
+        linkedin: mx.socials.linkedin,
+        instagram: mx.socials.instagram,
+        twitter: mx.socials.twitter,
+      };
+
+      const flag = getCountryFlag(loggedInUser.country ?? " ");
+      const profilePic = userProfileImage;
+      const userToken = token;
+
+      loggedInUser = {
+        ...loggedInUser,
+        countryFlagIcon: flag,
+        userImage: profilePic,
+      };
+      const user: LoggedInUser = {
+        user: loggedInUser,
+        userToken: userToken,
+      };
+      if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
+      return user;
+    })
+    .catch((err) => {
+      const message = err.response.data.message ?? err;
+      if (userDetails?.afterUnSuccessful)
+        userDetails?.afterUnSuccessful(message);
+      throw message;
+    });
+  return finalize;
 };
+
+// var options = {
+//   method: 'GET',
+//   url: 'https://api.pexels.com/v1/curated',
+//   params: {page: '2', per_page: '40'},
+//   headers: {Authorization: '_authkey_'}
+// };

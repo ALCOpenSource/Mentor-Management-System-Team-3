@@ -42,7 +42,7 @@ const PasswordPage: React.FC = () => {
             showErrorMessage(tt);
           },
         })
-      );
+      ).catch(err =>  showErrorMessage(err));
     } catch (error: any) {
       console.error("Your email or password is wrong", error);
       showErrorMessage(error.message);

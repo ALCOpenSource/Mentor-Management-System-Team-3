@@ -108,7 +108,7 @@ const EditProfilePage: React.FC = () => {
     console.log(values);
     try {
       await dispatch(updateCurrentUser(values));
-    } catch (error) {}
+    } catch (error) {console.log(error);}
   };
 
   return (

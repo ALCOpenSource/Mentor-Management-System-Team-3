@@ -33,7 +33,8 @@ const initialState: CurrentUserState = {
 export const updateCurrentUser = createAsyncThunk(
   "current-user/update-user",
   async (userDetails: SystemUser, thunkAPI) => {
-    return await updateCurrentUserApiAsync(userDetails);
+    const state : any = thunkAPI.getState();
+    return await updateCurrentUserApiAsync(userDetails, state.currentUser.currentUser.userToken);
   }
 );
 
@@ -114,6 +115,10 @@ export const selectCurrentUserProfilePicture = createSelector(
 export const selectCurrentUserFlag = createSelector(
   [selectSelf],
   (user): any => user.currentUser.user.countryFlagIcon
+);
+export const selectCurrentUserToken = createSelector(
+  [selectSelf],
+  (user): any => user.currentUser.userToken
 );
 export const selectCurrentUserNameSelector = createSelector(
   [selectSelf],
