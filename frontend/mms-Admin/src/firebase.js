@@ -58,7 +58,8 @@ const signInWithGoogle = async () => {
 
 // Sign in with email and password function
 const logInWithEmailAndPassword = async (email, password) => {
-  try {
+  try 
+  {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     console.error(err);
@@ -85,7 +86,8 @@ const registerWithEmailAndPassword = async (name, email, password) => {
 
 // Signup with Google authentication function
 const signUpWithGoogle = async () => {
-  try {
+  try 
+  {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
     const q = query(collection(db, "users"), where("uid", "==", user.uid));
@@ -107,7 +109,8 @@ const signUpWithGoogle = async () => {
 
 //   Send a password reset link to an email address
 const sendPasswordReset = async (email) => {
-  try {
+  try
+  {
     await sendPasswordResetEmail(auth, email);
     alert("Password reset link sent!");
   } catch (err) {
