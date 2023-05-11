@@ -13,11 +13,8 @@ import settings from "../../assets/images/settings/setting.svg";
 import mentors from "../../assets/images/mentor.svg";
 
 import { NavLink } from "react-router-dom";
-<<<<<<< HEAD
 import { useAppSelector } from "../../services/redux/Store";
 import { selectCurrentUser } from "../../services/redux/slices/current-user-slice";
-=======
->>>>>>> d83ff80ab016afefaded236a7cba643ae47902da
 
 function Sidebar() {
   const nav = [
@@ -72,7 +69,7 @@ function Sidebar() {
       route: "settings",
     },
   ];
-
+ const {lastName,firstNames,userRole } = useAppSelector(selectCurrentUser);
   return (
     <div>
       <div className="flex">
