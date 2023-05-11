@@ -17,7 +17,7 @@ import Settings from "./views/dashboard/SwitchComponents/settings";
 import Tasks from "./views/dashboard/SwitchComponents/tasks";
 import AdminDashboard from "./views/dashboard/SwitchComponents/admindashboard";
 import Forums from "./views/dashboard/SwitchComponents/forums";
-import Mentors from "./views/dashboard/SwitchComponents/mentor";
+import Mentors from "./views/dashboard/SwitchComponents/mentor/mentor";
 
 function App() {
   return (
