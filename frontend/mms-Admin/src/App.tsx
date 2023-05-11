@@ -1,6 +1,4 @@
-import React from "react";
 import LoginForm from "./views/login/LoginForm";
-// import logo from './logo.svg';import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import ForgotPassword from "./views/forgot-password/forgot-password";
@@ -24,13 +22,10 @@ import SettingsPrivacy from "./views/dashboard/SwitchComponents/SettingsComponen
 import SettingsArchive from "./views/dashboard/SwitchComponents/SettingsComponents/archive";
 import SettingsSupport from "./views/dashboard/SwitchComponents/SettingsComponents/support";
 import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/faq";
-//import SettingsEditProfile from "./views/dashboard/SwitchComponents/SettingsComponents/edit-profile";
 import { Provider } from "react-redux";
 import { persistor, store } from "./services/redux/Store";
 import { PersistGate } from "redux-persist/integration/react";
-import Sidebar from "./components/shared/sidebar";
-import Navbar from "./components/shared/navbar";
-import RegisterForm from "./views/signup/RegisterForm";
+import Mentors from "./views/dashboard/SwitchComponents/mentor";
 
 function App() {
   return (
@@ -43,13 +38,6 @@ function App() {
               <Route path="dashboard" element={<Dashboard />}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="messages" element={<Messages />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="certificates" element={<Certificates />} />
-                <Route path="programs" element={<Programs />} />
-                <Route path="reports" element={<Reports />} />
-                <Route path="tasks" element={<Tasks />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="forum" element={<Forums />} />
                 <Route path="settings" element={<Settings />}>
                   <Route index element={<SettingsGeneral />} />
                   <Route path="general" element={<SettingsGeneral />} />
@@ -64,15 +52,19 @@ function App() {
                   <Route path="faq" element={<SettingsFAQ />} />
                   <Route path="*" element={<SettingsGeneral />} />
                 </Route>
+                <Route path="certificates" element={<Certificates />} />
+                <Route path="programs" element={<Programs />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="tasks" element={<Tasks />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="forum" element={<Forums />} />
+                <Route path="mentors" element={<Mentors />} />
                 {/* <Route path="*" element={<AdminDashboard />} /> */}
               </Route>
-              <Route path="/register" element={<RegisterForm />} />
               <Route path="/signup1" element={<SignupForm1 />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path="/passwordreset" element={<ForgotPasswordForm />} />
               <Route path="/passwordsucess" element={<ForgotPasswordSuccess />} />
-              <Route path="/navbar" element={<Navbar />} />
-              <Route path="/sidebar" element={<Sidebar />} />
             </Routes>
           </Router>
         </div>

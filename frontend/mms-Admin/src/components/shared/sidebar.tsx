@@ -13,8 +13,11 @@ import settings from "../../assets/images/settings/setting.svg";
 import mentors from "../../assets/images/mentor.svg";
 
 import { NavLink } from "react-router-dom";
+<<<<<<< HEAD
 import { useAppSelector } from "../../services/redux/Store";
 import { selectCurrentUser } from "../../services/redux/slices/current-user-slice";
+=======
+>>>>>>> d83ff80ab016afefaded236a7cba643ae47902da
 
 function Sidebar() {
   const nav = [
@@ -70,85 +73,14 @@ function Sidebar() {
     },
   ];
 
-    const nav = [
-        {
-            icon: profile,
-            label: 'Profile',
-            route: 'profile'
-        },
-        {
-            icon: dashboard,
-            label: 'Dashboard',
-            route: ''
-        },
-        {
-            icon: programs,
-            label: 'Programs',
-            route: 'programs'
-        },
-        {
-            icon: tasks,
-            label: 'Tasks',
-            route: 'tasks'
-        },
-        {
-            icon: reports,
-            label: 'Reports',
-            route: 'reports'
-        },
-        {
-            icon: certificates,
-            label: 'Certificates',
-            route: 'certificates'
-        },
-        {
-            icon: messages,
-            label: 'Messages',
-            route: 'messages'
-        },
-        {
-            icon: forum,
-            label: 'Discussion Forum',
-            route: 'forum'
-        },
-        {
-            icon: settings,
-            label: 'Settings',
-            route: 'settings'
-        }
-    ]
-
-
-    const { firstNames, lastName, userRole } = useAppSelector(selectCurrentUser);
-
-    return (
-        
-            <div>
-                <div className="flex">
-                    <div className="flex w-60">
-                        <div className="w-full">
-                            <div className="flex flex-col items-center justify-center p-8">
-                                <h2 className="text-customBlack-one">Hi, {lastName ?? firstNames}</h2>
-                                <p className="text-gray-three mb-10">{userRole}</p>
-                            </div>
-                            {
-                                nav.map((item, i) => {
-                                    return (
-                                        <section key='i' className="flex  px-8  hover:bg-white py-2 text-center">
-                             <NavLink to={`/dashboard/${item.route}`}   className="relative flex items-center active:bg-white">
-                                <img src={item.icon} alt="profile logo" className="h-8 mr-5" />
-                                <span className="text-sm text-gray-one">{item.label}</span>
-                            </NavLink>
-                                        </section>
-                                    )
-                                })
-
-                            }               
-
-                    
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div>
+      <div className="flex">
+        <div className="flex w-60">
+          <div className="w-full">
+            <div className="flex flex-col items-center justify-center p-8">
+              <h2 className="text-customBlack-one">Hi, {lastName ?? firstNames}</h2>
+              <p className="text-gray-three mb-10">{userRole}</p>
             </div>
             {nav.map((item, i) => {
               return (
