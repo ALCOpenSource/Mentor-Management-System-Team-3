@@ -2,7 +2,6 @@ import ellipsis3 from "../../../assets/Ellipse3.svg";
 import note from "../../../assets/Vector (1).svg";
 import direction from "../../../assets/Vector.svg";
 import calendar from "../../../assets/calendar.svg";
-import userico from "../../../assets/Vectoruser.svg";
 function AdminDashboard() {
   return (
     <section>
