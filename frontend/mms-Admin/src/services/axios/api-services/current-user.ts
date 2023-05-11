@@ -82,8 +82,8 @@ export const loginCurrentUserApiAsync = async (
   const getUserAvatar = getToken
     .then((tt) =>
       axiosWithBearer(token ?? "").get("/auth/avatar", {
-        responseType: "text",
-        responseEncoding: "base64",
+        responseType: 'arraybuffer',
+        responseEncoding: "base64"
       })
     )
     .then((res) => {
