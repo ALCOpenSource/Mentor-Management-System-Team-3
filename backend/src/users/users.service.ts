@@ -21,6 +21,10 @@ import { hashPassword } from "../utils/hash-password.utils";
 import { SignupWithGoogleDTO } from "./dto/signup-with-google.dto";
 import { UserIdDTO } from "./dto/user-id.dto";
 import { ROLE } from "../auth/enums/role.enum";
+import { GetMentorsDTO } from "./dto/getmentors.dto";
+import { PaginatedUserDocuments } from "./interface/paginated-user-documents.interface";
+import { TaskService } from "../task/task.service";
+import { UserTaskResponse } from "./interface/user-task-response.interface";
 
 @Injectable()
 export class UsersService {
@@ -30,6 +34,7 @@ export class UsersService {
     private readonly userModel: Model<UserDocument>,
     private readonly cloudinary: CloudinaryService,
     private readonly preferenceService: PreferencesService,
+    private readonly taskService: TaskService,
   ) {}
 
   // This method uploads user profile picture (avatar)
@@ -199,6 +204,12 @@ export class UsersService {
     };
   }
 
+  /**
+   * This function updates a user's role to admin
+   * @param userIdDto - DTO containing the user's ID
+   * @returns an HTTP response type with a success message and an empty object data property upon successful update
+   * @throws a NotFoundException if the user is not found
+   */
   async makeAdmin(userIdDto: UserIdDTO): Promise<HttpResponseType<object>> {
     const user = await this.userModel.findById(userIdDto.userId);
 
@@ -217,6 +228,76 @@ export class UsersService {
       status: OperationStatus.SUCCESS,
       message: "User role updated successfully",
       data: {},
+    };
+  }
+
+  async getMentors(
+    getMentorsDto: GetMentorsDTO,
+  ): Promise<HttpResponseType<PaginatedUserDocuments>> {
+    const { page, perPage } = getMentorsDto;
+
+    // Calculate how many documents to skip
+    const skip = (page - 1) * perPage;
+
+    // Use the MongoDB aggregation pipeline to fetch mentors with pagination
+    const [result] = await this.userModel
+      .aggregate([
+        { $match: { role: "mentor" } },
+        {
+          $facet: {
+            data: [
+              { $skip: skip },
+              { $limit: perPage },
+              {
+                $project: {
+                  password: 0,
+                  __v: 0,
+                  updatedAt: 0,
+                },
+              },
+            ],
+            total: [{ $count: "count" }],
+          },
+        },
+      ])
+      .exec();
+
+    // Return the paginated mentors as an HTTP response
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "",
+      data: {
+        docs: result.data,
+        count: result.total[0]?.count || 0,
+      },
+    };
+  }
+
+  async getMentor(
+    userIdDto: UserIdDTO,
+  ): Promise<HttpResponseType<UserTaskResponse>> {
+    // Extract the userId from the DTO
+    const { userId } = userIdDto;
+
+    // Find the user with the given userId and exclude the password and __v fields
+    const user = await this.userModel.findById(userId).select("-password -__v");
+
+    // If no user is found, throw a NotFoundException
+    if (!user) {
+      throw new NotFoundException(`User with ID '${userId}' not found`);
+    }
+
+    // Get the tasks associated with the mentor
+    const tasks = await this.taskService.getTasksByMentorId(userIdDto);
+
+    // Return the HTTP response with the user and tasks data
+    return {
+      status: OperationStatus.SUCCESS, // Set the status to SUCCESS
+      message: "", // Set an empty message
+      data: {
+        user, // Set the user data
+        tasks, // Set the tasks data
+      },
     };
   }
 }
