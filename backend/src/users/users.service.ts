@@ -52,7 +52,9 @@ export class UsersService {
       });
     }
 
-    const user: UserDocument = await this.userModel.findById(id);
+    const user: UserDocument = await this.userModel
+      .findById(id)
+      .select("-password -__v");
     if (!user) {
       const errorMessage = "User not found";
       this.logger.error({
@@ -120,7 +122,9 @@ export class UsersService {
 
   // This methods finds a user using the id
   async getUserById(id: string): Promise<HttpResponseType<UserDocument>> {
-    const user: UserDocument = await this.userModel.findById(id);
+    const user: UserDocument = await this.userModel
+      .findById(id)
+      .select("-password -__v");
 
     if (!user) {
       const errorMessage = "User not found";
@@ -148,7 +152,9 @@ export class UsersService {
       this.logger.error("No changes made");
       throw new BadRequestException("No changes made");
     }
-    const user: UserDocument | null = await this.userModel.findById(id);
+    const user: UserDocument | null = await this.userModel
+      .findById(id)
+      .select("-password -__v");
 
     if (!user) {
       const errorMessage = "User not found";
@@ -211,7 +217,9 @@ export class UsersService {
    * @throws a NotFoundException if the user is not found
    */
   async makeAdmin(userIdDto: UserIdDTO): Promise<HttpResponseType<object>> {
-    const user = await this.userModel.findById(userIdDto.userId);
+    const user = await this.userModel
+      .findById(userIdDto.userId)
+      .select("-password -__v");
 
     if (!user) {
       const errorMessage = "User not found";
