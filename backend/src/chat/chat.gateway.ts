@@ -14,7 +14,6 @@ import { ConfigService } from "@nestjs/config";
 import { JwtWebSocketGuard } from "src/auth/guards/ws.auth.guard";
 import { UsersService } from "src/users/users.service";
 import { MailService } from "src/mail/mail.service";
-import e from "express";
 
 @WebSocketGateway()
 export class ChatGateway
