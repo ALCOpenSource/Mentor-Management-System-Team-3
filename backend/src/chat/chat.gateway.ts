@@ -15,7 +15,7 @@ import { JwtWebSocketGuard } from "src/auth/guards/ws.auth.guard";
 import { UsersService } from "src/users/users.service";
 import { MailService } from "src/mail/mail.service";
 
-@WebSocketGateway()
+@WebSocketGateway() // { cors: { origin: "http://localhost:3000" } }
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
