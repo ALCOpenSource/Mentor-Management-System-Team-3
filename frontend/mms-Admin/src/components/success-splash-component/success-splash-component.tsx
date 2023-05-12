@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import Button, { BUTTON_TYPE } from '../shared/button';
 
 interface SuccessSplashProps {

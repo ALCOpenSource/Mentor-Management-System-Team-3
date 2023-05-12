@@ -7,7 +7,7 @@ import {
 import { Model } from "mongoose";
 import { OperationStatus } from "../filters/interface/response.interface";
 import { HttpResponseType } from "../types/http-response.type";
-import { FindByUserIdDto } from "./dto/findbyuserid.dto";
+import { FindByUserIdDTO } from "./dto/findbyuserid.dto";
 import { ProgramsArchiveSearchDto } from "./dto/program-archive-search.dto";
 import { FindByProgramIdDto } from "./dto/findbyprogramid.dto";
 import { CreateProgramArchiveDto } from "./dto/create-archive.dto";
@@ -69,7 +69,7 @@ export class ProgramsArchiveService {
   // Find program archive documents by userId and paginate the results
   async findByUserId(
     userId: string,
-    findByUserIdDto: FindByUserIdDto,
+    findByUserIdDto: FindByUserIdDTO,
   ): Promise<HttpResponseType<PaginatedProgramArchiveDocuments>> {
     // Calculate the number of documents to skip based on page and perPage
     const skip = (findByUserIdDto.page - 1) * findByUserIdDto.perPage;
@@ -79,8 +79,6 @@ export class ProgramsArchiveService {
       .find({ userId })
       .populate("programId")
       .lean({ virtuals: true });
-
-    console.log(await this.programArchiveModel.find({ userId }));
 
     // Query for the total number of documents that match the userId criteria
     const countQuery = this.programArchiveModel

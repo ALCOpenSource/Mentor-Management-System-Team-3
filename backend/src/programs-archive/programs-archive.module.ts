@@ -15,6 +15,8 @@ import {
   Preferences,
   PreferencesSchema,
 } from "../preferences/preferences.schema";
+import { TaskService } from "../task/task.service";
+import { Task, TaskSchema } from "../task/task.schema";
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import {
       { name: ProgramArchive.name, schema: ProgramArchiveSchema },
       { name: User.name, schema: UserSchema },
       { name: Preferences.name, schema: PreferencesSchema },
+      { name: Task.name, schema: TaskSchema },
     ]),
   ],
   controllers: [ProgramsArchiveController],
@@ -30,6 +33,7 @@ import {
     UsersService,
     CloudinaryService,
     PreferencesService,
+    TaskService,
   ],
 })
 export class ProgramsArchiveModule {}

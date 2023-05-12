@@ -14,7 +14,9 @@ import { PreferencesService } from "src/preferences/preferences.service";
 import {
   PreferencesSchema,
   Preferences,
-} from "src/preferences/preferences.schema";
+} from "../preferences/preferences.schema";
+import { Task, TaskSchema } from "../task/task.schema";
+import { TaskService } from "../task/task.service";
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import {
       { name: User.name, schema: UserSchema },
       { name: Chat.name, schema: ChatSchema },
       { name: Preferences.name, schema: PreferencesSchema },
+      { name: Task.name, schema: TaskSchema },
     ]),
   ],
   providers: [
@@ -38,6 +41,7 @@ import {
     UsersService,
     CloudinaryService,
     PreferencesService,
+    TaskService,
   ],
   controllers: [ChatController],
 })
