@@ -1,14 +1,14 @@
 import { IsNumber, Min } from "class-validator";
 import { Type } from "class-transformer";
 
-export class FindByUserIdDTO {
+export class GetMentorsDTO {
   @Type(() => Number)
   @IsNumber()
   @Min(1)
-  page: number;
+  page = 1;
 
   @Type(() => Number)
   @IsNumber()
   @Min(1)
-  perPage: number;
+  perPage = 10;
 }
