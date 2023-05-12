@@ -41,7 +41,8 @@
   outline: none;
   padding: 8px 12px;
   font-weight: bold;
-  width: 120px;
+  width: 150px;
+  min-width: 150px;
 }
 
 .toggle-switch-label {
@@ -97,7 +98,7 @@ input[type="file"] {
 .icon {
   padding: 8px;
   padding-left: 15px;
-  margin-top: -10px;
+  margin-top: 3px;
   min-width: 30px;
   text-align: center;
 }

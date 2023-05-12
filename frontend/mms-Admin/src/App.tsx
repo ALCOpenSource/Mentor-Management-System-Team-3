@@ -35,8 +35,8 @@ function App() {
         <div className="App">
           <Router>
             <Routes>
+              <Route path="/" element={<ProtectedRoutes />}>
               <Route path="/" element={<LoginForm />} />
-              <Route path="/signup1" element={<ProtectedRoutes />} >
               <Route path="dashboard" element={<Dashboard />}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="messages" element={<Messages />} />
