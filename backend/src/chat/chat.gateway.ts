@@ -12,14 +12,20 @@ import { ChatService } from "./chat.service";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import { JwtWebSocketGuard } from "src/auth/guards/ws.auth.guard";
+import { UsersService } from "src/users/users.service";
+import { MailService } from "src/mail/mail.service";
+import e from "express";
 
 @WebSocketGateway()
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   private readonly logger = new Logger(ChatGateway.name);
+
   constructor(
     private chatService: ChatService,
+    private usersService: UsersService,
+    private mailService: MailService,
     private jwtService: JwtService,
     private configService: ConfigService, // private userService: UserService,
   ) {}
@@ -88,15 +94,25 @@ export class ChatGateway
       chatId: string;
       senderId: string;
       receiverId: string;
-      text: string;
+      text: string | Express.Multer.File;
     },
   ) {
-    const message = await this.chatService.sendMessage(
-      data.chatId,
-      data.senderId,
-      data.receiverId,
-      data.text,
-    );
+    let message;
+    if (typeof data.text === "string") {
+      message = await this.chatService.sendMessage(
+        data.chatId,
+        data.senderId,
+        data.receiverId,
+        data.text,
+      );
+    } else {
+      message = await this.chatService.uploadAttachment(
+        data.chatId,
+        data.senderId,
+        data.receiverId,
+        data.text,
+      );
+    }
     // list sockets
     const sockets = Array.from(this.connectedUsers.entries());
     // find receiver socket
@@ -106,6 +122,18 @@ export class ChatGateway
     // if receiver is connected, emit message to receiver
     if (receiverSocket) {
       this.server.to(receiverSocket[1].id).emit("newMessage", message);
+    }
+    // if the receiver is not online, send push notification to their email
+    else {
+      const receiver = await this.usersService.getUserById(data.receiverId);
+      const sender = await this.usersService.getUserById(data.senderId);
+      const message = `You have a new message from ${sender.data.email}`;
+      if (receiver) {
+        await this.mailService.sendNotificationEmail(
+          receiver.data.email,
+          message,
+        );
+      }
     }
   }
 
@@ -155,6 +183,7 @@ export class ChatGateway
     // if receiver is connected, emit message to receiver
     if (receiverSocket) {
       this.server.to(receiverSocket[1].id).emit("startTyping", {
+        success: true,
         chatId: data.chatId,
         senderId: data.senderId,
       });
@@ -177,6 +206,7 @@ export class ChatGateway
     // if receiver is connected, emit message to receiver
     if (receiverSocket) {
       this.server.to(receiverSocket[1].id).emit("stopTyping", {
+        success: true,
         chatId: data.chatId,
         senderId: data.senderId,
       });

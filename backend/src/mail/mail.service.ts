@@ -50,4 +50,31 @@ export class MailService {
       data: {},
     };
   }
+
+  // function to send notification email they have a new message
+  async sendNotificationEmail(
+    email: string, // Email address to send to
+    message: string, // Message to send
+  ): Promise<HttpResponseType<object>> {
+    // Returns HttpResponseType object
+    this.logger.log("Sending email..."); // Log email sending
+    await this.mailerService.sendMail({
+      to: email, // Support email recipient
+      from: `<${process.env.MAIL_USER}>`, // Override default email sender
+      subject: "You have a new message", // Email subject line
+      template: "./notification", // Email template path
+      context: {
+        message: message,
+      }, // Email template context with user details
+    });
+
+    this.logger.log("Email sent"); // Log email sent
+
+    // Return success response object
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Email sent successfully",
+      data: {},
+    };
+  }
 }
