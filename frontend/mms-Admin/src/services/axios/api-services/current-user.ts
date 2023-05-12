@@ -7,6 +7,7 @@ import {
   UsernamePassword,
 } from "../../redux/types/system-user";
 import avatar from '../../../assets/images/avatar.svg';
+import { capitalizeEachWord } from "../../generalFunctions";
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails
 ) => {
@@ -101,13 +102,13 @@ export const loginCurrentUserApiAsync = async (
       const userProfileImage = userData[1] ?? avatar;
 
       let loggedInUser: SystemUser = {
-        firstNames: mx.firstName,
-        lastName: mx.lastName,
-        userRole: role,
+        firstNames: capitalizeEachWord(mx.firstName),
+        lastName: capitalizeEachWord(mx.lastName),
+        userRole: role? capitalizeEachWord(role??"") : undefined,
         website: mx.website,
         about: mx.bio,
-        country: mx.country,
-        city: mx.city,
+        country: capitalizeEachWord(mx.country),
+        city: capitalizeEachWord(mx.city),
         email: mx.email,
         github: mx.socials.github,
         linkedin: mx.socials.linkedin,

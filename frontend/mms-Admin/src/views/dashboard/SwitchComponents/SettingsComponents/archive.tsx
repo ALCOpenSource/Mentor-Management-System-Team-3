@@ -59,7 +59,7 @@ const App: React.FC = () => (
               id="searchArchive"
               name="searchArchive"
               placeholder="Search archive"
-              className="text-input input-icon-label ms-1 mt-3 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+              className="text-input input-icon-label ms-1 mt-0 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
             />
             <div className="mt-5">
               <button type="submit" className="navigation-button">

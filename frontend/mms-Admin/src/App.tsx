@@ -64,6 +64,7 @@ function App() {
                 {/* <Route path="*" element={<AdminDashboard />} /> */}
               </Route>
               </Route>
+              <Route path="/login" element={<LoginForm />} />
               <Route path="/signup1" element={<SignupForm1 />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path="/passwordreset" element={<ForgotPasswordForm />} />
