@@ -8,11 +8,13 @@ import { v4 as uuidv4 } from "uuid";
 import { HttpResponseType } from "src/types/http-response.type";
 import { OperationStatus } from "src/filters/interface/response.interface";
 import { WebsocketResponseType } from "src/types/ws-response.type";
+import { CloudinaryService } from "src/cloudinary/cloudinary.service";
 
 @Injectable()
 export class ChatService {
   constructor(
     private readonly usersService: UsersService,
+    private readonly cloudinary: CloudinaryService,
     @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
     @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
   ) {}
@@ -203,5 +205,27 @@ export class ChatService {
     message.isDelivered = true;
     message.deliveredAt = new Date();
     return message.save();
+  }
+  // handle attachment uploads with cloudinary service and return the url
+  async uploadAttachment(
+    chatId: string,
+    senderId: string,
+    receiverId: string,
+    file: Express.Multer.File,
+  ): Promise<WebsocketResponseType<MessageDocument | object>> {
+    const messageCollectionName = `messages_${chatId}`;
+    const messageModel = this.messageModel.db.model<MessageDocument>(
+      messageCollectionName,
+      MessageSchema,
+    );
+    const attachment = await this.cloudinary.uploadImage(file);
+    const message = await messageModel.create({
+      chatId,
+      senderId,
+      receiverId,
+      attachment,
+      isMedia: true,
+    });
+    return message.toObject({ getters: true });
   }
 }
