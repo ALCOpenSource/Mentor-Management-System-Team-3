@@ -6,6 +6,7 @@ import {
   SystemUser,
   UsernamePassword,
 } from "../../redux/types/system-user";
+import avatar from '../../../assets/images/avatar.svg';
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails
 ) => {
@@ -97,7 +98,7 @@ export const loginCurrentUserApiAsync = async (
   const finalize = Promise.all([getUser, getUserAvatar])
     .then((userData) => {
       const mx = userData[0].data.data;
-      const userProfileImage = userData[1];
+      const userProfileImage = userData[1] ?? avatar;
 
       let loggedInUser: SystemUser = {
         firstNames: mx.firstName,

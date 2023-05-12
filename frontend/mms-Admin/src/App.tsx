@@ -26,6 +26,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./services/redux/Store";
 import { PersistGate } from "redux-persist/integration/react";
 import Mentors from "./views/dashboard/SwitchComponents/mentor";
+import ProtectedRoutes from "./components/protectedRoute";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Router>
             <Routes>
               <Route path="/" element={<LoginForm />} />
+              <Route path="/signup1" element={<ProtectedRoutes />} >
               <Route path="dashboard" element={<Dashboard />}>
                 <Route index element={<AdminDashboard />} />
                 <Route path="messages" element={<Messages />} />
@@ -60,6 +62,7 @@ function App() {
                 <Route path="forum" element={<Forums />} />
                 <Route path="mentors" element={<Mentors />} />
                 {/* <Route path="*" element={<AdminDashboard />} /> */}
+              </Route>
               </Route>
               <Route path="/signup1" element={<SignupForm1 />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />

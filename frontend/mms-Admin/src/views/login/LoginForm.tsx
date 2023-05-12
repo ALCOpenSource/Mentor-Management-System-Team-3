@@ -89,7 +89,7 @@ const PasswordPage: React.FC = () => {
                     className="p-[10px] border-2 rounded-[5px] p-5 text-[20px] my-2 w-full text-input my-5"
                   />
                   <button
-                    className="transform -translate-y-1/2 focus:outline-none icon"
+                    className="transform -translate-y-1/2 focus:outline-none m_icon"
                     type="button"                
                     onClick={() => {
                       setShowPassword(!showPassword);
