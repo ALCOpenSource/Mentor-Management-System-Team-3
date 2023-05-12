@@ -1,14 +1,15 @@
 
 
-function BoardWrapper(){
+// function BoardWrapper(){
 
 
 
-    return (
-            <section>
-                <section>
+//     return (
+//             <section>
+//                 <section>
                     
-                </section>
-            </section>
-    )
-}
+//                 </section>
+//             </section>
+//     )
+// }
+export{}
