@@ -29,7 +29,8 @@ const ProtectedRoutes = () => {
 
     if (auth && role?.toLowerCase().includes("admin"))
         return (<Outlet />);
-    return auth ? <PermissionDenied /> : <Navigate to="/login" />
+    return <Navigate to="/login" />
+   // return auth ? <PermissionDenied /> : <Navigate to="/login" />
 }
 
 export default ProtectedRoutes

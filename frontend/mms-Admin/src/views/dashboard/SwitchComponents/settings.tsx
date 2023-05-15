@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import "../../../index.css"
+import "./settings.css"
 
 function Settings() {
   const nav = [

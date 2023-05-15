@@ -23,6 +23,8 @@ import {
 
 const EditProfilePage: React.FC = () => {
   const obj = useAppSelector(selectCurrentUser);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const initialValues: SystemUser = {
     firstNames: "",

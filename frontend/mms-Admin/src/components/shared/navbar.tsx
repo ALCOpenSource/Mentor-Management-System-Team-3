@@ -5,10 +5,16 @@ import chats from "../../assets/images/chats.svg";
 import notifications from "../../assets/images/notifications.svg";
 import { selectCurrentUserProfilePicture } from "../../services/redux/slices/current-user-slice";
 import { useAppSelector } from "../../services/redux/Store";
+import { ContextMenu } from "./contextMenu/ContextMenu";
 
 function Navbar() {
-  const userImage =  useAppSelector(selectCurrentUserProfilePicture);
-  
+  const userImage = useAppSelector(selectCurrentUserProfilePicture);
+  const items = ['Profile', 'Change Password', 'Logout'];
+
+  const onAvatarRightClick = (item: string) => {
+    alert(`${item} was clicked.`);
+  };
+
   return (
     <nav className="relative flex flex-row w-full justify-between bg-green-three p-4">
       <section className="flex flex-wrap items-center">
@@ -17,10 +23,10 @@ function Navbar() {
           <span className="text-3xl text-white">Mentor Managers System</span>
         </div>
 
-        
+
       </section>
       <section className="flex flex-row">
-      <div className="flex flex-row">
+        <div className="flex flex-row">
           <button
             type="button"
             className="flex flex-row  items-center text-md shadow appearance-none border rounded w-[533px] py-2 px-5 bg-white leading-tight focus:outline-none focus:shadow-outline"
@@ -32,11 +38,15 @@ function Navbar() {
           </button>
         </div>
         <div className="flex flex-row items-center justify-between">
-          <span  className="flex flex-row mx-4" >  <img src={chats} alt="Chats Icon" />   <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">3</span></sub></span>
-      
-          <span  className="flex flex-row mx-4" >  <img src={notifications} alt="Notifications Icon" />  <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">15</span></sub></span>
-          <img src={userImage} alt="Avatar Icon" style={{borderRadius:"50%", width:"42px" , height:"42px"}} className="mx-2" />
-        </div>   
+          <span className="flex flex-row mx-4" >  <img src={chats} alt="Chats Icon" />   <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">3</span></sub></span>
+
+          <span className="flex flex-row mx-4" >  <img src={notifications} alt="Notifications Icon" />  <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">15</span></sub></span>
+          <img src={userImage} alt="Avatar Icon" style={{ borderRadius: "50%", width: "42px", height: "42px" }} className="mx-2" >
+            <div>
+              <ContextMenu items={items} onClick={onAvatarRightClick} />
+            </div>
+          </img>
+        </div>
       </section>
     </nav>
   );

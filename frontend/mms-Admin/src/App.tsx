@@ -35,7 +35,7 @@ function App() {
         <div className="App">
           <Router>
             <Routes>
-              <Route path="/" element={<ProtectedRoutes />}>
+              {/* <Route path="/" element={<ProtectedRoutes />}> */}
               <Route path="/" element={<LoginForm />} />
               <Route path="dashboard" element={<Dashboard />}>
                 <Route index element={<AdminDashboard />} />
@@ -63,7 +63,7 @@ function App() {
                 <Route path="mentors" element={<Mentors />} />
                 {/* <Route path="*" element={<AdminDashboard />} /> */}
               </Route>
-              </Route>
+              {/* </Route> */}
               <Route path="/login" element={<LoginForm />} />
               <Route path="/signup1" element={<SignupForm1 />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
