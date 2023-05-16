@@ -6,7 +6,7 @@ import {
   SystemUser,
   UsernamePassword,
 } from "../../redux/types/system-user";
-import avatar from '../../../assets/images/avatar.svg';
+import avatar from "../../../assets/images/avatar.svg";
 import { capitalizeEachWord } from "../../generalFunctions";
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails
@@ -37,6 +37,8 @@ export const updateCurrentUserApiAsync = async (
 export const updateCurrentUserProfilePictureApiAsync = async (image: any) => {
   return image;
 };
+
+export const logoutCurrentUserApiAsync = async () => {};
 
 export const loginCurrentUserApiAsync = async (
   userDetails: UsernamePassword
@@ -84,8 +86,8 @@ export const loginCurrentUserApiAsync = async (
   const getUserAvatar = getToken
     .then((tt) =>
       axiosWithBearer(token ?? "").get("/auth/avatar", {
-        responseType: 'arraybuffer',
-        responseEncoding: "base64"
+        responseType: "arraybuffer",
+        responseEncoding: "base64",
       })
     )
     .then((res) => {
@@ -104,7 +106,7 @@ export const loginCurrentUserApiAsync = async (
       let loggedInUser: SystemUser = {
         firstNames: capitalizeEachWord(mx.firstName),
         lastName: capitalizeEachWord(mx.lastName),
-        userRole: role? capitalizeEachWord(role??"") : undefined,
+        userRole: role ? capitalizeEachWord(role ?? "") : undefined,
         website: mx.website,
         about: mx.bio,
         country: capitalizeEachWord(mx.country),

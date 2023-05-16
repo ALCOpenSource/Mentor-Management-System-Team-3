@@ -1,13 +1,15 @@
+import { RefObject } from 'react';
 import { useContextMenu } from '../../../hooks/useContextMenu';
 import './ContextMenu.css';
 
 type Props = {
   items: Array<string>;
+  contextParent: RefObject<HTMLButtonElement>;
   onClick: (item: string) => void;
 };
 
-const ContextMenu = ({ items, onClick }: Props) => {
-  const { anchorPoint, isShown } = useContextMenu();
+const ContextMenu = ({ items, contextParent, onClick }: Props) => {
+  const { anchorPoint, isShown } = useContextMenu(contextParent);
 
   if (!isShown) {
     return null;

@@ -10,10 +10,11 @@ import {
   SystemUser,
   UsernamePassword,
 } from "../types/system-user";
-import { RootState } from "../Store";
+import { persistor, RootState } from "../Store";
 import "./../../../assets/images/flag-icons-main/flags/4x3/ac.svg";
 import {
   loginCurrentUserApiAsync,
+  logoutCurrentUserApiAsync,
   updateCurrentUserApiAsync,
   updateCurrentUserProfilePictureApiAsync,
 } from "../../axios/api-services/current-user";
@@ -33,8 +34,11 @@ const initialState: CurrentUserState = {
 export const updateCurrentUser = createAsyncThunk(
   "current-user/update-user",
   async (userDetails: SystemUser, thunkAPI) => {
-    const state : any = thunkAPI.getState();
-    return await updateCurrentUserApiAsync(userDetails, state.currentUser.currentUser.userToken);
+    const state: any = thunkAPI.getState();
+    return await updateCurrentUserApiAsync(
+      userDetails,
+      state.currentUser.currentUser.userToken
+    );
   }
 );
 
@@ -49,6 +53,14 @@ export const loginCurrentUser = createAsyncThunk(
   "current-user/login",
   async (userDetails: UsernamePassword, thunkAPI) => {
     return await loginCurrentUserApiAsync(userDetails);
+  }
+);
+
+export const logoutCurrentUser = createAsyncThunk(
+  "current-user/logout",
+  async (thunkAPI) => {
+    await logoutCurrentUserApiAsync();
+    return persistor.purge();
   }
 );
 
@@ -77,16 +89,22 @@ export const CurrentUserSlice = createSlice({
       user.userToken = action.payload;
       return state;
     },
-    logoutCurrentUser: (state) => {
-      state.currentUser = getEmptyLoggedInUser();
-      return state;
-    },
+    // logoutCurrentUser: (state) => {
+    //   state.currentUser = getEmptyLoggedInUser();
+    //   return state;
+    // },
   },
 
   extraReducers: (builder) => {
     builder.addCase(loginCurrentUser.fulfilled, (state, action) => {
       state.currentUser = action.payload;
       state.currentUser.loginTime = new Date().getTime();
+    });
+
+    builder.addCase(logoutCurrentUser.fulfilled, (state, action) => {
+      state.currentUser.loginTime = undefined;
+      state.currentUser.userToken = undefined;
+      state.currentUser.user = {};
     });
 
     builder.addCase(updateCurrentUser.fulfilled, (state, action) => {

@@ -1,21 +1,23 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, RefObject } from "react";
 
 type AnchorPoint = {
   x: number;
   y: number;
 };
 
-const useContextMenu = () => {
+const useContextMenu = (contextParent: RefObject<HTMLButtonElement>) => {
   const [anchorPoint, setAnchorPoint] = useState<AnchorPoint>({ x: 0, y: 0 });
   const [isShown, setIsShow] = useState(false);
 
   const handleContextMenu = useCallback(
     (event: MouseEvent) => {
-      event.preventDefault();
-      setAnchorPoint({ x: event.pageX, y: event.pageY });
-      setIsShow(true);
+      if (contextParent.current != null && contextParent.current === document.activeElement) {
+        event.preventDefault();
+        setAnchorPoint({ x: event.pageX - 160, y: event.pageY });
+        setIsShow(true);
+      }
     },
-    [setIsShow, setAnchorPoint]
+    [setIsShow, setAnchorPoint, contextParent]
   );
 
   const handleClick = useCallback(() => {

@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useRef } from "react";
 import logo from "../../assets/images/mms_logo.svg";
 import search from "../../assets/images/search.svg";
 import chats from "../../assets/images/chats.svg";
 import notifications from "../../assets/images/notifications.svg";
-import { selectCurrentUserProfilePicture } from "../../services/redux/slices/current-user-slice";
-import { useAppSelector } from "../../services/redux/Store";
+import { logoutCurrentUser, selectCurrentUserProfilePicture } from "../../services/redux/slices/current-user-slice";
+import { useAppDispatch, useAppSelector } from "../../services/redux/Store";
 import { ContextMenu } from "./contextMenu/ContextMenu";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const userImage = useAppSelector(selectCurrentUserProfilePicture);
   const items = ['Profile', 'Change Password', 'Logout'];
-
-  const onAvatarRightClick = (item: string) => {
-    alert(`${item} was clicked.`);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const onAvatarRightClick = async (item: string) => {
+    console.log(item);
+    switch (item) {
+      case "Profile":
+        navigate("/dashboard/profile");
+        break;
+      case "Change Password":
+        navigate("/dashboard/settings/password");
+        break;
+      case "Logout":
+        try {
+          dispatch(logoutCurrentUser());
+          navigate("/login");
+        } catch (error) { console.log(error) }
+        break;
+    }
   };
+
+  const avatarRef = useRef<HTMLButtonElement>(null);
 
   return (
     <nav className="relative flex flex-row w-full justify-between bg-green-three p-4">
@@ -41,11 +59,17 @@ function Navbar() {
           <span className="flex flex-row mx-4" >  <img src={chats} alt="Chats Icon" />   <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">3</span></sub></span>
 
           <span className="flex flex-row mx-4" >  <img src={notifications} alt="Notifications Icon" />  <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">15</span></sub></span>
-          <img src={userImage} alt="Avatar Icon" style={{ borderRadius: "50%", width: "42px", height: "42px" }} className="mx-2" >
+
+          <button
+            type="button"
+            ref={avatarRef}
+            className="font-medium mt-0"
+          >
             <div>
-              <ContextMenu items={items} onClick={onAvatarRightClick} />
+              <img src={userImage} alt="Avatar Icon" style={{ borderRadius: "50%", width: "42px", height: "42px" }} className="mx-2" />
+              <ContextMenu contextParent={avatarRef} items={items} onClick={onAvatarRightClick} />
             </div>
-          </img>
+          </button>
         </div>
       </section>
     </nav>
