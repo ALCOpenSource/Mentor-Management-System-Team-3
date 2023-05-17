@@ -57,6 +57,8 @@ const EditProfilePage: React.FC = () => {
   const [filebase64, setFileBase64] = useState<string>(
     useAppSelector(selectCurrentUserProfilePicture) ?? avatar
   );
+  
+  
   function convertFile(files: FileList | null) {
     try {
       if (files) {

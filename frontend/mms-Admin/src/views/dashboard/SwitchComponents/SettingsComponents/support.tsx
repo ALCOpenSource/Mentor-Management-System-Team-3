@@ -35,6 +35,43 @@ const SupportPage: React.FC = () => {
     // save changes logic here
   };
 
+  const removeAttachedFileClick = (tt: string) => {
+    console.log(tt);
+  };
+
+  const [filebase64s, setFileBase64s] = useState<string[]>([]);
+  const attachedFiles: string[] = [];
+
+
+  function convertFile(files: FileList | null) {
+    try {
+      if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const fileRef = files[i] || "";
+          const fileType: string = fileRef.type || "";
+          //console.log("This file upload is of type:", fileType);
+          //console.log("File:", fileRef.name);
+          const reader = new FileReader();
+          reader.readAsBinaryString(fileRef);
+          reader.onload = async (ev: any) => {
+            try {
+              const file = `data:${fileType};base64,${btoa(ev.target.result)}`;
+              // convert it to base64
+              var files = filebase64s ?? [];
+              attachedFiles.push(file);
+              setFileBase64s([...files, fileRef.name]);
+
+              console.log("Files:", filebase64s, attachedFiles);
+              //await dispatch(updateCurrentUserProfilePicture(img));
+            } catch (error) { console.log(error) }
+          }
+        };
+      }
+    } catch (ee) {
+      console.log(ee);
+    }
+  }
+
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopup = () => {
@@ -125,17 +162,36 @@ const SupportPage: React.FC = () => {
                 </div>
 
                 <div className="flex w-full">
-                  <button
-                    type="submit"
-                    style={{ marginRight: "auto" }}
+
+                  <label
                     className="rounded-[10px] p-[10px] ps-[40px] ms-[5px] font-medium mt-0"
+                    htmlFor="uploadFile"
+                    style={{ marginRight: "auto" }}
                   >
                     <img src={attachFileIcon} alt="Attach file icon"></img>
-                  </button>
+                  </label>
+                  <input
+                    type="file"
+                    id="uploadFile"
+                    name="uploadFile"
+                    className="bg-green-three ms-11 text-white rounded-[10px] p-[5px] font-medium mt-1"
+                    onChange={(e) => convertFile(e.target.files)}
+                  />
+
+                  <div className="flex flex-col relative" style={{ marginRight: "auto" }}>
+                    {
+                      filebase64s.map((item, index) => (
+                        <label > {item} <span className="close-attached-icon"
+                          onClick={() => removeAttachedFileClick(item)}>
+                          x
+                        </span>
+                        </label>))
+                    }
+                  </div>
 
                   <button
                     type="submit"
-                    style={{ marginLeft: "auto" }}
+                    style={{ marginLeft: "auto" , maxHeight:"40px" }}
                     className="bg-green-three text-white rounded-[10px] p-[10px]  me-[40px] pe-[40px] ps-[40px] font-medium mt-0"
                   >
                     Send
@@ -146,7 +202,7 @@ const SupportPage: React.FC = () => {
             <div className="btn flex w-full" onClick={togglePopup}>
               <button
                 type="button"
-                style={{ marginLeft: "auto" }}
+                style={{ marginLeft: "auto"}}
                 onClick={togglePopup}
                 className="rounded-[10px] p-[10px] pe-[40px] mt-[50px] font-medium mt-0"
               >

@@ -52,7 +52,7 @@ export const updateCurrentUserProfilePicture = createAsyncThunk(
 export const loginCurrentUser = createAsyncThunk(
   "current-user/login",
   async (userDetails: UsernamePassword, thunkAPI) => {
-    return await loginCurrentUserApiAsync(userDetails);
+    return await loginCurrentUserApiAsync(userDetails, thunkAPI.dispatch);
   }
 );
 

@@ -35,35 +35,35 @@ function App() {
         <div className="App">
           <Router>
             <Routes>
-              <Route path="/" element={<ProtectedRoutes />}>
-                <Route path="/" element={<LoginForm />} />
-                <Route path="dashboard" element={<Dashboard />}>
-                  <Route index element={<AdminDashboard />} />
-                  <Route path="messages" element={<Messages />} />
-                  <Route path="settings" element={<Settings />}>
-                    <Route index element={<SettingsGeneral />} />
-                    <Route path="general" element={<SettingsGeneral />} />
-                    <Route path="password" element={<SettingsPassword />} />
-                    <Route
-                      path="notifications"
-                      element={<SettingsNotifications />}
-                    />
-                    <Route path="privacy" element={<SettingsPrivacy />} />
-                    <Route path="archive" element={<SettingsArchive />} />
-                    <Route path="support" element={<SettingsSupport />} />
-                    <Route path="faq" element={<SettingsFAQ />} />
-                    <Route path="*" element={<SettingsGeneral />} />
-                  </Route>
-                  <Route path="certificates" element={<Certificates />} />
-                  <Route path="programs" element={<Programs />} />
-                  <Route path="reports" element={<Reports />} />
-                  <Route path="tasks" element={<Tasks />} />
-                  <Route path="profile" element={<Profile />} />
-                  <Route path="forum" element={<Forums />} />
-                  <Route path="mentors" element={<Mentors />} />
-                  {/* <Route path="*" element={<AdminDashboard />} /> */}
+               <Route path="/" element={<ProtectedRoutes />}> 
+              <Route path="/" element={<LoginForm />} />
+              <Route path="dashboard" element={<Dashboard />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="messages" element={<Messages />} />
+                <Route path="settings" element={<Settings />}>
+                  <Route index element={<SettingsGeneral />} />
+                  <Route path="general" element={<SettingsGeneral />} />
+                  <Route path="password" element={<SettingsPassword />} />
+                  <Route
+                    path="notifications"
+                    element={<SettingsNotifications />}
+                  />
+                  <Route path="privacy" element={<SettingsPrivacy />} />
+                  <Route path="archive" element={<SettingsArchive />} />
+                  <Route path="support" element={<SettingsSupport />} />
+                  <Route path="faq" element={<SettingsFAQ />} />
+                  <Route path="*" element={<SettingsGeneral />} />
                 </Route>
+                <Route path="certificates" element={<Certificates />} />
+                <Route path="programs" element={<Programs />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="tasks" element={<Tasks />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="forum" element={<Forums />} />
+                <Route path="mentors" element={<Mentors />} />
+                {/* <Route path="*" element={<AdminDashboard />} /> */}
               </Route>
+               </Route> 
               <Route path="/login" element={<LoginForm />} />
               <Route path="/signup1" element={<SignupForm1 />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
