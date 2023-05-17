@@ -8,10 +8,9 @@ import {
 } from "../../redux/types/system-user";
 import avatar from "../../../assets/images/avatar.svg";
 import { capitalizeEachWord } from "../../generalFunctions";
-import { resolve } from "path";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { updateLoggedInCurrentUser } from "../../redux/slices/current-user-slice";
+import { selectCurrentUserToken, updateLoggedInCurrentUser , updateLoggedInUserToken} from "../../redux/slices/current-user-slice";
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails
 ) => {
@@ -38,153 +37,169 @@ export const updateCurrentUserApiAsync = async (
   return userDetails;
 };
 
-export const updateCurrentUserProfilePictureApiAsync = async (image: any) => {
-  return image;
+export const updateCurrentUserProfilePictureApiAsync = async (image: any, token:string) => {
+  const saveUserAvatar = 
+    axiosWithBearer(token ?? "").put("/auth/avatar",image, {
+      responseType: "arraybuffer",
+      responseEncoding: "base64",
+    })  
+  .then((res) => {
+    return Buffer.from(res.data, "base64");
+  })
+  .catch((err) => {
+    throw err;
+  });
 };
 
 export const logoutCurrentUserApiAsync = async () => {};
 
+// export const loginCurrentUserApiAsync = async (
+//   userDetails: UsernamePassword, dispatch: ThunkDispatch<unknown, unknown, AnyAction>
+// ) => {
+//   return new Promise<LoggedInUser>(function(resolve, reject){
+//     if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
+//     return getUser(dispatch);
+//   })
+// }
+
+// function getUser(dispatch: ThunkDispatch<unknown, unknown, AnyAction>): LoggedInUser {
+//   const flag = getCountryFlag("Ke");
+
+//   const oldUser: SystemUser = {
+//     firstNames: "Kabiru",
+//     lastName: "Ibrahim",
+//     userRole: "Admin",
+//     about:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dignissim  ut cursus purus efficitur et. Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus.  Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus. ",
+//     website: "www.pecular.com",
+//     country: "Nigeria",
+//     city: "Lagos",
+//     email: "pecular@andela.com",
+//     github: "@pecular.umeh",
+//     linkedin: "@pecular.umeh",
+//     instagram: "@pecular.umeh",
+//     twitter: "@pecular.umeh",
+//     countryFlagIcon: flag,
+//     userImage: avatar
+//   };
+
+  //   const dispatch = useAppDispatch();
+  //dispatch(updateLoggedInCurrentUser(oldUser));
+//   const logedInUser: LoggedInUser = {
+//     user: oldUser,
+//     userToken: "djhsgf dfgsdfjgdf gdfgsdfngsdf gdfgsdf",
+//     loginTime: new Date().getTime(),
+//   };
+//   return logedInUser;
+// }
 export const loginCurrentUserApiAsync = async (
   userDetails: UsernamePassword, dispatch: ThunkDispatch<unknown, unknown, AnyAction>
 ) => {
-  return new Promise<LoggedInUser>(function(resolve, reject){
-    if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
-    return getUser(dispatch);
-  })
-}
+  const { username, password } = userDetails;
+  let role: string | undefined = undefined;
+  let token: string | undefined = undefined;
 
-function getUser(dispatch: ThunkDispatch<unknown, unknown, AnyAction>): LoggedInUser {
-  const flag = getCountryFlag("Ke");
+  const getToken = axiosWithoutBearer
+    .post<{
+      data: { access_token: string; email: string; id: string; role: string };
+    }>("/auth/login", {
+      email: `${username}`,
+      password: `${password}`,
+    })
+    .then((data) => {
+      const obj = data.data.data;
+      role = obj.role;
+      token = obj.access_token;
+      return obj;
+    })
+    .catch((err) => {
+      if (userDetails?.afterUnSuccessful) userDetails?.afterUnSuccessful(err);
+      throw err;
+    });
 
-  const oldUser: SystemUser = {
-    firstNames: "Kabiru",
-    lastName: "Ibrahim",
-    userRole: "Admin",
-    about:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dignissim  ut cursus purus efficitur et. Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus.  Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus. ",
-    website: "www.pecular.com",
-    country: "Nigeria",
-    city: "Lagos",
-    email: "pecular@andela.com",
-    github: "@pecular.umeh",
-    linkedin: "@pecular.umeh",
-    instagram: "@pecular.umeh",
-    twitter: "@pecular.umeh",
-    countryFlagIcon: flag,
-    userImage: avatar
-  };
+  const getUser = getToken
+    .then(() =>
+      axiosWithBearer(token ?? "")
+        .get("/users/me")
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          if (userDetails?.afterUnSuccessful)
+            userDetails?.afterUnSuccessful(err);
+          throw err;
+        })
+    )
+    .catch((err) => {
+      if (userDetails?.afterUnSuccessful) userDetails?.afterUnSuccessful(err);
+      throw err;
+    });
 
-  //   const dispatch = useAppDispatch();
-  dispatch(updateLoggedInCurrentUser(oldUser));
-  const logedInUser: LoggedInUser = {
-    user: oldUser,
-    userToken: "djhsgf dfgsdfjgdf gdfgsdfngsdf gdfgsdf",
-    loginTime: new Date().getTime(),
-  };
-  return logedInUser;
-}
-// export const loginCurrentUserApiAsync = async (
-//   userDetails: UsernamePassword
-// ) => {
-//   const { username, password } = userDetails;
-//   let role: string | undefined = undefined;
-//   let token: string | undefined = undefined;
+  const getUserAvatar = getToken
+    .then((tt) =>
+      axiosWithBearer(token ?? "").get("/auth/avatar", {
+        responseType: "arraybuffer",
+        responseEncoding: "base64",
+      })
+    )
+    .then((res) => {
+      return Buffer.from(res.data, "base64");
+    })
+    .catch((err) => {
+      // if (userDetails?.afterUnSuccessful)
+      //   userDetails?.afterUnSuccessful(err);
+    });
 
-//   const getToken = axiosWithoutBearer
-//     .post<{
-//       data: { access_token: string; email: string; id: string; role: string };
-//     }>("/auth/login", {
-//       email: `${username}`,
-//       password: `${password}`,
-//     })
-//     .then((data) => {
-//       const obj = data.data.data;
-//       role = obj.role;
-//       token = obj.access_token;
-//       return obj;
-//     })
-//     .catch((err) => {
-//       if (userDetails?.afterUnSuccessful) userDetails?.afterUnSuccessful(err);
-//       throw err;
-//     });
+  const finalize = Promise.all([getUser, getUserAvatar])
+    .then((userData) => {
+      const mx = userData[0].data.data;
+      const userProfileImage = userData[1] ?? avatar;
 
-//   const getUser = getToken
-//     .then(() =>
-//       axiosWithBearer(token ?? "")
-//         .get("/users/me")
-//         .then((data) => {
-//           return data;
-//         })
-//         .catch((err) => {
-//           if (userDetails?.afterUnSuccessful)
-//             userDetails?.afterUnSuccessful(err);
-//           throw err;
-//         })
-//     )
-//     .catch((err) => {
-//       if (userDetails?.afterUnSuccessful) userDetails?.afterUnSuccessful(err);
-//       throw err;
-//     });
+      let loggedInUser: SystemUser = {
+        firstNames: capitalizeEachWord(mx.firstName),
+        lastName: capitalizeEachWord(mx.lastName),
+        userRole: role ? capitalizeEachWord(role ?? "") : undefined,
+        website: mx.website,
+        about: mx.bio,
+        country: capitalizeEachWord(mx.country),
+        city: capitalizeEachWord(mx.city),
+        email: mx.email,
+        github: mx.socials.github,
+        linkedin: mx.socials.linkedin,
+        instagram: mx.socials.instagram,
+        twitter: mx.socials.twitter,
+      };
 
-//   const getUserAvatar = getToken
-//     .then((tt) =>
-//       axiosWithBearer(token ?? "").get("/auth/avatar", {
-//         responseType: "arraybuffer",
-//         responseEncoding: "base64",
-//       })
-//     )
-//     .then((res) => {
-//       return Buffer.from(res.data, "base64");
-//     })
-//     .catch((err) => {
-//       // if (userDetails?.afterUnSuccessful)
-//       //   userDetails?.afterUnSuccessful(err);
-//     });
+      const flag = getCountryFlag(loggedInUser.country ?? " ");
+      const profilePic = userProfileImage;
+      const userToken = token;
 
-//   const finalize = Promise.all([getUser, getUserAvatar])
-//     .then((userData) => {
-//       const mx = userData[0].data.data;
-//       const userProfileImage = userData[1] ?? avatar;
+      loggedInUser = {
+        ...loggedInUser,
+        countryFlagIcon: flag,
+        userImage: profilePic,
+      };
+      
+      dispatch(updateLoggedInCurrentUser(loggedInUser));
+      dispatch(updateLoggedInUserToken(userToken));
 
-//       let loggedInUser: SystemUser = {
-//         firstNames: capitalizeEachWord(mx.firstName),
-//         lastName: capitalizeEachWord(mx.lastName),
-//         userRole: role ? capitalizeEachWord(role ?? "") : undefined,
-//         website: mx.website,
-//         about: mx.bio,
-//         country: capitalizeEachWord(mx.country),
-//         city: capitalizeEachWord(mx.city),
-//         email: mx.email,
-//         github: mx.socials.github,
-//         linkedin: mx.socials.linkedin,
-//         instagram: mx.socials.instagram,
-//         twitter: mx.socials.twitter,
-//       };
+      const user: LoggedInUser = {
+        user: loggedInUser,
+        userToken: userToken,
+      };
+      if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
+      return user;
+    })
+    .catch((err) => {
+      const message = err.response.data.message ?? err;
+      if (userDetails?.afterUnSuccessful)
+        userDetails?.afterUnSuccessful(message);
+      throw message;
+    });
+  return finalize;
+};
 
-//       const flag = getCountryFlag(loggedInUser.country ?? " ");
-//       const profilePic = userProfileImage;
-//       const userToken = token;
 
-//       loggedInUser = {
-//         ...loggedInUser,
-//         countryFlagIcon: flag,
-//         userImage: profilePic,
-//       };
-//       const user: LoggedInUser = {
-//         user: loggedInUser,
-//         userToken: userToken,
-//       };
-//       if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
-//       return user;
-//     })
-//     .catch((err) => {
-//       const message = err.response.data.message ?? err;
-//       if (userDetails?.afterUnSuccessful)
-//         userDetails?.afterUnSuccessful(message);
-//       throw message;
-//     });
-//   return finalize;
-// };
 
 // var options = {
 //   method: 'GET',

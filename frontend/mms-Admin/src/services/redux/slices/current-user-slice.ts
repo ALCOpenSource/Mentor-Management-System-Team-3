@@ -45,7 +45,9 @@ export const updateCurrentUser = createAsyncThunk(
 export const updateCurrentUserProfilePicture = createAsyncThunk(
   "current-user/update-user-profile-image",
   async (image: any, thunkAPI) => {
-    return await updateCurrentUserProfilePictureApiAsync(image);
+    const state:any = thunkAPI.getState();
+    const token = state.currentUser.userToken;    
+    return await updateCurrentUserProfilePictureApiAsync(image, token);
   }
 );
 
@@ -151,4 +153,4 @@ export const selectCurrentUserNameSelector = createSelector(
 );
 
 export default CurrentUserSlice.reducer;
-export const { updateLoggedInCurrentUser } = CurrentUserSlice.actions;
+export const { updateLoggedInCurrentUser, updateLoggedInUserToken } = CurrentUserSlice.actions;
