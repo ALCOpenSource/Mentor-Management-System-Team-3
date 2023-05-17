@@ -1,0 +1,85 @@
+.switch {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.switch input {
+  appearance: none;
+  min-width: 48px;
+  min-height: 22px;
+  margin: 0;
+  position: relative;
+  background-color: #a1a1a1;
+  border-radius: 32px;
+  border: 1px solid #a1a1a1;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.switch input:checked {
+  background-color: #058b94;
+  border-color: #058b94;
+}
+
+.switch input::before {
+  content: '';
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: all 0.3s;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.switch input::after {
+  content: url(./../../assets/images/components/ToggleOff.svg);
+  color: white;
+  display: block;
+  position: absolute;
+  font-size: 10px;
+  line-height: 1;
+  z-index: 99;
+  top: 0.5em;
+  left: 0.6em;
+  bottom: 0.5em;
+}
+
+.switch input:checked::before {
+  left: unset;
+  transform: translateX(calc(100% + 12px));
+}
+
+.switch input:checked::after {
+  content: url(./../../assets/images/components/ToggleOn.svg);
+  right: 0.6em;
+  z-index: 99;
+  left: unset;
+}
+
+.switch-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.switch-labels span {
+  cursor: pointer;
+  line-height: 1.4;
+  font-size: 16px;
+  user-select: none;
+}
+
+.switch-labels p {
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  line-height: 1.3;
+  margin: 0;
+  color: #555;
+}

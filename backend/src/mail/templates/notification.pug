@@ -1,0 +1,32 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(href="https://fonts.googleapis.com/css?family=Roboto&display=swap", rel="stylesheet")
+    style.
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+      h1 {
+        color: #333;
+      }
+      .message {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+  body
+    h1 You have a new message
+    .message
+      p
+        | You have a new message from:
+        br
+        strong Name: 
+        | #{email}
+        br
+        strong Email: 
+        | #{email}
+        br
+        strong Message: 
+        | #{message}

@@ -1,6 +1,4 @@
-import React from "react";
 import LoginForm from "./views/login/LoginForm";
-// import logo from './logo.svg';import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import ForgotPassword from "./views/forgot-password/forgot-password";
@@ -18,33 +16,65 @@ import Tasks from "./views/dashboard/SwitchComponents/tasks";
 import AdminDashboard from "./views/dashboard/SwitchComponents/admindashboard";
 import Forums from "./views/dashboard/SwitchComponents/forums";
 import Mentors from "./views/dashboard/SwitchComponents/mentor/mentor";
+import SettingsGeneral from "./views/dashboard/SwitchComponents/SettingsComponents/edit-profile";
+import SettingsPassword from "./views/dashboard/SwitchComponents/SettingsComponents/password";
+import SettingsNotifications from "./views/dashboard/SwitchComponents/SettingsComponents/notifications";
+import SettingsPrivacy from "./views/dashboard/SwitchComponents/SettingsComponents/privacy";
+import SettingsArchive from "./views/dashboard/SwitchComponents/SettingsComponents/archive";
+import SettingsSupport from "./views/dashboard/SwitchComponents/SettingsComponents/support";
+import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/faq";
+import { Provider } from "react-redux";
+import { persistor, store } from "./services/redux/Store";
+import { PersistGate } from "redux-persist/integration/react";
+import Mentors from "./views/dashboard/SwitchComponents/mentor";
+import ProtectedRoutes from "./components/protectedRoute";
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<LoginForm />} />
-          <Route path="dashboard" element={<Dashboard />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="messages" element={<Messages />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="certificates" element={<Certificates />} />
-            <Route path="programs" element={<Programs />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="tasks" element={<Tasks />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="forum" element={<Forums />} />
-            <Route path="mentors" element={<Mentors />} />
-            {/* <Route path="*" element={<AdminDashboard />} /> */}
-          </Route>
-          <Route path="/signup1" element={<SignupForm1 />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/passwordreset" element={<ForgotPasswordForm />} />
-          <Route path="/passwordsucess" element={<ForgotPasswordSuccess />} />
-        </Routes>
-      </Router>
-    </div>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <div className="App">
+          <Router>
+            <Routes>
+              <Route path="/" element={<ProtectedRoutes />}>
+              <Route path="/" element={<LoginForm />} />
+              <Route path="dashboard" element={<Dashboard />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="messages" element={<Messages />} />
+                <Route path="settings" element={<Settings />}>
+                  <Route index element={<SettingsGeneral />} />
+                  <Route path="general" element={<SettingsGeneral />} />
+                  <Route path="password" element={<SettingsPassword />} />
+                  <Route
+                    path="notifications"
+                    element={<SettingsNotifications />}
+                  />
+                  <Route path="privacy" element={<SettingsPrivacy />} />
+                  <Route path="archive" element={<SettingsArchive />} />
+                  <Route path="support" element={<SettingsSupport />} />
+                  <Route path="faq" element={<SettingsFAQ />} />
+                  <Route path="*" element={<SettingsGeneral />} />
+                </Route>
+                <Route path="certificates" element={<Certificates />} />
+                <Route path="programs" element={<Programs />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="tasks" element={<Tasks />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="forum" element={<Forums />} />
+                <Route path="mentors" element={<Mentors />} />
+                {/* <Route path="*" element={<AdminDashboard />} /> */}
+              </Route>
+              </Route>
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/signup1" element={<SignupForm1 />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="/passwordreset" element={<ForgotPasswordForm />} />
+              <Route path="/passwordsucess" element={<ForgotPasswordSuccess />} />
+            </Routes>
+          </Router>
+        </div>
+      </PersistGate>
+    </Provider>
   );
 }
 

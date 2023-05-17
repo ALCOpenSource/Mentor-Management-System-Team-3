@@ -24,6 +24,8 @@ import { UserIdDTO } from "./dto/user-id.dto";
 import { ROLE } from "../auth/enums/role.enum";
 import { Role } from "../auth/custom-decorator/role.decorator";
 import { RolesGuard } from "../auth/guards/role.guard";
+import { GetMentorsDTO } from "./dto/getmentors.dto";
+import { PaginatedUserDocuments } from "./interface/paginated-user-documents.interface";
 
 @Controller("users")
 export class UsersController {
@@ -81,5 +83,23 @@ export class UsersController {
     @Param() userIdDto: UserIdDTO,
   ): Promise<HttpResponseType<object>> {
     return this.usersService.makeAdmin(userIdDto);
+  }
+
+  @Get("/mentors")
+  @Role(ROLE.SUPERADMIN, ROLE.ADMIN)
+  @UseGuards(RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  async getMentors(
+    @Query() getMentorsDto: GetMentorsDTO,
+  ): Promise<HttpResponseType<PaginatedUserDocuments>> {
+    return this.usersService.getMentors(getMentorsDto);
+  }
+
+  @Get("/mentor/:userId")
+  @Role(ROLE.SUPERADMIN, ROLE.ADMIN)
+  @UseGuards(RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  async getMentor(@Param() userIdDto: UserIdDTO) {
+    return this.usersService.getMentor(userIdDto);
   }
 }

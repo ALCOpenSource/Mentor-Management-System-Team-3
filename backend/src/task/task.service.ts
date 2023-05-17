@@ -15,6 +15,8 @@ import { HttpResponseType } from "../types/http-response.type";
 import { OperationStatus } from "../filters/interface/response.interface";
 import { TaskIdDTO } from "./dto/task-id.dto";
 import { UpdateTaskDTO } from "./dto/update-task.dto";
+import { UnAssignMentorDTO } from "./dto/unassign-mentor.dto";
+import { UserIdDTO } from "../users/dto/user-id.dto";
 
 @Injectable()
 export class TaskService {
@@ -124,5 +126,37 @@ export class TaskService {
       message: "Task updated successfully",
       data: updatedTask,
     };
+  }
+
+  async UnAssignMentor(
+    unAssignmentorDto: UnAssignMentorDTO,
+  ): Promise<HttpResponseType<TaskDocument>> {
+    const { taskId, mentorId } = unAssignmentorDto;
+
+    // Remove the mentor from the mentors array of the task
+    const task = await this.taskModel
+      .findOneAndUpdate(
+        { _id: taskId },
+        { $pull: { mentors: mentorId } },
+        { new: true },
+      )
+      .exec();
+
+    // If the task cannot be found, throw a NotFoundException
+    if (!task) {
+      throw new NotFoundException(`Task with ID '${taskId}' not found`);
+    }
+
+    // Return a success response with the updated task document
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Mentor removed successfully",
+      data: task,
+    };
+  }
+
+  async getTasksByMentorId(userIdDto: UserIdDTO): Promise<TaskDocument[]> {
+    // Find tasks that have the mentor's user ID in their mentors array
+    return this.taskModel.find({ mentors: { $in: [userIdDto.userId] } });
   }
 }
