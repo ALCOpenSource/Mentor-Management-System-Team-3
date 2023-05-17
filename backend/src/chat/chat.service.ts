@@ -9,6 +9,7 @@ import { HttpResponseType } from "src/types/http-response.type";
 import { OperationStatus } from "src/filters/interface/response.interface";
 import { WebsocketResponseType } from "src/types/ws-response.type";
 import { CloudinaryService } from "src/cloudinary/cloudinary.service";
+import { CreateMessageDto } from "./dto/messsage.dto";
 
 @Injectable()
 export class ChatService {
@@ -153,24 +154,16 @@ export class ChatService {
 
   // function to create a message
   async sendMessage(
-    chatId: string,
-    senderId: string,
-    receiverId: string,
-    text: string,
+    createMessage: CreateMessageDto,
   ): Promise<WebsocketResponseType<MessageDocument | object>> {
     Logger.log("sendMessage");
-    const messageCollectionName = `messages_${chatId}`;
+    const messageCollectionName = `messages_${createMessage.chatId}`;
     Logger.log(messageCollectionName);
     const messageModel = this.messageModel.db.model<MessageDocument>(
       messageCollectionName,
       MessageSchema,
     );
-    const message = await messageModel.create({
-      chatId,
-      senderId,
-      receiverId,
-      text,
-    });
+    const message = await messageModel.create(createMessage);
     return message.toObject({ getters: true });
   }
 
@@ -208,22 +201,23 @@ export class ChatService {
   }
   // handle attachment uploads with cloudinary service and return the url
   async uploadAttachment(
-    chatId: string,
-    senderId: string,
-    receiverId: string,
-    file: Express.Multer.File,
+    createChat: CreateMessageDto,
   ): Promise<WebsocketResponseType<MessageDocument | object>> {
-    const messageCollectionName = `messages_${chatId}`;
+    const messageCollectionName = `messages_${createChat.chatId}`;
     const messageModel = this.messageModel.db.model<MessageDocument>(
       messageCollectionName,
       MessageSchema,
     );
-    const attachment = await this.cloudinary.uploadImage(file);
+    let attachment;
+    if (typeof createChat.text !== "string") {
+      attachment = await this.cloudinary.uploadImage(createChat.text);
+    }
+
     const message = await messageModel.create({
-      chatId,
-      senderId,
-      receiverId,
-      attachment,
+      chatId: createChat.chatId,
+      senderId: createChat.senderId,
+      receiverId: createChat.receiverId,
+      Text: attachment,
       isMedia: true,
     });
     return message.toObject({ getters: true });
