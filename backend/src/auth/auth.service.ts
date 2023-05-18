@@ -111,7 +111,7 @@ export class AuthService {
       forgotPasswordDto.email,
       "Please click the link below to continue",
       `Forgot Password | Expires in ${finalTime} |  MMSA Team 3`,
-      `${process.env.CLIENT_BASE_URL}/${randomToken}`,
+      `${process.env.CLIENT_BASE_URL}/forgotpassword/${randomToken}`,
     );
   }
 
