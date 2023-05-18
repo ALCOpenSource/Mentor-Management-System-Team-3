@@ -25,30 +25,31 @@ export const updateCurrentUserApiAsync = async (
   userDetails: SystemUser,
   token: string
 ) => {
-  await axiosWithBearer(token ?? "")
+  console.log("token", token)
+ const update = await axiosWithBearer(token ?? "")
     .put("users/update", userDetails)
     .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-      throw err;
+      return userDetails;
     });
-  return userDetails;
+  return update;
 };
 
 export const updateCurrentUserProfilePictureApiAsync = async (image: any, token:string) => {
   const saveUserAvatar = 
-    axiosWithBearer(token ?? "").put("/auth/avatar",image, {
+    axiosWithBearer(token ?? "").patch("/auth/avatar",image, {
       responseType: "arraybuffer",
       responseEncoding: "base64",
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })  
   .then((res) => {
-    return Buffer.from(res.data, "base64");
+    //return Buffer.from(res.data, "base64");
+    return image;
   })
   .catch((err) => {
     throw err;
   });
+
+  return saveUserAvatar;
 };
 
 export const logoutCurrentUserApiAsync = async () => {};

@@ -35,6 +35,8 @@ export const updateCurrentUser = createAsyncThunk(
   "current-user/update-user",
   async (userDetails: SystemUser, thunkAPI) => {
     const state: any = thunkAPI.getState();
+    console.log("state", state);
+
     return await updateCurrentUserApiAsync(
       userDetails,
       state.currentUser.currentUser.userToken
@@ -99,7 +101,8 @@ export const CurrentUserSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(loginCurrentUser.fulfilled, (state, action) => {
-      state.currentUser = action.payload;
+      state.currentUser.user = action.payload.user;
+      state.currentUser.userToken = action.payload.userToken;
       state.currentUser.loginTime = new Date().getTime();
     });
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import avatar from "./../../../../assets/images/avatar.svg";
@@ -25,6 +25,24 @@ const EditProfilePage: React.FC = () => {
   const obj = useAppSelector(selectCurrentUser);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [filebase64, setFileBase64] = useState<string>(
+    useAppSelector(selectCurrentUserProfilePicture) ?? avatar
+  );
+
+  const showErrorMessage = (tt: any) => {
+    try {
+      setErrorMessage(tt?.message ?? tt);
+    } catch (err) {
+      setErrorMessage(tt);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccessMessage("");
+      setErrorMessage("");
+    }, 10000)
+  }, [errorMessage, successMessage])
 
   const initialValues: SystemUser = {
     firstNames: "",
@@ -54,11 +72,9 @@ const EditProfilePage: React.FC = () => {
     initialValues.countryFlagIcon = obj.countryFlagIcon;
   }
 
-  const [filebase64, setFileBase64] = useState<string>(
-    useAppSelector(selectCurrentUserProfilePicture) ?? avatar
-  );
-  
-  
+
+
+
   function convertFile(files: FileList | null) {
     try {
       if (files) {
@@ -73,7 +89,7 @@ const EditProfilePage: React.FC = () => {
           setFileBase64(img);
           try {
             await dispatch(updateCurrentUserProfilePicture(img));
-          } catch (error) {console.log(error)}
+          } catch (error) { showErrorMessage(error) }
         };
       }
     } catch (ee) {
@@ -111,8 +127,10 @@ const EditProfilePage: React.FC = () => {
   const handleSubmit = async (values: SystemUser) => {
     console.log(values);
     try {
-      await dispatch(updateCurrentUser(values));
-    } catch (error) {console.log(error);}
+      await dispatch(updateCurrentUser(values))
+      .then(tt => setSuccessMessage("Successfully updated"))
+      .catch(error => showErrorMessage(error));
+    } catch (error) { showErrorMessage(error) }
   };
 
   return (
@@ -349,6 +367,17 @@ const EditProfilePage: React.FC = () => {
                 Save Changes
               </button>
             </div>
+
+            <h5 className="text-1xl text-gray-two font-bold mt-4">
+              {successMessage}
+            </h5>
+
+            <h5
+              style={{ color: "orangered" }}
+              className="text-1xl font-bold mt-4"
+            >
+              {errorMessage}
+            </h5>
           </Form>
         )}
       </Formik>
