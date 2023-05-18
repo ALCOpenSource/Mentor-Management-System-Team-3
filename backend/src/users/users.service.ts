@@ -25,6 +25,7 @@ import { GetMentorsDTO } from "./dto/getmentors.dto";
 import { PaginatedUserDocuments } from "./interface/paginated-user-documents.interface";
 import { TaskService } from "../task/task.service";
 import { UserTaskResponse } from "./interface/user-task-response.interface";
+import { UpdatePasswordDTO } from "./dto/update-password.dto";
 
 @Injectable()
 export class UsersService {
@@ -69,16 +70,19 @@ export class UsersService {
       await this.cloudinary.deleteImage(user?.avatar?.publicId);
     }
 
+    console.log(avatar, "AVATAR");
+
     const { secure_url, public_id } = await this.cloudinary
       .uploadImage(avatar)
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         const errorMessage = "file is empty";
         this.logger.error({
           status: OperationStatus.ERROR,
           message: errorMessage,
           data: {},
         });
-        throw new BadRequestException("file is empty");
+        throw new BadRequestException("file is empty, 2");
       });
 
     user.avatar = { url: secure_url, publicId: public_id };
@@ -121,10 +125,16 @@ export class UsersService {
   }
 
   // This methods finds a user using the id
-  async getUserById(id: string): Promise<HttpResponseType<UserDocument>> {
+  async getUserById(
+    id: string,
+    selectPassword = false,
+  ): Promise<HttpResponseType<UserDocument>> {
+    const _selectionString = selectPassword ? "-__v" : "-password -__v";
+
+    console.log(_selectionString, "SELEC");
     const user: UserDocument = await this.userModel
       .findById(id)
-      .select("-password -__v");
+      .select(_selectionString);
 
     if (!user) {
       const errorMessage = "User not found";
@@ -141,6 +151,19 @@ export class UsersService {
       message: "",
       data: user,
     };
+  }
+
+  async updatePassword(
+    updatePasswordDto: UpdatePasswordDTO,
+  ): Promise<UserDocument> {
+    const user = await this.userModel.findByIdAndUpdate(
+      updatePasswordDto.userId,
+      {
+        password: hashPassword(updatePasswordDto.password),
+      },
+    );
+
+    return user;
   }
 
   // This methods updates a user profile

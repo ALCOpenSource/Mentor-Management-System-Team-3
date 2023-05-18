@@ -15,6 +15,7 @@ import { UsersService } from "../users/users.service";
 import { UserDocument } from "../users/users.schema";
 import { LoginDTO } from "./dto/login.dto";
 import { ILoginResponse } from "./interface/login-response.interface";
+import { ResetPasswordDTO } from "./dto/reset-password.dto";
 
 @Injectable()
 export class AuthService {
@@ -24,6 +25,47 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
   ) {}
+
+  async resetPassword(
+    userId: string,
+    resetPasswordDto: ResetPasswordDTO,
+  ): Promise<HttpResponseType<object>> {
+    // Check if the new password matches the confirm new password
+    if (resetPasswordDto.newPassword !== resetPasswordDto.confirmNewPassword) {
+      throw new BadRequestException(
+        "New password and confirm new password do not match.",
+      );
+    }
+
+    // Retrieve the user's data from the service
+    const { data } = await this.usersService.getUserById(userId, true);
+
+    // Compare the current password with the user's stored password
+    if (
+      !(await bcrypt.compare(resetPasswordDto.currentPassword, data?.password))
+    ) {
+      // Log an error and throw a BadRequestException if the current password doesn't match
+      this.logger.error({
+        status: OperationStatus.ERROR,
+        message: "Current password does not match",
+        data: {},
+      });
+      throw new BadRequestException("Current password does not match");
+    }
+
+    // Update the user's password in the service
+    await this.usersService.updatePassword({
+      userId,
+      password: resetPasswordDto.newPassword,
+    });
+
+    // Return a success response
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Password updated successfully",
+      data: {},
+    };
+  }
 
   async signUpWithEmailAndPassword(
     signUpWithEmailAndPassword: SignupWithEmailAndPasswordDTO,
