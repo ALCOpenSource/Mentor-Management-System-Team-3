@@ -26,6 +26,7 @@ import { PaginatedUserDocuments } from "./interface/paginated-user-documents.int
 import { TaskService } from "../task/task.service";
 import { UserTaskResponse } from "./interface/user-task-response.interface";
 import { UpdatePasswordDTO } from "./dto/update-password.dto";
+import { UpdateTokenDTO } from "./dto/update-token.dto";
 
 @Injectable()
 export class UsersService {
@@ -38,6 +39,9 @@ export class UsersService {
     private readonly taskService: TaskService,
   ) {}
 
+  async findByAny(filter: object): Promise<UserDocument> {
+    return this.userModel.findOne(filter);
+  }
   // This method uploads user profile picture (avatar)
   async uploadAvatar(id: string, avatar: Express.Multer.File) {
     if (!avatar) {
@@ -160,6 +164,32 @@ export class UsersService {
       updatePasswordDto.userId,
       {
         password: hashPassword(updatePasswordDto.password),
+      },
+    );
+
+    return user;
+  }
+
+  async updateToken(
+    updateTokenDto: UpdateTokenDTO,
+    toNull = false,
+  ): Promise<UserDocument> {
+    if (toNull) {
+      const user = await this.userModel.findOneAndUpdate(
+        { email: updateTokenDto.email },
+        {
+          token: null,
+        },
+      );
+
+      return user;
+    }
+
+    const user = await this.userModel.findOneAndUpdate(
+      { email: updateTokenDto.email },
+      {
+        token: updateTokenDto.token,
+        tokenExpires: updateTokenDto.tokenExpires,
       },
     );
 

@@ -28,6 +28,8 @@ import { LoginDTO } from "./dto/login.dto";
 import { Public } from "./custom-decorator/public.decorator";
 import { ILoginResponse } from "./interface/login-response.interface";
 import { ResetPasswordDTO } from "./dto/reset-password.dto";
+import { ForgotPasswordDTO } from "./dto/forgot-password.dto";
+import { ChangePasswordDTO } from "./dto/change-password.dto";
 
 // Define the controller and its base route
 @Controller("auth")
@@ -40,6 +42,20 @@ export class AuthController {
     @Req() req,
   ): Promise<HttpResponseType<object>> {
     return this.authService.resetPassword(req?.user?.sub, resetPasswordDto);
+  }
+
+  // Define a public route for changing  password
+  @Public()
+  @Patch("change-password")
+  async chaagePassword(@Body() changePasswordDto: ChangePasswordDTO) {
+    return this.authService.changePassword(changePasswordDto);
+  }
+
+  // Define a public route for forgot password
+  @Public()
+  @Patch("forgot-password")
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDTO) {
+    return this.authService.forgotPassword(forgotPasswordDto);
   }
 
   // Define a public route for signing up with email and password

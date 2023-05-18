@@ -17,16 +17,8 @@ html(lang="en")
         padding: 10px;
       }
   body
-    h1 You have a new message
     .message
-      p
-        | You have a new message from:
-        br
-        strong Name: 
-        | #{email}
-        br
-        strong Email: 
-        | #{email}
-        br
-        strong Message: 
-        | #{message}
+      p #{message} 
+      p If you didn't initiate the forgot password process, please do not click the link.
+      a(href=link) Click here to reset your password
+      p You can copy this link to your browser #{link}
