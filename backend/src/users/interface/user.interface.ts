@@ -17,4 +17,6 @@ export interface IUser {
   socials: ISocials;
   createdBy?: string;
   updatedBy?: string;
+  token?: string;
+  tokenExpires?: Date;
 }

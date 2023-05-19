@@ -33,6 +33,12 @@ export class User {
   avatar: IImage;
 
   @Prop()
+  token: string;
+
+  @Prop()
+  tokenExpires: Date;
+
+  @Prop()
   bio: string;
 
   @Prop({ lowercase: true })
