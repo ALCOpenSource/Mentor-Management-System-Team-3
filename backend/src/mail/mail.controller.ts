@@ -22,7 +22,7 @@ export class MailController {
     @UploadedFile() attachment: Express.Multer.File,
     // Use the Body decorator to get the request body
     @Body() supportDto: SupportDTO,
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<object>> {
     try {
       // Call the sendSupportMail method of the mailService, passing in the support DTO and attachment
       return await this.mailService.sendSupportMail(supportDto, attachment);

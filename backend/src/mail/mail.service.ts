@@ -15,7 +15,7 @@ export class MailService {
   async sendSupportMail(
     supportDto: SupportDTO, // SupportDTO object containing user details
     attachment: Express.Multer.File, // Multer file object containing attachment
-  ): Promise<HttpResponseType> {
+  ): Promise<HttpResponseType<object>> {
     // Returns HttpResponseType object
     const attachments = [];
     if (attachment) {
@@ -39,6 +39,33 @@ export class MailService {
         message: supportDto.body,
       }, // Email template context with user details
       attachments: attachments, // Email attachments array
+    });
+
+    this.logger.log("Email sent"); // Log email sent
+
+    // Return success response object
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Email sent successfully",
+      data: {},
+    };
+  }
+
+  // function to send notification email they have a new message
+  async sendNotificationEmail(
+    email: string, // Email address to send to
+    message: string, // Message to send
+  ): Promise<HttpResponseType<object>> {
+    // Returns HttpResponseType object
+    this.logger.log("Sending email..."); // Log email sending
+    await this.mailerService.sendMail({
+      to: email, // Support email recipient
+      from: `<${process.env.MAIL_USER}>`, // Override default email sender
+      subject: "You have a new message", // Email subject line
+      template: "./notification", // Email template path
+      context: {
+        message: message,
+      }, // Email template context with user details
     });
 
     this.logger.log("Email sent"); // Log email sent

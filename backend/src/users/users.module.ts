@@ -4,15 +4,26 @@ import { MongooseModule } from "@nestjs/mongoose";
 
 import { UsersController } from "./users.controller";
 import { User, UserSchema } from "./users.schema";
-import { FirebaseModule } from "../firebase/firebase.module";
 import { CloudinaryService } from "../cloudinary/cloudinary.service";
+import { PreferencesModule } from "../preferences/preferences.module";
+import {
+  Preferences,
+  PreferencesSchema,
+} from "../preferences/preferences.schema";
+import { PreferencesService } from "../preferences/preferences.service";
+import { Task, TaskSchema } from "../task/task.schema";
+import { TaskService } from "../task/task.service";
 
 @Module({
   imports: [
-    FirebaseModule,
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    PreferencesModule,
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Preferences.name, schema: PreferencesSchema },
+      { name: Task.name, schema: TaskSchema },
+    ]),
   ],
-  providers: [UsersService, CloudinaryService],
+  providers: [UsersService, CloudinaryService, PreferencesService, TaskService],
   controllers: [UsersController],
 })
 export class UsersModule {}

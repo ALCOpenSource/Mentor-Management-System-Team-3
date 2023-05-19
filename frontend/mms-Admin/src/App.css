@@ -32,7 +32,61 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+@font-face {
+  font-family: 'Mukta';
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Mukta';
+  font-weight: 700;
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Mukta';
+  font-weight: 800;
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-ExtraBold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Mukta';
+  font-weight: 200;
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-ExtraLight.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Mukta';
+  font-weight: 300;
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-Light.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Mukta';
+  font-weight: 500;
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-Medium.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Mukta';
+  font-weight: 900;
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Mukta';
+  font-weight: 400;
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Mukta';
+  font-weight: 600;
+  src: local('Mukta'), url(./fonts/Mukta/Mukta-SemiBold.ttf) format('truetype');
 }
