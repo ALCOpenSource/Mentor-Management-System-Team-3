@@ -13,7 +13,7 @@ const getCountryFlag = function getCountryFlag(country: string) {
 
 export default getCountryFlag;
 
-const countries: { code: string; name: string; flag_4X3: string }[] = [
+export const countries: { code: string; name: string; flag_4X3: string }[] = [
   { code: "af", name: "Afghanistan", flag_4X3: "flags/4x3/af.svg" },
   { code: "ax", name: "Aland Islands", flag_4X3: "flags/4x3/ax.svg" },
   { code: "al", name: "Albania", flag_4X3: "flags/4x3/al.svg" },

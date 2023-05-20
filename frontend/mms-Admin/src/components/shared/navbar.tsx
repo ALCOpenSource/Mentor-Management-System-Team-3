@@ -7,6 +7,7 @@ import { logoutCurrentUser, selectCurrentUserProfilePicture } from "../../servic
 import { useAppDispatch, useAppSelector } from "../../services/redux/Store";
 import { ContextMenu } from "./contextMenu/ContextMenu";
 import { useNavigate } from "react-router-dom";
+import { googleLogout } from "@react-oauth/google";
 
 function Navbar() {
   const userImage = useAppSelector(selectCurrentUserProfilePicture);
@@ -26,6 +27,7 @@ function Navbar() {
         try {
           dispatch(logoutCurrentUser());
           navigate("/login");
+          googleLogout();
         } catch (error) { console.log(error) }
         break;
     }

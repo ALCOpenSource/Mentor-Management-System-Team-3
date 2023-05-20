@@ -10,7 +10,7 @@ import avatar from "../../../assets/images/avatar.svg";
 import { capitalizeEachWord } from "../../generalFunctions";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { selectCurrentUserToken, updateLoggedInCurrentUser , updateLoggedInUserToken} from "../../redux/slices/current-user-slice";
+import { selectCurrentUserToken, updateLoggedInCurrentUser, updateLoggedInUserToken } from "../../redux/slices/current-user-slice";
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails
 ) => {
@@ -26,7 +26,7 @@ export const updateCurrentUserApiAsync = async (
   token: string
 ) => {
   console.log("token", token)
- const update = await axiosWithBearer(token ?? "")
+  const update = await axiosWithBearer(token ?? "")
     .put("users/update", userDetails)
     .then((data) => {
       return userDetails;
@@ -34,25 +34,47 @@ export const updateCurrentUserApiAsync = async (
   return update;
 };
 
-export const updateCurrentUserProfilePictureApiAsync = async (image: any, token:string) => {
-  const saveUserAvatar = 
-    axiosWithBearer(token ?? "").patch("/auth/avatar",image, {
-      responseType: "arraybuffer",
-      responseEncoding: "base64",
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    })  
-  .then((res) => {
-    //return Buffer.from(res.data, "base64");
-    return image;
-  })
-  .catch((err) => {
-    throw err;
-  });
+// export const updateCurrentUserProfilePictureApiAsync = async (image: any, token:string) => {
+//   const saveUserAvatar = 
+//     axiosWithBearer(token ?? "").patch("/auth/avatar",image, {
+//       responseType: "arraybuffer",
+//       responseEncoding: "base64",
+//       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+//     })  
+//   .then((res) => {
+//     //return Buffer.from(res.data, "base64");
+//     return image;
+//   })
+//   .catch((err) => {
+//     throw err;
+//   });
+
+//   return saveUserAvatar;
+// };
+
+export const updateCurrentUserProfilePictureApiAsync = async (image: any, token: string) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append('avatar', image);
+  console.log("Updated image", image);
+
+  const saveUserAvatar =
+    axiosWithBearer(token ?? "").patch("/users/avatar", undefined, {
+      method: "post",
+      data: bodyFormData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then((res) => {
+        console.log("Updated image");
+        return image;
+      })
+      .catch((err) => {
+        throw err;
+      });
 
   return saveUserAvatar;
 };
 
-export const logoutCurrentUserApiAsync = async () => {};
+export const logoutCurrentUserApiAsync = async () => { };
 
 // export const loginCurrentUserApiAsync = async (
 //   userDetails: UsernamePassword, dispatch: ThunkDispatch<unknown, unknown, AnyAction>
@@ -84,8 +106,8 @@ export const logoutCurrentUserApiAsync = async () => {};
 //     userImage: avatar
 //   };
 
-  //   const dispatch = useAppDispatch();
-  //dispatch(updateLoggedInCurrentUser(oldUser));
+//   const dispatch = useAppDispatch();
+//dispatch(updateLoggedInCurrentUser(oldUser));
 //   const logedInUser: LoggedInUser = {
 //     user: oldUser,
 //     userToken: "djhsgf dfgsdfjgdf gdfgsdfngsdf gdfgsdf",
@@ -180,7 +202,7 @@ export const loginCurrentUserApiAsync = async (
         countryFlagIcon: flag,
         userImage: profilePic,
       };
-      
+
       dispatch(updateLoggedInCurrentUser(loggedInUser));
       dispatch(updateLoggedInUserToken(userToken));
 

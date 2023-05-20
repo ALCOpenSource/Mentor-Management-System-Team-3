@@ -20,6 +20,7 @@ import {
   updateCurrentUser,
   updateCurrentUserProfilePicture,
 } from "../../../../services/redux/slices/current-user-slice";
+import { countries } from "../../../../services/countries";
 
 const EditProfilePage: React.FC = () => {
   const obj = useAppSelector(selectCurrentUser);
@@ -128,8 +129,8 @@ const EditProfilePage: React.FC = () => {
     console.log(values);
     try {
       await dispatch(updateCurrentUser(values))
-      .then(tt => setSuccessMessage("Successfully updated"))
-      .catch(error => showErrorMessage(error));
+        .then(tt => setSuccessMessage("Successfully updated"))
+        .catch(error => showErrorMessage(error));
     } catch (error) { showErrorMessage(error) }
   };
 
@@ -235,12 +236,16 @@ const EditProfilePage: React.FC = () => {
                     <label className="text-label" htmlFor="country">
                       Country
                     </label>
-                    <select
+                    <Field
                       id="country"
                       name="country"
                       placeholder="Select Country"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                    />
+                      className="form-control text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      as="select"
+                    //onChange={this.onItemTypeDropdownSelected}
+                    >
+                      {countries.map((item, i) => (<option>{item.name}</option>))}
+                    </Field>
                     <label
                       style={{ paddingLeft: "44px" }}
                       className="text-label"
@@ -248,12 +253,22 @@ const EditProfilePage: React.FC = () => {
                     >
                       City
                     </label>
-                    <select
-                      id="city"
+                    <Field
+                      type="text"
                       name="city"
+                      list="cities"
+                      id="city"
                       placeholder="Select City"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="form-control text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
+                    <datalist id="cities">
+                    {countries.map((item, i) => ( <option
+                            value={`${item.name}`}
+                            key={`${item.name}`}
+                          >
+                            {`${item.name}`}
+                          </option>))}
+                    </datalist>
                   </div>
                   <FormikValidationMessageComponent name="country" />
                   <FormikValidationMessageComponent name="city" />
