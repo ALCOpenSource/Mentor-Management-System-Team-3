@@ -27,6 +27,11 @@ import { persistor, store } from "./services/redux/Store";
 import { PersistGate } from "redux-persist/integration/react";
 import Mentors from "./views/dashboard/SwitchComponents/mentor";
 import ProtectedRoutes from "./components/protectedRoute";
+import AdminMessages from "./views/dashboard/SwitchComponents/AdminMessagesComponents/admin-messages";
+import SelectSomeOne from "./views/dashboard/SwitchComponents/AdminMessagesComponents/select-someone";
+import BroadCastMessage from "./views/dashboard/SwitchComponents/AdminMessagesComponents/broad-cast-message";
+import DiscussionForum from "./views/dashboard/SwitchComponents/AdminMessagesComponents/discussion-forum";
+import DiscussionForumPost from "./views/dashboard/SwitchComponents/AdminMessagesComponents/discussion-forum-post";
 
 function App() {
   return (
@@ -39,7 +44,15 @@ function App() {
               <Route path="/" element={<LoginForm />} />
               <Route path="dashboard" element={<Dashboard />}>
                 <Route index element={<AdminDashboard />} />
-                <Route path="messages" element={<Messages />} />
+                <Route path="messages" element={<Messages />} >
+                <Route index element={<AdminMessages />} />
+                    <Route path="admin-messages" element={<AdminMessages />} />
+                    <Route path="select-someone" element={<SelectSomeOne />} />
+                    <Route path="broadcast-message" element={<BroadCastMessage />} />
+                    <Route path="discussion-forum" element={<DiscussionForum />} />
+                    <Route path="discussion-forum-post" element={<DiscussionForumPost />} />
+                    <Route path="*" element={<AdminMessages />} />
+                </Route>
                 <Route path="settings" element={<Settings />}>
                   <Route index element={<SettingsGeneral />} />
                   <Route path="general" element={<SettingsGeneral />} />

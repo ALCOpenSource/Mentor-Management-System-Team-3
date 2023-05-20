@@ -1,0 +1,76 @@
+.no-messages-box {
+  font-family: "Mukta";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 33px;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  color: #141414;
+}
+
+.no-message-details-box {
+  font-family: "Mukta";
+  font-style: normal;
+  font-weight: 400;
+  margin: auto;
+  font-size: 16px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #999999;
+}
+
+.small-detail-text {
+  position: relative;
+  height: 20px;
+  left: 20px;
+  top: 10px;
+  font-family: "Mukta", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #808080;
+}
+
+.message-title-text {
+ position: relative;
+  font-family: "Mukta";
+  font-style: normal;
+  font-weight: 400;
+  left: 25%;
+  top: 0px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #4d4d4d;
+  background-color: #e6fdfe;
+}
+
+
+
+.search-toolbox-div {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    padding: 5px 10px;
+    gap: 14px;
+    position: absolute;
+    width: 550px;
+    height: 47px;
+    left: 780px;
+    top: 107px;
+  }
+  
+  .mentor-border {
+    box-sizing: border-box;
+    width: 810px;
+    position: relative;
+    height: 71px;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    order: 3;
+  }

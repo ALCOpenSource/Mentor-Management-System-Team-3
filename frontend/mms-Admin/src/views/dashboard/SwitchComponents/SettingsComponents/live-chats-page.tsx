@@ -11,7 +11,7 @@ import WhitePlainCircle from "../../../../assets/images/programs/WhitePlainCircl
 import ChatIcon from "../../../../assets/images/programs/ChatIcon.svg";
 import mmsLogoSVG from "../../../../assets/images/mms_logo.svg";
 
-interface MessageProp {
+export interface MessageProp {
   name: string;
   date: Date;
   icon: any;

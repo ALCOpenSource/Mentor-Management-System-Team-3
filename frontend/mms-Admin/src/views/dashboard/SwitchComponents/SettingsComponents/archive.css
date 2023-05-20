@@ -121,9 +121,7 @@
   align-items: left;
   padding: 5px 10px;
   gap: 14px;
-  position: absolute;
-  width: 550px;
   height: 57px;
-  left: 780px;
+  margin-right:auto;
   top: 107px;
 }
