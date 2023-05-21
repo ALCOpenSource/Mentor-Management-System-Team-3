@@ -8,7 +8,7 @@ const VALIDATION_PATTERNS = {
   INSTAGRAM_PROFILE:
     /(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am|instagr.com)\/(\w+)/gi,
   TWITTER:
-    /(?:https?:)?\/\/(?:www\.|m\.)?twitter\.com\/(\w{2,15})\/?(?:\?\S+)?(?:\\#\S+)?$/gi,
+    /./gi,
   //atleast 1 small-case letter, 1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters
   VALID_PASSWORD:
   /^(?=.*\p{Ll})(?=.*\p{Lu})(?=.*[\d|@#$!%*?&])[\p{L}\d@#$!%*?&]{8,36}$/gmu

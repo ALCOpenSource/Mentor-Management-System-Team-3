@@ -3,13 +3,17 @@ import React from "react";
 import { object, array, string } from "yup";
 import avatarSVG from "../../../../assets/images/avatar.svg";
 import searchIconSVG from "../../../../assets/images/search.svg";
+import messageCloseSVG from "./../../../../assets/images/messages/message-close.svg"
+import messageEarthingSVG from "./../../../../assets/images/messages/messages-earthing.svg"
 import NavigationFirst from "../../../../assets/images/programs/NavigationFirst.svg";
 import NavigationLast from "../../../../assets/images/programs/NavigationLast.svg";
 import NavigationNext from "../../../../assets/images/programs/NavigationNext.svg";
 import NavigationPrevious from "../../../../assets/images/programs/NavigationPrevious.svg";
 import { getRandomInteger } from "../../../../services/mathFunctions";
+import { useNavigate } from "react-router-dom";
+import "./messages.css";
 
-interface MentorProp {
+export interface MentorProp {
     name: string;
     details: string | undefined;
     title: string | undefined;
@@ -30,13 +34,16 @@ for (let i = 0; i < 100; i++) {
     initialValues.mentors.push({
         name: "Mentor User " + i,
         icon: avatarSVG,
-        details:"Mentor Assistant, Andela, She/her",
-        title:"MENTOR ASST.",
-        mentor:"MENTOR-GADS"
+        details: "Mentor Assistant, Andela, She/her",
+        title: "MENTOR ASST.",
+        mentor: "MENTOR-GADS"
     });
 }
 
-const SelectSomeOne: React.FC = () => (
+const SelectSomeOne: React.FC = () =>{
+    const navigate = useNavigate();
+
+    return (
     <div className="w-full h-screen">
         <Formik
             initialValues={initialValues}
@@ -50,8 +57,15 @@ const SelectSomeOne: React.FC = () => (
             })}
             render={({ handleSubmit, errors, touched, values }) => (
                 <Form className="w-full h-screen">
+                    <label
+                        className="mentor-title ms-5 pt-0"
+                        htmlFor="about"
+                        style={{color:"#141414", fontSize:"24px"}}
+                    >
+                       Select someone to start a conversation
+                    </label>
                     <div className="search-toolbox-div mb-10">
-                    <div className="mt-5">
+                        <div className="mt-5">
                             <button type="submit" className="navigation-button">
                                 <img
                                     src={NavigationFirst}
@@ -86,18 +100,21 @@ const SelectSomeOne: React.FC = () => (
                                 />
                             </button>
                         </div>
-                       
+
                         <Field
                             type="text"
                             id="search"
+                            style={{ paddingLeft: "3px" }}
                             name="search"
                             placeholder="Search"
-                            className="text-input input-icon-label ms-1 mt-3 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                            className="text-input input-icon-label ms-1 mt-3 ps-0 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                         />
-                         <img src={searchIconSVG} style={{ marginTop: "20px", maxHeight:"40px" }} alt="search icon" />
+                        <img src={searchIconSVG} style={{ marginTop: "20px", maxHeight: "40px" }} alt="search icon" />
+                        <img src={messageEarthingSVG} style={{ marginTop: "20px", marginLeft: "30px", maxHeight: "40px" }} alt="search icon" />
+                        <img src={messageCloseSVG} style={{ marginTop: "20px", marginLeft: "30px", maxHeight: "40px" }} alt="search icon" />
                     </div>
 
-                    <div className="w-full flex h-full mt-12 h-screen">
+                    <div className="w-full flex h-full mt-12 h-screen overflow-y-scroll pb-10">
                         <FieldArray
                             name="mentors"
                             render={(helpers) => (
@@ -109,7 +126,7 @@ const SelectSomeOne: React.FC = () => (
                                                 index: React.Key | null | undefined
                                             ) => (
                                                 <React.Fragment key={index}>
-                                                    <label htmlFor="pet" className="w-full">
+                                                    <label htmlFor="pet" onClick={()=> navigate("/dashboard/messages/admin-chat-messages")} className="w-full">
                                                         <div className="mentor-border flex flex-row mt-[10px]">
                                                             <img
                                                                 src={mentor.icon}
@@ -118,7 +135,8 @@ const SelectSomeOne: React.FC = () => (
                                                             />
                                                             <div className="w-full">
                                                                 <label
-                                                                    className="mentor-title ms-5 pt-0"
+                                                                    className="mentor-title ms-5"
+                                                                    style={{top:"3px"}}
                                                                     htmlFor="about"
                                                                 >
                                                                     {mentor.name}
@@ -130,7 +148,7 @@ const SelectSomeOne: React.FC = () => (
                                                                     >
                                                                         {mentor.details}
                                                                     </label>
-                                                                   
+
                                                                     <label
                                                                         className="message-title-text"
                                                                         htmlFor="about"
@@ -160,5 +178,5 @@ const SelectSomeOne: React.FC = () => (
             )}
         ></Formik>
     </div>
-);
+)};
 export default SelectSomeOne;
