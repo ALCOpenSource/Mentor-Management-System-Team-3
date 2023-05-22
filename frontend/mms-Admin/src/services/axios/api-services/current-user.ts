@@ -10,11 +10,30 @@ import avatar from "../../../assets/images/avatar.svg";
 import { capitalizeEachWord } from "../../generalFunctions";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { selectCurrentUserToken, updateLoggedInCurrentUser, updateLoggedInUserToken } from "../../redux/slices/current-user-slice";
+import {
+  updateLoggedInCurrentUser,
+  updateLoggedInUserToken,
+} from "../../redux/slices/current-user-slice";
 export const changeCurrentUserPasswordApiAsync = async (
-  userDetails: ChangePasswordDetails
+  userDetails: ChangePasswordDetails,
+  token: string
 ) => {
-  return userDetails;
+  const data = {
+    newPassword: userDetails.newPassword,
+    currentPassword: userDetails.currentPassword,
+    confirmNewPassword: userDetails.confirmPassword,
+    userId: userDetails.userId,
+  };
+
+  const updatePassword = await axiosWithBearer(token ?? "")
+    .patch("auth/change-password", data)
+    .then((data) => {
+      return userDetails;
+    })
+    .catch((err) => {
+      throw err?.response?.data?.message ?? err;
+    });
+  return updatePassword;
 };
 
 export const resetCurrentUserPasswordApiAsync = async (userEmail: string) => {
@@ -25,22 +44,26 @@ export const updateCurrentUserApiAsync = async (
   userDetails: SystemUser,
   token: string
 ) => {
-  console.log("token", token)
+  const firstName = userDetails.firstNames;
+  const data: any = { ...userDetails, firstName };
   const update = await axiosWithBearer(token ?? "")
-    .put("users/update", userDetails)
+    .put("users/update", data)
     .then((data) => {
       return userDetails;
+    })
+    .catch((err) => {
+      throw err?.response?.data?.message ?? err;
     });
   return update;
 };
 
 // export const updateCurrentUserProfilePictureApiAsync = async (image: any, token:string) => {
-//   const saveUserAvatar = 
+//   const saveUserAvatar =
 //     axiosWithBearer(token ?? "").patch("/auth/avatar",image, {
 //       responseType: "arraybuffer",
 //       responseEncoding: "base64",
 //       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-//     })  
+//     })
 //   .then((res) => {
 //     //return Buffer.from(res.data, "base64");
 //     return image;
@@ -52,29 +75,30 @@ export const updateCurrentUserApiAsync = async (
 //   return saveUserAvatar;
 // };
 
-export const updateCurrentUserProfilePictureApiAsync = async (image: any, token: string) => {
+export const updateCurrentUserProfilePictureApiAsync = async (
+  image: any,
+  token: string
+) => {
   const bodyFormData = new FormData();
-  bodyFormData.append('avatar', image);
+  bodyFormData.append("avatar", image);
   console.log("Updated image", image);
 
-  const saveUserAvatar =
-    axiosWithBearer(token ?? "").patch("/users/avatar", undefined, {
-      method: "post",
-      data: bodyFormData,
+  const saveUserAvatar = axiosWithBearer(token ?? "")
+    .patch("/users/avatar", bodyFormData, {
       headers: { "Content-Type": "multipart/form-data" },
     })
-      .then((res) => {
-        console.log("Updated image");
-        return image;
-      })
-      .catch((err) => {
-        throw err;
-      });
+    .then((res) => {
+      console.log("Updated image");
+      return image;
+    })
+    .catch((err) => {
+      throw err?.response?.data?.message ?? err;
+    });
 
   return saveUserAvatar;
 };
 
-export const logoutCurrentUserApiAsync = async () => { };
+export const logoutCurrentUserApiAsync = async () => {};
 
 // export const loginCurrentUserApiAsync = async (
 //   userDetails: UsernamePassword, dispatch: ThunkDispatch<unknown, unknown, AnyAction>
@@ -116,7 +140,8 @@ export const logoutCurrentUserApiAsync = async () => { };
 //   return logedInUser;
 // }
 export const loginCurrentUserApiAsync = async (
-  userDetails: UsernamePassword, dispatch: ThunkDispatch<unknown, unknown, AnyAction>
+  userDetails: UsernamePassword,
+  dispatch: ThunkDispatch<unknown, unknown, AnyAction>
 ) => {
   const { username, password } = userDetails;
   let role: string | undefined = undefined;
@@ -131,13 +156,12 @@ export const loginCurrentUserApiAsync = async (
     })
     .then((data) => {
       const obj = data.data.data;
-      role = obj.role;
+      role = obj.role ?? "Admin";
       token = obj.access_token;
       return obj;
     })
     .catch((err) => {
-      if (userDetails?.afterUnSuccessful) userDetails?.afterUnSuccessful(err);
-      throw err;
+      throw err?.response?.data?.message ?? err;
     });
 
   const getUser = getToken
@@ -148,19 +172,16 @@ export const loginCurrentUserApiAsync = async (
           return data;
         })
         .catch((err) => {
-          if (userDetails?.afterUnSuccessful)
-            userDetails?.afterUnSuccessful(err);
-          throw err;
+          throw err?.response?.data?.message ?? err;
         })
     )
     .catch((err) => {
-      if (userDetails?.afterUnSuccessful) userDetails?.afterUnSuccessful(err);
-      throw err;
+      throw err?.response?.data?.message ?? err;
     });
 
   const getUserAvatar = getToken
     .then((tt) =>
-      axiosWithBearer(token ?? "").get("/auth/avatar", {
+      axiosWithBearer(token ?? "").get("/users/avatar", {
         responseType: "arraybuffer",
         responseEncoding: "base64",
       })
@@ -173,29 +194,32 @@ export const loginCurrentUserApiAsync = async (
       //   userDetails?.afterUnSuccessful(err);
     });
 
+  role = "Admin";
   const finalize = Promise.all([getUser, getUserAvatar])
     .then((userData) => {
       const mx = userData[0].data.data;
       const userProfileImage = userData[1] ?? avatar;
 
       let loggedInUser: SystemUser = {
+        userId: mx.userId,
         firstNames: capitalizeEachWord(mx.firstName),
         lastName: capitalizeEachWord(mx.lastName),
-        userRole: role ? capitalizeEachWord(role ?? "") : undefined,
+        role: role ? capitalizeEachWord(role) : undefined,
         website: mx.website,
-        about: mx.bio,
+        bio: mx.bio,
         country: capitalizeEachWord(mx.country),
         city: capitalizeEachWord(mx.city),
         email: mx.email,
-        github: mx.socials.github,
-        linkedin: mx.socials.linkedin,
-        instagram: mx.socials.instagram,
-        twitter: mx.socials.twitter,
+        github: mx.socials?.github,
+        linkedin: mx.socials?.linkedin,
+        instagram: mx.socials?.instagram,
+        twitter: mx.socials?.twitter,
       };
-
+      console.log("dsa e1", mx);
       const flag = getCountryFlag(loggedInUser.country ?? " ");
       const profilePic = userProfileImage;
       const userToken = token;
+      console.log("dsa e2", mx);
 
       loggedInUser = {
         ...loggedInUser,
@@ -203,6 +227,7 @@ export const loginCurrentUserApiAsync = async (
         userImage: profilePic,
       };
 
+      console.log("dsa 3", loggedInUser);
       dispatch(updateLoggedInCurrentUser(loggedInUser));
       dispatch(updateLoggedInUserToken(userToken));
 
@@ -210,19 +235,13 @@ export const loginCurrentUserApiAsync = async (
         user: loggedInUser,
         userToken: userToken,
       };
-      if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
       return user;
     })
     .catch((err) => {
-      const message = err.response.data.message ?? err;
-      if (userDetails?.afterUnSuccessful)
-        userDetails?.afterUnSuccessful(message);
-      throw message;
+      throw err?.response?.data?.message ?? err;
     });
   return finalize;
 };
-
-
 
 // var options = {
 //   method: 'GET',

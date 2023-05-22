@@ -18,6 +18,7 @@ import {
   updateCurrentUserApiAsync,
   updateCurrentUserProfilePictureApiAsync,
 } from "../../axios/api-services/current-user";
+import { error } from "console";
 
 interface CurrentUserState {
   currentUser: LoggedInUser;
@@ -35,8 +36,6 @@ export const updateCurrentUser = createAsyncThunk(
   "current-user/update-user",
   async (userDetails: SystemUser, thunkAPI) => {
     const state: any = thunkAPI.getState();
-    console.log("state", state);
-
     return await updateCurrentUserApiAsync(
       userDetails,
       state.currentUser.currentUser.userToken
@@ -47,9 +46,8 @@ export const updateCurrentUser = createAsyncThunk(
 export const updateCurrentUserProfilePicture = createAsyncThunk(
   "current-user/update-user-profile-image",
   async (image: any, thunkAPI) => {
-    const state:any = thunkAPI.getState();
-    const token = state.currentUser.userToken;    
-    return await updateCurrentUserProfilePictureApiAsync(image, token);
+    const state:any = thunkAPI.getState();  
+    return await updateCurrentUserProfilePictureApiAsync(image, state.currentUser.currentUser.userToken);
   }
 );
 
@@ -106,23 +104,34 @@ export const CurrentUserSlice = createSlice({
       state.currentUser.loginTime = new Date().getTime();
     });
 
-    builder.addCase(logoutCurrentUser.fulfilled, (state, action) => {
+    builder.addCase(loginCurrentUser.rejected, (state, action) => {
+      throw action.error;
+    });
+
+    builder.addCase(logoutCurrentUser.fulfilled, (state, action) => {    
+      state.currentUser = getEmptyLoggedInUser();
       state.currentUser.loginTime = undefined;
       state.currentUser.userToken = undefined;
-      state.currentUser.user = {};
     });
 
     builder.addCase(updateCurrentUser.fulfilled, (state, action) => {
       state.currentUser.user = action.payload;
     });
 
+    builder.addCase(updateCurrentUser.rejected, (state, action) => {
+        throw action.error;
+    });
+
+
     builder.addCase(
       updateCurrentUserProfilePicture.fulfilled,
       (state, action) => {
         state.currentUser.user.userImage = action.payload;
-        console.log("update image recieved mmmm", action.payload);
       }
     );
+    builder.addCase(updateCurrentUserProfilePicture.rejected, (state, action) => {
+      throw action.error;
+    });
   },
 });
 

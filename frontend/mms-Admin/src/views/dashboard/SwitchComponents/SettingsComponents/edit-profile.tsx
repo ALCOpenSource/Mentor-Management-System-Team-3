@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import avatar from "./../../../../assets/images/avatar.svg";
@@ -21,6 +21,7 @@ import {
   updateCurrentUserProfilePicture,
 } from "../../../../services/redux/slices/current-user-slice";
 import { countries } from "../../../../services/countries";
+import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 
 const EditProfilePage: React.FC = () => {
   const obj = useAppSelector(selectCurrentUser);
@@ -38,17 +39,17 @@ const EditProfilePage: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setSuccessMessage("");
-      setErrorMessage("");
-    }, 10000)
-  }, [errorMessage, successMessage])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setSuccessMessage("");
+  //     setErrorMessage("");
+  //   }, 10000)
+  // }, [errorMessage])
 
   const initialValues: SystemUser = {
     firstNames: "",
     lastName: "",
-    about: "",
+    bio: "",
     website: "",
     country: "",
     city: "",
@@ -56,12 +57,18 @@ const EditProfilePage: React.FC = () => {
     linkedin: "",
     instagram: "",
     twitter: "",
+    userId: "",
+    role: "",
+    email: ""
   };
 
   if (obj) {
     initialValues.firstNames = obj.firstNames;
     initialValues.lastName = obj.lastName;
-    initialValues.about = obj.about;
+    initialValues.userId = obj.userId;
+    initialValues.email = obj.email;
+    initialValues.role = obj.role;
+    initialValues.bio = obj.bio;
     initialValues.website = obj.website;
     initialValues.country = obj.country;
     initialValues.city = obj.city;
@@ -89,7 +96,9 @@ const EditProfilePage: React.FC = () => {
           // convert it to base64
           setFileBase64(img);
           try {
-            await dispatch(updateCurrentUserProfilePicture(img));
+            dispatch(updateCurrentUserProfilePicture(img))
+              .then(err => setSuccessMessage("Successfully changed profile picture"))
+              .catch(err => showErrorMessage(err));
           } catch (error) { showErrorMessage(error) }
         };
       }
@@ -101,7 +110,7 @@ const EditProfilePage: React.FC = () => {
   const validationSchema = Yup.object().shape({
     firstNames: Yup.string().required("First name is required please"),
     lastName: Yup.string().required("Last name is required please"),
-    about: Yup.string().required("Please your bio is required"),
+    bio: Yup.string().required("Please your bio is required"),
     website: Yup.string().matches(
       VALIDATION_PATTERNS.WEBSITE_URL,
       "Please enter a valid website url"
@@ -126,10 +135,11 @@ const EditProfilePage: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const handleSubmit = async (values: SystemUser) => {
-    console.log(values);
     try {
       await dispatch(updateCurrentUser(values))
-        .then(tt => setSuccessMessage("Successfully updated"))
+        .then(tt => {
+          setSuccessMessage("Successfully updated");
+        })
         .catch(error => showErrorMessage(error));
     } catch (error) { showErrorMessage(error) }
   };
@@ -169,6 +179,18 @@ const EditProfilePage: React.FC = () => {
                     onChange={(e) => convertFile(e.target.files)}
                   />
                 </div>
+                <div className="ms-5">
+                  <h5 className="text-1xl text-gray-two font-bold mt-4">
+                    {successMessage}
+                  </h5>
+
+                  <h5
+                    style={{ color: "orangered" }}
+                    className="text-1xl font-bold mt-4"
+                  >
+                    {errorMessage}
+                  </h5>
+                </div>
               </div>
             </div>
             <div>
@@ -199,20 +221,20 @@ const EditProfilePage: React.FC = () => {
 
                 <div className="mb-5">
                   <div className="flex flex-row  relative  w-full">
-                    <label className="text-label" htmlFor="about">
+                    <label className="text-label" htmlFor="bio">
                       About
                     </label>
                     <Field
                       type="text"
-                      id="about"
+                      id="bio"
                       style={{ minHeight: "120px" }}
                       as="textarea"
-                      name="about"
+                      name="bio"
                       placeholder="Your Bio"
                       className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
-                  <FormikValidationMessageComponent name="about" />
+                  <FormikValidationMessageComponent name="bio" />
                 </div>
 
                 <div className="mb-5">
@@ -262,12 +284,12 @@ const EditProfilePage: React.FC = () => {
                       className="form-control text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                     <datalist id="cities">
-                    {countries.map((item, i) => ( <option
-                            value={`${item.name}`}
-                            key={`${item.name}`}
-                          >
-                            {`${item.name}`}
-                          </option>))}
+                      {countries.map((item, i) => (<option
+                        value={`${item.capital}`}
+                        key={`${item.capital}`}
+                      >
+                        {`${item.capital}`}
+                      </option>))}
                     </datalist>
                   </div>
                   <FormikValidationMessageComponent name="country" />
@@ -373,6 +395,12 @@ const EditProfilePage: React.FC = () => {
                 <FormikValidationMessageComponent name="twitter" />
               </div>
             </div>
+            {successMessage?.length > 7
+              && (<MessagePopUpPage
+                persist={false}
+                toggle={() => { setSuccessMessage(""); setErrorMessage("") }}
+                message={"Profile Successfully Saved"} />
+              )}
             <div className="flex w-full">
               <button
                 type="submit"
@@ -383,16 +411,6 @@ const EditProfilePage: React.FC = () => {
               </button>
             </div>
 
-            <h5 className="text-1xl text-gray-two font-bold mt-4">
-              {successMessage}
-            </h5>
-
-            <h5
-              style={{ color: "orangered" }}
-              className="text-1xl font-bold mt-4"
-            >
-              {errorMessage}
-            </h5>
           </Form>
         )}
       </Formik>

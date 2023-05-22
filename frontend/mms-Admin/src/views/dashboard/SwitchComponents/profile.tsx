@@ -56,7 +56,7 @@ const GeneralPage: React.FC = () => {
                     style={{ background: "transparent" }}
                     className="data-label"
                   >
-                    {initialValues.userRole}
+                    {initialValues.role}
                   </label>
                 </div>
                 <button
@@ -73,7 +73,7 @@ const GeneralPage: React.FC = () => {
               <div className="flex flex-col relative">
                 <div className="mb-1">
                   <div className="flex flex-row  relative  w-full">
-                    <label className="text-label" htmlFor="about">
+                    <label className="text-label" htmlFor="bio">
                       About
                     </label>
                   </div>
@@ -83,10 +83,10 @@ const GeneralPage: React.FC = () => {
                   <div className="flex flex-row  relative  w-full">
                     <label
                       style={{ minHeight: "90px" }}
-                      id="about"
+                      id="bio"
                       className="data-label ms-1 "
                     >
-                      {initialValues.about}
+                      {initialValues.bio}
                     </label>
                   </div>
                 </div>

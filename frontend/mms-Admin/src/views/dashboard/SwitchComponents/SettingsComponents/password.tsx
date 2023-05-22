@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
+import React, { useRef, useState } from "react";
+import { Formik, Form, Field, FormikProps } from "formik";
 import * as Yup from "yup";
 import "../index.css";
 import VALIDATION_PATTERNS from "../../../../assets/validation-patterns";
@@ -9,13 +9,15 @@ import {
   useAppSelector,
 } from "../../../../services/redux/Store";
 import {
-  selectCurrentUserNameSelector,
+  selectCurrentUserNameSelector, selectCurrentUserToken,
 } from "../../../../services/redux/slices/current-user-slice";
 import SVG_ICONS from "../../../../assets/svg-icons";
 import { changeCurrentUserPasswordApiAsync } from "../../../../services/axios/api-services/current-user";
+import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 
 const PasswordPage: React.FC = () => {
   const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
+  const token = useAppSelector(selectCurrentUserToken);
   const initialValues: ChangePasswordDetails = {
     userId: userId,
     currentPassword: "",
@@ -23,7 +25,7 @@ const PasswordPage: React.FC = () => {
     confirmPassword: "",
     username: email,
   };
-  console.log(initialValues);
+
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showCurrentPassword, setShowCurrentPassword] =
     useState<boolean>(false);
@@ -31,6 +33,7 @@ const PasswordPage: React.FC = () => {
     useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const pageRef = useRef<FormikProps<ChangePasswordDetails>>(null);
 
   const showErrorMessage = (tt: any) => {
     try {
@@ -65,13 +68,11 @@ const PasswordPage: React.FC = () => {
           ...values,
           userId: userId,
           username: email,
-        }
-     );
-      setSuccessMessage("Password has been changed successifully");
-      setErrorMessage("");
+        }, token
+        ).then(ff => setSuccessMessage("Password has been changed successifully"))
+          .catch(err => { showErrorMessage(err) });
     } catch (error: any) {
       showErrorMessage(error.message);
-      setSuccessMessage("");
     }
   };
 
@@ -81,6 +82,7 @@ const PasswordPage: React.FC = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
+        innerRef={pageRef}
       >
         {({ errors, touched }) => (
           <Form className="w-full profile-form  h-screen">
@@ -193,6 +195,18 @@ const PasswordPage: React.FC = () => {
                 Save new password
               </button>
             </div>
+
+            {successMessage?.length > 7
+              && (<MessagePopUpPage
+                persist={false}
+                toggle={() => {
+                  setSuccessMessage("");
+                  setErrorMessage("");
+                  if (pageRef?.current?.values)
+                    pageRef.current.values = { currentPassword: "", newPassword: "", confirmPassword: "" };
+                }}
+                message={"Password Successfully Changed"} />
+              )}
 
             <div className="flex w-full">
               <a

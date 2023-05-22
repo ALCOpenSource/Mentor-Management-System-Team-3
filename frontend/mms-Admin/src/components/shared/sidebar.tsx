@@ -69,7 +69,7 @@ function Sidebar() {
       route: "settings",
     },
   ];
- const {lastName,firstNames,userRole } = useAppSelector(selectCurrentUser);
+ const {lastName,firstNames,role } = useAppSelector(selectCurrentUser);
   return (
     <div>
       <div className="flex">
@@ -77,7 +77,7 @@ function Sidebar() {
           <div className="w-full">
             <div className="flex flex-col items-center justify-center p-8">
               <h2 className="text-customBlack-one">Hi, {lastName ?? firstNames}</h2>
-              <p className="text-gray-three mb-10">{userRole}</p>
+              <p className="text-gray-three mb-10">{role}</p>
             </div>
             {nav.map((item, i) => {
               return (

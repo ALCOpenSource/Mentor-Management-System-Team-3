@@ -1,17 +1,17 @@
 export interface SystemUser {
-  userId?: string;
-  firstNames?: string;
-  lastName?: string;
-  userRole?: string;
-  about?: string;
-  email?: string;
-  website?: string;
-  country?: string;
-  city?: string;
-  github?: string;
-  linkedin?: string;
-  instagram?: string;
-  twitter?: string;
+  userId?: string|null|undefined;
+  firstNames?: string|null|undefined;
+  lastName?: string|null|undefined;
+  role?: string|null|undefined;
+  bio?: string|null|undefined;
+  email?: string|null|undefined;
+  website?: string|null|undefined;
+  country?: string|null|undefined;
+  city?: string|null|undefined;
+  github?: string|null|undefined;
+  linkedin?: string|null|undefined;
+  instagram?: string|null|undefined;
+  twitter?: string|null|undefined;
   countryFlagIcon?: any;
   userImage?: any;
 }
@@ -19,26 +19,24 @@ export interface SystemUser {
 export interface LoggedInUser {
   user: SystemUser;
   loginTime?: number;
-  userToken?: string;
+  userToken?: string|null|undefined;
 }
 
 export interface UsernamePassword {
   username: string;
   password: string;
-  afterSuccessful?: () => void;
-  afterUnSuccessful?: (tt: any) => void;
 }
 
 export interface ChangePasswordDetails {
-  userId?: string;
-  username?: string;
+  userId?: string|null|undefined;
+  username?: string|null|undefined;
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;
 }
 
 export interface NameDetails {
-  userId?: string;
-  fullName?: string;
-  email?: string;
+  userId?: string|null|undefined;
+  fullName?: string|null|undefined;
+  email?: string|null|undefined;
 }
