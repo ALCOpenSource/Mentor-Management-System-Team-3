@@ -7,32 +7,53 @@ import liveChatIcon from "../../../../assets/images/LiveChat.svg";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
 import PopUpPage from "./pop-up-page";
 import LiveChatPage from "./live-chats-page";
+import { sendSupportMessageApiAsync } from "../../../../services/axios/api-services/support";
+import { useAppDispatch } from "../../../../services/redux/Store";
 
 
-interface FormValues {
+export interface SupportModel {
   userId: string;
   name: string;
   email: string;
   title: string;
   body: string;
+  attachments: Blob|undefined;
 }
 
 const SupportPage: React.FC = () => {
-  const initialValues: FormValues = {
+  const initialValues: SupportModel = {
     userId: "",
     name: "",
     email: "",
     title: "",
     body: "",
+    attachments: undefined
   };
+
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const validationSchema = Yup.object().shape({
     body: Yup.string().required("Message is required please"),
   });
 
-  const handleSubmit = (values: FormValues) => {
-    console.log(values);
-    // save changes logic here
+  const showErrorMessage = (tt: any) => {
+    try {
+      setErrorMessage(tt?.message ?? tt);
+    } catch (err) {
+      setErrorMessage(tt);
+    }
+  };
+
+  const dispatch = useAppDispatch();
+  const handleSubmit = async (values: SupportModel) => {
+    try {
+      await dispatch(sendSupportMessageApiAsync(values,""))
+        .then(tt => {
+          setSuccessMessage("Successfully updated");
+        })
+        .catch(error => showErrorMessage(error));
+    } catch (error) { showErrorMessage(error) }
   };
 
   const removeAttachedFileClick = (tt: string) => {
