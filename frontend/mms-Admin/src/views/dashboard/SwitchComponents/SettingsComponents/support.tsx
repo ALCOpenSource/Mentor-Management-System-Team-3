@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
+import React, { useRef, useState } from "react";
+import { Formik, Form, Field, FormikProps } from "formik";
 import * as Yup from "yup";
 import "../index.css";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
@@ -8,16 +8,16 @@ import FormikValidationMessageComponent from "../../../../components/error-messa
 import PopUpPage from "./pop-up-page";
 import LiveChatPage from "./live-chats-page";
 import { sendSupportMessageApiAsync } from "../../../../services/axios/api-services/support";
-import { useAppDispatch } from "../../../../services/redux/Store";
-
-
+import { useAppSelector } from "../../../../services/redux/Store";
+import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 export interface SupportModel {
   userId: string;
   name: string;
   email: string;
   title: string;
   body: string;
-  attachments: Blob|undefined;
+  attachments: Blob | undefined;
 }
 
 const SupportPage: React.FC = () => {
@@ -32,9 +32,15 @@ const SupportPage: React.FC = () => {
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [filebase64s, setFileBase64s] = useState<string[]>([]);
+  let attachedFiles: Blob[] = [];
+
 
   const validationSchema = Yup.object().shape({
     body: Yup.string().required("Message is required please"),
+    email: Yup.string().required("Email is required please").email("It should be a valid email address"),
+    title: Yup.string().required("Title is required please"),
+    name: Yup.string().required("Name is required please")
   });
 
   const showErrorMessage = (tt: any) => {
@@ -45,23 +51,26 @@ const SupportPage: React.FC = () => {
     }
   };
 
-  const dispatch = useAppDispatch();
+  const token = useAppSelector(selectCurrentUserToken);
   const handleSubmit = async (values: SupportModel) => {
     try {
-      await dispatch(sendSupportMessageApiAsync(values,""))
+      var file = attachedFiles[0];
+      await sendSupportMessageApiAsync({ ...values, attachments: file }, token)
         .then(tt => {
-          setSuccessMessage("Successfully updated");
+          setSuccessMessage("Successfully sent");
         })
         .catch(error => showErrorMessage(error));
     } catch (error) { showErrorMessage(error) }
   };
 
   const removeAttachedFileClick = (tt: string) => {
-    console.log(tt);
+    if (filebase64s.includes(tt)) {
+      const exceptIndex = filebase64s.indexOf(tt);
+      setFileBase64s(filebase64s.filter((value, index) => exceptIndex !== index));
+      attachedFiles = attachedFiles.filter((value, index) => exceptIndex !== index);
+    }
   };
 
-  const [filebase64s, setFileBase64s] = useState<string[]>([]);
-  const attachedFiles: string[] = [];
 
 
   function convertFile(files: FileList | null) {
@@ -73,10 +82,10 @@ const SupportPage: React.FC = () => {
           //console.log("This file upload is of type:", fileType);
           //console.log("File:", fileRef.name);
           const reader = new FileReader();
-          reader.readAsBinaryString(fileRef);
+          reader.readAsArrayBuffer(fileRef);
           reader.onload = async (ev: any) => {
             try {
-              const file = `data:${fileType};base64,${btoa(ev.target.result)}`;
+              const file = ev.target.result;
               // convert it to base64
               var files = filebase64s ?? [];
               attachedFiles.push(file);
@@ -98,6 +107,7 @@ const SupportPage: React.FC = () => {
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
+  const pageRef = useRef<FormikProps<SupportModel>>(null);
 
   return (
     <div>
@@ -105,6 +115,7 @@ const SupportPage: React.FC = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
+        innerRef={pageRef}
       >
         {({ errors, touched }) => (
           <div>
@@ -181,7 +192,29 @@ const SupportPage: React.FC = () => {
                     <FormikValidationMessageComponent name="body" />
                   </div>
                 </div>
+                <div className="ms-5">
+                  <h5 className="text-1xl text-gray-two font-bold mt-4">
+                    {successMessage}
+                  </h5>
 
+                  <h5
+                    style={{ color: "orangered" }}
+                    className="text-1xl font-bold mt-4"
+                  >
+                    {errorMessage}
+                  </h5>
+                </div>
+                {successMessage?.length > 7
+                  && (<MessagePopUpPage
+                    persist={false}
+                    toggle={() => {
+                      setSuccessMessage("");
+                      setErrorMessage("");
+                      if (pageRef?.current?.values)
+                        pageRef.current.values = { title: "", email: "", body: "", userId: "", name: "", attachments: undefined };
+                    }}
+                    message={"Successfully send the message"} />
+                  )}
                 <div className="flex w-full">
 
                   <label
@@ -212,7 +245,7 @@ const SupportPage: React.FC = () => {
 
                   <button
                     type="submit"
-                    style={{ marginLeft: "auto" , maxHeight:"40px" }}
+                    style={{ marginLeft: "auto", maxHeight: "40px" }}
                     className="bg-green-three text-white rounded-[10px] p-[10px]  me-[40px] pe-[40px] ps-[40px] font-medium mt-0"
                   >
                     Send
@@ -223,7 +256,7 @@ const SupportPage: React.FC = () => {
             <div className="btn flex w-full" onClick={togglePopup}>
               <button
                 type="button"
-                style={{ marginLeft: "auto"}}
+                style={{ marginLeft: "auto" }}
                 onClick={togglePopup}
                 className="rounded-[10px] p-[10px] pe-[40px] mt-[50px] font-medium mt-0"
               >

@@ -1,5 +1,5 @@
 import { Field, FieldArray, Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { object, array, string } from "yup";
 import "./archive.css";
 import googleIconSVG from "../../../../assets/images/programs/GoogleIcon.svg";
@@ -14,6 +14,9 @@ import NavigationPrevious from "../../../../assets/images/programs/NavigationPre
 import DropdownListIcon from "../../../../assets/images/programs/DropdownListIcon.svg";
 import { getShortDate, getShortTime } from "../../../../services/dateFunctions";
 import { getRandomInteger } from "../../../../services/mathFunctions";
+import { useAppSelector } from "../../../../services/redux/Store";
+import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import { getArchivesApiAsync } from "../../../../services/axios/api-services/archives";
 
 interface ProgramProp {
   name: string;
@@ -38,7 +41,18 @@ for (let i = 0; i < 100; i++) {
   });
 }
 
-const App: React.FC = () => (
+const App: React.FC = () =>
+{
+  const token = useAppSelector(selectCurrentUserToken); 
+
+  useEffect(() =>  {
+  getArchivesApiAsync(token)
+  .then(data => 
+    console.log("archives", data))
+  .catch(err => console.error(err));
+  }, []);
+
+  return (
   <div className="w-full profile-form h-screen">
     <Formik
       initialValues={initialValues}
@@ -191,5 +205,5 @@ const App: React.FC = () => (
       )}
     ></Formik>
   </div>
-);
+)};
 export default App;

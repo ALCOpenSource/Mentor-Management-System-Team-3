@@ -26,7 +26,7 @@ export const changeCurrentUserPasswordApiAsync = async (
   };
 
   const updatePassword = await axiosWithBearer(token ?? "")
-    .patch("auth/change-password", data)
+    .patch("/auth/reset-password", data)
     .then((data) => {
       return userDetails;
     })

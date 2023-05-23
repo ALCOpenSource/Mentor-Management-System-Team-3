@@ -14,7 +14,7 @@ export const sendSupportMessageApiAsync = async (
         bodyFormData.append("attachment", data.attachments);
 
     const saveUserAvatar = axiosWithBearer(token ?? "")
-        .patch("/mail/support", bodyFormData, {
+        .post("/mail/support", bodyFormData, {
             headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
