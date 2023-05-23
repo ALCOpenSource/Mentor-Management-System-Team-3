@@ -10,7 +10,7 @@ import avatar from "../../../assets/images/avatar.svg";
 import { capitalizeEachWord } from "../../generalFunctions";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { selectCurrentUserToken, updateLoggedInCurrentUser , updateLoggedInUserToken} from "../../redux/slices/current-user-slice";
+import { updateLoggedInCurrentUser , updateLoggedInUserToken} from "../../redux/slices/current-user-slice";
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails
 ) => {

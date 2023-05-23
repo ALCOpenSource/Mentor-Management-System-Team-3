@@ -19,7 +19,7 @@ export interface ChatMessageProp {
   message: string;
 }
 
-enum MessageType {
+export enum MessageType {
   Send = "send",
   Recieved = "Recieved",
 }
