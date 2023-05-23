@@ -11,7 +11,7 @@ import WhitePlainCircle from "../../../../assets/images/programs/WhitePlainCircl
 import ChatIcon from "../../../../assets/images/programs/ChatIcon.svg";
 import mmsLogoSVG from "../../../../assets/images/mms_logo.svg";
 
-export interface MessageProp {
+export interface ChatMessageProp {
   name: string;
   date: Date;
   icon: any;
@@ -24,7 +24,7 @@ enum MessageType {
   Recieved = "Recieved",
 }
 interface FormValues {
-  messages: MessageProp[];
+  messages: ChatMessageProp[];
   pageTitle: string;
   pageIcon: any;
   pageSubTitle: string;
@@ -114,7 +114,7 @@ const App: React.FC = () => (
                 {values.messages && values.messages.length > 0
                   ? values.messages.map(
                       (
-                        message: MessageProp,
+                        message: ChatMessageProp,
                         index: React.Key | null | undefined
                       ) => {
                         function getMessageBlock() {

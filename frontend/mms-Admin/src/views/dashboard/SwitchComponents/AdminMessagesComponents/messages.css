@@ -37,7 +37,7 @@
 }
 
 .message-title-text {
- position: relative;
+  position: relative;
   font-family: "Mukta";
   font-style: normal;
   font-weight: 400;
@@ -46,47 +46,47 @@
   font-size: 12px;
   line-height: 20px;
   color: #4d4d4d;
-  background-color: #e6fdfe;
 }
 
 .search-toolbox-div {
-    display: flex;
-    flex-direction: row;
-    align-items: left;
-    padding: 5px 10px;
-    gap: 14px;
-    position: absolute;
-    width: 550px;
-    height: 47px;
-    left: 780px;
-    top: 107px;
-  }
-  
-  .mentor-border {
-    box-sizing: border-box;
-    width: 810px;
-    margin-right: 20px;
-    margin-left: 20px;
-    padding-left: 30px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    position: relative;
-    height: 71px;
-    background: #fff;
-    border: 1px solid #e6e6e6;
-    border-radius: 5px;
-    order: 3;
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  padding: 5px 10px;
+  gap: 14px;
+  position: absolute;
+  width: 550px;
+  height: 47px;
+  left: 780px;
+  top: 107px;
+}
 
-  .mentor-title {
-    position: relative;
-    height: 33px;
-    left: 0px;
-    top: 12px;
-    font-family: "Mukta", sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 33px;
-    color: #333;
-  }
+.mentor-border {
+  box-sizing: border-box;
+  width: 810px;
+  margin-right: 20px;
+  margin-left: 20px;
+  padding-left: 30px;
+  padding-top: 5px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  order: 3;
+}
+
+.mentor-title {
+  position: relative;
+  height: 33px;
+  left: 0px;
+  top: 12px;
+  font-family: "Mukta", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 33px;
+  color: #333;
+}
+
+.left_navlinks:focus {
+  background-color: #e6fdfe;
+  text-decoration: none;
+}

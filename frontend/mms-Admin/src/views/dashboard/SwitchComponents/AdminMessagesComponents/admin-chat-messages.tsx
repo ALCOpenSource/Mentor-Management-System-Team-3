@@ -19,12 +19,11 @@ function Settings() {
     });
   }
 
-
   return (
     <div className="flex flex-col " >
       <h3 className="text-black text-2xl ms-0 pt-3 pb-1 font-bold">Chats</h3>
       <section style={{ width: "80vw" }} className="flex w-full">
-        <section style={{ width: "600px" }} className="border-solid  overflow-y-scroll h-screen pb-11">
+        <section style={{ width: "600px" }} className="border-solid  overflow-y-scroll h-screen pb-11 left_navlinks">
           {currentMentors.map((mentor, i) => {
             return (
               <section
@@ -32,10 +31,10 @@ function Settings() {
                 className="flex hover:bg-white py-2 text-center"
               >
                 <NavLink
+                  className="mentor-border left_navlinks"
                   to={"/dashboard/messages/admin-chat-messages/chat-messages"} state={mentor}
-                  className="relative flex active:bg-white"
                 >
-                  <div style={{ width: "360px", marginTop:"0px"}} className="mentor-border flex flex-row mt-[1px]  ">
+                  <div style={{ width: "360px", marginTop: "0px" }} className="flex flex-row mt-[1px]  ">
                     <img
                       src={mentor.icon}
                       alt="profile logo"

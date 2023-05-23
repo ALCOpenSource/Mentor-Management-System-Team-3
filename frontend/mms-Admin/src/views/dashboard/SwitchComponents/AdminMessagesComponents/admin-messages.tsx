@@ -1,20 +1,14 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import {
-  useAppSelector,
-} from "../../../../services/redux/Store";
-import {
-  selectCurrentUserNameSelector,
-} from "../../../../services/redux/slices/current-user-slice";
-import { MessageProp } from "../SettingsComponents/live-chats-page";
 import NoMessageIcon from "../../../../assets/images/messages/NoMessages.svg";
 import "./messages.css"
 import { useNavigate } from "react-router-dom";
+import { ChatMessageProp } from "../SettingsComponents/live-chats-page";
 
 interface ChatProp {
   name: string;
   id: string;
-  messages: MessageProp[]
+  messages: ChatMessageProp[]
 }
 
 const NoMessagesComponent: React.FC = () => {
