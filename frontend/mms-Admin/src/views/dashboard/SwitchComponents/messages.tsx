@@ -4,9 +4,9 @@ import "./Messages.css"
 
 function Messages() {
     return (
-        <div className="flex flex-col">
-            <section className="flex">
-                <section className="border-solid p-1">
+        <div className="h-screen w-full">
+            <section className="h-[90%] w-full">
+                <section className="h-full w-full border-solid p-1">
                     <Outlet />
                 </section>
             </section>
