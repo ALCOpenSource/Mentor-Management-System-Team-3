@@ -13,7 +13,25 @@ const getShortDate = function (dt: Date) {
     "Nov",
     "Dec",
   ];
-  return months[dt.getMonth()] + " " + dt.getDate() + ", " + dt.getFullYear();
+  return `${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
+};
+
+const getMonthDay = function (dt: Date) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  return  `${dt.getDate()} ${months[dt.getMonth()]}` ;
 };
 
 const getShortTime = function (dt: Date) {
@@ -25,4 +43,4 @@ const getShortTime = function (dt: Date) {
   return `${hours > 12 ? hours - 12 : hours}:${minutes.toString().padStart(2,'0')} ${timePart}`;
 };
 
-export { getShortDate, getShortTime };
+export { getShortDate, getShortTime , getMonthDay};

@@ -15,6 +15,10 @@ export const fetchAdminChatMessagesApiAsync = async (
     "It's showing that is expired",
     "It's even unable to be loaded",
     "Help me with your insurance number",
+    "I can't find you in the system",
+    "What do you mean?",
+    "Let me channel the issue to technical team, then we will get back to you.",
+    "Ok"
   ];
 
   for (let i = 0; i < messages.length; i++) {
