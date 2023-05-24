@@ -49,13 +49,11 @@ function App() {
                   <Route path="messages" element={<Messages />} >
                     <Route index element={<AdminMessages />} />
                     <Route path="admin-messages" element={<AdminMessages />} />
-                    <Route path="admin-chat-messages" element={<AdminChatMessages />} >
-                      <Route path="chat-messages" element={<ChatMessages />} />
-                    </Route>
+                    <Route path="admin-chat-messages" element={<AdminChatMessages />} />
                     <Route path="select-someone" element={<SelectSomeOne />} />
                     <Route path="broadcast-message" element={<BroadCastMessage />} />
                     <Route path="discussion-forum" element={<DiscussionForum />} />
-                    <Route path="discussion-forum-post" element={<DiscussionForumPost />} />
+                    {/* <Route path="discussion-forum-post" element={<DiscussionForumPost />} /> */}
                     <Route path="*" element={<AdminMessages />} />
                   </Route>
                   <Route path="settings" element={<Settings />}>
