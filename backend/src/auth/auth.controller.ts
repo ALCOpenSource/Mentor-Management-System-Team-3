@@ -22,7 +22,7 @@ import { HttpResponseType } from "../types/http-response.type";
 import { UserDocument } from "../users/users.schema";
 
 // Import the LoginDTO interface from the login.dto.ts file
-import { LoginDTO } from "./dto/login.dto";
+import { GoogleLoginDTO, LoginDTO } from "./dto/login.dto";
 
 // Import the Public decorator from the public.decorator.ts file
 import { Public } from "./custom-decorator/public.decorator";
@@ -82,18 +82,10 @@ export class AuthController {
   }
 
   // Define a route for signing up with Google
-  @Post("google/signup")
+  @Public()
+  @Post("google/login")
   @HttpCode(HttpStatus.OK)
-  async googleSignup(@Body() profile): Promise<object> {
-    // Log the profile to the console
-    console.log(profile, "GOOGLE PROFILE");
-    // Return a success message with the profile data
-    return {
-      status: "success",
-      message: "Google Sign",
-      data: profile,
-    };
-    // Or alternatively, call the AuthService's login method with the profile
-    // return this.authService.login(profile);
+  async googleSignup(@Body() googleLoginDto: GoogleLoginDTO): Promise<object> {
+    return this.authService.googleLogin(googleLoginDto);
   }
 }

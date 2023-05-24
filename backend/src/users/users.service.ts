@@ -27,6 +27,7 @@ import { TaskService } from "../task/task.service";
 import { UserTaskResponse } from "./interface/user-task-response.interface";
 import { UpdatePasswordDTO } from "./dto/update-password.dto";
 import { UpdateTokenDTO } from "./dto/update-token.dto";
+import { UploadAvatarDTO } from "./dto/upload-avatar.dto";
 
 @Injectable()
 export class UsersService {
@@ -42,9 +43,31 @@ export class UsersService {
   async findByAny(filter: object): Promise<UserDocument> {
     return this.userModel.findOne(filter);
   }
+
+  async getAvatar(userId: string): Promise<HttpResponseType<object>> {
+    const user = await this.userModel.findById(userId);
+    console.log(user, "GET AVATAR");
+    if (!user) {
+      const errorMessage = "User not found";
+      this.logger.error({
+        status: OperationStatus.ERROR,
+        message: errorMessage,
+        data: {},
+      });
+      throw new NotFoundException(errorMessage);
+    }
+
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "",
+      data: {
+        avatar: user.avatar,
+      },
+    };
+  }
   // This method uploads user profile picture (avatar)
-  async uploadAvatar(id: string, avatar: Express.Multer.File) {
-    if (!avatar) {
+  async uploadAvatar(id: string, uploadAvatarDto: UploadAvatarDTO) {
+    if (!uploadAvatarDto.avatar) {
       this.logger.error({
         status: OperationStatus.ERROR,
         message: "file is empty",
@@ -70,26 +93,24 @@ export class UsersService {
       throw new NotFoundException(errorMessage);
     }
 
-    if (user?.avatar?.publicId) {
-      await this.cloudinary.deleteImage(user?.avatar?.publicId);
-    }
+    // if (user?.uploadAvatarDto.avatar?.publicId) {
+    //   await this.cloudinary.deleteImage(user?.uploadAvatarDto.avatar?.publicId);
+    // }
 
-    console.log(avatar, "AVATAR");
+    // const { secure_url, public_id } = await this.cloudinary
+    //   .uploadImage(uploadAvatarDto.avatar)
+    //   .catch((err) => {
+    //     const errorMessage = err;
+    //     this.logger.error({
+    //       status: OperationStatus.ERROR,
+    //       message: errorMessage,
+    //       data: {},
+    //     });
+    //     throw new BadRequestException(err);
+    //   });
 
-    const { secure_url, public_id } = await this.cloudinary
-      .uploadImage(avatar)
-      .catch((err) => {
-        console.log(err);
-        const errorMessage = "file is empty";
-        this.logger.error({
-          status: OperationStatus.ERROR,
-          message: errorMessage,
-          data: {},
-        });
-        throw new BadRequestException("file is empty, 2");
-      });
+    user.avatar = uploadAvatarDto.avatar;
 
-    user.avatar = { url: secure_url, publicId: public_id };
     await user.updateOne(user).exec();
 
     return {
