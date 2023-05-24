@@ -10,11 +10,11 @@ import {
   Put,
   Query,
   Req,
-  UploadedFile,
-  UseInterceptors,
+  // UploadedFile,
+  // UseInterceptors,
   UseGuards,
 } from "@nestjs/common";
-import { FileInterceptor } from "@nestjs/platform-express";
+// import { FileInterceptor } from "@nestjs/platform-express";
 
 import { UsersService } from "./users.service";
 import { UpdateUserDTO } from "./dto/update-user.dto";
@@ -26,6 +26,7 @@ import { Role } from "../auth/custom-decorator/role.decorator";
 import { RolesGuard } from "../auth/guards/role.guard";
 import { GetMentorsDTO } from "./dto/getmentors.dto";
 import { PaginatedUserDocuments } from "./interface/paginated-user-documents.interface";
+import { UploadAvatarDTO } from "./dto/upload-avatar.dto";
 
 @Controller("users")
 export class UsersController {
@@ -56,15 +57,21 @@ export class UsersController {
     return this.usersService.updateUser(req.user.sub, updateUserDto);
   }
 
+  @Get("avatar")
+  async getAvatar(@Req() req): Promise<HttpResponseType<object>> {
+    return this.usersService.getAvatar(req.user.sub);
+  }
+
   @Patch("avatar")
   @HttpCode(HttpStatus.OK)
-  @UseInterceptors(FileInterceptor("avatar"))
+  // @UseInterceptors(FileInterceptor("avatar"))
   async uploadDriverLicense(
-    @UploadedFile() avatar: Express.Multer.File,
+    // @UploadedFile() avatar: Express.Multer.File,
+    @Body() uploadAvatarDto: UploadAvatarDTO,
     @Req() req,
   ): Promise<HttpResponseType<UserDocument | object>> {
     try {
-      return this.usersService.uploadAvatar(req.user?.sub, avatar);
+      return this.usersService.uploadAvatar(req.user?.sub, uploadAvatarDto);
     } catch (error) {
       return error;
     }

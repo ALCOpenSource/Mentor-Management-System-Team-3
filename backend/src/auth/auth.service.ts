@@ -15,7 +15,7 @@ import { SignupWithEmailAndPasswordDTO } from "./dto/signup.dto";
 import { HttpResponseType } from "../types/http-response.type";
 import { UsersService } from "../users/users.service";
 import { UserDocument } from "../users/users.schema";
-import { LoginDTO } from "./dto/login.dto";
+import { GoogleLoginDTO, LoginDTO } from "./dto/login.dto";
 import { ILoginResponse } from "./interface/login-response.interface";
 import { ResetPasswordDTO } from "./dto/reset-password.dto";
 import { ForgotPasswordDTO } from "./dto/forgot-password.dto";
@@ -227,6 +227,60 @@ export class AuthService {
     };
   }
 
+  async googleLogin(
+    googleLoginDto: GoogleLoginDTO,
+  ): Promise<HttpResponseType<ILoginResponse>> {
+    // Check if user with given email already exists
+    const existingUser = await this.usersService.getUserByEmail(
+      googleLoginDto.email,
+    );
+
+    if (existingUser) {
+      const { email, _id, role } = existingUser;
+      //create payload for jwt
+      const payload = {
+        username: email,
+        sub: _id as unknown as string,
+        role: role,
+      };
+
+      return {
+        status: OperationStatus.SUCCESS,
+        message: "",
+        data: {
+          access_token: this.jwtService.sign(payload),
+          email,
+          role,
+          id: _id.toString(),
+        },
+      };
+    }
+    const user = await this.usersService.signUpwithGoogle({
+      email: googleLoginDto.email,
+      firstName: googleLoginDto?.displayName?.split(" ")[0],
+      lastName: googleLoginDto?.displayName?.split(" ")[1],
+      avatar: googleLoginDto.profilePicture,
+    });
+
+    const { email, _id, role } = user;
+    //create payload for jwt
+    const payload = {
+      username: email,
+      sub: _id as unknown as string,
+      role: role,
+    };
+
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "",
+      data: {
+        access_token: this.jwtService.sign(payload),
+        email,
+        role,
+        id: _id.toString(),
+      },
+    };
+  }
   async validateGoogleUser(profile) {
     console.log(profile, "GOOGLE PROFILE");
     const { email, given_name, family_name } = profile._json;

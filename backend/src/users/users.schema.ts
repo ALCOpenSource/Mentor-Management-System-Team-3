@@ -1,6 +1,6 @@
 import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, Schema as MongooseSchema } from "mongoose";
-import { IImage } from "./interface/image.interface";
+// import { IImage } from "./interface/image.interface";
 import { ISocials } from "./interface/socials.interface";
 import { Preferences } from "src/preferences/preferences.schema";
 import { IUser } from "./interface/user.interface";
@@ -24,13 +24,8 @@ export class User {
   @Prop({ lowercase: true })
   email: string;
 
-  @Prop(
-    raw({
-      url: String,
-      publicId: { type: String },
-    }),
-  )
-  avatar: IImage;
+  @Prop()
+  avatar: string;
 
   @Prop()
   token: string;
