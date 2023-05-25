@@ -3,9 +3,12 @@ import { MentorProp } from "./select-someone";
 import { getRandomInteger } from "../../../../services/mathFunctions";
 import avatarSVG from "../../../../assets/images/avatar.svg";
 import "./messages.css";
+import ChatMessages from "./chat-messages";
+import { useState } from "react";
 
 function Settings() {
   const currentMentors: MentorProp[] = [];
+  const [currentMentor, setCurrentMentor] = useState<MentorProp|undefined>(undefined);
 
   for (let i = 0; i < 100; i++) {
     const date = new Date();
@@ -32,7 +35,8 @@ function Settings() {
               >
                 <NavLink
                   className="mentor-border left_navlinks"
-                  to={"/dashboard/messages/admin-chat-messages/chat-messages"} state={mentor}
+                  to={"/dashboard/messages/admin-chat-messages"} state= {mentor}
+                  
                 >
                   <div style={{ width: "360px", marginTop: "0px" }} className="flex flex-row mt-[1px]  ">
                     <img
@@ -66,7 +70,7 @@ function Settings() {
           })}
         </section>
         <section className="w-full border-solid p-1">
-          <Outlet />
+          <ChatMessages />
         </section>
       </section>
     </div>

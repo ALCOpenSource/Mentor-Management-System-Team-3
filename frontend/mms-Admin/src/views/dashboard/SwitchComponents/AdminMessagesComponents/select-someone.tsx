@@ -44,8 +44,8 @@ const SelectSomeOne: React.FC = () =>{
     const navigate = useNavigate();
 
     return (
-    <div className="w-full h-screen">
-        <Formik
+    <div className="w-full h-full">
+        <Formik 
             initialValues={initialValues}
             onSubmit={(values: FormValues) => console.log(values)}
             validationSchema={object().shape({
@@ -56,7 +56,7 @@ const SelectSomeOne: React.FC = () =>{
                 ),
             })}
             render={({ handleSubmit, errors, touched, values }) => (
-                <Form className="w-full h-screen">
+                <Form className="w-full h-full">
                     <label
                         className="mentor-title ms-5 pt-0"
                         htmlFor="about"
@@ -114,11 +114,11 @@ const SelectSomeOne: React.FC = () =>{
                         <img src={messageCloseSVG} style={{ marginTop: "20px", marginLeft: "30px", maxHeight: "40px" }} alt="search icon" />
                     </div>
 
-                    <div className="w-full flex h-full mt-12 h-screen overflow-y-scroll pb-10">
+                    <div className="w-full flex h-full mt-12 h-full pb-10">
                         <FieldArray
                             name="mentors"
                             render={(helpers) => (
-                                <div>
+                                <div className="w-full h-full overflow-y-scroll">
                                     {values.mentors && values.mentors.length > 0
                                         ? values.mentors.map(
                                             (
