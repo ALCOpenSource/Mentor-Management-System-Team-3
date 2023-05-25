@@ -23,7 +23,7 @@ export class ChatService {
   async createChat(
     user1Id: string,
     user2Id: string,
-  ): Promise<HttpResponseType<ChatDocument | object>> {
+  ): Promise<HttpResponseType<ChatDocument>> {
     const existingChat = await this.chatModel.findOne({
       $or: [
         { user1Id: user1Id, user2Id: user2Id },
@@ -222,4 +222,6 @@ export class ChatService {
     });
     return message.toObject({ getters: true });
   }
+
+  // broadcast message to several recipients(named)
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsString } from "class-validator";
 export class CreateMessageDto {
   @IsNotEmpty()
   @IsString()
@@ -44,4 +44,14 @@ export class TypingDto {
   @IsNotEmpty()
   @IsString()
   receiverId: string;
+}
+
+export class BroadCastMessage {
+  @IsNotEmpty()
+  @IsString()
+  text: string;
+
+  @IsNotEmpty()
+  @IsArray()
+  recipients: Array<string>;
 }

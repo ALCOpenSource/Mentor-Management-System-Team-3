@@ -12,10 +12,12 @@ import { ChatService } from "./chat.service";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import { JwtWebSocketGuard } from "src/auth/guards/ws.auth.guard";
+import { Message } from "./chat.schema";
 // import { UsersService } from "src/users/users.service";
 // import { MailService } from "src/mail/mail.service";
 // import { PreferencesService } from "src/preferences/preferences.service";
 import {
+  BroadCastMessage,
   CreateMessageDto,
   MarkMessageAsDeliveredDto,
   TypingDto,
@@ -240,5 +242,29 @@ export class ChatGateway
         senderId: data.senderId,
       });
     }
+  }
+  // broadcast a chat to all users
+
+  @UseGuards(JwtWebSocketGuard)
+  @SubscribeMessage("broadcastChat")
+  async handleBroadCastMessage(socket: Socket, data: BroadCastMessage) {
+    const s_Id = socket.data.user.sub;
+
+    data.recipients.map(async (_r) => {
+      const chat = await this.chatService.createChat(_r, s_Id);
+
+      const message = {
+        senderId: s_Id,
+        receiverId: _r,
+        text: data.text,
+        chatId: chat.data.chatId,
+      };
+      this.chatService.sendMessage(message);
+
+      //TODO broadcast message if online
+      // send notification if subscribed to email
+      // send-in-app notifcation if subscribed
+    });
+    throw new Error("Not implemented yet");
   }
 }
