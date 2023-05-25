@@ -9,6 +9,7 @@ import {
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as dayjs from "dayjs";
+import { PreferencesService } from "src/preferences/preferences.service";
 
 import { OperationStatus } from "./../filters/interface/response.interface";
 import { SignupWithEmailAndPasswordDTO } from "./dto/signup.dto";
@@ -31,6 +32,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
+    private readonly preferenceService: PreferencesService,
   ) {}
 
   async changePassword(changePasswordDto: ChangePasswordDTO) {
@@ -177,6 +179,7 @@ export class AuthService {
       email: signUpWithEmailAndPassword.email,
       password: signUpWithEmailAndPassword.password,
     });
+    this.preferenceService.createPreferences(newUser.id);
 
     return {
       status: OperationStatus.SUCCESS,

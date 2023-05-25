@@ -105,7 +105,8 @@ export class UsersService {
     this.userModel.create(createUserDto);
     // while creating new user, we need to instantiate also a class for their preferences
     this.logger.log("Creating user preferences");
-    this.preferenceService.createPreferences(createUserDto.id);
+    const x = this.preferenceService.createPreferences(createUserDto.id);
+    console.log(x);
   }
 
   async signUpwithGoogle(signupWithGoogleDTO: SignupWithGoogleDTO) {
