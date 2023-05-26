@@ -31,7 +31,10 @@ const PasswordPage: React.FC = () => {
   };
   const googleLoginObj = useGoogleLogin({
     onSuccess: (codeResponse) => {
-      getGoogleLoggedInUser(codeResponse.access_token)?.then(tt => { console.log(tt) })?.catch(error => showErrorMessage(error))
+      getGoogleLoggedInUser(codeResponse.access_token)?.then(tt => 
+        {
+          /loginCurrentUserWIthGoogleApiAsync
+        })?.catch(error => showErrorMessage(error))
     },
     onError: (error) => showErrorMessage(error)
   });
