@@ -28,6 +28,7 @@ import { JwtAuthGuard } from "./auth/guards/jwt.auth.guard";
 import { ChatModule } from "./chat/chat.module";
 import { TaskService } from "./task/task.service";
 import { Task, TaskSchema } from "./task/task.schema";
+import { WebsocketModule } from "./websocket/websocket.module";
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { Task, TaskSchema } from "./task/task.schema";
     ProgramsArchiveModule,
     TaskModule,
     ChatModule,
+    WebsocketModule,
   ],
   controllers: [],
   providers: [
