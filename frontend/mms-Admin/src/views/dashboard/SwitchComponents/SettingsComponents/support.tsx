@@ -246,7 +246,7 @@ const SupportPage: React.FC = () => {
                   <button
                     type="submit"
                     style={{ marginLeft: "auto", maxHeight: "40px" }}
-                    className="bg-green-three text-white rounded-[10px] p-[10px]  me-[40px] pe-[40px] ps-[40px] font-medium mt-0"
+                    className="btn-primary mt-0"
                   >
                     Send
                   </button>

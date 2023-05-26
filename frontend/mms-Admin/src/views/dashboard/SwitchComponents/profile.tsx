@@ -63,7 +63,7 @@ const GeneralPage: React.FC = () => {
                   type="button"
                   onClick={goToEditProfilePage}
                   style={{ marginLeft: "auto", marginTop: "20px" }}
-                  className="bg-green-three text-white rounded-[10px] p-[10px]  pe-[30px] ps-[30px]  font-medium"
+                  className="btn-primary"
                 >
                   Edit Profile
                 </button>

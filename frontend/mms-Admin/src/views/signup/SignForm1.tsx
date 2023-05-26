@@ -33,7 +33,7 @@ function SignupForm1() {
                         <img src={Avatar} alt="profile"/>
                         <span className="flex flex-col ml-2 items-center">
                             <h2 className="text-customBlack-one text-bold">Set Profile Picture</h2>
-                            <button type="button" className="bg-green-three text-white border rounded w-[150px] py-2 px-3 ml-2 leading-tight focus:outline-none focus:shadow-outline">UploadPicture</button>
+                            <button type="button" className="btn-primary">UploadPicture</button>
                         </span>
                     </div>
                     <div className="flex flex-row items-center justify-center mb-6">

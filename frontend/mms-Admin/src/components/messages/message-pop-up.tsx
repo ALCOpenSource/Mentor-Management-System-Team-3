@@ -30,7 +30,7 @@ function MessagePopUpPage(props: {
                 <button
                   type="submit"
                   style={{ margin: "auto" }}
-                  className="bg-green-three text-white rounded-[10px] p-[10px] pe-[40px] ps-[40px] font-medium mt-1"
+                  className="btn-primary mt-1"
                 >
                   {props.buttonText ?? "Done"}
                 </button>

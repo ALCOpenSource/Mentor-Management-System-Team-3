@@ -8,9 +8,9 @@ import { useAppDispatch } from "./../../services/redux/Store";
 import logo from "../../assets/images/mms_logo.svg";
 import { loginCurrentUser } from "./../../services/redux/slices/current-user-slice";
 import { useNavigate } from "react-router-dom";
-import SVG_ICONS from "../../assets/svg-icons";
 import { useGoogleLogin } from '@react-oauth/google';
 import { getGoogleLoggedInUser } from "../../services/axios/axios-services";
+import PasswordField from "../../components/passwordField";
 
 const PasswordPage: React.FC = () => {
   const initialValues: UsernamePassword = {
@@ -24,7 +24,6 @@ const PasswordPage: React.FC = () => {
     username: Yup.string().required("Email is required please").email("It should be a valid email address"),
     password: Yup.string().required("Password is required please"),
   });
-  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const showErrorMessage = (tt: any) => {
     console.log("ghg", tt?.message);
@@ -37,16 +36,6 @@ const PasswordPage: React.FC = () => {
     onError: (error) => showErrorMessage(error)
   });
   const googleLogin = () => googleLoginObj();
-
-  // // log out function to log the user out of google and set the profile array to null
-  // const logOut = () => {
-  //     googleLogout();
-  //     setProfile(null);
-  // };
-
-
-
-
 
   const handleSubmit = async (values: UsernamePassword) => {
     try {
@@ -88,34 +77,21 @@ const PasswordPage: React.FC = () => {
                     id="username"
                     name="username"
                     placeholder="Email"
-                    className="text-input w-full ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                    className="general-text-input"
                   />
                   <FormikValidationMessageComponent name="username" />
                 </div>
                 <div className="relative my-0">
-                  <Field
-                    type={showPassword ? "text" : "password"}
+                  <PasswordField
                     id="password"
                     name="password"
                     placeholder="Password"
-                    className="p-[10px] border-2 rounded-[5px] p-5 text-[20px] my-2 w-full text-input my-5"
-                  />
-                  <button
-                    className="transform -translate-y-1/2 focus:outline-none m_icon"
-                    type="button"
-                    onClick={() => {
-                      setShowPassword(!showPassword);
-                    }}
-                  >
-                    {showPassword
-                      ? SVG_ICONS.PASSWORD.SHOW
-                      : SVG_ICONS.PASSWORD.HIDE}
-                  </button>
+                  />                            
                   <FormikValidationMessageComponent name="password" />
                 </div>
                 <button
                   type="submit"
-                  className="bg-green-three text-white shadow appearance-none border rounded w-full py-2 px-3 m-2 leading-tight focus:outline-none focus:shadow-outline"
+                  className="btn-primary"
                 >
                   Login
                 </button>

@@ -1,5 +1,5 @@
 
-import React, { type FC } from 'react';
+import { type FC } from 'react';
 
 export enum BUTTON_TYPE {
 	PRIMARY = 'primary',
