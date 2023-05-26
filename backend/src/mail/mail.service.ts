@@ -80,4 +80,20 @@ export class MailService {
       data: {},
     };
   }
+  // send notification to user about a comment, dm or new post
+  async sendNewNotification(data: {
+    email: string;
+    type: string;
+    sender: string;
+  }) {
+    await this.mailerService.sendMail({
+      to: data.email,
+      from: `<${process.env.MAIL_USER}>`,
+      subject: "New Notification",
+      template: "./subs/notify",
+      context: {
+        message: `you have a new ${data.type} from ${data.sender}`,
+      },
+    });
+  }
 }

@@ -8,32 +8,34 @@ import {
 } from "@nestjs/websockets";
 import { Logger, UnauthorizedException, UseGuards } from "@nestjs/common";
 import { Server, Socket } from "socket.io";
-import { ChatService } from "./chat.service";
+import { ChatService } from "src/chat/chat.service";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import { JwtWebSocketGuard } from "src/auth/guards/ws.auth.guard";
-// import { UsersService } from "src/users/users.service";
-// import { MailService } from "src/mail/mail.service";
-// import { PreferencesService } from "src/preferences/preferences.service";
+
 import {
-  CreateMessageDto,
   MarkMessageAsDeliveredDto,
+  BroadCastMessage,
   TypingDto,
-} from "./dto/messsage.dto";
+  CreateMessageDto,
+} from "src/chat/dto/messsage.dto";
+import { UsersService } from "src/users/users.service";
+import { PreferencesService } from "src/preferences/preferences.service";
+import { MailService } from "src/mail/mail.service";
 
 @WebSocketGateway() // { cors: { origin: "http://localhost:3000" } }
-export class ChatGateway
+export class WsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  private readonly logger = new Logger(ChatGateway.name);
+  private readonly logger = new Logger(WsGateway.name);
 
   constructor(
     private chatService: ChatService,
-    // private usersService: UsersService,
-    // private preferenceService: PreferencesService,
-    // private mailService: MailService,
+    private usersService: UsersService,
+    private preferenceService: PreferencesService,
+    private mailService: MailService,
     private jwtService: JwtService,
-    private configService: ConfigService, // private userService: UserService,
+    private configService: ConfigService,
   ) {}
 
   @WebSocketServer()
@@ -81,10 +83,6 @@ export class ChatGateway
       .filter(([, s]) => s.id === socket.id)
       .map(([u]) => u)[0];
     this.connectedUsers.delete(uid);
-  }
-
-  private notifyDisconnection(userId: string) {
-    this.server.emit("userDisconnected", { userId: userId });
   }
 
   @UseGuards(JwtWebSocketGuard)
@@ -240,5 +238,29 @@ export class ChatGateway
         senderId: data.senderId,
       });
     }
+  }
+  // broadcast a chat to all users
+
+  @UseGuards(JwtWebSocketGuard)
+  @SubscribeMessage("broadcastChat")
+  async handleBroadCastMessage(socket: Socket, data: BroadCastMessage) {
+    const s_Id = socket.data.user.sub;
+
+    data.recipients.map(async (_r) => {
+      const chat = await this.chatService.createChat(_r, s_Id);
+
+      const message = {
+        senderId: s_Id,
+        receiverId: _r,
+        text: data.text,
+        chatId: chat.data.chatId,
+      };
+      this.chatService.sendMessage(message);
+
+      //TODO broadcast message if online
+      // send notification if subscribed to email
+      // send-in-app notifcation if subscribed
+    });
+    throw new Error("Not implemented yet");
   }
 }
