@@ -27,18 +27,48 @@ export class PreferencesService {
   async createPreferences(userId: string): Promise<PreferenceDocument> {
     this.logger.log("Creating preferences for user");
     const generalNotifications = new GeneralNotificationsDto();
-    generalNotifications.enableAllNotifications = true;
-    generalNotifications.enableProgramsNotifications = true;
-    generalNotifications.enableTaskNotifcations = true;
-    generalNotifications.enableApprovalRequestNotifications = true;
-    generalNotifications.enableReportsNotifications = true;
+    generalNotifications.enableAllNotifications = {
+      inApp: false,
+      email: false,
+    };
+    generalNotifications.enableProgramsNotifications = {
+      inApp: false,
+      email: false,
+    };
+    generalNotifications.enableTaskNotifcations = {
+      inApp: false,
+      email: false,
+    };
+    generalNotifications.enableApprovalRequestNotifications = {
+      inApp: false,
+      email: false,
+    };
+    generalNotifications.enableReportsNotifications = {
+      inApp: false,
+      email: false,
+    };
 
     const discussionNotifications = new DiscussionNotificationsDto();
-    discussionNotifications.enableCommentsOnMyPostsNotification = true;
-    discussionNotifications.enablePostsNotifications = true;
-    discussionNotifications.enableCommentsNotifications = true;
-    discussionNotifications.enableMentionsNotifications = true;
-    discussionNotifications.enableDirectMessageNotifications = true;
+    discussionNotifications.enableCommentsOnMyPostsNotification = {
+      inApp: false,
+      email: false,
+    };
+    discussionNotifications.enablePostsNotifications = {
+      inApp: false,
+      email: false,
+    };
+    discussionNotifications.enableCommentsNotifications = {
+      inApp: false,
+      email: false,
+    };
+    discussionNotifications.enableMentionsNotifications = {
+      inApp: false,
+      email: false,
+    };
+    discussionNotifications.enableDirectMessageNotifications = {
+      inApp: false,
+      email: false,
+    };
 
     const privacyPreferences = new PrivacyPreferencesDto();
     privacyPreferences.enableAllSocialLinksVisibility = true;
