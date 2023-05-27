@@ -40,7 +40,7 @@ export class DiscussionNotificationsDto implements IDiscussionNotifications {
 export class PrivacyPreferencesDto implements IPrivacyPreferences {
   @IsNotEmpty()
   @IsBoolean()
-  enableAllSocialLinksVisibility: boolean;
+  enableShowContactInfo: boolean;
 
   @IsNotEmpty()
   @IsBoolean()
