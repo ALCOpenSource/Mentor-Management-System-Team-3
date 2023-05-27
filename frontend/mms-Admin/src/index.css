@@ -12,26 +12,26 @@ body {
 @tailwind components;
 @tailwind utilities;
 
-.btn-primary{
+.btn-primary {
   @apply bg-green-three cursor-pointer tracking-wider text-white rounded-[10px] p-[10px] pe-[40px] ps-[40px] font-semibold mt-0 overflow-hidden shadow-md leading-tight focus:outline-none relative hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;
 }
 
-.btn-secondary{
+.btn-secondary {
   @apply cursor-pointer tracking-wider leading-tight focus:outline-none relative hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;
 }
 
-.badge{
+.badge {
   @apply bg-red-600 text-white text-xs font-bold rounded-full p-2 absolute;
 }
 
-.card{
+.card {
   @apply rounded overflow-hidden shadow-md relative;
 }
 
-.label{
+.label {
   @apply transform hover:scale-100 hover:bg-opacity-60 transition ease-out duration-300;
 }
 
-.general-text-input{
+.general-text-input {
   @apply text-customBlack-two px-[12px] py-[5px] my-2 w-full border-2 border-gray-300 focus:border-green-three hover:border-green-three rounded-[5px] text-[16px] relative outline-none transform hover:translate-y-1 hover:bg-opacity-80 transition ease-out duration-300;
 }

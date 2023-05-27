@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store
 import { selectCurrentPrivacy, updateAllPrivacies, updatePrivacyItem } from "../../../../services/redux/slices/privacy-slice";
 import { Privacy } from "../../../../services/redux/types/privacy";
 import { capitalizeEachWord } from "../../../../services/generalFunctions";
-import { fetchCurrentUserPreferences, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import { getApiData } from "../../../../services/axios/axios-services";
 
 const PrivacyPage: React.FC = () => {
