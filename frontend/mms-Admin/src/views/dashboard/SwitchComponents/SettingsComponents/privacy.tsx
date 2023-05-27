@@ -1,27 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentPrivacy, updateAllPrivacies, updatePrivacyItem } from "../../../../services/redux/slices/privacy-slice";
 import { Privacy } from "../../../../services/redux/types/privacy";
-
+import { capitalizeEachWord } from "../../../../services/generalFunctions";
+import { fetchCurrentUserPreferences, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 
 const PrivacyPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const obj = useAppSelector(selectCurrentPrivacy);
   const [currentPrivacy, setCurrentPrivacy] = useState(obj);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const token = useAppSelector(selectCurrentUserToken);
+
+  const showErrorMessage = (tt: any) => {
+    try {
+      setErrorMessage(tt?.message ?? tt);
+    } catch (err) {
+      setErrorMessage(tt);
+    }
+  };
+
+  useEffect(() =>{    
+    try {
+      setErrorMessage("");
+      setSuccessMessage("");
+
+       dispatch(fetchCurrentUserPreferences(token))
+      .then(obj =>
+        {
+         console.log("grgr", obj);
+         //const privacy = useAppSelector(selectCurrentUserToken);
+        })
+        .catch(err => { showErrorMessage(err) });
+    } catch (error) { showErrorMessage(error) }
+  }, [])
 
   const setPrivacy = async (key: string, value: boolean) => {
-    var lastValue = Object.entries(currentPrivacy)
-      .filter(n => n[0] === key && n[1] === value);
+    try {
+      setErrorMessage("");
+      setSuccessMessage("");
 
-    if (lastValue[1])
-      return;
+      var lastValue = Object.entries(currentPrivacy)
+        .filter(n => n[0] === key && n[1] === value);
 
-    const obj = { ...currentPrivacy, [key]: value };
-    setCurrentPrivacy(obj);
-    await dispatch(updatePrivacyItem({ key, value, obj }));
+      if (lastValue[1])         
+        return;
+      
+      const obj = { ...currentPrivacy, [key]: value };
+      setCurrentPrivacy(obj);
+      await dispatch(updatePrivacyItem({ key, value, obj })
+      ).then(ff => setSuccessMessage(`Successfully saved ${capitalizeEachWord(key)}  (${value})`.replace("Show", "Show ")))
+        .catch(err => { showErrorMessage(err) });
+    } catch (error) { showErrorMessage(error) }
   }
 
   const handleSubmit = async (values: Privacy) => {
@@ -121,6 +155,17 @@ const PrivacyPage: React.FC = () => {
                   />
                 </div>
               </div>
+
+              <h5 className="text-1xl mt-12 text-gray-two font-bold">
+                {successMessage}
+              </h5>
+
+              <h5
+                style={{ color: "orangered" }}
+                className="text-1xl font-bold mt-4"
+              >
+                {errorMessage}
+              </h5>
             </div>
           </Form>
         )}

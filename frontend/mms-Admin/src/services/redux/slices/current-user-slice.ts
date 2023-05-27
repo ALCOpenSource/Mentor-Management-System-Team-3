@@ -13,15 +13,20 @@ import {
 import { persistor, RootState } from "../Store";
 import "./../../../assets/images/flag-icons-main/flags/4x3/ac.svg";
 import {
+  fetchPreferencesApiAsync,
   loginCurrentUserApiAsync,
   loginCurrentUserWIthGoogleApiAsync,
   logoutCurrentUserApiAsync,
   updateCurrentUserApiAsync,
   updateCurrentUserProfilePictureApiAsync,
 } from "../../axios/api-services/current-user";
+import { Privacy } from "../types/privacy";
+import { Notification } from "../../redux/types/notification";
 
 interface CurrentUserState {
   currentUser: LoggedInUser;
+  privacy?: Privacy;
+  notification?: Notification;
 }
 
 const getEmptyLoggedInUser = (): LoggedInUser => {
@@ -48,6 +53,14 @@ export const updateCurrentUserProfilePicture = createAsyncThunk(
   async (image: any, thunkAPI) => {
     const state:any = thunkAPI.getState();  
     return await updateCurrentUserProfilePictureApiAsync(image, state.currentUser.currentUser.userToken);
+  }
+);
+
+export const fetchCurrentUserPreferences = createAsyncThunk(
+  "current-user/update-user-preferences",
+  async (image: any, thunkAPI) => {
+    const state:any = thunkAPI.getState();  
+    return await fetchPreferencesApiAsync(state.currentUser.currentUser.userToken);
   }
 );
 
@@ -143,7 +156,6 @@ export const CurrentUserSlice = createSlice({
         throw action.error;
     });
 
-
     builder.addCase(
       updateCurrentUserProfilePicture.fulfilled,
       (state, action) => {
@@ -151,6 +163,18 @@ export const CurrentUserSlice = createSlice({
       }
     );
     builder.addCase(updateCurrentUserProfilePicture.rejected, (state, action) => {
+      throw action.error;
+    });
+    
+    builder.addCase(
+      fetchCurrentUserPreferences.fulfilled,
+      (state, action) => {
+        console.log(action.payload)
+        state.privacy = action.payload.privacy;
+        state.notification = action.payload.notification;
+      }
+    );
+    builder.addCase(fetchCurrentUserPreferences.rejected, (state, action) => {
       throw action.error;
     });
   },

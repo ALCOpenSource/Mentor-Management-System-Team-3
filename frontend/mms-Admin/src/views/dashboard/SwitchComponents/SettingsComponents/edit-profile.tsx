@@ -22,6 +22,7 @@ import {
 } from "../../../../services/redux/slices/current-user-slice";
 import { countries } from "../../../../services/countries";
 import MessagePopUpPage from "../../../../components/messages/message-pop-up";
+import FieldWithIconLabel from "../../../../components/FieldWithIconLabel";
 
 const EditProfilePage: React.FC = () => {
   const obj = useAppSelector(selectCurrentUser);
@@ -197,7 +198,7 @@ const EditProfilePage: React.FC = () => {
               <div className="flex flex-col relative">
                 <div className="mb-5">
                   <div className="flex flex-row  relative  w-full">
-                    <label className="text-label" htmlFor="lastName">
+                    <label className="text-label" htmlFor="firstNames">
                       Full Name
                     </label>
                     <Field
@@ -301,90 +302,14 @@ const EditProfilePage: React.FC = () => {
                     <label className="text-label" htmlFor="github">
                       Social
                     </label>
-                    <div className="flex flex-col input-icons ps-5 relative w-full">
+                    <div className="flex ms-[-5px] flex-col input-icons relative w-full">
                       <div className="flex flex-row input-icons relative w-full">
-                        <div className="flex flex-row input-icons ms-1 w-full">
-                          <img
-                            src={githubSVG}
-                            alt="profile logo"
-                            className="icon"
-                          />
-                          <Field
-                            disabled
-                            type="text"
-                            value="GitHub"
-                            className="text-input input-icon-label ms-1 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                          <Field
-                            type="text"
-                            id="github"
-                            name="github"
-                            placeholder="@githubuser"
-                            className="general-text-input text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                        </div>
-                        <div className="flex flex-row input-icons ms-6 w-full">
-                          <img
-                            src={instagramSVG}
-                            alt="profile logo"
-                            className="icon"
-                          />
-                          <Field
-                            disabled
-                            type="text"
-                            value="Instagram"
-                            className="text-input input-icon-label ms-1 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                          <Field
-                            type="text"
-                            id="instagram"
-                            name="instagram"
-                            placeholder="@instagramuser"
-                            className="general-text-input text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                        </div>
+                        <FieldWithIconLabel id="github" name="github" label="GitHub" icon={githubSVG} placeholder="@githubuser" extraStyles="flex flex-row input-icons ms-1 w-full" />
+                        <FieldWithIconLabel id="instagram" name="instagram" label="Instagram" icon={instagramSVG} placeholder="@instagramuser" extraStyles="flex flex-row input-icons ms-6 w-full" />
                       </div>
                       <div className="flex flex-row input-icons relative w-full">
-                        <div className="flex flex-row input-icons ms-1 w-full">
-                          <img
-                            src={linkedInSVG}
-                            alt="profile logo"
-                            className="icon"
-                          />
-                          <Field
-                            disabled
-                            type="text"
-                            value="LinkedIn"
-                            className="text-input input-icon-label ms-1 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                          <Field
-                            type="text"
-                            id="linkedin"
-                            name="linkedin"
-                            placeholder="@linkedinuser"
-                            className="general-text-input text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                        </div>
-                        <div className="flex flex-row input-icons ms-6 w-full">
-                          <img
-                            src={twitterSVG}
-                            alt="profile logo"
-                            className="icon"
-                          />
-                          <Field
-                            disabled
-                            type="text"
-                            value="Twitter"
-                            className="text-input input-icon-label ms-1 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                          <Field
-                            type="text"
-                            id="twitter"
-                            name="twitter"
-                            placeholder="@twitteruser"
-                            className="general-text-input text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                        </div>
+                        <FieldWithIconLabel id="linkedin" name="linkedin" label="LinkedIn" icon={linkedInSVG} placeholder="@linkedinuser" extraStyles="flex flex-row input-icons ms-1 w-full" />
+                        <FieldWithIconLabel id="twitter" name="twitter" label="Twitter" icon={twitterSVG} placeholder="@twitteruser" extraStyles="flex flex-row input-icons ms-6 w-full" />
                       </div>
                     </div>
                   </div>

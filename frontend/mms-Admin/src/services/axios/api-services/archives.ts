@@ -1,4 +1,4 @@
-import { SupportModel } from "../../../views/dashboard/SwitchComponents/SettingsComponents/support";
+//import { SupportModel } from "../../../views/dashboard/SwitchComponents/SettingsComponents/support";
 import axiosWithBearer from "../axios-services";
 
 export const getArchivesApiAsync = async (

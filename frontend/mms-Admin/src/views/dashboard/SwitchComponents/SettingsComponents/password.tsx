@@ -164,7 +164,7 @@ const PasswordPage: React.FC = () => {
 
             <div className="flex w-full">
               <a
-                className="text-[15px] text-link text-green-three"
+                className="btn-secondary text-[15px] text-link text-green-three"
                 href="/forgotpassword"
               >
                 Forgot password?

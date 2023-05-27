@@ -14,6 +14,8 @@ import {
   updateLoggedInCurrentUser,
   updateLoggedInUserToken,
 } from "../../redux/slices/current-user-slice";
+import { Privacy } from "../../redux/types/privacy";
+import { Notification } from "../../redux/types/notification";
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails,
   token: string
@@ -81,7 +83,7 @@ export const updateCurrentUserProfilePictureApiAsync = async (
 ) => {
   const bodyFormData = new FormData();
   bodyFormData.append("avatar", image);
-  
+
   const saveUserAvatar = axiosWithBearer(token ?? "")
     .patch("/users/avatar", bodyFormData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -96,7 +98,7 @@ export const updateCurrentUserProfilePictureApiAsync = async (
   return saveUserAvatar;
 };
 
-export const logoutCurrentUserApiAsync = async () => { };
+export const logoutCurrentUserApiAsync = async () => {};
 
 // export const loginCurrentUserApiAsync = async (
 //   userDetails: UsernamePassword, dispatch: ThunkDispatch<unknown, unknown, AnyAction>
@@ -238,12 +240,108 @@ export const loginCurrentUserApiAsync = async (
   return finalize;
 };
 
+export const fetchPreferencesApiAsync = async (token: string) => {
+  const preferences = axiosWithBearer(token ?? "")
+    .get("/preferences")
+    .then((data) => {
+      console.log(data);
+      const privacy: Privacy = {
+        showContactInfo:
+          data?.data?.privacyPreferences?.enableAllSocialLinksVisibility ??
+          false,
+        showGitHub:
+          data?.data?.privacyPreferences?.enableGithubLinkVisibility ?? false,
+        showInstagram:
+          data?.data?.privacyPreferences?.enableInstagramLinkVisibility ??
+          false,
+        showLinkedin:
+          data?.data?.privacyPreferences?.enableLinkedinLinkVisibility ?? false,
+        showTwitter:
+          data?.data?.privacyPreferences?.enableTwitterLinkVisibility ?? false,
+      };
+
+      const notification: Notification = {
+        allNotificationsEmail:
+          data?.data?.discussionNotifications
+            ?.enableCommentsOnMyPostsNotification?.email ?? false,
+        programsEmail:
+          data?.data?.generalnotifications?.enableProgramsNotifications
+            ?.email ?? false,
+        tasksEmail:
+          data?.data?.generalnotifications?.enableTaskNotifcations?.email ??
+          false,
+        approvalRequestsEmail:
+          data?.data?.generalnotifications?.enableApprovalRequestNotifications
+            ?.email ?? false,
+        reportsEmail:
+          data?.data?.generalnotifications?.enableReportsNotifications?.email ??
+          false,
+        commentsOnMyPostsEmail:
+          data?.data?.discussionNotifications
+            ?.enableCommentsOnMyPostsNotification?.email ?? false,
+        postsEmail:
+          data?.data?.discussionNotifications?.enablePostsNotifications
+            ?.email ?? false,
+        commentsEmail:
+          data?.data?.discussionNotifications?.enableCommentsNotifications
+            ?.email ?? false,
+        mentionsEmail:
+          data?.data?.discussionNotifications?.enableMentionsNotifications
+            ?.email ?? false,
+        directMessagesEmail:
+          data?.data?.discussionNotifications?.enableDirectMessageNotifications
+            ?.email ?? false,
+        allNotificationsInApp:
+          data?.data?.discussionNotifications
+            ?.enableCommentsOnMyPostsNotification?.inApp ?? false,
+        programsInApp:
+          data?.data?.generalnotifications?.enableProgramsNotifications
+            ?.inApp ?? false,
+        tasksInApp:
+          data?.data?.generalnotifications?.enableTaskNotifcations?.inApp ??
+          false,
+        approvalRequestsInApp:
+          data?.data?.generalnotifications?.enableApprovalRequestNotifications
+            ?.inApp ?? false,
+        reportsInApp:
+          data?.data?.generalnotifications?.enableReportsNotifications?.inApp ??
+          false,
+        commentsOnMyPostsInApp:
+          data?.data?.discussionNotifications
+            ?.enableCommentsOnMyPostsNotification?.inApp ?? false,
+        postsInApp:
+          data?.data?.discussionNotifications?.enablePostsNotifications
+            ?.inApp ?? false,
+        commentsInApp:
+          data?.data?.discussionNotifications?.enableCommentsNotifications
+            ?.inApp ?? false,
+        mentionsInApp:
+          data?.data?.discussionNotifications?.enableMentionsNotifications
+            ?.inApp ?? false,
+        directMessagesInApp:
+          data?.data?.discussionNotifications?.enableDirectMessageNotifications
+            ?.inApp ?? false,
+      };
+      return { privacy, notification };
+    })
+    .catch((err) => {
+      console.error(err);
+      throw err?.response?.data?.message ?? err;
+    })
+    .catch((err) => {
+      console.error(err);
+      throw err?.response?.data?.message ?? err;
+    });
+  //todo
+
+  return preferences;
+};
 
 export const loginCurrentUserWIthGoogleApiAsync = async (
   userDetails: {
     email: string;
     displayName: string;
-    profilePicture: string
+    profilePicture: string;
   },
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>
 ) => {
@@ -257,7 +355,7 @@ export const loginCurrentUserWIthGoogleApiAsync = async (
     }>("/auth/google/login", {
       email: `${email}`,
       profilePicture: `${profilePicture}`,
-      displayName: `${displayName}`
+      displayName: `${displayName}`,
     })
     .then((data) => {
       const obj = data.data.data;

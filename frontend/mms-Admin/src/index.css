@@ -33,5 +33,5 @@ body {
 }
 
 .general-text-input{
-  @apply text-customBlack-two px-[12px] py-[5px] w-full border-2 border-gray-300 focus:border-green-three hover:border-green-three rounded-[5px] text-[16px] relative outline-none transform hover:translate-y-1 hover:bg-opacity-80 transition ease-out duration-300;
+  @apply text-customBlack-two px-[12px] py-[5px] my-2 w-full border-2 border-gray-300 focus:border-green-three hover:border-green-three rounded-[5px] text-[16px] relative outline-none transform hover:translate-y-1 hover:bg-opacity-80 transition ease-out duration-300;
 }
