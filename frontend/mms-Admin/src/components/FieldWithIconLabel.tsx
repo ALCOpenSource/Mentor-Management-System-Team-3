@@ -1,5 +1,4 @@
-import React, { useState, type FC } from 'react';
-import SVG_ICONS from "../assets/svg-icons";
+import { type FC } from 'react';
 import { Field } from 'formik';
 
 interface FieldWithIconLabelProps {
@@ -23,7 +22,7 @@ const FieldWithIconLabel: FC<FieldWithIconLabelProps> = ({ id, name, placeholder
                 disabled
                 type="text"
                 value={label}
-                className="border-2 ps-12 border-lightGray-two w-32 rounded-[5px] text-[15px] "
+                className="border-2 ps-12 border-lightGray-two w rounded-[5px] text-[15px] "
             />
             <Field
                 type="text"

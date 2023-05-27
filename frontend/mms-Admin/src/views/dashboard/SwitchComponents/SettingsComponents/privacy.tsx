@@ -37,7 +37,7 @@ const PrivacyPage: React.FC = () => {
         })
         .catch(err => { showErrorMessage(err) });
     } catch (error) { showErrorMessage(error) }
-  }, [])
+  }, [token, dispatch])
 
   const setPrivacy = async (key: string, value: boolean) => {
     try {

@@ -13,6 +13,12 @@ a:hover {
     text-decoration: underline;
 }
 
+a:focus {
+    font-weight:700;
+    background-color: white;
+    text-decoration: underline;
+}
+
 div.menuv {
     float: left;
     width: 10em;
