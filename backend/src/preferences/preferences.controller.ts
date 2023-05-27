@@ -50,7 +50,7 @@ export class PreferencesController {
   async updatePrivacyPreferences(
     @Body() privacy: PrivacyPreferencesDto,
     @Req() req,
-  ): Promise<HttpResponseType<PreferenceDocument>> {
+  ): Promise<HttpResponseType<PreferenceDocument | object>> {
     return this.preferencesService.updatePrivacyPreferences(
       req.user.sub,
       privacy,
@@ -67,5 +67,25 @@ export class PreferencesController {
   ): Promise<HttpResponseType<PreferenceDocument[]>> {
     Logger.log("getPreferences");
     return this.preferencesService.getPreferencesByUid(req.user.sub);
+  }
+  @Get("privacy")
+  async getPrivacyPreferences(
+    @Req() req,
+  ): Promise<HttpResponseType<PreferenceDocument | object>> {
+    return this.preferencesService.getPrivacyPreferencesByUid(req.user.sub);
+  }
+  @Get("general")
+  async getGeneralPreferences(
+    @Req() req,
+  ): Promise<HttpResponseType<PreferenceDocument | object>> {
+    return this.preferencesService.getPreferencesByUid(req.user.sub);
+  }
+  @Get("discussion")
+  async getDiscussionPreferences(
+    @Req() req,
+  ): Promise<HttpResponseType<PreferenceDocument | object>> {
+    return this.preferencesService.getDiscussionNotificationsByUid(
+      req.user.sub,
+    );
   }
 }
