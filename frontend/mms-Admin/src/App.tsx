@@ -32,7 +32,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="10587...///hidden///...usercontent.com">   
+    <GoogleOAuthProvider clientId="105879543275-e4jkrpvk5k59ft5lajr3daiksvqn57bc.apps.googleusercontent.com">   
       <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">

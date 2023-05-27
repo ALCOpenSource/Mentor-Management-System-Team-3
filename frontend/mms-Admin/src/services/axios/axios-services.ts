@@ -16,6 +16,17 @@ export const axiosWithBearer = (token: string) => axios.create({
   }
 });
 
+export const getApiData = (url:string, token: string) => {
+  return axiosWithBearer(token)
+  .get(url)
+    .then((data) => {      
+      return data;
+    })
+    .catch((err) => {
+      throw err?.response?.data?.message ?? err;
+    });
+}
+
 export const getGoogleLoggedInUser = (token: string): Promise<any>|undefined => {
   if (token) {
     return axios

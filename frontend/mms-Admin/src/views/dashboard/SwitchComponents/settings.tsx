@@ -43,13 +43,13 @@ function Settings() {
             return (
               <section
                 key="i"
-                className="flex  px-8  hover:bg-white py-2 text-center"
+                className="px-8 focus:bg-white hover:bg-white py-2 text-center"
               >
                 <NavLink
                   to={`/dashboard/settings/${item.route}`}
-                  className="relative flex items-center active:bg-white"
+                  className="relative focus:font-bold focus:bg-white hover:bg-white w-full active:bg-white"
                 >
-                  <span className="text-sm text-gray-one">{item.label}</span>
+                  <span className="text-sm w-full focus:font-bold focus:bg-white hover:bg-white text-gray-one">{item.label}</span>
                 </NavLink>
               </section>
             );

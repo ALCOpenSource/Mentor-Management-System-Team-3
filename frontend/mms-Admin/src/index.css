@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700&display=swap');
 body {
   margin: 0;
@@ -11,6 +7,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .btn-primary{
   @apply bg-green-three cursor-pointer tracking-wider text-white rounded-[10px] p-[10px] pe-[40px] ps-[40px] font-semibold mt-0 overflow-hidden shadow-md leading-tight focus:outline-none relative hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;

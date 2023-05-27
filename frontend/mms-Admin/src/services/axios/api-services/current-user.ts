@@ -244,7 +244,7 @@ export const fetchPreferencesApiAsync = async (token: string) => {
   const preferences = axiosWithBearer(token ?? "")
     .get("/preferences")
     .then((data) => {
-      console.log(data);
+      console.log("Miwa", data);
       const privacy: Privacy = {
         showContactInfo:
           data?.data?.privacyPreferences?.enableAllSocialLinksVisibility ??

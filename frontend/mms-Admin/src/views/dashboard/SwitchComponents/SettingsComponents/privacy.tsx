@@ -7,6 +7,7 @@ import { selectCurrentPrivacy, updateAllPrivacies, updatePrivacyItem } from "../
 import { Privacy } from "../../../../services/redux/types/privacy";
 import { capitalizeEachWord } from "../../../../services/generalFunctions";
 import { fetchCurrentUserPreferences, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import { getApiData } from "../../../../services/axios/axios-services";
 
 const PrivacyPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,8 +29,8 @@ const PrivacyPage: React.FC = () => {
     try {
       setErrorMessage("");
       setSuccessMessage("");
-
-       dispatch(fetchCurrentUserPreferences(token))
+      
+      getApiData("/preferences/general", token)
       .then(obj =>
         {
          console.log("grgr", obj);

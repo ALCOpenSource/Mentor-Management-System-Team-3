@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { getGoogleLoggedInUser } from "../../services/axios/axios-services";
 import PasswordField from "../../components/passwordField";
+import LoadingButton from "../../components/LoadingButton";
 
 const PasswordPage: React.FC = () => {
   const initialValues: UsernamePassword = {
@@ -19,6 +20,7 @@ const PasswordPage: React.FC = () => {
   };
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [isBusy, setIsBusy] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Email is required please").email("It should be a valid email address"),
@@ -26,12 +28,14 @@ const PasswordPage: React.FC = () => {
   });
 
   const showErrorMessage = (tt: any) => {
+    setIsBusy(false);
     setErrorMessage(tt?.message ?? tt?.toString());
   };
   const googleLoginObj = useGoogleLogin({
     onSuccess: (codeResponse) => {
       getGoogleLoggedInUser(codeResponse.access_token)?.then(async values => 
         {
+          setIsBusy(true);
           try {
             try {
               await dispatch(logoutCurrentUser());
@@ -44,7 +48,10 @@ const PasswordPage: React.FC = () => {
                 displayName: values.fullName,
                 profilePicture: values.picture
               })
-            ).then(dd => navigate("/dashboard"))
+            ).then(dd =>{
+              setIsBusy(false);
+              navigate("/dashboard")
+            })
               .catch(err => {showErrorMessage(err)});
           } catch (error: any) {
             showErrorMessage(error?.message);
@@ -112,12 +119,10 @@ const PasswordPage: React.FC = () => {
                   />                            
                   <FormikValidationMessageComponent name="password" />
                 </div>
-                <button
-                  type="submit"
-                  className="btn-primary"
-                >
-                  Login
-                </button>
+                <LoadingButton
+                  label="Login" isBusy={isBusy} extraStyles="btn-primary" isSubmit={true}
+                />
+                  
                 <div className="flex flex-col">
                   <a
                     href="/forgotpassword"

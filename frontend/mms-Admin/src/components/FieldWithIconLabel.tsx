@@ -22,7 +22,7 @@ const FieldWithIconLabel: FC<FieldWithIconLabelProps> = ({ id, name, placeholder
                 disabled
                 type="text"
                 value={label}
-                className="border-2 ps-12 border-lightGray-two w rounded-[5px] text-[15px] "
+                className="border-2 ps-12 border-lightGray-two w-32 rounded-[5px] text-[15px] "
             />
             <Field
                 type="text"
