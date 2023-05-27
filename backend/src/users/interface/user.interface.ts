@@ -1,5 +1,5 @@
 import { ROLE } from "../../auth/enums/role.enum";
-import { IImage } from "./image.interface";
+// import { IImage } from "./image.interface";
 import { ISocials } from "./socials.interface";
 
 export interface IUser {
@@ -12,9 +12,11 @@ export interface IUser {
   website?: string;
   email?: string;
   bio?: string;
-  avatar?: IImage;
+  avatar?: string;
   role: ROLE;
   socials: ISocials;
   createdBy?: string;
   updatedBy?: string;
+  token?: string;
+  tokenExpires?: Date;
 }

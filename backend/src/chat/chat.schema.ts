@@ -28,6 +28,9 @@ export class Message {
   @Prop()
   deliveredAt: Date;
 
+  @Prop({ default: false })
+  isMedia: boolean;
+
   @Prop({ required: true, default: Date.now })
   createdAt: Date;
 }

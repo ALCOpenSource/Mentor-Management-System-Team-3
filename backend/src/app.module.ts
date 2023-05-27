@@ -26,6 +26,9 @@ import {
 } from "./preferences/preferences.schema";
 import { JwtAuthGuard } from "./auth/guards/jwt.auth.guard";
 import { ChatModule } from "./chat/chat.module";
+import { TaskService } from "./task/task.service";
+import { Task, TaskSchema } from "./task/task.schema";
+import { WebsocketModule } from "./websocket/websocket.module";
 
 @Module({
   imports: [
@@ -47,6 +50,7 @@ import { ChatModule } from "./chat/chat.module";
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Preferences.name, schema: PreferencesSchema },
+      { name: Task.name, schema: TaskSchema },
     ]),
     PassportModule,
     UsersModule,
@@ -58,6 +62,7 @@ import { ChatModule } from "./chat/chat.module";
     ProgramsArchiveModule,
     TaskModule,
     ChatModule,
+    WebsocketModule,
   ],
   controllers: [],
   providers: [
@@ -65,6 +70,7 @@ import { ChatModule } from "./chat/chat.module";
     AuthService,
     UsersService,
     PreferencesService,
+    TaskService,
     GoogleStrategy,
     {
       provide: APP_GUARD,

@@ -36,7 +36,7 @@ button .icon {
   padding-left: 2px;
   width: 18px;
   height: 18px;
-  background-image: url("./../../assets//images//programs/NavigationPrevious.svg");
+  background-image: url('./../../assets//images//programs/NavigationPrevious.svg');
   background-repeat: no-repeat;
   background-position: left;
   background-size: cover;
@@ -48,7 +48,7 @@ button .icon {
 }
 
 .accordion-item.active .accordion-item-btn::before {
-  background-image: url("./../../assets//images//programs/NavigationNext.svg");
+  background-image: url('./../../assets//images//programs/NavigationNext.svg');
   position: relative;
   background-size: cover;
   background-position: left;
@@ -64,4 +64,5 @@ button .icon {
   border-top: 1px solid #ccc;
   padding: 15px 20px;
   color: #4d4d4d;
-  background-color: #e6fdfe; }
+  background-color: #e6fdfe;
+}

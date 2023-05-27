@@ -17,21 +17,52 @@ export type PreferenceDocument = HydratedDocument<Preferences>;
 export class Preferences {
   @Prop(
     raw({
-      enableReportsNotifications: Boolean,
-      enableProgramsNotifications: Boolean,
-      enableTaskNotifcations: Boolean,
-      enableApprovalRequestNotifications: Boolean,
+      enableALLNotifications: {
+        inApp: Boolean,
+        email: Boolean,
+      },
+      enableReportsNotifications: {
+        inApp: Boolean,
+        email: Boolean,
+      },
+      enableProgramsNotifications: {
+        inApp: Boolean,
+        email: Boolean,
+      },
+      enableTaskNotifcations: {
+        inApp: Boolean,
+        email: Boolean,
+      },
+      enableApprovalRequestNotifications: {
+        inApp: Boolean,
+        email: Boolean,
+      },
     }),
   )
   generalNotifications: IGeneralNotifications;
 
   @Prop(
     raw({
-      enableCommentsOnMyPostsNotification: Boolean,
-      enablePostsNotifications: Boolean,
-      enableCommentsNotifications: Boolean,
-      enableMentionsNotifications: Boolean,
-      enableDirectMessageNotifications: Boolean,
+      enableCommentsOnMyPostsNotification: {
+        inApp: Boolean,
+        email: Boolean,
+      },
+      enablePostsNotifications: {
+        inApp: Boolean,
+        email: Boolean,
+      },
+      enableCommentsNotifications: {
+        inApp: Boolean,
+        email: Boolean,
+      },
+      enableMentionsNotifications: {
+        inApp: Boolean,
+        email: Boolean,
+      },
+      enableDirectMessageNotifications: {
+        inApp: Boolean,
+        email: Boolean,
+      },
     }),
   )
   discussionNotifications: IDiscussionNotifications;
