@@ -26,62 +26,8 @@ export class PreferencesService {
   // creates a new preferences document for a user. This marks all the preferences as true.
   async createPreferences(userId: string): Promise<PreferenceDocument> {
     this.logger.log("Creating preferences for user");
-    const generalNotifications = new GeneralNotificationsDto();
-    generalNotifications.enableAllNotifications = {
-      inApp: false,
-      email: false,
-    };
-    generalNotifications.enableProgramsNotifications = {
-      inApp: false,
-      email: false,
-    };
-    generalNotifications.enableTaskNotifcations = {
-      inApp: false,
-      email: false,
-    };
-    generalNotifications.enableApprovalRequestNotifications = {
-      inApp: false,
-      email: false,
-    };
-    generalNotifications.enableReportsNotifications = {
-      inApp: false,
-      email: false,
-    };
-
-    const discussionNotifications = new DiscussionNotificationsDto();
-    discussionNotifications.enableCommentsOnMyPostsNotification = {
-      inApp: false,
-      email: false,
-    };
-    discussionNotifications.enablePostsNotifications = {
-      inApp: false,
-      email: false,
-    };
-    discussionNotifications.enableCommentsNotifications = {
-      inApp: false,
-      email: false,
-    };
-    discussionNotifications.enableMentionsNotifications = {
-      inApp: false,
-      email: false,
-    };
-    discussionNotifications.enableDirectMessageNotifications = {
-      inApp: false,
-      email: false,
-    };
-
-    const privacyPreferences = new PrivacyPreferencesDto();
-    privacyPreferences.enableAllSocialLinksVisibility = true;
-    privacyPreferences.enableGithubLinkVisibility = true;
-    privacyPreferences.enableInstagramLinkVisibility = true;
-    privacyPreferences.enableLinkedinLinkVisibility = true;
-    privacyPreferences.enableTwitterLinkVisibility = true;
-
-    const preference = new this.preferencesModel({
+    const preference = await this.preferencesModel.create({
       createdBy: userId,
-      generalNotifications,
-      discussionNotifications,
-      privacyPreferences,
     });
     return preference.save();
   }
@@ -105,7 +51,7 @@ export class PreferencesService {
     generalNotificationsDto: GeneralNotificationsDto,
   ): Promise<HttpResponseType<PreferenceDocument | object>> {
     this.getUserByUId(userId);
-    await this.preferencesModel
+    const data = await this.preferencesModel
       .findOneAndUpdate(
         { createdBy: userId },
         { generalNotifications: generalNotificationsDto },
@@ -116,7 +62,7 @@ export class PreferencesService {
     return {
       status: OperationStatus.SUCCESS,
       message: "General notifications updated successfully",
-      data: {},
+      data: data.generalNotifications,
     };
   }
 
@@ -126,7 +72,7 @@ export class PreferencesService {
     discussionNotificationsDto: DiscussionNotificationsDto,
   ): Promise<HttpResponseType<PreferenceDocument | object>> {
     this.getUserByUId(userId);
-    await this.preferencesModel
+    const data = await this.preferencesModel
       .findOneAndUpdate(
         { createdBy: userId },
         { discussionNotifications: discussionNotificationsDto },
@@ -136,14 +82,14 @@ export class PreferencesService {
     return {
       status: OperationStatus.SUCCESS,
       message: "Discussion notifications updated successfully",
-      data: {},
+      data: data.discussionNotifications,
     };
   }
   // patches the user's privacy preferences
   async updatePrivacyPreferences(
     userId: string,
     privacyPreferencesDto: PrivacyPreferencesDto,
-  ): Promise<HttpResponseType<PreferenceDocument>> {
+  ): Promise<HttpResponseType<PreferenceDocument | object>> {
     this.getUserByUId(userId);
 
     const privacy = await this.preferencesModel
@@ -156,7 +102,7 @@ export class PreferencesService {
     return {
       status: OperationStatus.SUCCESS,
       message: "Privacy preferences updated successfully",
-      data: privacy,
+      data: privacy.privacyPreferences,
     };
   }
   // Gets the user's preferences
@@ -172,6 +118,51 @@ export class PreferencesService {
       status: OperationStatus.SUCCESS,
       message: "Preferences fetched successfully",
       data: preferences,
+    };
+  }
+  // get privacy notificatiom
+  async getPrivacyPreferencesByUid(
+    userId: string,
+  ): Promise<HttpResponseType<PrivacyPreferencesDto>> {
+    this.getUserByUId(userId);
+    const privacy = await this.preferencesModel
+      .findOne({ createdBy: userId })
+      .select("privacyPreferences")
+      .exec();
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Privacy preferences fetched successfully",
+      data: privacy.privacyPreferences,
+    };
+  }
+
+  async getGeneralNotificationsByUid(
+    userId: string,
+  ): Promise<HttpResponseType<GeneralNotificationsDto>> {
+    this.getUserByUId(userId);
+    const general = await this.preferencesModel
+      .findOne({ createdBy: userId })
+      .select("generalNotifications")
+      .exec();
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "General notifications fetched successfully",
+      data: general.generalNotifications,
+    };
+  }
+
+  async getDiscussionNotificationsByUid(
+    userId: string,
+  ): Promise<HttpResponseType<DiscussionNotificationsDto>> {
+    this.getUserByUId(userId);
+    const discussion = await this.preferencesModel
+      .findOne({ createdBy: userId })
+      .select("discussionNotifications")
+      .exec();
+    return {
+      status: OperationStatus.SUCCESS,
+      message: "Discussion notifications fetched successfully",
+      data: discussion.discussionNotifications,
     };
   }
 }

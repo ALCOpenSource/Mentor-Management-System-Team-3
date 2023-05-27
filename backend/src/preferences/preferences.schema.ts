@@ -18,24 +18,54 @@ export class Preferences {
   @Prop(
     raw({
       enableALLNotifications: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
       enableReportsNotifications: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
       enableProgramsNotifications: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
       enableTaskNotifcations: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
       enableApprovalRequestNotifications: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
     }),
   )
@@ -44,24 +74,54 @@ export class Preferences {
   @Prop(
     raw({
       enableCommentsOnMyPostsNotification: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
       enablePostsNotifications: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
       enableCommentsNotifications: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
       enableMentionsNotifications: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
       enableDirectMessageNotifications: {
-        inApp: Boolean,
-        email: Boolean,
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
       },
     }),
   )
@@ -69,11 +129,26 @@ export class Preferences {
 
   @Prop(
     raw({
-      enableAllSocialLinksVisibility: Boolean,
-      enableGithubLinkVisibility: Boolean,
-      enableInstagramLinkVisibility: Boolean,
-      enableLinkedinLinkVisibility: Boolean,
-      enableTwitterLinkVisibility: Boolean,
+      enableShowContactInfo: {
+        type: Boolean,
+        default: true,
+      },
+      enableGithubLinkVisibility: {
+        type: Boolean,
+        default: true,
+      },
+      enableInstagramLinkVisibility: {
+        type: Boolean,
+        default: true,
+      },
+      enableLinkedinLinkVisibility: {
+        type: Boolean,
+        default: true,
+      },
+      enableTwitterLinkVisibility: {
+        type: Boolean,
+        default: true,
+      },
     }),
   )
   privacyPreferences: IPrivacyPreferences;

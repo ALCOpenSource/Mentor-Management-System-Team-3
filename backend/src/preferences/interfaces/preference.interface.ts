@@ -20,7 +20,7 @@ export interface IDiscussionNotifications {
 
 // This is the privacy interface to set whether to show the various contact info.
 export interface IPrivacyPreferences {
-  enableAllSocialLinksVisibility: boolean;
+  enableShowContactInfo: boolean;
   enableGithubLinkVisibility: boolean;
   enableInstagramLinkVisibility: boolean;
   enableLinkedinLinkVisibility: boolean;
