@@ -41,160 +41,160 @@ for (let i = 0; i < 100; i++) {
   });
 }
 
-const App: React.FC = () =>
-{
-  const token = useAppSelector(selectCurrentUserToken); 
+const App: React.FC = () => {
+  const token = useAppSelector(selectCurrentUserToken);
 
-  useEffect(() =>  {
-  getArchivesApiAsync(token)
-  .then(data => 
-    console.log("archives", data))
-  .catch(err => console.error(err));
+  useEffect(() => {
+    getArchivesApiAsync(token)
+      .then(data =>
+        console.log("archives", data))
+      .catch(err => console.error(err));
   });
 
   return (
-  <div className="w-full profile-form h-screen">
-    <Formik
-      initialValues={initialValues}
-      onSubmit={(values: FormValues) => console.log(values)}
-      validationSchema={object().shape({
-        programs: array().of(
-          object().shape({
-            firstName: string().required('Entering a first name is required'),
-          })
-        ),
-      })}
-      render={({ handleSubmit, errors, touched, values }) => (
-        <Form className="w-full h-screen">
-          <div className="search-box-div">
-            <img
-              src={searchIconSVG}
-              style={{ marginTop: '1px' }}
-              alt="search icon"
-              className="m_icon"
-            />
-            <Field
-              type="text"
-              id="searchArchive"
-              name="searchArchive"
-              placeholder="Search archive"
-              className="general-text-input text-input input-icon-label ms-1 mt-0 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-            />
-            <div className="mt-5">
-              <button type="button" className="btn-secondary navigation-button">
-                <img
-                  src={NavigationFirst}
-                  alt="Attach file icon"
-                  className="dropdown-icon"
-                />
-              </button>
+    <div className="w-full profile-form h-screen">
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values: FormValues) => console.log(values)}
+        validationSchema={object().shape({
+          programs: array().of(
+            object().shape({
+              firstName: string().required('Entering a first name is required'),
+            })
+          ),
+        })}
+        render={({ handleSubmit, errors, touched, values }) => (
+          <Form className="w-full h-screen">
+            <div className="search-box-div">
+              <img
+                src={searchIconSVG}
+                style={{ marginTop: '1px' }}
+                alt="search icon"
+                className="m_icon"
+              />
+              <Field
+                type="text"
+                id="searchArchive"
+                name="searchArchive"
+                placeholder="Search archive"
+                className="general-text-input text-input input-icon-label ms-1 mt-0 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+              />
+              <div className="mt-5">
+                <button type="button" className="btn-secondary navigation-button">
+                  <img
+                    src={NavigationFirst}
+                    alt="Attach file icon"
+                    className="dropdown-icon"
+                  />
+                </button>
 
-              <button type="button" className="btn-secondary navigation-button">
-                <img
-                  src={NavigationPrevious}
-                  alt="Attach file icon"
-                  className="dropdown-icon"
-                />
-              </button>
-              <label className="text-label" htmlFor="github">
-                1 - 10 of 20
-              </label>
-              <button type="button" className="btn-secondary navigation-button">
-                <img
-                  src={NavigationNext}
-                  alt="Attach file icon"
-                  className="dropdown-icon"
-                />
-              </button>
+                <button type="button" className="btn-secondary navigation-button">
+                  <img
+                    src={NavigationPrevious}
+                    alt="Attach file icon"
+                    className="dropdown-icon"
+                  />
+                </button>
+                <label className="text-label" htmlFor="github">
+                  1 - 10 of 20
+                </label>
+                <button type="button" className="btn-secondary navigation-button">
+                  <img
+                    src={NavigationNext}
+                    alt="Attach file icon"
+                    className="dropdown-icon"
+                  />
+                </button>
 
-              <button type="button" className="btn-secondary navigation-button">
-                <img
-                  src={NavigationLast}
-                  alt="Attach file icon"
-                  className="dropdown-icon"
-                />
-              </button>
+                <button type="button" className="btn-secondary navigation-button">
+                  <img
+                    src={NavigationLast}
+                    alt="Attach file icon"
+                    className="dropdown-icon"
+                  />
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className="w-full profile-form archives-items-container h-screen">
-            <FieldArray
-              name="programs"
-              render={(helpers) => (
-                <div>
-                  {values.programs && values.programs.length > 0
-                    ? values.programs.map(
-                      (
-                        program: ProgramProp,
-                        index: React.Key | null | undefined
-                      ) => (
-                        <React.Fragment key={index}>
-                          <label htmlFor="pet" className="w-full">
-                            <div className="program-border flex flex-row mt-[10px]">
-                              <img
-                                src={program.icon}
-                                alt="profile logo"
-                                className="program-icon"
-                              />
-                              <div className="w-full">
-                                <label
-                                  className="program-title pt-0"
-                                  htmlFor="about"
-                                >
-                                  {program.name}
-                                </label>
-                                <div className="flex flex-row mt-2 relative  w-full">
-                                  <button
-                                    type="button"
-                                    className="btn-secondary calender-button"
-                                  >
-                                    <img
-                                      src={Calender}
-                                      alt="Attach file icon"
-                                      className="calender-icon"
-                                    />
-                                  </button>
-                                  <label
-                                    className="small-text"
-                                    htmlFor="about"
-                                  >
-                                    {getShortDate(program.date)}
-                                  </label>
-
-                                  <button
-                                    type="button"
-                                    className="btn-secondary timer-button"
-                                  >
-                                    <img
-                                      src={TimerIn}
-                                      alt="Attach file icon"
-                                      className="calender-icon p-1"
-                                      style={{ left: "2px", bottom: "3px" }}
-                                    />
-                                    <img
-                                      src={TimerOut}
-                                      alt="Attach file icon"
-                                      className="calender-icon"
-                                    />
-                                  </button>
-                                  <label
-                                    className="small-text"
-                                    style={{ left: "302px" }}
-                                    htmlFor="about"
-                                  >
-                                    {getShortTime(program.date)}
-                                  </label>
-                                </div>
-                              </div>
-                              <button
-                                type="button"
-                                className="dropdown-button"
-                              >
+            <div className="w-full profile-form archives-items-container h-screen">
+              <FieldArray
+                name="programs"
+                render={(helpers) => (
+                  <div>
+                    {values.programs && values.programs.length > 0
+                      ? values.programs.map(
+                        (
+                          program: ProgramProp,
+                          index: React.Key | null | undefined
+                        ) => (
+                          <React.Fragment key={index}>
+                            <label htmlFor="pet" className="w-full">
+                              <div className="program-border flex flex-row mt-[10px]">
                                 <img
-                                  src={DropdownListIcon}
-                                  alt="Attach file icon"
-                                  className="btn-secondary dropdown-icon"
+                                  src={program.icon}
+                                  alt="profile logo"
+                                  className="program-icon"
                                 />
+                                <div className="w-full">
+                                  <label
+                                    className="program-title pt-0"
+                                    htmlFor="about"
+                                  >
+                                    {program.name}
+                                  </label>
+                                  <div className="flex flex-row mt-2 relative  w-full">
+                                    <button
+                                      type="button"
+                                      className="btn-secondary calender-button"
+                                    >
+                                      <img
+                                        src={Calender}
+                                        alt="Attach file icon"
+                                        className="calender-icon"
+                                      />
+                                    </button>
+                                    <label
+                                      className="small-text"
+                                      htmlFor="about"
+                                    >
+                                      {getShortDate(program.date)}
+                                    </label>
+
+                                    <button
+                                      type="button"
+                                      className="btn-secondary timer-button"
+                                    >
+                                      <img
+                                        src={TimerIn}
+                                        alt="Attach file icon"
+                                        className="calender-icon p-1"
+                                        style={{ left: "2px", bottom: "3px" }}
+                                      />
+                                      <img
+                                        src={TimerOut}
+                                        alt="Attach file icon"
+                                        className="calender-icon"
+                                      />
+                                    </button>
+                                    <label
+                                      className="small-text"
+                                      style={{ left: "302px" }}
+                                      htmlFor="about"
+                                    >
+                                      {getShortTime(program.date)}
+                                    </label>
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  className="dropdown-button"
+                                >
+                                  <img
+                                    src={DropdownListIcon}
+                                    alt="Attach file icon"
+                                    className="btn-secondary dropdown-icon"
+                                  />
+                                </button>
                                 <div className="w-full">
                                   <label
                                     className="program-title pt-0"
@@ -260,14 +260,15 @@ const App: React.FC = () =>
                           </React.Fragment>
                         )
                       )
-                    : null}
-                </div>
-              )}
-            />
-          </div>
-        </Form>
-      )}
-    ></Formik>
-  </div>
-)};
+                      : null}
+                  </div>
+                )}
+              />
+            </div>
+          </Form>
+        )}
+      ></Formik>
+    </div>
+  )
+};
 export default App;

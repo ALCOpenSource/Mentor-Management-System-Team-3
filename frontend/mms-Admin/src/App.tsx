@@ -24,7 +24,7 @@ import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/f
 import { Provider } from "react-redux";
 import { persistor, store } from "./services/redux/Store";
 import { PersistGate } from "redux-persist/integration/react";
-import Mentors from "./views/dashboard/SwitchComponents/mentor";
+import Mentors from "./views/dashboard/SwitchComponents/mentor/mentor";
 import ProtectedRoutes from "./components/protectedRoute";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
