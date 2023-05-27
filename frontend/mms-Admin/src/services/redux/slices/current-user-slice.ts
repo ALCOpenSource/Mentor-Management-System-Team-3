@@ -14,11 +14,11 @@ import { persistor, RootState } from "../Store";
 import "./../../../assets/images/flag-icons-main/flags/4x3/ac.svg";
 import {
   loginCurrentUserApiAsync,
+  loginCurrentUserWIthGoogleApiAsync,
   logoutCurrentUserApiAsync,
   updateCurrentUserApiAsync,
   updateCurrentUserProfilePictureApiAsync,
 } from "../../axios/api-services/current-user";
-import { error } from "console";
 
 interface CurrentUserState {
   currentUser: LoggedInUser;
@@ -55,6 +55,17 @@ export const loginCurrentUser = createAsyncThunk(
   "current-user/login",
   async (userDetails: UsernamePassword, thunkAPI) => {
     return await loginCurrentUserApiAsync(userDetails, thunkAPI.dispatch);
+  }
+);
+
+export const loginCurrentUserWithGoogle = createAsyncThunk(
+  "current-user/google-login",
+  async (userDetails: {
+    email: string;
+    displayName: string;
+    profilePicture: string
+  }, thunkAPI) => {
+    return await loginCurrentUserWIthGoogleApiAsync(userDetails, thunkAPI.dispatch);
   }
 );
 
@@ -98,6 +109,16 @@ export const CurrentUserSlice = createSlice({
   },
 
   extraReducers: (builder) => {
+    builder.addCase(loginCurrentUserWithGoogle.fulfilled, (state, action) => {
+      state.currentUser.user = action.payload.user;
+      state.currentUser.userToken = action.payload.userToken;
+      state.currentUser.loginTime = new Date().getTime();
+    });
+
+    builder.addCase(loginCurrentUserWithGoogle.rejected, (state, action) => {
+      throw action.error;
+    });
+
     builder.addCase(loginCurrentUser.fulfilled, (state, action) => {
       state.currentUser.user = action.payload.user;
       state.currentUser.userToken = action.payload.userToken;

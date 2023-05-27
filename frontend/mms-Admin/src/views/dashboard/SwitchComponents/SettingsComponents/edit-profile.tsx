@@ -205,14 +205,14 @@ const EditProfilePage: React.FC = () => {
                       id="firstNames"
                       name="firstNames"
                       placeholder="First Name"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                     <Field
                       type="text"
                       id="lastName"
                       name="lastName"
                       placeholder="Last Name"
-                      className="text-input ms-6 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="general-text-input text-input ms-6 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="firstNames" />
@@ -231,7 +231,7 @@ const EditProfilePage: React.FC = () => {
                       as="textarea"
                       name="bio"
                       placeholder="Your Bio"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="bio" />
@@ -247,7 +247,7 @@ const EditProfilePage: React.FC = () => {
                       id="website"
                       name="website"
                       placeholder="www.example.com"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="website" />
@@ -262,7 +262,7 @@ const EditProfilePage: React.FC = () => {
                       id="country"
                       name="country"
                       placeholder="Select Country"
-                      className="form-control text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="form-control general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                       as="select"
                     //onChange={this.onItemTypeDropdownSelected}
                     >
@@ -281,7 +281,7 @@ const EditProfilePage: React.FC = () => {
                       list="cities"
                       id="city"
                       placeholder="Select City"
-                      className="form-control text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="form-control general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                     <datalist id="cities">
                       {countries.map((item, i) => (<option
@@ -320,7 +320,7 @@ const EditProfilePage: React.FC = () => {
                             id="github"
                             name="github"
                             placeholder="@githubuser"
-                            className="text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
+                            className="general-text-input text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
                           />
                         </div>
                         <div className="flex flex-row input-icons ms-6 w-full">
@@ -340,7 +340,7 @@ const EditProfilePage: React.FC = () => {
                             id="instagram"
                             name="instagram"
                             placeholder="@instagramuser"
-                            className="text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
+                            className="general-text-input text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
                           />
                         </div>
                       </div>
@@ -362,7 +362,7 @@ const EditProfilePage: React.FC = () => {
                             id="linkedin"
                             name="linkedin"
                             placeholder="@linkedinuser"
-                            className="text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
+                            className="general-text-input text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
                           />
                         </div>
                         <div className="flex flex-row input-icons ms-6 w-full">
@@ -382,7 +382,7 @@ const EditProfilePage: React.FC = () => {
                             id="twitter"
                             name="twitter"
                             placeholder="@twitteruser"
-                            className="text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
+                            className="general-text-input text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
                           />
                         </div>
                       </div>

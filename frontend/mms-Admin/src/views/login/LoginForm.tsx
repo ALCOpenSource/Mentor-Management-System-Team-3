@@ -6,9 +6,9 @@ import FormikValidationMessageComponent from "./../../components/error-messages/
 import { UsernamePassword } from "../../services/redux/types/system-user";
 import { useAppDispatch } from "./../../services/redux/Store";
 import logo from "../../assets/images/mms_logo.svg";
-import { loginCurrentUser } from "./../../services/redux/slices/current-user-slice";
+import { loginCurrentUser, loginCurrentUserWithGoogle, logoutCurrentUser } from "./../../services/redux/slices/current-user-slice";
 import { useNavigate } from "react-router-dom";
-import { useGoogleLogin } from '@react-oauth/google';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { getGoogleLoggedInUser } from "../../services/axios/axios-services";
 import PasswordField from "../../components/passwordField";
 
@@ -26,14 +26,29 @@ const PasswordPage: React.FC = () => {
   });
 
   const showErrorMessage = (tt: any) => {
-    console.log("ghg", tt?.message);
     setErrorMessage(tt?.message ?? tt?.toString());
   };
   const googleLoginObj = useGoogleLogin({
     onSuccess: (codeResponse) => {
-      getGoogleLoggedInUser(codeResponse.access_token)?.then(tt => 
+      getGoogleLoggedInUser(codeResponse.access_token)?.then(async values => 
         {
-          /loginCurrentUserWIthGoogleApiAsync
+          try {
+            try {
+              await dispatch(logoutCurrentUser());
+               googleLogout();
+            } catch (error) { console.log(error) }
+
+           await dispatch(
+              loginCurrentUserWithGoogle({
+                email: values.email,
+                displayName: values.fullName,
+                profilePicture: values.picture
+              })
+            ).then(dd => navigate("/dashboard"))
+              .catch(err => {showErrorMessage(err)});
+          } catch (error: any) {
+            showErrorMessage(error?.message);
+          }
         })?.catch(error => showErrorMessage(error))
     },
     onError: (error) => showErrorMessage(error)
@@ -42,6 +57,11 @@ const PasswordPage: React.FC = () => {
 
   const handleSubmit = async (values: UsernamePassword) => {
     try {
+      try {
+        await dispatch(logoutCurrentUser());
+         googleLogout();
+      } catch (error) { console.log(error) }
+      
       await dispatch(
         loginCurrentUser({
           ...values
@@ -101,14 +121,14 @@ const PasswordPage: React.FC = () => {
                 <div className="flex flex-col">
                   <a
                     href="/forgotpassword"
-                    className="text-sm text-customBlack-one text-end w-full py-2 px-3 m-2"
+                    className="btn-secondary text-sm text-customBlack-one text-end w-full py-2 px-3 m-2"
                   >
                     Forgot password?
                   </a>
                   <button
                     type="button"
                     onClick={googleLogin}
-                    className=" flex flex-row justify-center items-center bg-white text-green-two shadow appearance-none border rounded w-full py-2 px-3 m-2 leading-tight focus:outline-none focus:shadow-outline"
+                    className="btn-secondary flex flex-row justify-center items-center bg-white text-green-two shadow appearance-none border rounded w-full py-2 px-3 m-2 leading-tight focus:outline-none focus:shadow-outline"
                   >
                     <img
                       className="h-5 w-5 mx-2"

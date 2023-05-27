@@ -31,7 +31,7 @@ function AccordionItem({
   return (
     <li className={`accordion-item ${isOpen ? 'active' : ''}`}>
       <h2 className="accordion-item-title">
-        <button type='button' className="accordion-item-btn ms-5" onClick={btnOnClick}>
+        <button type='button' className="btn-secondary accordion-item-btn ms-5" onClick={btnOnClick}>
           {data.title}
         </button>
       </h2>

@@ -16,6 +16,7 @@ import { getShortDate, getShortTime } from "../../../../services/dateFunctions";
 import { getRandomInteger } from "../../../../services/mathFunctions";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import { getArchivesApiAsync } from "../../../../services/axios/api-services/archives";
 //import { getArchivesApiAsync } from "../../../../services/axios/api-services/archives";
 
 interface ProgramProp {
@@ -45,12 +46,12 @@ const App: React.FC = () =>
 {
   const token = useAppSelector(selectCurrentUserToken); 
 
-  // useEffect(() =>  {
-  // getArchivesApiAsync(token)
-  // .then(data => 
-  //   console.log("archives", data))
-  // .catch(err:any => console.error(err));
-  // }, []);
+  useEffect(() =>  {
+  getArchivesApiAsync(token)
+  .then(data => 
+    console.log("archives", data))
+  .catch(err => console.error(err));
+  });
 
   return (
   <div className="w-full profile-form h-screen">
@@ -73,10 +74,10 @@ const App: React.FC = () =>
               id="searchArchive"
               name="searchArchive"
               placeholder="Search archive"
-              className="text-input input-icon-label ms-1 mt-0 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+              className="general-text-input text-input input-icon-label ms-1 mt-0 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
             />
             <div className="mt-5">
-              <button type="submit" className="navigation-button">
+              <button type="button" className="btn-secondary navigation-button">
                 <img
                   src={NavigationFirst}
                   alt="Attach file icon"
@@ -84,7 +85,7 @@ const App: React.FC = () =>
                 />
               </button>
 
-              <button type="submit" className="navigation-button">
+              <button type="button" className="btn-secondary navigation-button">
                 <img
                   src={NavigationPrevious}
                   alt="Attach file icon"
@@ -94,7 +95,7 @@ const App: React.FC = () =>
               <label className="text-label" htmlFor="github">
                 1 - 10 of 20
               </label>
-              <button type="submit" className="navigation-button">
+              <button type="button" className="btn-secondary navigation-button">
                 <img
                   src={NavigationNext}
                   alt="Attach file icon"
@@ -102,7 +103,7 @@ const App: React.FC = () =>
                 />
               </button>
 
-              <button type="submit" className="navigation-button">
+              <button type="button" className="btn-secondary navigation-button">
                 <img
                   src={NavigationLast}
                   alt="Attach file icon"
@@ -140,8 +141,8 @@ const App: React.FC = () =>
                                 </label>
                                 <div className="flex flex-row mt-2 relative  w-full">
                                   <button
-                                    type="submit"
-                                    className="calender-button"
+                                    type="button"
+                                    className="btn-secondary calender-button"
                                   >
                                     <img
                                       src={Calender}
@@ -157,8 +158,8 @@ const App: React.FC = () =>
                                   </label>
 
                                   <button
-                                    type="submit"
-                                    className="timer-button"
+                                    type="button"
+                                    className="btn-secondary timer-button"
                                   >
                                     <img
                                       src={TimerIn}
@@ -182,13 +183,13 @@ const App: React.FC = () =>
                                 </div>
                               </div>
                               <button
-                                type="submit"
+                                type="button"
                                 className="dropdown-button"
                               >
                                 <img
                                   src={DropdownListIcon}
                                   alt="Attach file icon"
-                                  className="dropdown-icon"
+                                  className="btn-secondary dropdown-icon"
                                 />
                               </button>
                             </div>

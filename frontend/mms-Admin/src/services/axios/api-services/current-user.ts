@@ -26,7 +26,7 @@ export const changeCurrentUserPasswordApiAsync = async (
   };
 
   const updatePassword = await axiosWithBearer(token ?? "")
-    .patch("/auth/reset-password", data)
+    .patch("/auth/change-password", data)
     .then((data) => {
       return userDetails;
     })
@@ -81,14 +81,12 @@ export const updateCurrentUserProfilePictureApiAsync = async (
 ) => {
   const bodyFormData = new FormData();
   bodyFormData.append("avatar", image);
-  console.log("Updated image", image);
-
+  
   const saveUserAvatar = axiosWithBearer(token ?? "")
     .patch("/users/avatar", bodyFormData, {
       headers: { "Content-Type": "multipart/form-data" },
     })
     .then((res) => {
-      console.log("Updated image");
       return image;
     })
     .catch((err) => {
@@ -215,11 +213,9 @@ export const loginCurrentUserApiAsync = async (
         instagram: mx.socials?.instagram,
         twitter: mx.socials?.twitter,
       };
-      console.log("dsa e1", mx);
       const flag = getCountryFlag(loggedInUser.country ?? " ");
       const profilePic = userProfileImage;
       const userToken = token;
-      console.log("dsa e2", mx);
 
       loggedInUser = {
         ...loggedInUser,
@@ -227,7 +223,6 @@ export const loginCurrentUserApiAsync = async (
         userImage: profilePic,
       };
 
-      console.log("dsa 3", loggedInUser);
       dispatch(updateLoggedInCurrentUser(loggedInUser));
       dispatch(updateLoggedInUserToken(userToken));
 

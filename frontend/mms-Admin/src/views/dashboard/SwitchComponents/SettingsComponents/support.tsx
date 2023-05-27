@@ -71,16 +71,13 @@ const SupportPage: React.FC = () => {
     }
   };
 
-
+  function addFile(fl:Blob) {attachedFiles.push(fl);}
 
   function convertFile(files: FileList | null) {
-    try {
+    try {      
       if (files && files.length > 0) {
         for (let i = 0; i < files.length; i++) {
           const fileRef = files[i] || "";
-          const fileType: string = fileRef.type || "";
-          //console.log("This file upload is of type:", fileType);
-          //console.log("File:", fileRef.name);
           const reader = new FileReader();
           reader.readAsArrayBuffer(fileRef);
           reader.onload = async (ev: any) => {
@@ -88,11 +85,8 @@ const SupportPage: React.FC = () => {
               const file = ev.target.result;
               // convert it to base64
               var files = filebase64s ?? [];
-              attachedFiles.push(file);
+              addFile(file);
               setFileBase64s([...files, fileRef.name]);
-
-              console.log("Files:", filebase64s, attachedFiles);
-              //await dispatch(updateCurrentUserProfilePicture(img));
             } catch (error) { console.log(error) }
           }
         };
@@ -138,7 +132,7 @@ const SupportPage: React.FC = () => {
                         id="name"
                         name="name"
                         placeholder="Name"
-                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                        className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                         style={{ paddingTop: "7px", paddingBottom: "7px" }}
                       />
                     </div>
@@ -152,7 +146,7 @@ const SupportPage: React.FC = () => {
                         id="email"
                         name="email"
                         placeholder="Email"
-                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                        className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                         style={{ paddingTop: "7px", paddingBottom: "7px" }}
                       />
                     </div>
@@ -166,7 +160,7 @@ const SupportPage: React.FC = () => {
                         id="title"
                         name="title"
                         placeholder="Title"
-                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                        className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                         style={{ paddingTop: "7px", paddingBottom: "7px" }}
                       />
                     </div>
@@ -181,7 +175,7 @@ const SupportPage: React.FC = () => {
                         as="textarea"
                         name="body"
                         placeholder="Body"
-                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                        className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                         style={{
                           paddingTop: "7px",
                           paddingBottom: "7px",
@@ -258,7 +252,7 @@ const SupportPage: React.FC = () => {
                 type="button"
                 style={{ marginLeft: "auto" }}
                 onClick={togglePopup}
-                className="rounded-[10px] p-[10px] pe-[40px] mt-[50px] font-medium mt-0"
+                className="btn-secondary rounded-[10px] p-[10px] pe-[40px] mt-[50px] font-medium mt-0"
               >
                 <img src={liveChatIcon} alt="Attach file icon"></img>
               </button>

@@ -66,7 +66,7 @@ const ResetPassword = () => {
                   id="email"
                   name="email"
                   placeholder="Enter your email"
-                  className="text-input w-full ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px]"
+                  className="general-text-input text-input w-full ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px]"
                 />
                 <FormikValidationMessageComponent name="email" />
               </div>

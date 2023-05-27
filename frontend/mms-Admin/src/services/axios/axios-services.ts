@@ -26,7 +26,7 @@ export const getGoogleLoggedInUser = (token: string): Promise<any>|undefined => 
         }
       })
       .then((res) => {
-        return res.data;
+        return {fullName:res.data.name, picture:res.data.picture, email:res.data.email};
       })
       .catch((err) => {
         console.log(err);

@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import logo from "../../assets/images/mms_logo.svg";
-import SVG_ICONS from "../../assets/svg-icons";
 import PasswordField from "../../components/passwordField";
 
 interface FormValues {
@@ -18,8 +16,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const ForgotPasswordForm = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
   return (
     <div className="flex w-full h-screen">
       <div className="flex-col flex-auto w-6/12 bg-green-three">

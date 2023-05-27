@@ -28,6 +28,7 @@ const ToggleSwitch: React.FC<SwitchProperties> = props => {
             <input
                 id={props.id}
                 type="checkbox"
+                className="btn-secondary"
                 role="switch"
                 data-on={props['data-on']}
                 checked={props.isChecked}

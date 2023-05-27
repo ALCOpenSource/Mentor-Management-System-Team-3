@@ -45,7 +45,7 @@ function AdminDashboard() {
       <section className="flex flex-col bg-lighterGreen-three rounded-lg p-4 mb-8">
         <section className="flex flex-row items-center justify-between px-8">
           <h3 className="text-lg font-semibold">Programs Overview</h3>
-          <button className="px-8 py-2 text-base bg-white">6 Active</button>
+          <button className="btn-secondary px-8 py-2 text-base bg-white">6 Active</button>
         </section>
 
         <section className="inline-flex">
@@ -81,7 +81,7 @@ function AdminDashboard() {
       <section className="flex flex-col bg-lighterGreen-three rounded-lg p-4 mb-8">
         <section className="flex flex-row items-center justify-between px-8">
           <h3 className="text-lg font-semibold">Reports Overview</h3>
-          <button className="px-8 py-2 text-base bg-white">
+          <button className="btn-secondary px-8 py-2 text-base bg-white">
             10 Reports Summitted
           </button>
         </section>

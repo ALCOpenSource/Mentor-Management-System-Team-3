@@ -15,7 +15,6 @@ function Navbar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const onAvatarRightClick = async (item: string) => {
-    console.log(item);
     switch (item) {
       case "Profile":
         navigate("/dashboard/profile");
@@ -49,7 +48,7 @@ function Navbar() {
         <div className="flex flex-row">
           <button
             type="button"
-            className="flex flex-row  items-center text-md shadow appearance-none border rounded w-[533px] py-2 px-5 bg-white leading-tight focus:outline-none focus:shadow-outline"
+            className="btn-secondary flex flex-row  items-center text-md shadow appearance-none border rounded w-[533px] py-2 px-5 bg-white leading-tight focus:outline-none focus:shadow-outline"
           >
             <img src={search} alt="Search icon" className="h-5 w-5 mr-4" />
             <span className="text-customBlack-three ">
@@ -65,7 +64,7 @@ function Navbar() {
           <button
             type="button"
             ref={avatarRef}
-            className="font-medium mt-0"
+            className="btn-secondary font-medium mt-0"
           >
             <div>
               <img src={userImage} alt="Avatar Icon" style={{ borderRadius: "50%", width: "42px", height: "42px" }} className="mx-2" />
