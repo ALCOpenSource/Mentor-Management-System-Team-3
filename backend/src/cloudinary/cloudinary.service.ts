@@ -9,6 +9,7 @@ export class CloudinaryService {
     file: Express.Multer.File,
   ): Promise<UploadApiResponse | UploadApiErrorResponse> {
     //resize image using sharp
+    console.log("BUFFER", file);
     const bufferOfFile = await sharp(file.buffer)
       .resize(1870)
       .webp({ quality: 20 })

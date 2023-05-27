@@ -14,6 +14,8 @@ import {
   Preferences,
   PreferencesSchema,
 } from "../preferences/preferences.schema";
+import { TaskService } from "../task/task.service";
+import { Task, TaskSchema } from "../task/task.schema";
 
 @Module({
   imports: [
@@ -27,11 +29,18 @@ import {
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Preferences.name, schema: PreferencesSchema },
+      { name: Task.name, schema: TaskSchema },
     ]),
     CloudinaryModule,
     PreferencesModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, CloudinaryService, PreferencesService],
+  providers: [
+    AuthService,
+    UsersService,
+    CloudinaryService,
+    PreferencesService,
+    TaskService,
+  ],
 })
 export class AuthModule {}

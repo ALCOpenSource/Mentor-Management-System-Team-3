@@ -3,6 +3,8 @@ import { ChatService } from "./chat.service";
 import { JwtAuthGuard } from "src/auth/guards/jwt.auth.guard";
 import { ChatDocument, MessageDocument } from "./chat.schema";
 import { HttpResponseType } from "src/types/http-response.type";
+import { CreateChatDto } from "./dto/create-chat.dto";
+import { GetChatMessagesDto } from "./dto/messsage.dto";
 
 @UseGuards(JwtAuthGuard)
 @Controller("chat")
@@ -11,10 +13,9 @@ export class ChatController {
 
   @Post("/createchat")
   async createChat(
-    @Body("userId1") userId1: string,
-    @Body("userId2") userId2: string,
+    @Body() chat: CreateChatDto,
   ): Promise<HttpResponseType<ChatDocument | object>> {
-    return this.chatService.createChat(userId1, userId2);
+    return this.chatService.createChat(chat.userId1, chat.userId2);
   }
 
   @Get("getchats")
@@ -24,8 +25,8 @@ export class ChatController {
   @Post("getchatmessages")
   async getChatMessages(
     @Req() req,
-    @Body("chatId") chatId: string,
+    @Body() getMessages: GetChatMessagesDto,
   ): Promise<HttpResponseType<MessageDocument | object>> {
-    return this.chatService.getChatMessages(chatId);
+    return this.chatService.getChatMessages(getMessages.chatId);
   }
 }

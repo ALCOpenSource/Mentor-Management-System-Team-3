@@ -8,11 +8,14 @@ import { v4 as uuidv4 } from "uuid";
 import { HttpResponseType } from "src/types/http-response.type";
 import { OperationStatus } from "src/filters/interface/response.interface";
 import { WebsocketResponseType } from "src/types/ws-response.type";
+import { CloudinaryService } from "src/cloudinary/cloudinary.service";
+import { CreateMessageDto } from "./dto/messsage.dto";
 
 @Injectable()
 export class ChatService {
   constructor(
     private readonly usersService: UsersService,
+    private readonly cloudinary: CloudinaryService,
     @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
     @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
   ) {}
@@ -20,7 +23,7 @@ export class ChatService {
   async createChat(
     user1Id: string,
     user2Id: string,
-  ): Promise<HttpResponseType<ChatDocument | object>> {
+  ): Promise<HttpResponseType<ChatDocument>> {
     const existingChat = await this.chatModel.findOne({
       $or: [
         { user1Id: user1Id, user2Id: user2Id },
@@ -151,24 +154,16 @@ export class ChatService {
 
   // function to create a message
   async sendMessage(
-    chatId: string,
-    senderId: string,
-    receiverId: string,
-    text: string,
+    createMessage: CreateMessageDto,
   ): Promise<WebsocketResponseType<MessageDocument | object>> {
     Logger.log("sendMessage");
-    const messageCollectionName = `messages_${chatId}`;
+    const messageCollectionName = `messages_${createMessage.chatId}`;
     Logger.log(messageCollectionName);
     const messageModel = this.messageModel.db.model<MessageDocument>(
       messageCollectionName,
       MessageSchema,
     );
-    const message = await messageModel.create({
-      chatId,
-      senderId,
-      receiverId,
-      text,
-    });
+    const message = await messageModel.create(createMessage);
     return message.toObject({ getters: true });
   }
 
@@ -204,4 +199,29 @@ export class ChatService {
     message.deliveredAt = new Date();
     return message.save();
   }
+  // handle attachment uploads with cloudinary service and return the url
+  async uploadAttachment(
+    createChat: CreateMessageDto,
+  ): Promise<WebsocketResponseType<MessageDocument | object>> {
+    const messageCollectionName = `messages_${createChat.chatId}`;
+    const messageModel = this.messageModel.db.model<MessageDocument>(
+      messageCollectionName,
+      MessageSchema,
+    );
+    let attachment;
+    if (typeof createChat.text !== "string") {
+      attachment = await this.cloudinary.uploadImage(createChat.text);
+    }
+
+    const message = await messageModel.create({
+      chatId: createChat.chatId,
+      senderId: createChat.senderId,
+      receiverId: createChat.receiverId,
+      Text: attachment,
+      isMedia: true,
+    });
+    return message.toObject({ getters: true });
+  }
+
+  // broadcast message to several recipients(named)
 }

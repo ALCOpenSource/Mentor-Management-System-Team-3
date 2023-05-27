@@ -1,6 +1,5 @@
-import LoginForm from "./views/login/LoginForm";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import LoginForm from './views/login/LoginForm';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ForgotPassword from "./views/forgot-password/forgot-password";
 import ForgotPasswordForm from "./views/forgot-password/forgot-password-submit";
 import ForgotPasswordSuccess from "./views/forgot-password/forgot-password-success";
@@ -29,9 +28,12 @@ import Mentors from "./views/dashboard/SwitchComponents/mentor";
 import ProtectedRoutes from "./components/protectedRoute";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+
+
 function App() {
   return (
-    <GoogleOAuthProvider clientId="105879543275-e4jkrpvk5k59ft5lajr3daiksvqn57bc.apps.googleusercontent.com">     <Provider store={store}>
+    <GoogleOAuthProvider clientId="10587...///hidden///...usercontent.com">   
+      <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
           <Router>
@@ -69,7 +71,10 @@ function App() {
               <Route path="/signup1" element={<SignupForm1 />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path="/passwordreset" element={<ForgotPasswordForm />} />
-              <Route path="/passwordsucess" element={<ForgotPasswordSuccess />} />
+              <Route
+                path="/passwordsucess"
+                element={<ForgotPasswordSuccess />}
+              />
             </Routes>
           </Router>
         </div>

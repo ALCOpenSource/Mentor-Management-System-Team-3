@@ -4,16 +4,33 @@ Import necessary modules and dependencies
 import { NestFactory } from "@nestjs/core";
 import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 
 import { AppModule } from "./app.module";
 import { HttpExceptionFilter } from "./filters/http-exception.filter";
+
+// add swagger documentation
+
 /*
 
 Declare async function 'bootstrap' for starting the NestJS server
 */
 async function bootstrap() {
+  const options = new DocumentBuilder()
+    .setTitle("MMS API")
+    .setDescription("The MMS API description")
+    .setVersion("1.0")
+    .addTag("mms")
+    .build();
   // Create an instance of Nest application
   const app = await NestFactory.create(AppModule);
+
+  // Create a Swagger document for the API
+  const document = SwaggerModule.createDocument(app, options);
+
+  // Create a Swagger UI for the API
+  SwaggerModule.setup("apidocs", app, document);
+
   // Get the configuration service instance
   const configService = app.get(ConfigService);
 
