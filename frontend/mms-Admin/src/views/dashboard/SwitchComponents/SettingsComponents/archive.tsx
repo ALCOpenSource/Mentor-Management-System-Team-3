@@ -4,7 +4,6 @@ import { getArchivesApiAsync } from "../../../../services/axios/api-services/arc
 import { Field, FieldArray, Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
 import { object, array, string } from 'yup';
-import './archive.css';
 import googleIconSVG from '../../../../assets/images/programs/GoogleIcon.svg';
 import searchIconSVG from '../../../../assets/images/search.svg';
 import Calender from '../../../../assets/images/programs/Calender.svg';
@@ -77,7 +76,7 @@ const App: React.FC = () => {
                 id="searchArchive"
                 name="searchArchive"
                 placeholder="Search archive"
-                className="general-text-input text-input input-icon-label ms-1 mt-0 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                className="text-input pl-[35px] pr-0 w-[5%] h-[38px] font-semibold ms-1 mt-0 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
               />
               <div className="mt-5">
                 <button type="button" className="btn-secondary navigation-button">
@@ -137,7 +136,7 @@ const App: React.FC = () => {
                                 />
                                 <div className="w-full">
                                   <label
-                                    className="program-title pt-0"
+                                    className="pt-0 main-sub-title text-sm text-customBlack-two"
                                     htmlFor="about"
                                   >
                                     {program.name}

@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Formik, Form, FormikProps } from "formik";
 import * as Yup from "yup";
-import "../index.css";
-import VALIDATION_PATTERNS from "../../../../assets/validation-patterns";
+//import "../index.css";
+import VALIDATION_PATTERNS from "../../../../constants/validation-patterns";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
 import { ChangePasswordDetails } from "../../../../services/redux/types/system-user";
 import {
@@ -164,7 +164,7 @@ const PasswordPage: React.FC = () => {
 
             <div className="flex w-full">
               <a
-                className="btn-secondary text-[15px] text-link text-green-three"
+                className="btn-secondary text-[15px] outline-none font-medium m-auto px-[8px] py-[12px]  text-green-three"
                 href="/forgotpassword"
               >
                 Forgot password?

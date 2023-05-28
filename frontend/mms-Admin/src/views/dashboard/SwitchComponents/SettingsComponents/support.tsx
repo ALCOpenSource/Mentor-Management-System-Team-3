@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Formik, Form, Field, FormikProps } from "formik";
 import * as Yup from "yup";
-import "../index.css";
+//import "../index.css";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
 import liveChatIcon from "../../../../assets/images/LiveChat.svg";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
@@ -132,7 +132,7 @@ const SupportPage: React.FC = () => {
                         id="name"
                         name="name"
                         placeholder="Name"
-                        className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                         style={{ paddingTop: "7px", paddingBottom: "7px" }}
                       />
                     </div>
@@ -146,7 +146,7 @@ const SupportPage: React.FC = () => {
                         id="email"
                         name="email"
                         placeholder="Email"
-                        className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                         style={{ paddingTop: "7px", paddingBottom: "7px" }}
                       />
                     </div>
@@ -160,7 +160,7 @@ const SupportPage: React.FC = () => {
                         id="title"
                         name="title"
                         placeholder="Title"
-                        className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                         style={{ paddingTop: "7px", paddingBottom: "7px" }}
                       />
                     </div>
@@ -175,7 +175,7 @@ const SupportPage: React.FC = () => {
                         as="textarea"
                         name="body"
                         placeholder="Body"
-                        className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                         style={{
                           paddingTop: "7px",
                           paddingBottom: "7px",
@@ -222,7 +222,7 @@ const SupportPage: React.FC = () => {
                     type="file"
                     id="uploadFile"
                     name="uploadFile"
-                    className="bg-green-three ms-11 text-white rounded-[10px] p-[5px] font-medium mt-1"
+                    className="hidden -z-50 absolute"
                     onChange={(e) => convertFile(e.target.files)}
                   />
 

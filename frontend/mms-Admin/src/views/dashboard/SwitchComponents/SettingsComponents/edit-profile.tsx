@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import avatar from "./../../../../assets/images/avatar.svg";
-import "../index.css";
-import VALIDATION_PATTERNS from "../../../../assets/validation-patterns";
+//import "../index.css";
+import VALIDATION_PATTERNS from "../../../../constants/validation-patterns";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
 import linkedInSVG from "../../../../assets/images/social/Linkedin.svg";
 import githubSVG from "../../../../assets/images/social/Github.svg";
@@ -153,12 +153,12 @@ const EditProfilePage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form  h-screen">
+          <Form className="profile-form">
             <div className="row w-full mb-6">
               <div className="flex items-start justify-start w-full flex-row mt-[2%]">
                 <img
                   src={filebase64}
-                  className="ms-3 mt-4 profile-avatar"
+                  className="ms-3 mt-4 rounded-full w-[73px] h-[73px]"
                   alt="user profile avatar"
                 />
                 <div>
@@ -176,7 +176,7 @@ const EditProfilePage: React.FC = () => {
                     id="uploadFile"
                     name="uploadFile"
                     accept="image/*"
-                    className="bg-green-three ms-11 text-white rounded-[10px] p-[5px]  pe-[30px] ps-[30px]  font-medium mt-1"
+                    className="hidden -z-50 absolute"
                     onChange={(e) => convertFile(e.target.files)}
                   />
                 </div>
@@ -206,14 +206,14 @@ const EditProfilePage: React.FC = () => {
                       id="firstNames"
                       name="firstNames"
                       placeholder="First Name"
-                      className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                     <Field
                       type="text"
                       id="lastName"
                       name="lastName"
                       placeholder="Last Name"
-                      className="general-text-input text-input ms-6 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="text-input ms-6 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="firstNames" />
@@ -232,7 +232,7 @@ const EditProfilePage: React.FC = () => {
                       as="textarea"
                       name="bio"
                       placeholder="Your Bio"
-                      className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="bio" />
@@ -248,7 +248,7 @@ const EditProfilePage: React.FC = () => {
                       id="website"
                       name="website"
                       placeholder="www.example.com"
-                      className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="website" />
@@ -263,7 +263,7 @@ const EditProfilePage: React.FC = () => {
                       id="country"
                       name="country"
                       placeholder="Select Country"
-                      className="form-control general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="form-control text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                       as="select"
                     //onChange={this.onItemTypeDropdownSelected}
                     >
@@ -282,7 +282,7 @@ const EditProfilePage: React.FC = () => {
                       list="cities"
                       id="city"
                       placeholder="Select City"
-                      className="form-control general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="form-control text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                     <datalist id="cities">
                       {countries.map((item, i) => (<option
@@ -298,18 +298,18 @@ const EditProfilePage: React.FC = () => {
                 </div>
 
                 <div className="mb-0 flex flex-row">
-                  <div className="flex flex-row input-icons relative w-full">
+                  <div className="flex flex-row w-full mb-[5px] pl-[2px]  relative w-full">
                     <label className="text-label" htmlFor="github">
                       Social
                     </label>
-                    <div className="flex ms-[-5px] flex-col input-icons relative w-full">
-                      <div className="flex flex-row input-icons relative w-full">
-                        <FieldWithIconLabel id="github" name="github" label="GitHub" icon={githubSVG} placeholder="@githubuser" extraStyles="flex flex-row input-icons ms-1 w-full" />
-                        <FieldWithIconLabel id="instagram" name="instagram" label="Instagram" icon={instagramSVG} placeholder="@instagramuser" extraStyles="flex flex-row input-icons ms-6 w-full" />
+                    <div className="flex ms-[-5px] flex-col w-full mb-[5px] pl-[2px]  relative w-full">
+                      <div className="flex flex-row w-full mb-[5px] pl-[2px]  relative w-full">
+                        <FieldWithIconLabel id="github" name="github" label="GitHub" icon={githubSVG} placeholder="@githubuser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-1 w-full" />
+                        <FieldWithIconLabel id="instagram" name="instagram" label="Instagram" icon={instagramSVG} placeholder="@instagramuser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-6 w-full" />
                       </div>
-                      <div className="flex flex-row input-icons relative w-full">
-                        <FieldWithIconLabel id="linkedin" name="linkedin" label="LinkedIn" icon={linkedInSVG} placeholder="@linkedinuser" extraStyles="flex flex-row input-icons ms-1 w-full" />
-                        <FieldWithIconLabel id="twitter" name="twitter" label="Twitter" icon={twitterSVG} placeholder="@twitteruser" extraStyles="flex flex-row input-icons ms-6 w-full" />
+                      <div className="flex flex-row w-full mb-[5px] pl-[2px]  relative w-full">
+                        <FieldWithIconLabel id="linkedin" name="linkedin" label="LinkedIn" icon={linkedInSVG} placeholder="@linkedinuser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-1 w-full" />
+                        <FieldWithIconLabel id="twitter" name="twitter" label="Twitter" icon={twitterSVG} placeholder="@twitteruser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-6 w-full" />
                       </div>
                     </div>
                   </div>

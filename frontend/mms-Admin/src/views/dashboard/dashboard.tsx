@@ -10,13 +10,13 @@ import Navbar from "../../components/shared/navbar";
 
 function Dashboard() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-[100vw] h-[100vh]">
       <Navbar />
-      <section className="flex">
-        <section className="border-solid bg-lighterGreen-three">
+      <section className="flex h-[calc(100%-90px)]">
+        <section className="border-solid h-full bg-lighterGreen-three">
           <Sidebar />
         </section>
-        <section className="border-solid p-8 grow">
+        <section className="border-solid mb-auto h-full">
           <Outlet />
         </section>
       </section>

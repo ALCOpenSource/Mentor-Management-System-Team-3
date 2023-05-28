@@ -32,6 +32,38 @@ body {
   @apply transform hover:scale-100 hover:bg-opacity-60 transition ease-out duration-300;
 }
 
-.general-text-input {
-  @apply text-customBlack-two px-[12px] py-[5px] my-2 w-full border-2 border-gray-300 focus:border-green-three hover:border-green-three rounded-[5px] text-[16px] relative outline-none transform hover:translate-y-1 hover:bg-opacity-80 transition ease-out duration-300;
+.main-title {
+  @apply relative font-bold font-mukta leading-8 text-xl;
+}
+
+.main-sub-title {
+  @apply relative font-bold font-mukta leading-8 text-md;
+}
+
+.profile-form {
+  @apply font-mukta px-3 py-3 h-full w-full border-solid border-lightGray-two border rounded-md scrollbar-thin scrollbar-thumb-green-four scrollbar-track-white overflow-y-scroll;
+}
+
+.scrollable-by-y {
+  @apply scroll-smooth scrollbar-thin scrollbar-thumb-green-four scrollbar-track-white overflow-y-scroll;
+}
+
+.text-input {
+  @apply text-customBlack-two px-[12px] py-[5px] my-2 w-full border-2 border-gray-300 focus:border-green-three hover:border-green-two rounded-[5px] text-[16px] relative outline-none transform hover:translate-y-1 hover:bg-opacity-80 transition ease-out duration-300 focus:outline-none focus:shadow-green-three ;
+}
+
+.text-label {
+  @apply text-customBlack-two outline-none px-[8px] py-[12px] font-bold w-[150px] min-w-[150px] ;
+}
+
+.data-label {
+  @apply outline-none font-mukta text-customBlack-three bg-lighterGreen-two font-medium w-full h-full px-[8px] py-[22px] ;
+}
+
+.icon {
+  @apply p-[8px] pl-[15px] mt-[3px] min-w-[30px] text-center outline-none;
+}
+
+.close-icon {
+  @apply p-0 overflow-hidden border-lightGray-two outline-none bg-customBlack-three rounded;
 }

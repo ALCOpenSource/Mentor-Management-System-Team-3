@@ -1,5 +1,5 @@
 import React, { useState, type FC } from 'react';
-import SVG_ICONS from "../assets/svg-icons";
+import SVG_ICONS from "../constants/svg-icons";
 import { Field } from 'formik';
 
 interface PasswordFieldProps {
@@ -19,7 +19,7 @@ const PasswordField: FC<PasswordFieldProps> = ({ id, name, placeholder, handleCl
                 id={id}
                 name={name}
                 placeholder={placeholder}
-                className={`general-text-input ${extraStyles} hover:translate-y-0 absolute`}
+                className={`text-input ${extraStyles} hover:translate-y-0 absolute`}
                 onClick={handleClick}
             />
             <button

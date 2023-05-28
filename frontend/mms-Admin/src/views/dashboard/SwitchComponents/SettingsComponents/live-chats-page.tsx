@@ -1,7 +1,6 @@
 import { Field, FieldArray, Form, Formik } from "formik";
 import React from "react";
 import { object, array, string } from "yup";
-import "./archive.css";
 import "./live-chat-page.css";
 import ChatAttachFile from "../../../../assets/images/programs/ChatAttachFile.svg";
 import ChatSendMessage from "../../../../assets/images/programs/ChatSendMessage.svg";
@@ -184,7 +183,7 @@ const App: React.FC = () => (
             <button
               type="button"
               style={{ marginLeft: "auto" }}
-              className="btn-secondary rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
+              className="rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
             >
               <img src={ChatImoji} alt="Attach file icon"></img>
             </button>
@@ -193,20 +192,20 @@ const App: React.FC = () => (
               id="title"
               name="title"
               placeholder="Reply..."
-              className="general-text-input text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+              className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
               style={{ paddingTop: "7px", paddingBottom: "7px" }}
             />
             <button
               type="button"
               style={{ marginLeft: "auto" }}
-              className="btn-secondary rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
+              className="rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
             >
               <img src={ChatAttachFile} alt="Attach file icon"></img>
             </button>
             <button
               type="button"
               style={{ marginLeft: "auto" }}
-              className="btn-secondary rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
+              className="rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
             >
               <img src={ChatSendMessage} alt="Attach file icon"></img>
             </button>

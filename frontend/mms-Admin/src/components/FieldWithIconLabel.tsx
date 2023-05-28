@@ -16,7 +16,7 @@ const FieldWithIconLabel: FC<FieldWithIconLabelProps> = ({ id, name, placeholder
             <img
                 src={icon}
                 alt="profile logo"
-                className="mx-5 my-2.5"
+                className="absolute mx-5 my-2.5"
             />
             <Field
                 disabled
@@ -29,7 +29,7 @@ const FieldWithIconLabel: FC<FieldWithIconLabelProps> = ({ id, name, placeholder
                 id={id}
                 name={name}
                 placeholder={placeholder}
-                className={`my-0 text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px]`}
+                className={`my-0 text-input w-[35%] ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px]`}
             />
         </div>
     );

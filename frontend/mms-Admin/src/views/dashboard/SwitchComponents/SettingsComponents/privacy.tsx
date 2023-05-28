@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
-import "../index.css";
+//import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentPrivacy, updateAllPrivacies, updatePrivacyItem } from "../../../../services/redux/slices/privacy-slice";
@@ -63,6 +63,8 @@ const PrivacyPage: React.FC = () => {
     await dispatch(updateAllPrivacies(obj));
   };
 
+  const toggleSwitchLabel = "outline-none font-medium p-[2px]";
+  
   return (
     <div>
       <Formik
@@ -75,7 +77,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showContactInfo"
                   >
@@ -92,7 +94,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showGitHub"
                   >
@@ -109,7 +111,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showInstagram"
                   >
@@ -126,7 +128,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showLinkedin"
                   >
@@ -143,7 +145,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showTwitter"
                   >

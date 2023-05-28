@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import "../SwitchComponents/index.css";
+//import "../SwitchComponents/index.css";
 import linkedInSVG from "../../../assets/images/social/Linkedin.svg";
 import githubSVG from "../../../assets/images/social/Github.svg";
 import twitterSVG from "../../../assets/images/social/Twitter.svg";
@@ -37,7 +37,7 @@ const GeneralPage: React.FC = () => {
               <div className="flex items-start justify-start w-full flex-row mt-[2%]">
                 <img
                   src={initialValues.userImage}
-                  className="profile-avatar"
+                  className="rounded-full w-[73px] h-[73px]"
                   alt="user profile avatar"
                 />
                 <div style={{ marginTop: "20px" }}>
@@ -54,7 +54,7 @@ const GeneralPage: React.FC = () => {
                   </div>
                   <label
                     style={{ background: "transparent" }}
-                    className="data-label"
+                    className="outline-none font-medium w-full h-full px-[8px] py-[22px"
                   >
                     {initialValues.role}
                   </label>
@@ -168,14 +168,14 @@ const GeneralPage: React.FC = () => {
                 </div>
 
                 <div className="mb-0 flex flex-row">
-                  <div className="flex flex-row input-icons relative w-full">
-                    <div className="flex flex-col input-icons ps-5 relative w-full">
-                      <div className="flex flex-row input-icons relative w-full">
-                        <div className="flex flex-row input-icons ms-1 w-full">
+                  <div className="flex flex-row w-full mb-[5px] pl-[2px] relative">
+                    <div className="flex flex-col mb-[5px] pl-[2px]  ps-5 relative w-full">
+                      <div className="flex flex-row mb-[5px] pl-[2px]  relative w-full">
+                        <div className="flex flex-row mb-[5px] pl-[2px]  ms-1 w-full">
                           <img
                             src={instagramSVG}
                             alt="profile logo"
-                            className="icon"
+                            className="absolute icon"
                           />
                           <label
                             style={{ paddingLeft: "54px", height: "44px" }}
@@ -184,11 +184,11 @@ const GeneralPage: React.FC = () => {
                             {initialValues.instagram}
                           </label>
                         </div>
-                        <div className="flex flex-row input-icons ms-6 w-full">
+                        <div className="flex flex-row mb-[5px] pl-[2px]  ms-6 w-full">
                           <img
                             src={twitterSVG}
                             alt="profile logo"
-                            className="icon"
+                            className="absolute icon"
                           />
                           <label
                             style={{ paddingLeft: "54px", height: "44px" }}
@@ -198,12 +198,12 @@ const GeneralPage: React.FC = () => {
                           </label>
                         </div>
                       </div>
-                      <div className="flex flex-row input-icons relative w-full">
-                        <div className="flex flex-row input-icons ms-1 w-full">
+                      <div className="flex flex-row mb-[5px] pl-[2px]  relative w-full">
+                        <div className="flex flex-row mb-[5px] pl-[2px]  ms-1 w-full">
                           <img
                             src={githubSVG}
                             alt="profile logo"
-                            className="icon"
+                            className="absolute icon"
                           />
                           <label
                             style={{ paddingLeft: "54px", height: "44px" }}
@@ -212,11 +212,11 @@ const GeneralPage: React.FC = () => {
                             {initialValues.github}
                           </label>
                         </div>
-                        <div className="flex flex-row input-icons ms-6 w-full">
+                        <div className="flex flex-row mb-[5px] pl-[2px]  ms-6 w-full">
                           <img
                             src={linkedInSVG}
                             alt="profile logo"
-                            className="icon"
+                            className="absolute icon"
                           />
                           <label
                             style={{ paddingLeft: "54px", height: "44px" }}

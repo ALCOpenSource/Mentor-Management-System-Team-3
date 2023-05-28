@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import "../index.css";
+//import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { Notification } from "../../../../services/redux/types/notification";
 import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
@@ -29,6 +29,7 @@ const NotificationPage: React.FC = () => {
     await dispatch(updateAllNotifications(obj));
   };
 
+  const toggleSwitchLabel = "outline-none font-medium p-[2px]";
   return (
     <div>
       <Formik
@@ -36,22 +37,22 @@ const NotificationPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form h-screen">
+          <Form className="w-full profile-form h-screen">          
             <div className="flex flex-col relative p-5">
               <div className="flex w-full">
-                <label className="text-[15px] strong-text">
+                <label className="text-[15px] outline-none font-bold p-[2px]">
                   General Notifications
                 </label>
               </div>
               <div className="flex w-full">
-                <label
-                  className="text-[15px] strong-text"
+                <label                  
+                  className="text-[15px] outline-none font-bold p-[2px]"
                   style={{ marginLeft: "400px" }}
                 >
                   Email
                 </label>
                 <label
-                  className="text-[15px] strong-text"
+                  className="text-[15px] outline-none font-bold p-[2px]"
                   style={{ marginLeft: "40px" }}
                 >
                   In-app
@@ -60,7 +61,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="allNotificationsEmail"
                   >
@@ -83,7 +84,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="programsEmail"
                   >
@@ -106,7 +107,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="tasksEmail"
                   >
@@ -129,7 +130,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="approvalRequestsEmail"
                   >
@@ -152,7 +153,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="reportsEmail"
                   >
@@ -175,21 +176,21 @@ const NotificationPage: React.FC = () => {
 
             <div className="flex mt-5 flex-col relative p-5">
               <div className="flex w-full">
-                <label className="text-[15px] strong-text">
+                <label className="text-[15px] outline-none font-bold p-[2px]">
 
                   Discussion Notifications
                 </label>
               </div>
               <div className="flex w-full">
                 <label
-                  className="text-[15px] strong-text"
+                  className="text-[15px] outline-none font-bold p-[2px]"
                   style={{ marginLeft: "400px" }}
                 >
 
                   Email
                 </label>
                 <label
-                  className="text-[15px] strong-text"
+                  className="text-[15px] outline-none font-bold p-[2px]"
                   style={{ marginLeft: "40px" }}
                 >
 
@@ -200,7 +201,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="commentsOnMyPostsEmail"
                   >
@@ -223,7 +224,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="postsEmail"
                   >
@@ -246,7 +247,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="commentsEmail"
                   >
@@ -269,7 +270,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="mentionsEmail"
                   >
@@ -292,7 +293,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="directMessagesEmail"
                   >
