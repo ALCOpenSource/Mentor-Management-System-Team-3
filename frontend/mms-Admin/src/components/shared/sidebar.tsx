@@ -1,17 +1,16 @@
-import React from "react";
-// import Navbar from "./navbar";
-import profile from "../../assets/images/profile.svg";
-import dashboard from "../../assets/images/dashboard.svg";
-import programs from "../../assets/images/programs/programs.svg";
-import tasks from "../../assets/images/tasks.svg";
-import reports from "../../assets/images/reports.svg";
-// import Mentors from "../../assets/images/mentors.svg";
-import certificates from "../../assets/images/certificates.svg";
-import messages from "../../assets/images/messages.svg";
-import forum from "../../assets/images/discussion forums.svg";
-import settings from "../../assets/images/settings/setting.svg";
-import mentors from "../../assets/images/mentor.svg";
-
+import profile from "../../assets/images/sidebar/profile.svg";
+import dashboard from "../../assets/images/sidebar/dashboard.svg";
+import programs from "../../assets/images/sidebar/programs.svg";
+import tasks from "../../assets/images/sidebar/tasks.svg";
+import reports from "../../assets/images/sidebar/report.svg";
+import mentorManagers from "../../assets/images/sidebar/mentor-managers.svg";
+import approvalRequests from "../../assets/images/sidebar/approval-requests.svg";
+import certificates from "../../assets/images/sidebar/certificates.svg";
+import messages from "../../assets/images/sidebar/messages.svg";
+import forum from "../../assets/images/sidebar/discussion-forums.svg";
+import settings from "../../assets/images/sidebar/settings.svg";
+import mentors from "../../assets/images/sidebar/mentors.svg";
+import logout from "../../assets/images/sidebar/logout.svg";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../services/redux/Store";
 import { selectCurrentUser } from "../../services/redux/slices/current-user-slice";
@@ -41,12 +40,22 @@ function Sidebar() {
     {
       icon: reports,
       label: "Reports",
-      route: "",
+      route: "reports",
     },
     {
       icon: mentors,
       label: "Mentors",
       route: "mentors",
+    },
+    {
+      icon: mentorManagers,
+      label: "Mentor Managers",
+      route: "mentor-managers",
+    },
+    {
+      icon: approvalRequests,
+      label: "Approval Requests",
+      route: "approval-requests",
     },
     {
       icon: certificates,
@@ -68,35 +77,40 @@ function Sidebar() {
       label: "Settings",
       route: "settings",
     },
+    {
+      icon: logout,
+      label: "Logout",
+      route: "login",
+    }
   ];
- const {lastName,firstNames,role } = useAppSelector(selectCurrentUser);
+  const { lastName, firstNames, role } = useAppSelector(selectCurrentUser);
   return (
     <div>
       <div className="flex">
-        <div className="flex w-60">
+        <div className="flex w-64">
           <div className="w-full">
-            <div className="flex flex-col items-center justify-center p-8">
-              <h2 className="text-customBlack-one">Hi, {lastName ?? firstNames}</h2>
-              <p className="text-gray-three mb-10">{role}</p>
+            <div className="flex flex-col items-start justify-center p-8">
+              <h2 className="text-customBlack-one font-bold text-[20px]">Hi, {lastName ?? firstNames}</h2>
+              <p className="text-gray-three text-left font-[16px] pl-1 mb-10">{role}</p>
             </div>
             {nav.map((item, i) => {
               return (
-                <section
+                <div
                   key="i"
-                  className="flex  px-8  hover:bg-white py-2 text-center"
+                  className="flex items-stretch focus:bg-white focus:font-bold hover:bg-white py-2 text-justify"
                 >
                   <NavLink
-                    to={`/dashboard/${item.route}`}
-                    className="relative flex items-center active:bg-white"
+                    to={item.route === "login" ? "/login" : `/dashboard/${item.route}`}
+                    className="relative px-8 w-full flex items-stretch focus:bg-white focus:font-bold active:bg-white"
                   >
                     <img
                       src={item.icon}
                       alt="profile logo"
                       className="h-8 mr-5"
                     />
-                    <span className="text-sm text-gray-one">{item.label}</span>
+                    <span className="text-sm focus:bg-white focus:font-bold text-gray-one">{item.label}</span>
                   </NavLink>
-                </section>
+                </div>
               );
             })}
           </div>

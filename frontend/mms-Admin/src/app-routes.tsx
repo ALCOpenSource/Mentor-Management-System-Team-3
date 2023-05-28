@@ -23,6 +23,8 @@ import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/f
 import LoginForm from './views/login/LoginForm';
 import Mentors from "./views/dashboard/SwitchComponents/mentor/mentor";
 import ProtectedRoutes from "./components/protectedRoute";
+import ApprovalRequests from './views/dashboard/SwitchComponents/approval-requests';
+import MentorManagers from './views/dashboard/SwitchComponents/mentor-managers';
 
 function AppRoutes(){
     return (
@@ -49,12 +51,14 @@ function AppRoutes(){
                   </Route>
                   <Route path="certificates" element={<Certificates />} />
                   <Route path="programs" element={<Programs />} />
+                  <Route path="approval-requests" element={<ApprovalRequests />} />
+                  <Route path="mentor-managers" element={<MentorManagers />} />
                   <Route path="reports" element={<Reports />} />
                   <Route path="tasks" element={<Tasks />} />
                   <Route path="profile" element={<Profile />} />
                   <Route path="forum" element={<Forums />} />
                   <Route path="mentors" element={<Mentors />} />
-                  {/* <Route path="*" element={<AdminDashboard />} /> */}
+                  <Route path="*" element={<AdminDashboard />} />
                 </Route>
               </Route>
               <Route path="/login" element={<LoginForm />} />
