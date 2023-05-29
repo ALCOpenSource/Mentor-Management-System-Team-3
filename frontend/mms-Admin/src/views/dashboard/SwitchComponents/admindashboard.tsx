@@ -4,16 +4,13 @@ import note from "../../../assets/Vector (1).svg";
 import direction from "../../../assets/Vector.svg";
 import calendar from "../../../assets/calendar.svg";
 import {
-  useAppDispatch,
   useAppSelector,
 } from "../../../services/redux/Store";
-import { fetchActivePrograms, fetchProgramsOverview, fetchReportsOverview, fetchTasks, selectCurrentDashboardActivePrograms, selectCurrentDashboardProgramOverviews, selectCurrentDashboardReportOverviews, selectCurrentDashboardTasks, updateDashboardActiveProgramsAction, updateDashboardProgramsOverviewAction, updateDashboardReportsOverviewAction, updateDashboardTasksAction } from "../../../services/redux/slices/dashboard-slices";
+import { selectCurrentDashboardActivePrograms, selectCurrentDashboardProgramOverviews, selectCurrentDashboardReportOverviews, selectCurrentDashboardTasks, updateDashboardActiveProgramsAction, updateDashboardProgramsOverviewAction, updateDashboardReportsOverviewAction, updateDashboardTasksAction } from "../../../services/redux/slices/dashboard-slices";
 import { ActiveProgram, ProgramOverview, ReportsOverview, TasksOverview } from "../../../services/redux/types/dashboard-types";
-import { arraysEqual } from "../../../services/generalFunctions";
 import { fetchDashboardActiveProgramsApiAsync, fetchDashboardProgramsOverviewApiAsync, fetchDashboardReportsOverviewApiAsync, fetchDashboardTasksApiAsync } from "../../../services/axios/api-services/dashboard";
 import { selectCurrentUserToken } from "../../../services/redux/slices/current-user-slice";
 import { useNavigate } from "react-router-dom";
-import { Field } from "formik";
 
 function AdminDashboard() {
   const [activePrograms, setActivePrograms] = useState<ActiveProgram[]>(useAppSelector(selectCurrentDashboardActivePrograms));
@@ -47,12 +44,11 @@ function AdminDashboard() {
     }).catch(err => console.log(err))
   }, [])
 
-  console.log(activePrograms, reportsOverview, programOverview, tasksOverview);
-
   return (
-    <section className="w-[calc(100%-300px)] h-full">
-      <h2 className="text-base font-bold">Dashboard</h2>
-      <select value={"This Week"} className="text-[18px] absolute h-[32px] right-3 px-5 py-0 mt-[-25px] bg-lighterGreen-three mr-auto rounded-[5px]">
+    <section className="w-[calc(100%-300px)] h-full pt-13">
+      <h2 className="text-base absolute font-bold">Dashboard</h2>
+      <div className="h-[24px]" />
+      <select value={"This Week"} className="text-[18px] absolute h-[32px] right-3 px-5 py-0 mt-[-25px] ml-[-50px] bg-lighterGreen-three mr-auto rounded-[5px]">
         {programsFilteringPeriod.map((item, i) => (<option value={item}>{item}</option>))}
       </select>
       <section>

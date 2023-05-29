@@ -93,7 +93,7 @@ function Sidebar() {
           <div className="w-full">
             <div className="flex flex-col items-start justify-center p-8">
               <h2 className="text-customBlack-one font-bold text-[20px]">Hi, {lastName ?? firstNames}</h2>
-              <p className="text-gray-three text-left font-[16px] pl-1 mb-10">{role}</p>
+              <p className="text-gray-three text-left font-[16px] pl-1 mb-6">{role}</p>
             </div>
             {navMenuItems.map((item, i) => {
               return (
