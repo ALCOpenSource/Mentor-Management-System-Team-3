@@ -15,74 +15,76 @@ import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../services/redux/Store";
 import { selectCurrentUser } from "../../services/redux/slices/current-user-slice";
 
+export const navMenuItems = [
+  {
+    icon: profile,
+    label: "Profile",
+    route: "profile",
+  },
+  {
+    icon: dashboard,
+    label: "Dashboard",
+    route: "",
+  },
+  {
+    icon: programs,
+    label: "Programs",
+    route: "programs",
+  },
+  {
+    icon: tasks,
+    label: "Tasks",
+    route: "tasks",
+  },
+  {
+    icon: reports,
+    label: "Reports",
+    route: "reports",
+  },
+  {
+    icon: mentors,
+    label: "Mentors",
+    route: "mentors",
+  },
+  {
+    icon: mentorManagers,
+    label: "Mentor Managers",
+    route: "mentor-managers",
+  },
+  {
+    icon: approvalRequests,
+    label: "Approval Requests",
+    route: "approval-requests",
+  },
+  {
+    icon: certificates,
+    label: "Certificates",
+    route: "certificates",
+  },
+  {
+    icon: messages,
+    label: "Messages",
+    route: "messages",
+  },
+  {
+    icon: forum,
+    label: "Discussion Forum",
+    route: "forum",
+  },
+  {
+    icon: settings,
+    label: "Settings",
+    route: "settings",
+  },
+  {
+    icon: logout,
+    label: "Logout",
+    route: "login",
+  }
+];
+
 function Sidebar() {
-  const nav = [
-    {
-      icon: profile,
-      label: "Profile",
-      route: "profile",
-    },
-    {
-      icon: dashboard,
-      label: "Dashboard",
-      route: "",
-    },
-    {
-      icon: programs,
-      label: "Programs",
-      route: "programs",
-    },
-    {
-      icon: tasks,
-      label: "Tasks",
-      route: "tasks",
-    },
-    {
-      icon: reports,
-      label: "Reports",
-      route: "reports",
-    },
-    {
-      icon: mentors,
-      label: "Mentors",
-      route: "mentors",
-    },
-    {
-      icon: mentorManagers,
-      label: "Mentor Managers",
-      route: "mentor-managers",
-    },
-    {
-      icon: approvalRequests,
-      label: "Approval Requests",
-      route: "approval-requests",
-    },
-    {
-      icon: certificates,
-      label: "Certificates",
-      route: "certificates",
-    },
-    {
-      icon: messages,
-      label: "Messages",
-      route: "messages",
-    },
-    {
-      icon: forum,
-      label: "Discussion Forum",
-      route: "forum",
-    },
-    {
-      icon: settings,
-      label: "Settings",
-      route: "settings",
-    },
-    {
-      icon: logout,
-      label: "Logout",
-      route: "login",
-    }
-  ];
+
   const { lastName, firstNames, role } = useAppSelector(selectCurrentUser);
   return (
     <div>
@@ -93,7 +95,7 @@ function Sidebar() {
               <h2 className="text-customBlack-one font-bold text-[20px]">Hi, {lastName ?? firstNames}</h2>
               <p className="text-gray-three text-left font-[16px] pl-1 mb-10">{role}</p>
             </div>
-            {nav.map((item, i) => {
+            {navMenuItems.map((item, i) => {
               return (
                 <div
                   key="i"
