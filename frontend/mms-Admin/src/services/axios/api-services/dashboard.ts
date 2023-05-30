@@ -11,12 +11,13 @@ import { navMenuItems } from "../../../components/shared/sidebar";
 import tasksSVG from "./../../../assets/images/dashboard-icons/tsaks.svg";
 import googleGADsSVG from "./../../../assets/images/dashboard-icons/google-gads.svg";
 import googleScholarshipSVG from "./../../../assets/images/dashboard-icons/google-scholarship.svg";
+import { addMinutes } from "../../dateFunctions";
 
 export async function fetchDashboardActiveProgramsApiAsync(
   token: string
 ): Promise<ActiveProgram[] | undefined> {
   const programs: ActiveProgram[] = [];
-  const elements = randomizeArray(navMenuItems).filter(
+  const elements = randomizeArray([...navMenuItems]).filter(
     (c) => !["Logout", "Dashboard", "Profile"].includes(c.label)
   );
   const no = getRandomInteger(6, 8);
@@ -32,7 +33,7 @@ export async function fetchDashboardActiveProgramsApiAsync(
       ),
       icon: obj?.icon,
       from: new Date(),
-      to: new Date(),
+      to: addMinutes(new Date(), getRandomInteger(60, 27000)),
     };
     programs.push(activeProgram);
   }
@@ -47,16 +48,16 @@ export async function fetchDashboardTasksApiAsync(
   for (let index = 0; index < no; index++) {
     const status = getRandomInteger(0, 3);
     const activeProgram: TasksOverview = {
-      name: "Task " + index,
-      no: no,
+      name: `Room Library article write ${index}`,
+      no: getRandomInteger(6, 27),
       icon: tasksSVG,
       percentage: parseFloat(
-        ((100 * getRandomInteger(6, 8)) / 30, 2).toFixed(2)
+        ((100 * getRandomInteger(6, getRandomInteger(6, 27))) / 30, 2).toFixed(2)
       ),
       status:
         status === 1 ? "In Progress" : status === 2 ? "Cancelled" : "Completed",
       from: new Date(),
-      to: new Date(),
+      to: addMinutes(new Date(), getRandomInteger(60, 27000))
     };
     programs.push(activeProgram);
   }
@@ -69,16 +70,17 @@ export async function fetchDashboardProgramsOverviewApiAsync(
   const programs: ProgramOverview[] = [];
   const no = getRandomInteger(6, 10);
   for (let index = 0; index < no; index++) {
-    //const status = getRandomInteger(0,3);
+    const dateTo = new Date();
+    dateTo.setMinutes(getRandomInteger(60, 1000));
     const activeProgram: ProgramOverview = {
       name: `GADS Program ${2019 + index}`,
-      no: no,
+      no: getRandomInteger(6, 27),
       icon: googleGADsSVG,
       percentage: parseFloat(
-        ((100 * getRandomInteger(6, 8)) / 30, 2).toFixed(2)
+        ((100 * getRandomInteger(6, getRandomInteger(6, 27))) / 30).toFixed(2)
       ),
-      from: new Date(),
-      to: new Date(),
+      from: dateTo,
+      to: addMinutes(new Date(), getRandomInteger(60, 27000)),
     };
     programs.push(activeProgram);
   }
@@ -94,9 +96,10 @@ export async function fetchDashboardReportsOverviewApiAsync(
     const status = getRandomInteger(0, 3);
     const activeProgram: ReportsOverview = {
       name: "Google Africa Scholarship Report " + index,
-      no: no,
+      no: getRandomInteger(6, 80),
+      icon:googleScholarshipSVG,
       percentage: parseFloat(
-        ((100 * getRandomInteger(6, 8)) / 30, 2).toFixed(2)
+        ((100 * getRandomInteger(6, 8)) / 30).toFixed(2)
       ),
       by:
         status === 1
@@ -105,7 +108,7 @@ export async function fetchDashboardReportsOverviewApiAsync(
           ? "Alison Davis"
           : "James Melee         ",
       from: new Date(),
-      to: new Date(),
+      to: addMinutes(new Date(), getRandomInteger(60, 27000)),
     };
     programs.push(activeProgram);
   }

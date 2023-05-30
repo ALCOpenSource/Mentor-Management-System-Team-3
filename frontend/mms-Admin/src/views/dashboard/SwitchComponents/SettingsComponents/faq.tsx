@@ -1,6 +1,5 @@
 import React from "react";
-import { Formik, Form } from "formik";
-//import "../index.css";
+import { Formik } from "formik";
 import Accordion from "../../../../components/accordion/accordion";
 import { AccordionData } from "../../../../components/accordion/accordion-item";
 interface FormValues {
@@ -54,6 +53,7 @@ const NotificationPage: React.FC = () => {
               </label>
               <div className="max-h-[100%] scrollable-by-y overflow-x-hidden h-full ">
                 <Accordion items={initialValues.generalFAQData} />
+
               </div>
             </div>
 
