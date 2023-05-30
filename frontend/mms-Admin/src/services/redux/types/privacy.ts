@@ -1,4 +1,3 @@
-
 export interface Privacy {
     userId?: string;
     showLinkedin: boolean;

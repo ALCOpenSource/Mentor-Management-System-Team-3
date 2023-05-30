@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
-import "../../../index.css"
+//import "../../../index.css"
+//import "./settings.css"
 
 function Settings() {
   const nav = [
@@ -34,27 +35,27 @@ function Settings() {
   ];
 
   return (
-    <div className="flex flex-col">
-      <h3 className="text-black text-2xl ms-0 pt-3 pb-1 font-bold">Settings</h3>
-      <section className="flex">
+    <div className="flex flex-col w-[100%] h-[100%]">
+      <h3 className="main-title ms-0 pt-3 pb-1 w-[100%]">Settings</h3>
+      <section className="flex h-[calc(100%-30px)]">
         <section className="border-solid bg-lighterGreen-three">
           {nav.map((item, i) => {
             return (
               <section
                 key="i"
-                className="flex  px-8  hover:bg-white py-2 text-center"
+                className="px-8 focus:bg-white hover:bg-white py-2 text-center"
               >
                 <NavLink
                   to={`/dashboard/settings/${item.route}`}
-                  className="relative flex items-center active:bg-white"
+                  className="relative focus:font-bold focus:bg-white hover:bg-white w-[100%] active:bg-white"
                 >
-                  <span className="text-sm text-gray-one">{item.label}</span>
+                  <span className="text-sm w-[100%] focus:font-bold focus:bg-white hover:bg-white text-gray-one">{item.label}</span>
                 </NavLink>
               </section>
             );
           })}
         </section>
-        <section className="border-solid p-1">
+        <section className="border-solid h-[100%] w-[100%]">
           <Outlet />
         </section>
       </section>

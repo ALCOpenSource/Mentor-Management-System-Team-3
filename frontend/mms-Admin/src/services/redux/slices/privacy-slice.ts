@@ -22,9 +22,9 @@ function getEmptyPrivacy(): Privacy {
     userId: "",
     showLinkedin: true,
     showTwitter: true,
-    showGitHub:  true,
-    showInstagram:  true,
-    showContactInfo:  true,
+    showGitHub: true,
+    showInstagram: true,
+    showContactInfo: true,
   };
 }
 
@@ -38,7 +38,11 @@ export const updatePrivacyItem = createAsyncThunk(
     privacyDetails: { key: string; value: boolean; obj: Privacy },
     thunkAPI
   ) => {
-    return await updatePrivacyItemApiAsync(privacyDetails);
+    const state: any = thunkAPI.getState();
+    return await updatePrivacyItemApiAsync(
+      privacyDetails,
+      state.currentUser.currentUser.userToken
+    );
   }
 );
 
@@ -63,10 +67,7 @@ export const PrivacySlice = createSlice({
   name: "current-privacy",
   initialState,
   reducers: {
-    updateAllPrivaciesAction: (
-      state,
-      action: PayloadAction<Privacy>
-    ) => {
+    updateAllPrivaciesAction: (state, action: PayloadAction<Privacy>) => {
       state.privacy = action.payload;
     },
     updatePrivacyItemAction: (state, action: PayloadAction<any>) => {
@@ -82,6 +83,10 @@ export const PrivacySlice = createSlice({
       obj = { ...obj, [action.payload.key]: action.payload.value };
       state.privacy = obj;
       return state;
+    });
+
+    builder.addCase(updatePrivacyItem.rejected, (state, action) => {
+      throw action.error;
     });
 
     builder.addCase(updateAllPrivacies.fulfilled, (state, action) => {

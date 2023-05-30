@@ -10,16 +10,23 @@ import {
   SystemUser,
   UsernamePassword,
 } from "../types/system-user";
-import { RootState } from "../Store";
+import { persistor, RootState } from "../Store";
 import "./../../../assets/images/flag-icons-main/flags/4x3/ac.svg";
 import {
+  fetchPreferencesApiAsync,
   loginCurrentUserApiAsync,
+  loginCurrentUserWIthGoogleApiAsync,
+  logoutCurrentUserApiAsync,
   updateCurrentUserApiAsync,
   updateCurrentUserProfilePictureApiAsync,
 } from "../../axios/api-services/current-user";
+import { Privacy } from "../types/privacy";
+import { Notification } from "../../redux/types/notification";
 
 interface CurrentUserState {
   currentUser: LoggedInUser;
+  privacy?: Privacy;
+  notification?: Notification;
 }
 
 const getEmptyLoggedInUser = (): LoggedInUser => {
@@ -33,22 +40,53 @@ const initialState: CurrentUserState = {
 export const updateCurrentUser = createAsyncThunk(
   "current-user/update-user",
   async (userDetails: SystemUser, thunkAPI) => {
-    const state : any = thunkAPI.getState();
-    return await updateCurrentUserApiAsync(userDetails, state.currentUser.currentUser.userToken);
+    const state: any = thunkAPI.getState();
+    return await updateCurrentUserApiAsync(
+      userDetails,
+      state.currentUser.currentUser.userToken
+    );
   }
 );
 
 export const updateCurrentUserProfilePicture = createAsyncThunk(
   "current-user/update-user-profile-image",
   async (image: any, thunkAPI) => {
-    return await updateCurrentUserProfilePictureApiAsync(image);
+    const state:any = thunkAPI.getState();  
+    return await updateCurrentUserProfilePictureApiAsync(image, state.currentUser.currentUser.userToken);
+  }
+);
+
+export const fetchCurrentUserPreferences = createAsyncThunk(
+  "current-user/update-user-preferences",
+  async (image: any, thunkAPI) => {
+    const state:any = thunkAPI.getState();  
+    return await fetchPreferencesApiAsync(state.currentUser.currentUser.userToken);
   }
 );
 
 export const loginCurrentUser = createAsyncThunk(
   "current-user/login",
   async (userDetails: UsernamePassword, thunkAPI) => {
-    return await loginCurrentUserApiAsync(userDetails);
+    return await loginCurrentUserApiAsync(userDetails, thunkAPI.dispatch);
+  }
+);
+
+export const loginCurrentUserWithGoogle = createAsyncThunk(
+  "current-user/google-login",
+  async (userDetails: {
+    email: string;
+    displayName: string;
+    profilePicture: string
+  }, thunkAPI) => {
+    return await loginCurrentUserWIthGoogleApiAsync(userDetails, thunkAPI.dispatch);
+  }
+);
+
+export const logoutCurrentUser = createAsyncThunk(
+  "current-user/logout",
+  async (thunkAPI) => {
+    await logoutCurrentUserApiAsync();
+    return persistor.purge();
   }
 );
 
@@ -77,29 +115,68 @@ export const CurrentUserSlice = createSlice({
       user.userToken = action.payload;
       return state;
     },
-    logoutCurrentUser: (state) => {
-      state.currentUser = getEmptyLoggedInUser();
-      return state;
-    },
+    // logoutCurrentUser: (state) => {
+    //   state.currentUser = getEmptyLoggedInUser();
+    //   return state;
+    // },
   },
 
   extraReducers: (builder) => {
-    builder.addCase(loginCurrentUser.fulfilled, (state, action) => {
-      state.currentUser = action.payload;
+    builder.addCase(loginCurrentUserWithGoogle.fulfilled, (state, action) => {
+      state.currentUser.user = action.payload.user;
+      state.currentUser.userToken = action.payload.userToken;
       state.currentUser.loginTime = new Date().getTime();
+    });
+
+    builder.addCase(loginCurrentUserWithGoogle.rejected, (state, action) => {
+      throw action.error;
+    });
+
+    builder.addCase(loginCurrentUser.fulfilled, (state, action) => {
+      state.currentUser.user = action.payload.user;
+      state.currentUser.userToken = action.payload.userToken;
+      state.currentUser.loginTime = new Date().getTime();
+    });
+
+    builder.addCase(loginCurrentUser.rejected, (state, action) => {
+      throw action.error;
+    });
+
+    builder.addCase(logoutCurrentUser.fulfilled, (state, action) => {    
+      state.currentUser = getEmptyLoggedInUser();
+      state.currentUser.loginTime = undefined;
+      state.currentUser.userToken = undefined;
     });
 
     builder.addCase(updateCurrentUser.fulfilled, (state, action) => {
       state.currentUser.user = action.payload;
     });
 
+    builder.addCase(updateCurrentUser.rejected, (state, action) => {
+        throw action.error;
+    });
+
     builder.addCase(
       updateCurrentUserProfilePicture.fulfilled,
       (state, action) => {
         state.currentUser.user.userImage = action.payload;
-        console.log("update image recieved mmmm", action.payload);
       }
     );
+    builder.addCase(updateCurrentUserProfilePicture.rejected, (state, action) => {
+      throw action.error;
+    });
+    
+    builder.addCase(
+      fetchCurrentUserPreferences.fulfilled,
+      (state, action) => {
+        console.log(action.payload)
+        state.privacy = action.payload.privacy;
+        state.notification = action.payload.notification;
+      }
+    );
+    builder.addCase(fetchCurrentUserPreferences.rejected, (state, action) => {
+      throw action.error;
+    });
   },
 });
 
@@ -133,4 +210,4 @@ export const selectCurrentUserNameSelector = createSelector(
 );
 
 export default CurrentUserSlice.reducer;
-export const { updateLoggedInCurrentUser } = CurrentUserSlice.actions;
+export const { updateLoggedInCurrentUser, updateLoggedInUserToken } = CurrentUserSlice.actions;

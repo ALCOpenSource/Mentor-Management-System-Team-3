@@ -29,18 +29,18 @@ button .icon {
 }
 
 .accordion-item-btn::before {
-  content: '.';
+  content: '';
   display: inline-block;
   flex-shrink: 0;
   left: -34px;
   padding-left: 2px;
-  width: 18px;
-  height: 18px;
-  background-image: url('./../../assets//images//programs/NavigationPrevious.svg');
+  width: 38px;
+  height: 38px;
+  background-image: url('./../../assets//images//settings//plus.svg');
   background-repeat: no-repeat;
   background-position: left;
   background-size: cover;
-  background-size: 18px;
+  background-size: 24px;
   position: relative;
   vertical-align: middle;
   text-align: left;
@@ -48,10 +48,12 @@ button .icon {
 }
 
 .accordion-item.active .accordion-item-btn::before {
-  background-image: url('./../../assets//images//programs/NavigationNext.svg');
+  background-image: url('./../../assets//images//settings//minus.svg');
   position: relative;
   background-size: cover;
   background-position: left;
+  width: 24px;
+  height: 24px;
   left: -34px;
 }
 

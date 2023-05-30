@@ -17,7 +17,7 @@ const SuccessSplashComponent: FC<SuccessSplashProps> = ({ btnText, title, imageS
 					<Button
 						title={btnText}
 						type={BUTTON_TYPE.PRIMARY}
-						extraStyles="w-[121px] mt-0 mb-4"
+						extraStyles="btn-secondary w-[121px] mt-0 mb-4"
 					/>
 				</div>
 			</div>

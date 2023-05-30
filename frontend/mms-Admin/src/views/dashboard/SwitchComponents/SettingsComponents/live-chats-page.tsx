@@ -1,7 +1,6 @@
 import { Field, FieldArray, Form, Formik } from "formik";
 import React from "react";
 import { object, array, string } from "yup";
-import "./archive.css";
 import "./live-chat-page.css";
 import ChatAttachFile from "../../../../assets/images/programs/ChatAttachFile.svg";
 import ChatSendMessage from "../../../../assets/images/programs/ChatSendMessage.svg";

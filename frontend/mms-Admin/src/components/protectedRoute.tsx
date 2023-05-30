@@ -5,16 +5,16 @@ import {
 import {
     useAppSelector
 } from "../services/redux/Store";
-import PermissionDenied from "../views/permissionDenied";
+//import PermissionDenied from "../views/permissionDenied";
 
 
 const ProtectedRoutes = () => {
-    const useAuth = (): { auth: boolean, role: string | undefined } => {
+    const useAuth = (): { auth: boolean, role: string | undefined | null } => {
         const user = useAppSelector(selectCurrentUser);
         if (user) {
             return {
                 auth: true,
-                role: user.userRole,
+                role: user.role,
             }
         } else {
             return {
@@ -27,9 +27,10 @@ const ProtectedRoutes = () => {
     const { auth, role } = useAuth();
     console.log(auth, role);
 
-    if (auth && role?.toLowerCase().includes("admin"))
+    if (auth && (role?.toLowerCase().includes("user") || role?.toLowerCase().includes("admin")))
         return (<Outlet />);
-    return auth ? <PermissionDenied /> : <Navigate to="/login" />
+    return <Navigate to="/login" />
+   // return auth ? <PermissionDenied /> : <Navigate to="/login" />
 }
 
 export default ProtectedRoutes
