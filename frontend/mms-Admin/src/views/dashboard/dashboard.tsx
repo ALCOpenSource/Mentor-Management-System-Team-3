@@ -13,7 +13,11 @@ function Dashboard() {
           <Sidebar />
         </section>
         <section className="border-solid mb-auto h-full">
-          <Outlet />
+          <div className="w-[calc(100%-255px)] absolute h-full">
+            <div className="w-full p-0 m-0 relative h-full">
+              <Outlet />
+            </div>
+          </div>
         </section>
       </section>
     </div>

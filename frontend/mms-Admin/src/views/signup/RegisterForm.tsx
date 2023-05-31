@@ -28,7 +28,7 @@ function RegisterForm() {
         }
     };
         return (
-          <div className="flex w-full h-screen ">
+          <div className="flex w-full h-full ">
             <div className="flex-col flex-auto w-6/12">
               <img src="/images/signup.png" alt="signup"/>              
             </div>

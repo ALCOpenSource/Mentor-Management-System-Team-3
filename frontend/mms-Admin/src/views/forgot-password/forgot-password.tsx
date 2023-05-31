@@ -45,7 +45,7 @@ const ResetPassword = () => {
       onSubmit={handleSubmit}
     >
       {({ errors, touched }) => (
-        <Form className="flex w-full h-screen">
+        <Form className="flex w-full h-full">
           <div className="flex flex-col w-6/12 bg-green-three content-center justify-center">
             <div className="flex items-center justify-center w-full flex-col">
               <img src={logo} className="w-60 h-50 mb-11" alt="logo" />

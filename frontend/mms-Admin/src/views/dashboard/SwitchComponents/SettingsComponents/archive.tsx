@@ -16,6 +16,7 @@ import NavigationPrevious from '../../../../assets/images/programs/NavigationPre
 import DropdownListIcon from '../../../../assets/images/programs/DropdownListIcon.svg';
 import { getShortDate, getShortTime } from '../../../../services/dateFunctions';
 import { getRandomInteger } from '../../../../services/mathFunctions';
+import SearchBox from "../../../../components/search-box";
 
 interface ProgramProp {
   name: string;
@@ -51,7 +52,7 @@ const App: React.FC = () => {
   });
 
   return (
-    <div className="w-full profile-form h-screen">
+    <div className="w-full h-full">
       <Formik
         initialValues={initialValues}
         onSubmit={(values: FormValues) => console.log(values)}
@@ -63,27 +64,20 @@ const App: React.FC = () => {
           ),
         })}
         render={({ handleSubmit, errors, touched, values }) => (
-          <Form className="w-full h-screen">
-            <div className="search-box-div">
-              <img
-                src={searchIconSVG}
-                style={{ marginTop: '1px' }}
-                alt="search icon"
-                className="m_icon"
-              />
-              <Field
-                type="text"
+          <Form className="w-full h-full">
+            <div className="flex flex-row items-start mr-auto right-0 px-[5px] max-w-[557px] py-[10px] gap-[14px] relative h-[57px] top-[-37px]">
+              <SearchBox
                 id="searchArchive"
                 name="searchArchive"
                 placeholder="Search archive"
-                className="text-input pl-[35px] pr-0 w-[5%] h-[38px] font-semibold ms-1 mt-0 ps-7 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-              />
-              <div className="mt-5">
+                extraStyles="h-[38px] rounded-[5px] "
+              />              
+              <div className="mt-5 min-w-[250px]">
                 <button type="button" className="btn-secondary navigation-button">
                   <img
                     src={NavigationFirst}
                     alt="Attach file icon"
-                    className="dropdown-icon"
+                    className="w-[20px] mx-1 h-[20px]"
                   />
                 </button>
 
@@ -91,17 +85,17 @@ const App: React.FC = () => {
                   <img
                     src={NavigationPrevious}
                     alt="Attach file icon"
-                    className="dropdown-icon"
+                    className="w-[20px] mx-1 h-[20px]"
                   />
                 </button>
-                <label className="text-label" htmlFor="github">
+                <label className="text-label text-[16px] whitespace-nowrap " htmlFor="github">
                   1 - 10 of 20
                 </label>
                 <button type="button" className="btn-secondary navigation-button">
                   <img
                     src={NavigationNext}
                     alt="Attach file icon"
-                    className="dropdown-icon"
+                    className="w-[20px] mx-1 h-[20px]"
                   />
                 </button>
 
@@ -109,13 +103,13 @@ const App: React.FC = () => {
                   <img
                     src={NavigationLast}
                     alt="Attach file icon"
-                    className="dropdown-icon"
+                    className="w-[20px] mx-1 h-[20px]"
                   />
                 </button>
               </div>
             </div>
 
-            <div className="w-full profile-form archives-items-container h-screen">
+            <div className="w-full profile-form archives-items-container h-full">
               <FieldArray
                 name="programs"
                 render={(helpers) => (

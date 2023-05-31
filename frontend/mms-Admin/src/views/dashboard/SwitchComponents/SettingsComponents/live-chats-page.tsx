@@ -59,7 +59,7 @@ for (let i = 0; i < messages.length; i++) {
 }
 
 const App: React.FC = () => (
-  <div className="w-full p-0 m-0 h-screen">
+  <div className="w-full p-0 m-0 h-full">
     <Formik
       initialValues={initialValues}
       onSubmit={(values: FormValues) => console.log(values)}
@@ -71,7 +71,7 @@ const App: React.FC = () => (
         ),
       })}
       render={({ handleSubmit, errors, touched, values }) => (
-        <Form className="w-full h-screen">
+        <Form className="w-full h-full">
           <div
             style={{ height: "220px" }}
             className="bg-green-three border-green-three w-full"
