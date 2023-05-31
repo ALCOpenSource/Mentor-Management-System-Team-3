@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { getGoogleLoggedInUser } from "../../services/axios/axios-services";
 import PasswordField from "../../components/passwordField";
+import LoadingComponent from "../../components/loading-components/loading-component";
 
 const PasswordPage: React.FC = () => {
   const initialValues: UsernamePassword = {
@@ -29,26 +30,25 @@ const PasswordPage: React.FC = () => {
   };
   const googleLoginObj = useGoogleLogin({
     onSuccess: (codeResponse) => {
-      getGoogleLoggedInUser(codeResponse.access_token)?.then(async values => 
-        {
+      getGoogleLoggedInUser(codeResponse.access_token)?.then(async values => {
+        try {
           try {
-            try {
-              await dispatch(logoutCurrentUser());
-               googleLogout();
-            } catch (error) { console.log(error) }
+            await dispatch(logoutCurrentUser());
+            googleLogout();
+          } catch (error) { console.log(error) }
 
-           await dispatch(
-              loginCurrentUserWithGoogle({
-                email: values.email,
-                displayName: values.fullName,
-                profilePicture: values.picture
-              })
-            ).then(dd => navigate("/dashboard"))
-              .catch(err => {showErrorMessage(err)});
-          } catch (error: any) {
-            showErrorMessage(error?.message);
-          }
-        })?.catch(error => showErrorMessage(error))
+          await dispatch(
+            loginCurrentUserWithGoogle({
+              email: values.email,
+              displayName: values.fullName,
+              profilePicture: values.picture
+            })
+          ).then(dd => navigate("/dashboard"))
+            .catch(err => { showErrorMessage(err) });
+        } catch (error: any) {
+          showErrorMessage(error?.message);
+        }
+      })?.catch(error => showErrorMessage(error))
     },
     onError: (error) => showErrorMessage(error)
   });
@@ -59,15 +59,15 @@ const PasswordPage: React.FC = () => {
       try {
         setErrorMessage("");
         await dispatch(logoutCurrentUser());
-         googleLogout();
+        googleLogout();
       } catch (error) { console.log(error) }
-      
+
       await dispatch(
         loginCurrentUser({
           ...values
         })
       ).then(dd => navigate("/dashboard"))
-        .catch(err => {showErrorMessage(err)});
+        .catch(err => { showErrorMessage(err) });
     } catch (error: any) {
       showErrorMessage(error?.message);
     }
@@ -81,7 +81,7 @@ const PasswordPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <div className="flex w-full h-full flex-wrap">
+          <div className="flex w-screen h-screen flex-wrap">
             <div className="w-6/12 bg-green-three flex flex-col content-center justify-center">
               <figure className="flex flex-col items-center jusfify-center bg-green-three w-full">
                 <img className="w-60 h-50 mb-5" src={logo} alt="MMS Logo" />
@@ -109,7 +109,7 @@ const PasswordPage: React.FC = () => {
                     id="password"
                     name="password"
                     placeholder="Password"
-                  />                            
+                  />
                   <FormikValidationMessageComponent name="password" />
                 </div>
                 <button
@@ -141,9 +141,13 @@ const PasswordPage: React.FC = () => {
                     style={{ color: "orangered" }}
                     className="text-1xl font-bold mt-4"
                   >
-                    { errorMessage }
+                    {errorMessage}
                   </h5>
                 </div>
+                <div className="items-center mx-auto justify-center bg-slate-700">
+                  <LoadingComponent isActive={false} />
+                </div>
+
               </div>
             </Form>
           </div>
