@@ -23,7 +23,7 @@ const PasswordField: FC<PasswordFieldProps> = ({ id, name, placeholder, handleCl
                 onClick={handleClick}
             />
             <button
-                className="transform -translate-y-1/2 focus:outline-none absolute right-2 top-7"
+                className="transform -translate-y-1/2 focus:outline-none text-gray-two absolute right-2 top-7"
                 type="button"
                 onClick={() => {
                     setShowPassword(!showPassword);

@@ -72,7 +72,7 @@ const PrivacyPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form  h-screen">
+          <Form className="w-full profile-form  h-full">
             <div className="flex flex-col relative p-5">
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">

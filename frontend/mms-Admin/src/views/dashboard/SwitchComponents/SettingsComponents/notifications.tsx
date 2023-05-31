@@ -37,7 +37,7 @@ const NotificationPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form h-screen">          
+          <Form className="w-full profile-form h-full">          
             <div className="flex flex-col relative p-5">
               <div className="flex w-full">
                 <label className="text-[15px] outline-none font-bold p-[2px]">

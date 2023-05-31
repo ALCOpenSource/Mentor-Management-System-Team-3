@@ -32,7 +32,7 @@ const GeneralPage: React.FC = () => {
     <div>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({ errors, touched }) => (
-          <Form className="w-full profile-form  h-screen">
+          <Form className="w-full profile-form h-full max-w-[1095px]">
             <div className="row w-full mb-6">
               <div className="flex items-start justify-start w-full flex-row mt-[2%]">
                 <img
@@ -170,7 +170,7 @@ const GeneralPage: React.FC = () => {
                 <div className="mb-0 flex flex-row">
                   <div className="flex flex-row w-full mb-[5px] pl-[2px] relative">
                     <div className="flex flex-col mb-[5px] pl-[2px]  ps-5 relative w-full">
-                      <div className="flex flex-row mb-[5px] pl-[2px]  relative w-full">
+                      <div className="flex flex-col md:flex-row mb-[5px] pl-[2px]  relative w-full">
                         <div className="flex flex-row mb-[5px] pl-[2px]  ms-1 w-full">
                           <img
                             src={instagramSVG}
@@ -198,7 +198,7 @@ const GeneralPage: React.FC = () => {
                           </label>
                         </div>
                       </div>
-                      <div className="flex flex-row mb-[5px] pl-[2px]  relative w-full">
+                      <div className="flex  flex-col md:flex-row mb-[5px] pl-[2px]  relative w-full">
                         <div className="flex flex-row mb-[5px] pl-[2px]  ms-1 w-full">
                           <img
                             src={githubSVG}

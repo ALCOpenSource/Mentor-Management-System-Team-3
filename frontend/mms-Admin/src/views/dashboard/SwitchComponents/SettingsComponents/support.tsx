@@ -71,10 +71,10 @@ const SupportPage: React.FC = () => {
     }
   };
 
-  function addFile(fl:Blob) {attachedFiles.push(fl);}
+  function addFile(fl: Blob) { attachedFiles.push(fl); }
 
   function convertFile(files: FileList | null) {
-    try {      
+    try {
       if (files && files.length > 0) {
         for (let i = 0; i < files.length; i++) {
           const fileRef = files[i] || "";
@@ -104,149 +104,148 @@ const SupportPage: React.FC = () => {
   const pageRef = useRef<FormikProps<SupportModel>>(null);
 
   return (
-    <div>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-        innerRef={pageRef}
-      >
-        {({ errors, touched }) => (
-          <div>
-            <Form className="w-full profile-form">
-              <div className="mb-12">
-                <div className="flex flex-col relative p-10">
-                  <div className="flex flex-row  relative mb-3 w-full">
-                    <label
-                      className="text-label"
-                      style={{ width: "200px" }}
-                      htmlFor="name"
-                    >
-                      How can I help you?
-                    </label>
-                  </div>
-                  <div className="mb-5">
-                    <div className="flex flex-row  relative  w-full">
-                      <Field
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="Name"
-                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                        style={{ paddingTop: "7px", paddingBottom: "7px" }}
-                      />
-                    </div>
-                    <FormikValidationMessageComponent name="name" />
-                  </div>
-
-                  <div className="mb-5">
-                    <div className="flex flex-row  relative  w-full">
-                      <Field
-                        type="text"
-                        id="email"
-                        name="email"
-                        placeholder="Email"
-                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                        style={{ paddingTop: "7px", paddingBottom: "7px" }}
-                      />
-                    </div>
-                    <FormikValidationMessageComponent name="email" />
-                  </div>
-
-                  <div className="mb-5">
-                    <div className="flex flex-row  relative  w-full">
-                      <Field
-                        type="text"
-                        id="title"
-                        name="title"
-                        placeholder="Title"
-                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                        style={{ paddingTop: "7px", paddingBottom: "7px" }}
-                      />
-                    </div>
-                    <FormikValidationMessageComponent name="title" />
-                  </div>
-
-                  <div className="mb-0">
-                    <div className="flex flex-row  relative  w-full">
-                      <Field
-                        type="text"
-                        id="body"
-                        as="textarea"
-                        name="body"
-                        placeholder="Body"
-                        className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                        style={{
-                          paddingTop: "7px",
-                          paddingBottom: "7px",
-                          height: "120px",
-                        }}
-                      />
-                    </div>
-                    <FormikValidationMessageComponent name="body" />
-                  </div>
-                </div>
-                <div className="ms-5">
-                  <h5 className="text-1xl text-gray-two font-bold mt-4">
-                    {successMessage}
-                  </h5>
-
-                  <h5
-                    style={{ color: "orangered" }}
-                    className="text-1xl font-bold mt-4"
-                  >
-                    {errorMessage}
-                  </h5>
-                </div>
-                {successMessage?.length > 7
-                  && (<MessagePopUpPage
-                    persist={false}
-                    toggle={() => {
-                      setSuccessMessage("");
-                      setErrorMessage("");
-                      if (pageRef?.current?.values)
-                        pageRef.current.values = { title: "", email: "", body: "", userId: "", name: "", attachments: undefined };
-                    }}
-                    message={"Successfully send the message"} />
-                  )}
-                <div className="flex w-full">
-
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+      innerRef={pageRef}
+    >
+      {({ errors, touched }) => (
+        <div>
+          <Form className="w-full profile-form max-w-[895px]">
+            <div className="mb-12">
+              <div className="flex flex-col relative p-10">
+                <div className="flex flex-row  relative mb-3 w-full">
                   <label
-                    className="rounded-[10px] p-[10px] ps-[40px] ms-[5px] font-medium mt-0"
-                    htmlFor="uploadFile"
-                    style={{ marginRight: "auto" }}
+                    className="text-label"
+                    style={{ width: "200px" }}
+                    htmlFor="name"
                   >
-                    <img src={attachFileIcon} alt="Attach file icon"></img>
+                    How can I help you?
                   </label>
-                  <input
-                    type="file"
-                    id="uploadFile"
-                    name="uploadFile"
-                    className="hidden -z-50 absolute"
-                    onChange={(e) => convertFile(e.target.files)}
-                  />
-
-                  <div className="flex flex-col relative" style={{ marginRight: "auto" }}>
-                    {
-                      filebase64s.map((item, index) => (
-                        <label > {item} <span className="close-attached-icon"
-                          onClick={() => removeAttachedFileClick(item)}>
-                          x
-                        </span>
-                        </label>))
-                    }
+                </div>
+                <div className="mb-5">
+                  <div className="flex flex-row  relative  w-full">
+                    <Field
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Name"
+                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                    />
                   </div>
+                  <FormikValidationMessageComponent name="name" />
+                </div>
 
-                  <button
-                    type="submit"
-                    style={{ marginLeft: "auto", maxHeight: "40px" }}
-                    className="btn-primary mt-0"
-                  >
-                    Send
-                  </button>
+                <div className="mb-5">
+                  <div className="flex flex-row  relative  w-full">
+                    <Field
+                      type="text"
+                      id="email"
+                      name="email"
+                      placeholder="Email"
+                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                    />
+                  </div>
+                  <FormikValidationMessageComponent name="email" />
+                </div>
+
+                <div className="mb-5">
+                  <div className="flex flex-row  relative  w-full">
+                    <Field
+                      type="text"
+                      id="title"
+                      name="title"
+                      placeholder="Title"
+                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                    />
+                  </div>
+                  <FormikValidationMessageComponent name="title" />
+                </div>
+
+                <div className="mb-0">
+                  <div className="flex flex-row  relative  w-full">
+                    <Field
+                      type="text"
+                      id="body"
+                      as="textarea"
+                      name="body"
+                      placeholder="Body"
+                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      style={{
+                        paddingTop: "7px",
+                        paddingBottom: "7px",
+                        height: "120px",
+                      }}
+                    />
+                  </div>
+                  <FormikValidationMessageComponent name="body" />
                 </div>
               </div>
-            </Form>
+              <div className="ms-5">
+                <h5 className="text-1xl text-gray-two font-bold mt-4">
+                  {successMessage}
+                </h5>
+
+                <h5
+                  style={{ color: "orangered" }}
+                  className="text-1xl font-bold mt-4"
+                >
+                  {errorMessage}
+                </h5>
+              </div>
+              {successMessage?.length > 7
+                && (<MessagePopUpPage
+                  persist={false}
+                  toggle={() => {
+                    setSuccessMessage("");
+                    setErrorMessage("");
+                    if (pageRef?.current?.values)
+                      pageRef.current.values = { title: "", email: "", body: "", userId: "", name: "", attachments: undefined };
+                  }}
+                  message={"Successfully send the message"} />
+                )}
+              <div className="flex w-full">
+
+                <label
+                  className="rounded-[10px] p-[10px] ps-[40px] ms-[5px] font-medium mt-0"
+                  htmlFor="uploadFile"
+                  style={{ marginRight: "auto" }}
+                >
+                  <img src={attachFileIcon} alt="Attach file icon"></img>
+                </label>
+                <input
+                  type="file"
+                  id="uploadFile"
+                  name="uploadFile"
+                  className="hidden -z-50 absolute"
+                  onChange={(e) => convertFile(e.target.files)}
+                />
+
+                <div className="flex flex-col relative" style={{ marginRight: "auto" }}>
+                  {
+                    filebase64s.map((item, index) => (
+                      <label > {item} <span className="close-attached-icon font-bold pl-5 text-[20px] text-red-600"
+                        onClick={() => removeAttachedFileClick(item)}>
+                        x
+                      </span>
+                      </label>))
+                  }
+                </div>
+
+                <button
+                  type="submit"
+                  style={{ marginLeft: "auto", maxHeight: "40px" }}
+                  className="btn-primary mt-0"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+
             <div className="btn flex w-full" onClick={togglePopup}>
               <button
                 type="button"
@@ -260,10 +259,10 @@ const SupportPage: React.FC = () => {
                 <PopUpPage persist={true} content={<LiveChatPage />} toggle={togglePopup} />
               )}
             </div>
-          </div>
-        )}
-      </Formik>
-    </div>
+          </Form>
+        </div>
+      )}
+    </Formik>
   );
 };
 

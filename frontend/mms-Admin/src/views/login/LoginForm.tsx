@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import "./LoginForm.css";
 import FormikValidationMessageComponent from "./../../components/error-messages/formik-validation-message-component";
 import { UsernamePassword } from "../../services/redux/types/system-user";
 import { useAppDispatch } from "./../../services/redux/Store";
@@ -58,6 +57,7 @@ const PasswordPage: React.FC = () => {
   const handleSubmit = async (values: UsernamePassword) => {
     try {
       try {
+        setErrorMessage("");
         await dispatch(logoutCurrentUser());
          googleLogout();
       } catch (error) { console.log(error) }
@@ -81,7 +81,7 @@ const PasswordPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <div className="flex w-full h-screen flex-wrap">
+          <div className="flex w-full h-full flex-wrap">
             <div className="w-6/12 bg-green-three flex flex-col content-center justify-center">
               <figure className="flex flex-col items-center jusfify-center bg-green-three w-full">
                 <img className="w-60 h-50 mb-5" src={logo} alt="MMS Logo" />
@@ -91,9 +91,9 @@ const PasswordPage: React.FC = () => {
               </figure>
             </div>
             <Form className="w-6/12 flex flex-col content-center justify-center">
-              <div className="w-3/5 m-auto">
-                <h1 className="title-text">Welcome!</h1>
-                <p className="sub-title-text">Login to continue</p>
+              <div className="w-3/5 max-w-[426px] m-auto">
+                <h1 className="font-bold leading-0 mb-0 font-mukta text-[32px] text-customBlack-one">Welcome!</h1>
+                <p className="font-normal mb-9 font-mukta text-[24px] text-gray-two">Login to continue</p>
                 <div className="my-0">
                   <Field
                     type="text"
@@ -104,7 +104,7 @@ const PasswordPage: React.FC = () => {
                   />
                   <FormikValidationMessageComponent name="username" />
                 </div>
-                <div className="relative my-0">
+                <div className="relative my-0 mb-9">
                   <PasswordField
                     id="password"
                     name="password"
@@ -114,7 +114,7 @@ const PasswordPage: React.FC = () => {
                 </div>
                 <button
                   type="submit"
-                  className="btn-primary"
+                  className="btn-primary w-full"
                 >
                   Login
                 </button>

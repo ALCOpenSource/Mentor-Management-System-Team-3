@@ -80,106 +80,108 @@ const PasswordPage: React.FC = () => {
         innerRef={pageRef}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form  h-screen">
-            <div>
-              <div className="flex flex-col relative pt-10">
-                <div className="mb-5">
-                  <div className="flex flex-row  relative  w-full">
-                    <input type="hidden" id="userId" name="userId" />
-                    <input type="hidden" id="email" name="email" />
-                    <label
-                      className="text-label"
-                      style={{ width: "250px" }}
-                      htmlFor="currentpassword"
-                    >
-                      Current Password
-                    </label>
-                    <PasswordField
-                      id="currentPassword"
-                      name="currentPassword"
-                      placeholder="Your current password"
-                    />
+          <Form className="w-full profile-form  h-full absolute">
+            <div className="h-full max-w-[800px] max-h-[400px] w-full">
+              <div className="h-full w-full">
+                <div className="flex flex-col relative pt-10">
+                  <div className="mb-5">
+                    <div className="flex flex-row  relative  w-full">
+                      <input type="hidden" id="userId" name="userId" />
+                      <input type="hidden" id="email" name="email" />
+                      <label
+                        className="text-label"
+                        style={{ width: "250px" }}
+                        htmlFor="currentpassword"
+                      >
+                        Current Password
+                      </label>
+                      <PasswordField
+                        id="currentPassword"
+                        name="currentPassword"
+                        placeholder="Your current password"
+                      />
+                    </div>
+                    <FormikValidationMessageComponent name="currentPassword" />
                   </div>
-                  <FormikValidationMessageComponent name="currentPassword" />
-                </div>
 
-                <div className="mb-5">
-                  <div className="flex flex-row  relative  w-full">
-                    <label
-                      className="text-label"
-                      style={{ width: "250px" }}
-                      htmlFor="newPassword"
-                    >
-                      New Password
-                    </label>
-                    <PasswordField
-                      id="newPassword"
-                      name="newPassword"
-                      placeholder="Must be atleast 8 characters"
-                    />
+                  <div className="mb-5">
+                    <div className="flex flex-row  relative  w-full">
+                      <label
+                        className="text-label"
+                        style={{ width: "250px" }}
+                        htmlFor="newPassword"
+                      >
+                        New Password
+                      </label>
+                      <PasswordField
+                        id="newPassword"
+                        name="newPassword"
+                        placeholder="Must be atleast 8 characters"
+                      />
+                    </div>
+                    <FormikValidationMessageComponent name="newPassword" />
                   </div>
-                  <FormikValidationMessageComponent name="newPassword" />
-                </div>
 
-                <div className="mb-5">
-                  <div className="flex flex-row  relative  w-full">
-                    <label
-                      className="text-label"
-                      style={{ width: "250px" }}
-                      htmlFor="confirmPassword"
-                    >
-                      Confirm New Password
-                    </label>
-                    <PasswordField
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      placeholder="Must match you new password"
-                    />
+                  <div className="mb-5">
+                    <div className="flex flex-row  relative  w-full">
+                      <label
+                        className="text-label"
+                        style={{ width: "250px" }}
+                        htmlFor="confirmPassword"
+                      >
+                        Confirm New Password
+                      </label>
+                      <PasswordField
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Must match you new password"
+                      />
+                    </div>
+                    <FormikValidationMessageComponent name="confirmPassword" />
                   </div>
-                  <FormikValidationMessageComponent name="confirmPassword" />
                 </div>
               </div>
-            </div>
-            <div className="flex w-full">
-              <button
-                type="submit"
-                style={{ marginLeft: "auto" }}
-                className="btn-primary mt-1"
+              <div className="flex w-full">
+                <button
+                  type="submit"
+                  style={{ marginLeft: "auto" }}
+                  className="btn-primary mt-1"
+                >
+                  Save new password
+                </button>
+              </div>
+
+              {successMessage?.length > 7
+                && (<MessagePopUpPage
+                  persist={false}
+                  toggle={() => {
+                    setSuccessMessage("");
+                    setErrorMessage("");
+                    if (pageRef?.current?.values)
+                      pageRef.current.values = { currentPassword: "", newPassword: "", confirmPassword: "" };
+                  }}
+                  message={"Password Successfully Changed"} />
+                )}
+
+              <div className="flex w-full">
+                <a
+                  className="btn-secondary text-[15px] outline-none font-medium m-auto px-[8px] py-[12px]  text-green-three"
+                  href="/forgotpassword"
+                >
+                  Forgot password?
+                </a>
+              </div>
+              <h5 className="text-1xl text-gray-two font-bold mt-4">
+                {successMessage}
+              </h5>
+
+              <h5
+                style={{ color: "orangered" }}
+                className="text-1xl font-bold mt-4"
               >
-                Save new password
-              </button>
+                {errorMessage}
+              </h5>
             </div>
-
-            {successMessage?.length > 7
-              && (<MessagePopUpPage
-                persist={false}
-                toggle={() => {
-                  setSuccessMessage("");
-                  setErrorMessage("");
-                  if (pageRef?.current?.values)
-                    pageRef.current.values = { currentPassword: "", newPassword: "", confirmPassword: "" };
-                }}
-                message={"Password Successfully Changed"} />
-              )}
-
-            <div className="flex w-full">
-              <a
-                className="btn-secondary text-[15px] outline-none font-medium m-auto px-[8px] py-[12px]  text-green-three"
-                href="/forgotpassword"
-              >
-                Forgot password?
-              </a>
-            </div>
-            <h5 className="text-1xl text-gray-two font-bold mt-4">
-              {successMessage}
-            </h5>
-
-            <h5
-              style={{ color: "orangered" }}
-              className="text-1xl font-bold mt-4"
-            >
-              {errorMessage}
-            </h5>
           </Form>
         )}
       </Formik>

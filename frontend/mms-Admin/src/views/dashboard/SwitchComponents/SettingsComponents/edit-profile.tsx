@@ -165,7 +165,7 @@ const EditProfilePage: React.FC = () => {
                     Set Profile Picture
                   </h3>
                   <label
-                    className="btn-primary ms-11"
+                    className="btn-primary py-1 h-[42px] ms-11"
                     htmlFor="uploadFile"
                   >
                     Update Picture
@@ -329,7 +329,7 @@ const EditProfilePage: React.FC = () => {
               <button
                 type="submit"
                 style={{ marginLeft: "auto" }}
-                className="btn-primary mt-1"
+                className="btn-primary h-[50px] mt-1"
               >
                 Save Changes
               </button>
