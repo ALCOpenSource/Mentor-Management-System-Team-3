@@ -87,35 +87,33 @@ function Sidebar() {
 
   const { lastName, firstNames, role } = useAppSelector(selectCurrentUser);
   return (
-    <div>
-      <div className="flex">
-        <div className="flex w-64">
-          <div className="w-full">
-            <div className="flex flex-col items-start justify-center p-8">
-              <h2 className="text-customBlack-one font-bold text-[20px]">Hi, {lastName ?? firstNames}</h2>
-              <p className="text-gray-three text-left font-[16px] pl-1 mb-6">{role}</p>
-            </div>
-            {navMenuItems.map((item, i) => {
-              return (
-                <div
-                  key="i"
-                  className="flex items-stretch focus:bg-white focus:font-bold hover:bg-white py-2 text-justify"
-                >
-                  <NavLink
-                    to={item.route === "login" ? "/login" : `/dashboard/${item.route}`}
-                    className="relative px-8 w-full flex items-stretch focus:bg-white focus:font-bold active:bg-white"
-                  >
-                    <img
-                      src={item.icon}
-                      alt="profile logo"
-                      className="h-8 mr-5"
-                    />
-                    <span className="text-sm focus:bg-white focus:font-bold text-gray-one">{item.label}</span>
-                  </NavLink>
-                </div>
-              );
-            })}
+    <div className="flex h-full my-auto">
+      <div className="flex h-full w-64">
+        <div className="w-full h-full">
+          <div className="flex flex-col items-start justify-center p-8">
+            <h2 className="text-customBlack-one font-bold text-[20px]">Hi, {lastName ?? firstNames}</h2>
+            <p className="text-gray-three text-left font-[16px] pl-1 mb-6">{role}</p>
           </div>
+          {navMenuItems.map((item, i) => {
+            return (
+              <div
+                key="i"
+                className="flex items-stretch focus:bg-white focus:font-bold hover:bg-white py-[5px] text-justify"
+              >
+                <NavLink
+                  to={item.route === "login" ? "/login" : `/dashboard/${item.route}`}
+                  className="relative px-8 w-full flex items-stretch focus:bg-white focus:font-bold active:bg-white"
+                >
+                  <img
+                    src={item.icon}
+                    alt="profile logo"
+                    className="h-8 mr-5"
+                  />
+                  <span className="text-sm focus:bg-white focus:font-bold text-gray-one">{item.label}</span>
+                </NavLink>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

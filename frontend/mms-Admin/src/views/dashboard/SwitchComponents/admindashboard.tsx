@@ -48,14 +48,15 @@ function AdminDashboard() {
   }, [])
 
   return (
-    <section className="w-[calc(100%-300px)] h-full pt-5">
+    <div className="w-[calc(100%-255px)] h-[100%] absolute mx-auto my-auto">
+    <section className="w-full h-full scrollable-by-y pt-5">
       <h2 className="text-base ml-8 absolute font-bold">Dashboard</h2>
       <div className="h-[24px]" />
       <select value={"This Week"} className="text-[18px] absolute h-[32px] right-3 px-5 py-0 mt-[-25px] ml-[-50px] bg-lighterGreen-three mr-auto rounded-[5px]">
         {programsFilteringPeriod.map((item, i) => (<option value={item}>{item}</option>))}
       </select>
       <section>
-        <section className="flex flex-row w-full px-8 py-4 overflow-hidden overflow-y-hidden overflow-x-hidden ">
+        <section className="flex flex-row w-full px-8 overflow-x-hidden py-4">
           <section className="bg-green-three rounded-lg p-0 flex justify-start items-start mr-8 w-[194px] h-[92px]">
             <h3 className="text-[64px] text-white m-0 p-0 pl-[20px] font-bold">{noOfActivePrograms}</h3>
             <h3 className="text-white mt-4 pl-[12px] text-[20px] font-bold">
@@ -87,7 +88,7 @@ function AdminDashboard() {
         </section>
       </section>
 
-      <section className="mx-8 flex flex-col bg-lighterGreen-three rounded-lg h-[188px] p-4 mb-4">
+      <section className="mx-8 flex flex-col bg-lighterGreen-three rounded-lg h-[188px] overflow-x-hidden p-4 mb-4">
         <section className="flex flex-row items-center justify-between px-8">
           <h3 className="text-[18px] ml-[-30px] mt-[15px] absolute font-semibold">Programs Overview</h3>
           <button className="text-[18px] absolute h-[32px] hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300 right-3 px-5 py-0 mt-[15px] ml-[-50px] bg-white mr-auto rounded-[5px]"> {`${noOfProgramOverviews} Active`} </button>
@@ -116,7 +117,7 @@ function AdminDashboard() {
         </div>
       </section>
 
-      <section className="mx-8 flex flex-col bg-lighterGreen-three rounded-lg h-[161px] p-4 mb-4">
+      <section className="mx-8 flex flex-col bg-lighterGreen-three rounded-lg h-[161px] overflow-x-hidden p-4 mb-4">
         <section className="flex flex-row items-center justify-between px-8">
           <h3 className="text-[18px] ml-[-30px] mt-[15px] absolute font-semibold">Reports Overview</h3>
           <button className="text-[18px] absolute h-[32px] hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300 right-3 px-5 py-0 mt-[15px] ml-[-50px] bg-white mr-auto rounded-[5px]"> {`${noOfReportsOverviews} Reports Submited`} </button>
@@ -145,7 +146,7 @@ function AdminDashboard() {
       </section>
 
 
-      <section className="mx-8 flex flex-col bg-lighterGreen-three rounded-lg h-[341px] p-4 mb-4">
+      <section className="mx-8 flex flex-col bg-lighterGreen-three rounded-lg h-[341px] overflow-x-hidden p-4 mb-4">
         <section className="flex flex-row items-center justify-between px-8">
           <h3 className="text-[18px] ml-[-30px] mt-[15px] absolute font-semibold">Tasks Overview</h3>
           <button className="text-[18px] absolute h-[32px] hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300 right-3 px-5 py-0 mt-[15px] ml-[-50px] bg-white mr-auto rounded-[5px]"> {`${noOfReportsOverviews} Reports Submited`} </button>
@@ -202,6 +203,7 @@ function AdminDashboard() {
         </div>
       </section>
     </section>
+    </div>
   );
 }
 

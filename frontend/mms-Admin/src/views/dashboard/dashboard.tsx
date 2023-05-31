@@ -6,7 +6,7 @@ import Navbar from "../../components/shared/navbar";
 
 function Dashboard() {
   return (
-    <div className="flex flex-col w-[100vw] h-[100vh]">
+    <div className="flex absolute flex-col w-[100vw] h-[100vh]">
       <Navbar />
       <section className="flex h-[calc(100%-90px)]">
         <section className="border-solid h-full bg-lighterGreen-three">

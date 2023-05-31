@@ -35,7 +35,7 @@ function Navbar() {
   const avatarRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <nav className="relative flex flex-row w-full justify-between bg-green-three p-4">
+    <nav className="relative flex flex-row w-full justify-between bg-green-three px-4">
       <section className="flex flex-wrap items-center">
         <div className="relative flex justify-between items-center left-[55px] mr-20">
           <img src={logo} alt="MMS Logo" className="h-[69px] w-[69px] mr-2" />
