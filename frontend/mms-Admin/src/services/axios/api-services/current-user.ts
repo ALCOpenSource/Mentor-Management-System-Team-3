@@ -359,6 +359,7 @@ export const loginCurrentUserWIthGoogleApiAsync = async (
     })
     .then((data) => {
       const obj = data.data.data;
+      console.log("Dataa-", obj);
       role = obj.role ?? "Admin";
       token = obj.access_token;
       return obj;
@@ -372,6 +373,7 @@ export const loginCurrentUserWIthGoogleApiAsync = async (
       axiosWithBearer(token ?? "")
         .get("/users/me")
         .then((data) => {
+          console.log("Dataa-token", data);
           return data;
         })
         .catch((err) => {
@@ -418,19 +420,16 @@ export const loginCurrentUserWIthGoogleApiAsync = async (
         instagram: mx.socials?.instagram,
         twitter: mx.socials?.twitter,
       };
-      console.log("dsa e1", mx);
       const flag = getCountryFlag(loggedInUser.country ?? " ");
       const profilePic = userProfileImage;
       const userToken = token;
-      console.log("dsa e2", mx);
-
+ 
       loggedInUser = {
         ...loggedInUser,
         countryFlagIcon: flag,
         userImage: profilePic,
       };
 
-      console.log("dsa 3", loggedInUser);
       dispatch(updateLoggedInCurrentUser(loggedInUser));
       dispatch(updateLoggedInUserToken(userToken));
 

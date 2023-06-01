@@ -8,13 +8,13 @@ function Dashboard() {
   return (
     <div className="flex absolute flex-col w-[100vw] h-[100vh]">
       <Navbar />
-      <section className="flex h-[calc(100%-90px)]">
+      <section className="flex w-full h-full">
         <section className="border-solid h-full bg-lighterGreen-three">
           <Sidebar />
         </section>
-        <section className="border-solid mb-auto h-full">
-          <div className="w-[calc(100%-255px)] absolute h-full">
-            <div className="w-full p-0 m-0 relative h-full">
+        <section className="border-solid w-full h-full">
+          <div className="w-full absolute h-full">
+            <div className="w-[calc(100%-270px)] h-full p-0 m-0">
               <Outlet />
             </div>
           </div>

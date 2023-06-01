@@ -16,6 +16,11 @@ body {
   @apply bg-green-three cursor-pointer tracking-wider text-white rounded-[10px] p-[10px] pe-[40px] ps-[40px] min-h-[42px] font-semibold mt-0 overflow-hidden shadow-md leading-tight focus:outline-none relative hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;
 }
 
+.btn-animate {
+  @apply cursor-pointer shadow-md focus:outline-none hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;
+}
+
+
 .btn-secondary {
   @apply cursor-pointer tracking-wider leading-tight focus:outline-none relative hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;
 }

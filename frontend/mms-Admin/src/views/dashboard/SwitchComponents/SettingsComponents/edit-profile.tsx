@@ -297,16 +297,16 @@ const EditProfilePage: React.FC = () => {
                 </div>
 
                 <div className="mb-0 flex flex-row">
-                  <div className="flex flex-row w-full mb-[5px] pl-[2px]  relative w-full">
+                  <div className="flex flex-row  mb-[5px] pl-[2px]  relative w-full">
                     <label className="text-label" htmlFor="github">
                       Social
                     </label>
-                    <div className="flex ms-[-5px] flex-col w-full mb-[5px] pl-[2px]  relative w-full">
-                      <div className="flex flex-row w-full mb-[5px] pl-[2px]  relative w-full">
+                    <div className="flex ms-[-5px] flex-col mb-[5px] pl-[2px]  relative w-full">
+                      <div className="flex flex-row  mb-[5px] pl-[2px]  relative w-full">
                         <FieldWithIconLabel id="github" name="github" label="GitHub" icon={githubSVG} placeholder="@githubuser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-1 w-full" />
                         <FieldWithIconLabel id="instagram" name="instagram" label="Instagram" icon={instagramSVG} placeholder="@instagramuser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-6 w-full" />
                       </div>
-                      <div className="flex flex-row w-full mb-[5px] pl-[2px]  relative w-full">
+                      <div className="flex flex-row mb-[5px] pl-[2px]  relative w-full">
                         <FieldWithIconLabel id="linkedin" name="linkedin" label="LinkedIn" icon={linkedInSVG} placeholder="@linkedinuser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-1 w-full" />
                         <FieldWithIconLabel id="twitter" name="twitter" label="Twitter" icon={twitterSVG} placeholder="@twitteruser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-6 w-full" />
                       </div>
@@ -328,8 +328,7 @@ const EditProfilePage: React.FC = () => {
             <div className="flex w-full">
               <button
                 type="submit"
-                style={{ marginLeft: "auto" }}
-                className="btn-primary h-[50px] mt-1"
+                className="btn-primary h-[50px] ml-auto mt-1"
               >
                 Save Changes
               </button>

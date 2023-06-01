@@ -20,12 +20,14 @@ const PasswordPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+  const [isBusy, setIsBusy] = useState(false);
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Email is required please").email("It should be a valid email address"),
     password: Yup.string().required("Password is required please"),
   });
 
   const showErrorMessage = (tt: any) => {
+    setIsBusy(false);
     setErrorMessage(tt?.message ?? tt?.toString());
   };
   const googleLoginObj = useGoogleLogin({
@@ -57,16 +59,21 @@ const PasswordPage: React.FC = () => {
   const handleSubmit = async (values: UsernamePassword) => {
     try {
       try {
+        setIsBusy(true);
         setErrorMessage("");
         await dispatch(logoutCurrentUser());
         googleLogout();
       } catch (error) { console.log(error) }
-
+      setIsBusy(true);
       await dispatch(
         loginCurrentUser({
           ...values
         })
-      ).then(dd => navigate("/dashboard"))
+      ).then(dd => 
+        {           
+          navigate("/dashboard");
+          setIsBusy(false);
+        })
         .catch(err => { showErrorMessage(err) });
     } catch (error: any) {
       showErrorMessage(error?.message);
@@ -137,6 +144,9 @@ const PasswordPage: React.FC = () => {
                     />
                     <span className="mx-2">Sign in with Google</span>
                   </button>
+                  <div className="items-center mx-auto justify-center">
+                    <LoadingComponent isBusy={isBusy} />
+                  </div>
                   <h5
                     style={{ color: "orangered" }}
                     className="text-1xl font-bold mt-4"
@@ -144,10 +154,6 @@ const PasswordPage: React.FC = () => {
                     {errorMessage}
                   </h5>
                 </div>
-                <div className="items-center mx-auto justify-center bg-slate-700">
-                  <LoadingComponent isActive={false} />
-                </div>
-
               </div>
             </Form>
           </div>

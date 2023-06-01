@@ -92,7 +92,7 @@ function Sidebar() {
         <div className="w-full h-full">
           <div className="flex flex-col items-start justify-center p-8">
             <h2 className="text-customBlack-one font-bold text-[20px]">Hi, {lastName ?? firstNames}</h2>
-            <p className="text-gray-three text-left font-[16px] pl-1 mb-6">{role}</p>
+            <p className="text-gray-three text-left font-[16px] pl-1 mb-0">{role}</p>
           </div>
           {navMenuItems.map((item, i) => {
             return (
@@ -103,12 +103,16 @@ function Sidebar() {
                 <NavLink
                   to={item.route === "login" ? "/login" : `/dashboard/${item.route}`}
                   className="relative px-8 w-full flex items-stretch focus:bg-white focus:font-bold active:bg-white"
-                >
+                >                 
+                  <button type="button" className="relative inline-flex items-center p-0 m-0 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-non">
                   <img
                     src={item.icon}
                     alt="profile logo"
                     className="h-8 mr-5"
                   />
+                    <span className="sr-only">Notifications</span>
+                    <div className={`${item.route !== "messages" ? "hidden" : ""} absolute btn-animate inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-three border-0 border-white rounded-full -top-1 right-3 `}>20</div>
+                  </button>
                   <span className="text-sm focus:bg-white focus:font-bold text-gray-one">{item.label}</span>
                 </NavLink>
               </div>
