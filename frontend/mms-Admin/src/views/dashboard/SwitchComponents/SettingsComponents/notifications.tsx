@@ -1,17 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 //import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { Notification } from "../../../../services/redux/types/notification";
 import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentNotification, updateAllNotifications, updateNotificationItem } from "../../../../services/redux/slices/notification-slice";
+import LoadingComponent from "../../../../components/loading-components/loading-component";
+import { fetchNotificationsApiAsync } from "../../../../services/axios/api-services/notifications";
+import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 
 
 const NotificationPage: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const obj = useAppSelector(selectCurrentNotification);
+  const [isBusy, setIsBusy] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [currentNotification, setCurrentNotification] = useState(obj);
+  const token = useAppSelector(selectCurrentUserToken);
+
+  const showErrorMessage = (tt: any) => {
+    try {
+      setIsBusy(false);
+      setErrorMessage(tt?.message ?? tt);
+    } catch (err) {
+      setErrorMessage(tt);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotificationsApiAsync(token)
+    .then(notification =>{
+      updateAllNotifications(notification);
+      setCurrentNotification(notification);
+    }).catch(err => console.log(err))
+  }, [])
+
+
 
   const setNotification = async (key: string, value: boolean) => {
     var lastValue = Object.entries(currentNotification)
@@ -20,9 +46,17 @@ const NotificationPage: React.FC = () => {
     if (lastValue[1])
       return;
 
+    setErrorMessage("");
+    setSuccessMessage("");
+    setIsBusy(true);
+
     const obj = { ...currentNotification, [key]: value };
     setCurrentNotification(obj);
-    await dispatch(updateNotificationItem({ key, value, obj }));
+    await dispatch(updateNotificationItem({ key, value, obj }))
+      .then(ff => {
+        setIsBusy(false);
+        setSuccessMessage(`Changed ${key} successifully (${value})`)
+      }).catch(err => { showErrorMessage(err) });
   }
 
   const handleSubmit = async (values: Notification) => {
@@ -37,7 +71,7 @@ const NotificationPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form h-full">          
+          <Form className="w-full profile-form max-w-[900px] h-full">
             <div className="flex flex-col relative p-5">
               <div className="flex w-full">
                 <label className="text-[15px] outline-none font-bold p-[2px]">
@@ -45,18 +79,21 @@ const NotificationPage: React.FC = () => {
                 </label>
               </div>
               <div className="flex w-full">
-                <label                  
+                <label
                   className="text-[15px] outline-none font-bold p-[2px]"
                   style={{ marginLeft: "400px" }}
                 >
                   Email
                 </label>
                 <label
-                  className="text-[15px] outline-none font-bold p-[2px]"
+                  className="text-[15px] outline-none whitespace-nowrap font-bold p-[2px]"
                   style={{ marginLeft: "40px" }}
                 >
                   In-app
                 </label>
+                <div className="flex items-end justify-end flex-row w-full">
+                  <LoadingComponent isBusy={isBusy} />
+                </div>
               </div>
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
@@ -310,7 +347,7 @@ const NotificationPage: React.FC = () => {
                     onChange={(event) => setNotification("directMessagesInApp", event)}
                     isChecked={currentNotification.directMessagesInApp}
                   />
-                </div>
+                </div>               
               </div>
             </div>
           </Form>

@@ -14,10 +14,12 @@ import {
 import { changeCurrentUserPasswordApiAsync } from "../../../../services/axios/api-services/current-user";
 import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 import PasswordField from "../../../../components/passwordField";
+import LoadingComponent from "../../../../components/loading-components/loading-component";
 
 const PasswordPage: React.FC = () => {
   const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
   const token = useAppSelector(selectCurrentUserToken);
+  const [isBusy, setIsBusy] = useState(false);
   const initialValues: ChangePasswordDetails = {
     userId: userId,
     currentPassword: "",
@@ -32,6 +34,7 @@ const PasswordPage: React.FC = () => {
 
   const showErrorMessage = (tt: any) => {
     try {
+      setIsBusy(false);
       setErrorMessage(tt?.message ?? tt);
     } catch (err) {
       setErrorMessage(tt);
@@ -58,14 +61,19 @@ const PasswordPage: React.FC = () => {
 
   const handleSubmit = async (values: ChangePasswordDetails) => {
     try {
+      setErrorMessage("");
+      setSuccessMessage("");
+      setIsBusy(true);
       await
         changeCurrentUserPasswordApiAsync({
           ...values,
           userId: userId,
           username: email,
         }, token
-        ).then(ff => setSuccessMessage("Password has been changed successifully"))
-          .catch(err => { showErrorMessage(err) });
+        ).then(ff => {
+          setIsBusy(false);
+          setSuccessMessage("Password has been changed successifully")
+        }).catch(err => { showErrorMessage(err) });
     } catch (error: any) {
       showErrorMessage(error.message);
     }
@@ -80,7 +88,7 @@ const PasswordPage: React.FC = () => {
         innerRef={pageRef}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form  h-full absolute">
+          <Form className="w-full profile-form  max-w-[900px] h-full absolute">
             <div className="h-full max-w-[800px] max-h-[400px] w-full">
               <div className="h-full w-full">
                 <div className="flex flex-col relative pt-10">
@@ -170,6 +178,9 @@ const PasswordPage: React.FC = () => {
                 >
                   Forgot password?
                 </a>
+              </div>
+              <div className="flex items-end justify-end flex-row w-full">
+                <LoadingComponent isBusy={isBusy} />
               </div>
               <h5 className="text-1xl text-gray-two font-bold mt-4">
                 {successMessage}

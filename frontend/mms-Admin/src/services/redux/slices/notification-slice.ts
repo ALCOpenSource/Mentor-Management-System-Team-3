@@ -1,17 +1,18 @@
 import {
+  AsyncThunk,
   createAsyncThunk,
   createSelector,
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { RootState, useAppSelector } from "../Store";
-import { Notification } from "../types/notification";
 import {
   fetchNotificationsApiAsync,
   updateAllNotificationsApiAsync,
   updateNotificationItemApiAsync,
 } from "../../axios/api-services/notifications";
-import { selectCurrentUserNameSelector } from "./current-user-slice";
+import { selectCurrentUserNameSelector, selectCurrentUserToken } from "./current-user-slice";
+import { Notification } from "../../../services/redux/types/notification";
 
 interface CurrentNotificationState {
   notification: Notification;
@@ -68,8 +69,7 @@ export const fetchNotifications = createAsyncThunk(
   "current-notification/fetch-all-notifications",
   async (thunkAPI) => {
     return await fetchNotificationsApiAsync(
-      useAppSelector(selectCurrentUserNameSelector),
-      getEmptyNotification()
+      useAppSelector(selectCurrentUserToken)
     );
   }
 );

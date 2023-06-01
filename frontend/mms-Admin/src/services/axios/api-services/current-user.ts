@@ -18,7 +18,7 @@ import { Privacy } from "../../redux/types/privacy";
 import { Notification } from "../../redux/types/notification";
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails,
-  token: string
+  token?: string
 ) => {
   const data = {
     newPassword: userDetails.newPassword,
@@ -26,9 +26,9 @@ export const changeCurrentUserPasswordApiAsync = async (
     confirmNewPassword: userDetails.confirmPassword,
     userId: userDetails.userId,
   };
-
+ 
   const updatePassword = await axiosWithBearer(token ?? "")
-    .patch("/auth/change-password", data)
+    .patch("/auth/reset-password", data)
     .then((data) => {
       return userDetails;
     })
@@ -39,7 +39,19 @@ export const changeCurrentUserPasswordApiAsync = async (
 };
 
 export const resetCurrentUserPasswordApiAsync = async (userEmail: string) => {
-  return userEmail;
+  const updatePassword = await axiosWithoutBearer
+  .patch<{
+    data: { access_token: string; email: string; id: string; role: string };
+  }>("/auth/forgot-password", {
+    email: `${userEmail}`
+  })
+    .then((data) => {
+      return userEmail;
+    })
+    .catch((err) => {
+      throw err?.response?.data?.message ?? err;
+    });
+  return updatePassword;
 };
 
 export const updateCurrentUserApiAsync = async (
@@ -147,7 +159,7 @@ export const loginCurrentUserApiAsync = async (
   let role: string | undefined = undefined;
   let token: string | undefined = undefined;
 
-  const getToken = axiosWithoutBearer
+  return axiosWithoutBearer
     .post<{
       data: { access_token: string; email: string; id: string; role: string };
     }>("/auth/login", {
@@ -158,34 +170,34 @@ export const loginCurrentUserApiAsync = async (
       const obj = data.data.data;
       role = obj.role ?? "Admin";
       token = obj.access_token;
-      return obj;
+      return refreshCurrentUserApiAsync(token, role, dispatch);
     })
     .catch((err) => {
       throw err?.response?.data?.message ?? err;
     });
+};
 
-  const getUser = getToken
-    .then(() =>
-      axiosWithBearer(token ?? "")
+export const refreshCurrentUserApiAsync = async (
+  token: string,
+  role : string,
+  dispatch: ThunkDispatch<unknown, unknown, AnyAction>
+) => {  
+  const getUser = axiosWithBearer(token ?? "")
         .get("/users/me")
         .then((data) => {
           return data;
         })
         .catch((err) => {
           throw err?.response?.data?.message ?? err;
-        })
-    )
+        })    
     .catch((err) => {
       throw err?.response?.data?.message ?? err;
     });
 
-  const getUserAvatar = getToken
-    .then((tt) =>
-      axiosWithBearer(token ?? "").get("/users/avatar", {
+  const getUserAvatar = axiosWithBearer(token ?? "").get("/users/avatar", {
         responseType: "arraybuffer",
         responseEncoding: "base64",
       })
-    )
     .then((res) => {
       return Buffer.from(res.data, "base64");
     })
@@ -194,7 +206,6 @@ export const loginCurrentUserApiAsync = async (
       //   userDetails?.afterUnSuccessful(err);
     });
 
-  role = "Admin";
   const finalize = Promise.all([getUser, getUserAvatar])
     .then((userData) => {
       const mx = userData[0].data.data;
@@ -244,7 +255,6 @@ export const fetchPreferencesApiAsync = async (token: string) => {
   const preferences = axiosWithBearer(token ?? "")
     .get("/preferences")
     .then((data) => {
-      console.log("Miwa", data);
       const privacy: Privacy = {
         showContactInfo:
           data?.data?.privacyPreferences?.enableAllSocialLinksVisibility ??
@@ -349,7 +359,7 @@ export const loginCurrentUserWIthGoogleApiAsync = async (
   let role: string | undefined = undefined;
   let token: string | undefined = undefined;
 
-  const getToken = axiosWithoutBearer
+  return axiosWithoutBearer
     .post<{
       data: { access_token: string; email: string; id: string; role: string };
     }>("/auth/google/login", {
@@ -362,88 +372,13 @@ export const loginCurrentUserWIthGoogleApiAsync = async (
       console.log("Dataa-", obj);
       role = obj.role ?? "Admin";
       token = obj.access_token;
-      return obj;
+      return refreshCurrentUserApiAsync(token, role, dispatch);
     })
     .catch((err) => {
       throw err?.response?.data?.message ?? err;
     });
-
-  const getUser = getToken
-    .then(() =>
-      axiosWithBearer(token ?? "")
-        .get("/users/me")
-        .then((data) => {
-          console.log("Dataa-token", data);
-          return data;
-        })
-        .catch((err) => {
-          throw err?.response?.data?.message ?? err;
-        })
-    )
-    .catch((err) => {
-      throw err?.response?.data?.message ?? err;
-    });
-
-  const getUserAvatar = getToken
-    .then((tt) =>
-      axiosWithBearer(token ?? "").get("/users/avatar", {
-        responseType: "arraybuffer",
-        responseEncoding: "base64",
-      })
-    )
-    .then((res) => {
-      return Buffer.from(res.data, "base64");
-    })
-    .catch((err) => {
-      // if (userDetails?.afterUnSuccessful)
-      //   userDetails?.afterUnSuccessful(err);
-    });
-
-  role = "Admin";
-  const finalize = Promise.all([getUser, getUserAvatar])
-    .then((userData) => {
-      const mx = userData[0].data.data;
-      const userProfileImage = userData[1] ?? avatar;
-
-      let loggedInUser: SystemUser = {
-        userId: mx.userId,
-        firstNames: capitalizeEachWord(mx.firstName),
-        lastName: capitalizeEachWord(mx.lastName),
-        role: role ? capitalizeEachWord(role) : undefined,
-        website: mx.website,
-        bio: mx.bio,
-        country: capitalizeEachWord(mx.country),
-        city: capitalizeEachWord(mx.city),
-        email: mx.email,
-        github: mx.socials?.github,
-        linkedin: mx.socials?.linkedin,
-        instagram: mx.socials?.instagram,
-        twitter: mx.socials?.twitter,
-      };
-      const flag = getCountryFlag(loggedInUser.country ?? " ");
-      const profilePic = userProfileImage;
-      const userToken = token;
- 
-      loggedInUser = {
-        ...loggedInUser,
-        countryFlagIcon: flag,
-        userImage: profilePic,
-      };
-
-      dispatch(updateLoggedInCurrentUser(loggedInUser));
-      dispatch(updateLoggedInUserToken(userToken));
-
-      const user: LoggedInUser = {
-        user: loggedInUser,
-        userToken: userToken,
-      };
-      return user;
-    })
-    .catch((err) => {
-      throw err?.response?.data?.message ?? err;
-    });
-  return finalize;
 };
+
 // var options = {
 //   method: 'GET',
 //   url: 'https://api.pexels.com/v1/curated',

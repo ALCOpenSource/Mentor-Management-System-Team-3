@@ -16,23 +16,29 @@ import {
 import {
   selectCurrentUser,
   selectCurrentUserProfilePicture,
+  selectCurrentUserToken,
   updateCurrentUser,
   updateCurrentUserProfilePicture,
 } from "../../../../services/redux/slices/current-user-slice";
 import { countries } from "../../../../services/countries";
 import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 import FieldWithIconLabel from "../../../../components/FieldWithIconLabel";
+import { refreshCurrentUserApiAsync } from "../../../../services/axios/api-services/current-user";
+import LoadingComponent from "../../../../components/loading-components/loading-component";
 
 const EditProfilePage: React.FC = () => {
   const obj = useAppSelector(selectCurrentUser);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const token = useAppSelector(selectCurrentUserToken);
+  const [isBusy, setIsBusy] = useState(false);
   const [filebase64, setFileBase64] = useState<string>(
     useAppSelector(selectCurrentUserProfilePicture) ?? avatar
   );
 
   const showErrorMessage = (tt: any) => {
     try {
+      setIsBusy(false);
       setErrorMessage(tt?.message ?? tt);
     } catch (err) {
       setErrorMessage(tt);
@@ -88,7 +94,6 @@ const EditProfilePage: React.FC = () => {
       if (files) {
         const fileRef = files[0] || "";
         const fileType: string = fileRef.type || "";
-        console.log("This file upload is of type:", fileType);
         const reader = new FileReader();
         reader.readAsBinaryString(fileRef);
         reader.onload = async (ev: any) => {
@@ -136,8 +141,14 @@ const EditProfilePage: React.FC = () => {
   const dispatch = useAppDispatch();
   const handleSubmit = async (values: SystemUser) => {
     try {
+      setErrorMessage("");
+      setSuccessMessage("");
+      setIsBusy(true);
+      
       await dispatch(updateCurrentUser(values))
-        .then(tt => {
+        .then(async tt => {
+          setIsBusy(false);
+          await refreshCurrentUserApiAsync(token, values.role ?? "user", dispatch)
           setSuccessMessage("Successfully updated");
         })
         .catch(error => showErrorMessage(error));
@@ -152,7 +163,7 @@ const EditProfilePage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="profile-form">
+          <Form className="profile-form max-w-[900px]">
             <div className="row w-full mb-6">
               <div className="flex items-start justify-start w-full flex-row mt-[2%]">
                 <img
@@ -325,7 +336,9 @@ const EditProfilePage: React.FC = () => {
                 toggle={() => { setSuccessMessage(""); setErrorMessage("") }}
                 message={"Profile Successfully Saved"} />
               )}
-            <div className="flex w-full">
+
+            <div className="flex items-end justify-end flex-row w-full">
+              <LoadingComponent isBusy={isBusy} />
               <button
                 type="submit"
                 className="btn-primary h-[50px] ml-auto mt-1"
