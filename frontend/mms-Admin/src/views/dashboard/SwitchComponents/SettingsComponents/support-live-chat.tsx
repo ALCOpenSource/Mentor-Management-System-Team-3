@@ -16,7 +16,7 @@ import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 import PasswordField from "../../../../components/passwordField";
 import LoadingComponent from "../../../../components/loading-components/loading-component";
 
-const PasswordPage: React.FC = () => {
+const SupportLiveChatPage: React.FC = () => {
   const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
   const token = useAppSelector(selectCurrentUserToken);
   const [isBusy, setIsBusy] = useState(false);
@@ -200,4 +200,4 @@ const PasswordPage: React.FC = () => {
   );
 };
 
-export default PasswordPage;
+export default SupportLiveChatPage;

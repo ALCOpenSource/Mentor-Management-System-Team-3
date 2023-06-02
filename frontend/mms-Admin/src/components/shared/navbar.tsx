@@ -35,7 +35,7 @@ function Navbar() {
   const avatarRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <nav className="relative flex flex-row w-full justify-between bg-green-three p-4">
+    <nav className="relative flex flex-row w-full justify-between bg-green-three px-4">
       <section className="flex flex-wrap items-center">
         <div className="relative flex justify-between items-center left-[55px] mr-20">
           <img src={logo} alt="MMS Logo" className="h-[69px] w-[69px] mr-2" />
@@ -45,25 +45,32 @@ function Navbar() {
 
       </section>
       <section className="flex flex-row">
-        <div className={`w-full left-[45%] absolute items-stretch transform hover:translate-y-1 hover:bg-opacity-80 p-0 transition ease-out duration-300`}>
+        <div className={`w-full left-[calc(45%-100px)] absolute items-stretch transform hover:translate-y-1 hover:bg-opacity-80 p-0 transition ease-out duration-300`}>
           <img
             src={search}
             alt="search button logo"
-            className="absolute mx-5 my-7"
+            className="absolute mx-5 my-6"
           />
           <input
             type="text"
             id="globalSearch"
             name="globalSearch"
             placeholder="Search for anything"
-            className="border-2 mt-4 border-lightGray-two w-[37%] py-3 px-12 rounded-[5px] text-[16px] "
+            className="border-2 mt-2 border-lightGray-two w-[37%] py-3 px-12 rounded-[5px] text-[16px] "
           />
         </div>
-        <div className="flex flex-row items-center justify-between mr-2">
-          <span className="flex flex-row mx-4" >  <img src={chats} alt="Chats Icon" />   <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">3</span></sub></span>
+        <div className="flex flex-row items-center min-w-[100px] justify-between mr-2">
+          <button type="button" className="relative inline-flex items-center p-3 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-non">
+          <img className="btn-animate" src={chats} alt="Chats Icon" />
+            <span className="sr-only">Notifications</span>
+            <div className="absolute btn-animate inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-three border-0 border-white rounded-full -top-1 -right-1 ">3</div>
+          </button>
 
-          <span className="flex flex-row mx-4" >  <img src={notifications} alt="Notifications Icon" />  <sub className="right-2 w-4 h-4"><span className="bg-red-four text-white rounded-full p-1">15</span></sub></span>
-
+          <button type="button" className="relative inline-flex items-center p-3 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-non">
+          <img className="btn-animate" src={notifications} alt="Chats Icon" />
+            <span className="sr-only">Notifications</span>
+            <div className="absolute btn-animate inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-three border-0 border-white rounded-full -top-1 -right-1 ">15</div>
+          </button>
           <button
             type="button"
             ref={avatarRef}

@@ -13,7 +13,7 @@ function SignupForm1() {
 
 
     return (
-        <div className="w-full h-screen">
+        <div className="w-full h-full">
             <div className="bg-green-three relative flex flex-wrap items-center p-4 mb-6">
                 <img src={logo} alt="MMS Logo" className="h-8 mr-2" />   
                 <span className="text-3xl text-white">Mentor Managers System</span>

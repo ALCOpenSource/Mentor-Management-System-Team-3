@@ -11,7 +11,7 @@ import {
   updateAllPrivaciesApiAsync,
   updatePrivacyItemApiAsync,
 } from "../../axios/api-services/privacy";
-import { selectCurrentUserNameSelector } from "./current-user-slice";
+import { selectCurrentUserToken } from "./current-user-slice";
 
 interface CurrentPrivacyState {
   privacy: Privacy;
@@ -57,8 +57,7 @@ export const fetchPrivacies = createAsyncThunk(
   "current-privacy/fetch-all-privacies",
   async (thunkAPI) => {
     return await fetchPrivaciesApiAsync(
-      useAppSelector(selectCurrentUserNameSelector),
-      getEmptyPrivacy()
+      useAppSelector(selectCurrentUserToken)
     );
   }
 );

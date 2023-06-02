@@ -40,11 +40,11 @@ const NotificationPage: React.FC = () => {
   };
 
   return (
-    <div className="h-full w-full max-h-full">
+    <div className="h-full w-full relative max-w-[895px]">
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({ errors, touched }) => (
-          <div className="h-full w-full max-h-full">
-            <div style={{ maxHeight: "50%" }} className="flex flex-col p-0">
+          <div className="h-full w-full max-w-[1095px]">
+            <div style={{ maxHeight: "50%" }} className="flex flex-col max-w-[1095px] p-0">
               <label
                 className="text-[15px] outline-none font-bold p-[2px]"
                 style={{ fontSize: "20px" }}
@@ -59,7 +59,7 @@ const NotificationPage: React.FC = () => {
 
             <div style={{ maxHeight: "50%" }} className="flex flex-col p-0">
               <label
-                className="text-[15px] outline-none font-bold p-[2px]"
+                className="text-[15px] outline-none my-3 font-bold p-[2px]"
                 style={{ fontSize: "20px" }}
               >
                 Technical FAQ
