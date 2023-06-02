@@ -18,7 +18,7 @@ export const sendSupportMessageApiAsync = async (
             headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
-            console.log("Sending message");
+            //console.log("Sending message");
             return data;
         })
         .catch((err) => {
