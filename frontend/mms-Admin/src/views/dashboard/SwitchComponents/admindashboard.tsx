@@ -23,16 +23,13 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const programsFilteringPeriod = ["Today", "This Week", "This Month", "This Year"]
 
-  const fetch = () => {
-    return [
-      fetchDashboardActiveProgramsApiAsync(token),
+  useEffect(() => {
+    Promise.all(
+      [fetchDashboardActiveProgramsApiAsync(token),
       fetchDashboardTasksApiAsync(token),
       fetchDashboardProgramsOverviewApiAsync(token),
       fetchDashboardReportsOverviewApiAsync(token)]
-  };
-
-  useEffect(() => {
-    Promise.all(fetch()).then(result => {
+      ).then(result => {
       updateDashboardActiveProgramsAction(result[0]);
       updateDashboardTasksAction(result[1]);
       updateDashboardProgramsOverviewAction(result[2]);
@@ -45,7 +42,7 @@ function AdminDashboard() {
       setProgramOverview(result[2] ?? []);
       setTasksOverview(result[1] ?? []);
     }).catch(err => console.log(err))
-  }, [])
+  }, [token])
 
   return (
     <div className="w-full h-full ml-0 my-auto overflow-x-hidden">

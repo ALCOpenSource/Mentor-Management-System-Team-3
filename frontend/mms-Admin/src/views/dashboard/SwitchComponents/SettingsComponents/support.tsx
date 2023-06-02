@@ -1,11 +1,10 @@
 import React, { useRef, useState } from "react";
 import { Formik, Form, Field, FormikProps } from "formik";
 import * as Yup from "yup";
-//import "../index.css";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
 import liveChatIcon from "../../../../assets/images/LiveChat.svg";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
-import PopUpPage from "./pop-up-page";
+//import PopUpPage from "./pop-up-page";
 import LiveChatPage from "./live-chats-page";
 import { sendSupportMessageApiAsync } from "../../../../services/axios/api-services/support";
 import { useAppSelector } from "../../../../services/redux/Store";
