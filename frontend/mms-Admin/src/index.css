@@ -20,7 +20,6 @@ body {
   @apply cursor-pointer focus:outline-none hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;
 }
 
-
 .btn-secondary {
   @apply cursor-pointer tracking-wider leading-tight focus:outline-none relative hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;
 }
