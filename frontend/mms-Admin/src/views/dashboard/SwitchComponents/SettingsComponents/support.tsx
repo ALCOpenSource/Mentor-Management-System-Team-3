@@ -36,7 +36,7 @@ const SupportPage: React.FC = () => {
   const [filebase64s, setFileBase64s] = useState<string[]>([]);
   const [isBusy, setIsBusy] = useState(false);
   let attachedFiles: Blob[] = [];
-
+  const chatDialogRef = useRef<HTMLDialogElement>(null);
 
   const validationSchema = Yup.object().shape({
     body: Yup.string().required("Message is required please"),
@@ -109,8 +109,12 @@ const SupportPage: React.FC = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const togglePopup = () => {
+  const toggleChatDialogPopup = () => {
     setIsOpen(!isOpen);
+    const dialog = chatDialogRef.current as HTMLDialogElement;
+    if (isOpen)
+      dialog.show()
+    else dialog.close()
   };
   const pageRef = useRef<FormikProps<SupportModel>>(null);
 
@@ -122,10 +126,10 @@ const SupportPage: React.FC = () => {
       innerRef={pageRef}
     >
       {({ errors, touched }) => (
-        <div>
+        <div className="w-full h-full">
           <Form className="w-full profile-form max-w-[895px]">
             <div className="mb-12">
-              <div className="flex flex-col relative p-10">
+              <div className="flex flex-col relative px-10">
                 <div className="flex flex-row  relative mb-3 w-full">
                   <label
                     className="text-label"
@@ -220,7 +224,6 @@ const SupportPage: React.FC = () => {
                   message={"Successfully send the message"} />
                 )}
               <div className="flex w-full">
-
                 <label
                   className="rounded-[10px] p-[10px] ps-[40px] ms-[5px] font-medium mt-0"
                   htmlFor="uploadFile"
@@ -260,18 +263,20 @@ const SupportPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="btn flex w-full" onClick={togglePopup}>
+            <div className="btn flex w-full" onClick={toggleChatDialogPopup}>
               <button
                 type="button"
                 style={{ marginLeft: "auto" }}
-                onClick={togglePopup}
-                className="btn-secondary rounded-[10px] p-[10px] pe-[40px] mt-[50px] font-medium mt-0"
+                onClick={toggleChatDialogPopup}
+                className="btn-secondary rounded-[10px] p-[10px] pe-[40px] mt-[10px] font-medium"
               >
-                <img src={liveChatIcon} alt="Attach file icon"></img>
+                <div className="p-5 h-[66px] w-[66px] bg-lighterGreen-two items-center justify-center rounded-full" > <img src={liveChatIcon} alt="Attach file icon"></img></div>
               </button>
-              {isOpen && (
-                <PopUpPage persist={true} content={<LiveChatPage />} toggle={togglePopup} />
-              )}
+              <dialog className="absolute top-0 right-[300px] mr-0 bg-white z-50" ref={chatDialogRef} >
+                <div className="w-[450px] z-50 h-[700px]">
+                  <LiveChatPage />
+                </div>
+              </dialog>
             </div>
           </Form>
         </div>
