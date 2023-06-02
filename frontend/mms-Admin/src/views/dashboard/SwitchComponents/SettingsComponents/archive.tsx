@@ -1,14 +1,12 @@
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import { getArchivesApiAsync } from "../../../../services/axios/api-services/archives";
-import { Field, FieldArray, Form, Formik } from 'formik';
+import { FieldArray, Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
 import { object, array, string } from 'yup';
 import googleIconSVG from '../../../../assets/images/programs/GoogleIcon.svg';
-import searchIconSVG from '../../../../assets/images/search.svg';
 import Calender from '../../../../assets/images/programs/Calender.svg';
-import TimerIn from '../../../../assets/images/programs/TimerIn.svg';
-import TimerOut from '../../../../assets/images/programs/TimerOut.svg';
+import Timer from '../../../../assets/images/time.svg';
 import NavigationFirst from '../../../../assets/images/programs/NavigationFirst.svg';
 import NavigationLast from '../../../../assets/images/programs/NavigationLast.svg';
 import NavigationNext from '../../../../assets/images/programs/NavigationNext.svg';
@@ -64,15 +62,15 @@ const App: React.FC = () => {
           ),
         })}
         render={({ handleSubmit, errors, touched, values }) => (
-          <Form className="w-full h-full">
-            <div className="flex flex-row items-start mr-auto right-0 px-[5px] max-w-[557px] py-[10px] gap-[14px] relative h-[57px] top-[-37px]">
+          <Form className="w-full ml-5 max-w-[900px] h-full">
+            <div className="flex btn-animate flex-row items-start ml-auto right-0 px-[5px] max-w-[557px] py-[1px] gap-[14px] relative h-[57px] top-[-37px]">
               <SearchBox
                 id="searchArchive"
                 name="searchArchive"
                 placeholder="Search archive"
                 extraStyles="h-[38px] rounded-[5px] "
               />              
-              <div className="mt-5 min-w-[250px]">
+              <div className="mt-5 min-w-[250px] items-center justify-center">
                 <button type="button" className="btn-secondary navigation-button">
                   <img
                     src={NavigationFirst}
@@ -88,7 +86,7 @@ const App: React.FC = () => {
                     className="w-[20px] mx-1 h-[20px]"
                   />
                 </button>
-                <label className="text-label text-[16px] whitespace-nowrap " htmlFor="github">
+                <label className="text-label text-[16px] top-0 whitespace-nowrap " htmlFor="github">
                   1 - 10 of 20
                 </label>
                 <button type="button" className="btn-secondary navigation-button">
@@ -109,7 +107,7 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            <div className="w-full profile-form archives-items-container h-full">
+            <div className="w-full profile-form mt-[-20px] scrollable-by-y h-full">
               <FieldArray
                 name="programs"
                 render={(helpers) => (
@@ -122,20 +120,20 @@ const App: React.FC = () => {
                         ) => (
                           <React.Fragment key={index}>
                             <label htmlFor="pet" className="w-full">
-                              <div className="program-border flex flex-row mt-[10px]">
+                              <div className="border-[1px] border-gray-300 focus:border-lighterGreen-three hover:border-lighterGreen-two rounded-[5px] flex flex-row h-[71px] mt-[10px]">
                                 <img
                                   src={program.icon}
                                   alt="profile logo"
-                                  className="program-icon"
+                                  className="w-[47px] mt-[11.39px] ml-[30.78px] h-[49px]"
                                 />
                                 <div className="w-full">
                                   <label
-                                    className="pt-0 main-sub-title text-sm text-customBlack-two"
+                                    className="pt-0 text-[20px] font-bold relative top-3 left-7 text-customBlack-two"
                                     htmlFor="about"
                                   >
                                     {program.name}
                                   </label>
-                                  <div className="flex flex-row mt-2 relative  w-full">
+                                  <div className="flex flex-row mt-2 left-7 relative  w-full">
                                     <button
                                       type="button"
                                       className="btn-secondary calender-button"
@@ -143,11 +141,11 @@ const App: React.FC = () => {
                                       <img
                                         src={Calender}
                                         alt="Attach file icon"
-                                        className="calender-icon"
+                                        className="w-[16.67px] h-[16.67px] mt-[2px]"
                                       />
                                     </button>
                                     <label
-                                      className="small-text"
+                                      className="text-[12px] text-gray-two ml-3 mt-[1px]"
                                       htmlFor="about"
                                     >
                                       {getShortDate(program.date)}
@@ -155,83 +153,17 @@ const App: React.FC = () => {
 
                                     <button
                                       type="button"
-                                      className="btn-secondary timer-button"
+                                      className="btn-secondary timer-button ml-8"
                                     >
                                       <img
-                                        src={TimerIn}
-                                        alt="Attach file icon"
-                                        className="calender-icon p-1"
+                                        src={Timer}
+                                        alt="Timer icon"
+                                        className="w-[16.67px] h-[16.67px] mt-[2px]"
                                         style={{ left: "2px", bottom: "3px" }}
                                       />
-                                      <img
-                                        src={TimerOut}
-                                        alt="Attach file icon"
-                                        className="calender-icon"
-                                      />
                                     </button>
                                     <label
-                                      className="small-text"
-                                      style={{ left: "302px" }}
-                                      htmlFor="about"
-                                    >
-                                      {getShortTime(program.date)}
-                                    </label>
-                                  </div>
-                                </div>
-                                <button
-                                  type="button"
-                                  className="dropdown-button"
-                                >
-                                  <img
-                                    src={DropdownListIcon}
-                                    alt="Attach file icon"
-                                    className="btn-secondary dropdown-icon"
-                                  />
-                                </button>
-                                <div className="w-full">
-                                  <label
-                                    className="program-title pt-0"
-                                    htmlFor="about"
-                                  >
-                                    {program.name}
-                                  </label>
-                                  <div className="flex flex-row mt-2 relative  w-full">
-                                    <button
-                                      type="submit"
-                                      className="calender-button"
-                                    >
-                                      <img
-                                        src={Calender}
-                                        alt="Attach file icon"
-                                        className="calender-icon"
-                                      />
-                                    </button>
-                                    <label
-                                      className="small-text"
-                                      htmlFor="about"
-                                    >
-                                      {getShortDate(program.date)}
-                                    </label>
-
-                                    <button
-                                      type="submit"
-                                      className="timer-button"
-                                    >
-                                      <img
-                                        src={TimerIn}
-                                        alt="Attach file icon"
-                                        className="calender-icon p-1"
-                                        style={{ left: '2px', bottom: '3px' }}
-                                      />
-                                      <img
-                                        src={TimerOut}
-                                        alt="Attach file icon"
-                                        className="calender-icon"
-                                      />
-                                    </button>
-                                    <label
-                                      className="small-text"
-                                      style={{ left: '302px' }}
+                                      className="text-[12px] text-gray-two ml-3 mt-[1px]"
                                       htmlFor="about"
                                     >
                                       {getShortTime(program.date)}

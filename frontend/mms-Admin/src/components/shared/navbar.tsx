@@ -45,7 +45,7 @@ function Navbar() {
 
       </section>
       <section className="flex flex-row">
-        <div className={`w-full left-[45%] absolute items-stretch transform hover:translate-y-1 hover:bg-opacity-80 p-0 transition ease-out duration-300`}>
+        <div className={`w-full left-[calc(45%-100px)] absolute items-stretch transform hover:translate-y-1 hover:bg-opacity-80 p-0 transition ease-out duration-300`}>
           <img
             src={search}
             alt="search button logo"
@@ -59,7 +59,7 @@ function Navbar() {
             className="border-2 mt-2 border-lightGray-two w-[37%] py-3 px-12 rounded-[5px] text-[16px] "
           />
         </div>
-        <div className="flex flex-row items-center justify-between mr-2">
+        <div className="flex flex-row items-center min-w-[100px] justify-between mr-2">
           <button type="button" className="relative inline-flex items-center p-3 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-non">
           <img className="btn-animate" src={chats} alt="Chats Icon" />
             <span className="sr-only">Notifications</span>

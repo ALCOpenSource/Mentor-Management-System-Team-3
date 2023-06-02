@@ -3,38 +3,40 @@ import { Formik, Form } from "formik";
 //import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
-import { selectCurrentPrivacy, updateAllPrivacies, updatePrivacyItem } from "../../../../services/redux/slices/privacy-slice";
+import { selectCurrentPrivacy, updateAllPrivacies, updateAllPrivaciesAction, updatePrivacyItem } from "../../../../services/redux/slices/privacy-slice";
 import { Privacy } from "../../../../services/redux/types/privacy";
 import { capitalizeEachWord } from "../../../../services/generalFunctions";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
-import { getApiData } from "../../../../services/axios/axios-services";
+import LoadingComponent from "../../../../components/loading-components/loading-component";
+import { fetchPrivaciesApiAsync } from "../../../../services/axios/api-services/privacy";
 
 const PrivacyPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const obj = useAppSelector(selectCurrentPrivacy);
   const [currentPrivacy, setCurrentPrivacy] = useState(obj);
+  const [isBusy, setIsBusy] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const token = useAppSelector(selectCurrentUserToken);
 
   const showErrorMessage = (tt: any) => {
     try {
+      setIsBusy(false);
       setErrorMessage(tt?.message ?? tt);
     } catch (err) {
       setErrorMessage(tt);
     }
   };
 
-  useEffect(() =>{    
+  useEffect(() => {
     try {
       setErrorMessage("");
       setSuccessMessage("");
-      
-      getApiData("/preferences/general", token)
-      .then(obj =>
-        {
-         console.log("grgr", obj);
-         //const privacy = useAppSelector(selectCurrentUserToken);
+
+      fetchPrivaciesApiAsync(token)
+        .then(obj => {
+          updateAllPrivaciesAction(obj);
+          setCurrentPrivacy(obj);
         })
         .catch(err => { showErrorMessage(err) });
     } catch (error) { showErrorMessage(error) }
@@ -42,19 +44,24 @@ const PrivacyPage: React.FC = () => {
 
   const setPrivacy = async (key: string, value: boolean) => {
     try {
+
       setErrorMessage("");
       setSuccessMessage("");
+      setIsBusy(true);
 
       var lastValue = Object.entries(currentPrivacy)
         .filter(n => n[0] === key && n[1] === value);
 
-      if (lastValue[1])         
+      if (lastValue[1])
         return;
-      
-      const obj = { ...currentPrivacy, [key]: value };
-      setCurrentPrivacy(obj);
+
+      const obj = { ...currentPrivacy, [key]: value };    
       await dispatch(updatePrivacyItem({ key, value, obj })
-      ).then(ff => setSuccessMessage(`Successfully saved ${capitalizeEachWord(key)}  (${value})`.replace("Show", "Show ")))
+      ).then(ff => {
+        setIsBusy(false);
+        setCurrentPrivacy(obj);
+        setSuccessMessage(`Successfully saved ${capitalizeEachWord(key)}  (${value})`.replace("Show", "Show "))
+      })
         .catch(err => { showErrorMessage(err) });
     } catch (error) { showErrorMessage(error) }
   }
@@ -64,7 +71,7 @@ const PrivacyPage: React.FC = () => {
   };
 
   const toggleSwitchLabel = "outline-none font-medium p-[2px]";
-  
+
   return (
     <div>
       <Formik
@@ -72,7 +79,7 @@ const PrivacyPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form  h-full">
+          <Form className="w-full profile-form max-w-[900px] h-full">
             <div className="flex flex-col relative p-5">
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
@@ -88,6 +95,9 @@ const PrivacyPage: React.FC = () => {
                     isChecked={currentPrivacy.showContactInfo}
                     onChange={(event) => setPrivacy("showContactInfo", event)}
                   />
+                  <div className="flex items-end absolute justify-end flex-row w-full">
+                    <LoadingComponent isBusy={isBusy} />
+                  </div>
                 </div>
               </div>
 

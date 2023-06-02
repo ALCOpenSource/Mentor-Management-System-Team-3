@@ -49,7 +49,7 @@ function Settings() {
                   to={`/dashboard/settings/${item.route}`}
                   className="relative mx-auto focus:font-bold focus:bg-white hover:bg-white w-[100%] active:bg-white"
                 >
-                  <span className="text-sm w-[100%] focus:font-bold focus:bg-white hover:bg-white text-gray-one">{item.label}</span>
+                  <span className="text-sm btn-animate w-[100%] focus:font-bold focus:bg-white hover:bg-white text-gray-one">{item.label}</span>
                 </NavLink>
               </div>
             );

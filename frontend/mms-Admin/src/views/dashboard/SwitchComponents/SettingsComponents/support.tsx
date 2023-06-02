@@ -11,6 +11,7 @@ import { sendSupportMessageApiAsync } from "../../../../services/axios/api-servi
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import MessagePopUpPage from "../../../../components/messages/message-pop-up";
+import LoadingComponent from "../../../../components/loading-components/loading-component";
 export interface SupportModel {
   userId: string;
   name: string;
@@ -33,6 +34,7 @@ const SupportPage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [filebase64s, setFileBase64s] = useState<string[]>([]);
+  const [isBusy, setIsBusy] = useState(false);
   let attachedFiles: Blob[] = [];
 
 
@@ -45,6 +47,7 @@ const SupportPage: React.FC = () => {
 
   const showErrorMessage = (tt: any) => {
     try {
+      setIsBusy(false);
       setErrorMessage(tt?.message ?? tt);
     } catch (err) {
       setErrorMessage(tt);
@@ -54,9 +57,13 @@ const SupportPage: React.FC = () => {
   const token = useAppSelector(selectCurrentUserToken);
   const handleSubmit = async (values: SupportModel) => {
     try {
+      setErrorMessage("");
+      setSuccessMessage("");
+      setIsBusy(true);
       var file = attachedFiles[0];
       await sendSupportMessageApiAsync({ ...values, attachments: file }, token)
         .then(tt => {
+          setIsBusy(false);
           setSuccessMessage("Successfully sent");
         })
         .catch(error => showErrorMessage(error));
@@ -71,7 +78,10 @@ const SupportPage: React.FC = () => {
     }
   };
 
-  function addFile(fl: Blob) { attachedFiles.push(fl); }
+  function addFile(fl: Blob) {
+    //attachedFiles.push(fl); 
+    attachedFiles = [fl];
+  }
 
   function convertFile(files: FileList | null) {
     try {
@@ -84,9 +94,10 @@ const SupportPage: React.FC = () => {
             try {
               const file = ev.target.result;
               // convert it to base64
-              var files = filebase64s ?? [];
+              //var files = filebase64s ?? [];
               addFile(file);
-              setFileBase64s([...files, fileRef.name]);
+              //setFileBase64s([...files, fileRef.name]);
+              setFileBase64s([fileRef.name]);
             } catch (error) { console.log(error) }
           }
         };
@@ -228,12 +239,15 @@ const SupportPage: React.FC = () => {
                 <div className="flex flex-col relative" style={{ marginRight: "auto" }}>
                   {
                     filebase64s.map((item, index) => (
-                      <label > {item} <span className="close-attached-icon font-bold pl-5 text-[20px] text-red-600"
+                      <label > {item} <span className="close-attached-icon whitespace-nowrap font-bold pl-5 text-[20px] text-red-600"
                         onClick={() => removeAttachedFileClick(item)}>
                         x
                       </span>
                       </label>))
                   }
+                </div>
+                <div className="flex absolute items-end justify-end flex-row w-full">
+                  <LoadingComponent isBusy={isBusy} />
                 </div>
 
                 <button

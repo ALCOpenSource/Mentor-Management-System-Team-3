@@ -1,5 +1,5 @@
-import { useState, type FC } from 'react';
-import searchIconSVG from "./../assets/images/search.svg";
+import { type FC } from 'react';
+import searchIconSVG from "./../assets/images/search-green.svg";
 import { Field } from 'formik';
 
 interface SearchBoxProps {

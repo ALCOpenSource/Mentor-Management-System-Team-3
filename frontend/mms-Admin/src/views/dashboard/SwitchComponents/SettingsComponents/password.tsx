@@ -72,7 +72,7 @@ const PasswordPage: React.FC = () => {
         }, token
         ).then(ff => {
           setIsBusy(false);
-          setSuccessMessage("Password has been changed successifully")
+          setSuccessMessage("Password has been changed successfully")
         }).catch(err => { showErrorMessage(err) });
     } catch (error: any) {
       showErrorMessage(error.message);

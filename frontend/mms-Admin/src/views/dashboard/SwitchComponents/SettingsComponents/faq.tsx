@@ -59,7 +59,7 @@ const NotificationPage: React.FC = () => {
 
             <div style={{ maxHeight: "50%" }} className="flex flex-col p-0">
               <label
-                className="text-[15px] outline-none font-bold p-[2px]"
+                className="text-[15px] outline-none my-3 font-bold p-[2px]"
                 style={{ fontSize: "20px" }}
               >
                 Technical FAQ

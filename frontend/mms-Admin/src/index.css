@@ -17,7 +17,7 @@ body {
 }
 
 .btn-animate {
-  @apply cursor-pointer shadow-md focus:outline-none hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;
+  @apply cursor-pointer focus:outline-none hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300;
 }
 
 

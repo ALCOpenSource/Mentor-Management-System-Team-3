@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
-//import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { Notification } from "../../../../services/redux/types/notification";
 import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
@@ -31,11 +30,11 @@ const NotificationPage: React.FC = () => {
 
   useEffect(() => {
     fetchNotificationsApiAsync(token)
-    .then(notification =>{
-      updateAllNotifications(notification);
-      setCurrentNotification(notification);
-    }).catch(err => console.log(err))
-  }, [])
+      .then(notification => {
+        updateAllNotifications(notification);
+        setCurrentNotification(notification);
+      }).catch(err => console.log(err))
+  }, [token])
 
 
 
@@ -51,11 +50,12 @@ const NotificationPage: React.FC = () => {
     setIsBusy(true);
 
     const obj = { ...currentNotification, [key]: value };
-    setCurrentNotification(obj);
+
     await dispatch(updateNotificationItem({ key, value, obj }))
       .then(ff => {
         setIsBusy(false);
-        setSuccessMessage(`Changed ${key} successifully (${value})`)
+        setCurrentNotification(obj);
+        setSuccessMessage(`Changed ${key} successfully (${value})`)
       }).catch(err => { showErrorMessage(err) });
   }
 
@@ -347,8 +347,19 @@ const NotificationPage: React.FC = () => {
                     onChange={(event) => setNotification("directMessagesInApp", event)}
                     isChecked={currentNotification.directMessagesInApp}
                   />
-                </div>               
+                </div>
               </div>
+
+              <h5 className="text-1xl mt-12 text-gray-two font-bold">
+                {successMessage}
+              </h5>
+
+              <h5
+                style={{ color: "orangered" }}
+                className="text-1xl font-bold mt-4"
+              >
+                {errorMessage}
+              </h5>
             </div>
           </Form>
         )}

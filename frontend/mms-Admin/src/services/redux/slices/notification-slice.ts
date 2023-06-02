@@ -1,5 +1,4 @@
 import {
-  AsyncThunk,
   createAsyncThunk,
   createSelector,
   createSlice,
@@ -11,7 +10,7 @@ import {
   updateAllNotificationsApiAsync,
   updateNotificationItemApiAsync,
 } from "../../axios/api-services/notifications";
-import { selectCurrentUserNameSelector, selectCurrentUserToken } from "./current-user-slice";
+import { selectCurrentUserToken } from "./current-user-slice";
 import { Notification } from "../../../services/redux/types/notification";
 
 interface CurrentNotificationState {
@@ -54,7 +53,11 @@ export const updateNotificationItem = createAsyncThunk(
     notificationDetails: { key: string; value: boolean; obj: Notification },
     thunkAPI
   ) => {
-    return await updateNotificationItemApiAsync(notificationDetails);
+    const state: any = thunkAPI.getState();
+    return await updateNotificationItemApiAsync(
+      notificationDetails,
+      state.currentUser.currentUser.userToken
+    );
   }
 );
 
@@ -105,6 +108,18 @@ export const NotificationSlice = createSlice({
 
     builder.addCase(fetchNotifications.fulfilled, (state, action) => {
       state.notification = action.payload;
+    });
+
+    builder.addCase(updateNotificationItem.rejected, (state, action) => {
+      throw action.error;
+    });
+
+    builder.addCase(updateAllNotifications.rejected, (state, action) => {
+      throw action.error;
+    });
+
+    builder.addCase(fetchNotifications.rejected, (state, action) => {
+      throw action.error;
     });
   },
 });
