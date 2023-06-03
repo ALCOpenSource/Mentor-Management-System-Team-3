@@ -11,6 +11,7 @@ import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 import LoadingComponent from "../../../../components/loading-components/loading-component";
+import SupportLiveChatPage from "./support-live-chat";
 export interface SupportModel {
   userId: string;
   name: string;
@@ -272,9 +273,7 @@ const SupportPage: React.FC = () => {
                 <div className="p-5 h-[66px] w-[66px] bg-lighterGreen-two items-center justify-center rounded-full" > <img src={liveChatIcon} alt="Attach file icon"></img></div>
               </button>
               <dialog className="absolute top-0 right-[300px] mr-0 bg-white z-50" ref={chatDialogRef} >
-                <div className="w-[450px] z-50 h-[700px]">
-                  <LiveChatPage />
-                </div>
+                <SupportLiveChatPage />
               </dialog>
             </div>
           </Form>
