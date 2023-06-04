@@ -25,53 +25,67 @@ import Mentors from "./views/dashboard/SwitchComponents/mentor/mentor";
 import ProtectedRoutes from "./components/protectedRoute";
 import ApprovalRequests from './views/dashboard/SwitchComponents/approval-requests';
 import MentorManagers from './views/dashboard/SwitchComponents/mentor-managers';
+import AdminMessages from './views/dashboard/SwitchComponents/AdminMessagesComponents/admin-messages';
+import AdminChatMessages from './views/dashboard/SwitchComponents/AdminMessagesComponents/admin-chat-messages';
+import SelectSomeOne from './views/dashboard/SwitchComponents/AdminMessagesComponents/select-someone';
+import BroadCastMessage from './views/dashboard/SwitchComponents/AdminMessagesComponents/broad-cast-message';
+import DiscussionForum from './views/dashboard/SwitchComponents/AdminMessagesComponents/discussion-forum';
 
-function AppRoutes(){
-    return (
-        <Router>
-            <Routes>
-              <Route path="/" element={<ProtectedRoutes />}>
-                <Route path="/" element={<LoginForm />} />
-                <Route path="dashboard" element={<Dashboard />}>
-                  <Route index element={<AdminDashboard />} />
-                  <Route path="messages" element={<Messages />} />
-                  <Route path="settings" element={<Settings />}>
-                    <Route index element={<SettingsGeneral />} />
-                    <Route path="general" element={<SettingsGeneral />} />
-                    <Route path="password" element={<SettingsPassword />} />
-                    <Route
-                      path="notifications"
-                      element={<SettingsNotifications />}
-                    />
-                    <Route path="privacy" element={<SettingsPrivacy />} />
-                    <Route path="archive" element={<SettingsArchive />} />
-                    <Route path="support" element={<SettingsSupport />} />
-                    <Route path="faq" element={<SettingsFAQ />} />
-                    <Route path="*" element={<SettingsGeneral />} />
-                  </Route>
-                  <Route path="certificates" element={<Certificates />} />
-                  <Route path="programs" element={<Programs />} />
-                  <Route path="approval-requests" element={<ApprovalRequests />} />
-                  <Route path="mentor-managers" element={<MentorManagers />} />
-                  <Route path="reports" element={<Reports />} />
-                  <Route path="tasks" element={<Tasks />} />
-                  <Route path="profile" element={<Profile />} />
-                  <Route path="forum" element={<Forums />} />
-                  <Route path="mentors" element={<Mentors />} />
-                  <Route path="*" element={<AdminDashboard />} />
-                </Route>
-              </Route>
-              <Route path="/login" element={<LoginForm />} />
-              <Route path="/signup1" element={<SignupForm1 />} />
-              <Route path="/forgotpassword" element={<ForgotPassword />} />
-              <Route path="/passwordreset" element={<ForgotPasswordForm />} />
+function AppRoutes() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<ProtectedRoutes />}>
+          <Route path="/" element={<LoginForm />} />
+          <Route path="dashboard" element={<Dashboard />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="messages" element={<Messages />} >
+              <Route index element={<AdminMessages />} />
+              <Route path="admin-messages" element={<AdminMessages />} />
+              <Route path="admin-chat-messages" element={<AdminChatMessages />} />
+              <Route path="select-someone" element={<SelectSomeOne />} />
+              <Route path="broadcast-message" element={<BroadCastMessage />} />
+              <Route path="discussion-forum" element={<DiscussionForum />} />
+              {/* <Route path="discussion-forum-post" element={<DiscussionForumPost />} /> */}
+              <Route path="*" element={<AdminMessages />} />
+            </Route>
+            <Route path="settings" element={<Settings />}>
+              <Route index element={<SettingsGeneral />} />
+              <Route path="general" element={<SettingsGeneral />} />
+              <Route path="password" element={<SettingsPassword />} />
               <Route
-                path="/passwordsucess"
-                element={<ForgotPasswordSuccess />}
+                path="notifications"
+                element={<SettingsNotifications />}
               />
-            </Routes>
-          </Router>
-    )
+              <Route path="privacy" element={<SettingsPrivacy />} />
+              <Route path="archive" element={<SettingsArchive />} />
+              <Route path="support" element={<SettingsSupport />} />
+              <Route path="faq" element={<SettingsFAQ />} />
+              <Route path="*" element={<SettingsGeneral />} />
+            </Route>
+            <Route path="certificates" element={<Certificates />} />
+            <Route path="programs" element={<Programs />} />
+            <Route path="approval-requests" element={<ApprovalRequests />} />
+            <Route path="mentor-managers" element={<MentorManagers />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="forum" element={<Forums />} />
+            <Route path="mentors" element={<Mentors />} />
+            <Route path="*" element={<AdminDashboard />} />
+          </Route>
+        </Route>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup1" element={<SignupForm1 />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/passwordreset" element={<ForgotPasswordForm />} />
+        <Route
+          path="/passwordsucess"
+          element={<ForgotPasswordSuccess />}
+        />
+      </Routes>
+    </Router>
+  )
 }
 
 export default AppRoutes;
