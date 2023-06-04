@@ -101,6 +101,12 @@ const SupportLiveChatPage: React.FC<SupportChatProps> = ({ dialogRef }) => {
     } catch (error) { showErrorMessage(error) }
   };
 
+  function onKeyDown(keyEvent: React.KeyboardEvent){
+    if((keyEvent.charCode === 13) || keyEvent.keyCode === 13){
+      keyEvent.preventDefault();
+    }
+  }
+
   return (
     <div>
       <Formik
@@ -109,7 +115,7 @@ const SupportLiveChatPage: React.FC<SupportChatProps> = ({ dialogRef }) => {
         innerRef={pageRef}
         validationSchema={validationSchema}
         render={({ handleSubmit, errors, touched, values }) => (
-          <Form className="w-full bg-white m-0 p-0 max-w-[450px] h-full float-right right-[450px] font-mukta border-solid border-lightGray-two border rounded-md">
+          <Form onKeyDown={onKeyDown} className="w-full bg-white m-0 p-0 max-w-[450px] h-full float-right right-[450px] font-mukta border-solid border-lightGray-two border rounded-md">
             <div onClick={e => e.stopPropagation()} className="flex flex-col relative bg-white p-0 m-0 w-full h-full">
               <div className="flex flex-col m-0 p-0 bg-green-three w-full h-[269px]">
                 <div className="flex flex-row m-0 p-0 h-[100px]">
