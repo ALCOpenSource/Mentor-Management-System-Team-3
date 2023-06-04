@@ -2,54 +2,45 @@ import { IsNotEmpty, IsBoolean } from "class-validator";
 import { IDiscussionNotifications } from "../interfaces/preference.interface";
 import { IPrivacyPreferences } from "../interfaces/preference.interface";
 import { IGeneralNotifications } from "../interfaces/preference.interface";
+import { NotifcationType } from "../interfaces/preference.interface";
 export class GeneralNotificationsDto implements IGeneralNotifications {
   @IsNotEmpty()
-  @IsBoolean()
-  enableAllNotifications: boolean;
+  enableAllNotifications: NotifcationType;
 
   @IsNotEmpty()
-  @IsBoolean()
-  enableProgramsNotifications: boolean;
+  enableProgramsNotifications: NotifcationType;
 
   @IsNotEmpty()
-  @IsBoolean()
-  enableTaskNotifcations: boolean;
+  enableTaskNotifcations: NotifcationType;
 
   @IsNotEmpty()
-  @IsBoolean()
-  enableApprovalRequestNotifications: boolean;
+  enableApprovalRequestNotifications: NotifcationType;
 
   @IsNotEmpty()
-  @IsBoolean()
-  enableReportsNotifications: boolean;
+  enableReportsNotifications: NotifcationType;
 }
 
 export class DiscussionNotificationsDto implements IDiscussionNotifications {
   @IsNotEmpty()
-  @IsBoolean()
-  enableCommentsOnMyPostsNotification: boolean;
+  enableCommentsOnMyPostsNotification: NotifcationType;
 
   @IsNotEmpty()
-  @IsBoolean()
-  enablePostsNotifications: boolean;
+  enablePostsNotifications: NotifcationType;
 
   @IsNotEmpty()
-  @IsBoolean()
-  enableCommentsNotifications: boolean;
+  enableCommentsNotifications: NotifcationType;
 
   @IsNotEmpty()
-  @IsBoolean()
-  enableMentionsNotifications: boolean;
+  enableMentionsNotifications: NotifcationType;
 
   @IsNotEmpty()
-  @IsBoolean()
-  enableDirectMessageNotifications: boolean;
+  enableDirectMessageNotifications: NotifcationType;
 }
 
 export class PrivacyPreferencesDto implements IPrivacyPreferences {
   @IsNotEmpty()
   @IsBoolean()
-  enableAllSocialLinksVisibility: boolean;
+  enableShowContactInfo: boolean;
 
   @IsNotEmpty()
   @IsBoolean()

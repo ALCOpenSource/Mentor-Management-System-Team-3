@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import logo from "../../assets/images/mms_logo.svg";
-import SVG_ICONS from "../../assets/svg-icons";
+import PasswordField from "../../components/passwordField";
 
 interface FormValues {
   password: string;
@@ -17,10 +16,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const ForgotPasswordForm = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
   return (
-    <div className="flex w-full h-screen">
+    <div className="flex w-screen h-screen">
       <div className="flex-col flex-auto w-6/12 bg-green-three">
         <div className="flex items-center justify-center w-full flex-col mt-[22%]">
           <img src={logo} className="w-60 h-50 mb-11" alt="logo" />
@@ -47,23 +44,11 @@ const ForgotPasswordForm = () => {
                 <div className="w-3/5 m-auto">
                   <div className="flex flex-col relative">
                     <div className="relative">
-                      <Field
-                        type={showPassword ? "text" : "password"}
-                        id="password"
+                      <PasswordField
                         name="password"
+                        id="password"
                         placeholder="Password"
-                        className="p-[10px] border-2 border-lightGray-two rounded-[5px] text-[20px] my-5 w-3/5 "
                       />
-                      <button
-                        className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none"
-                        onClick={() => {
-                          setShowPassword(!showPassword);
-                        }}
-                      >
-                        {showPassword
-                          ? SVG_ICONS.PASSWORD.SHOW
-                          : SVG_ICONS.PASSWORD.HIDE}
-                      </button>
                     </div>
                     <ErrorMessage name="password" />
                   </div>
@@ -73,7 +58,7 @@ const ForgotPasswordForm = () => {
                   </p>
                   <button
                     disabled={formikProps.isSubmitting}
-                    className="bg-green-three text-white rounded-[10px] p-[10px] font-medium mt-10 text-lg"
+                    className="btn-primary mt-10 text-lg"
                   >
                     Reset Password
                   </button>

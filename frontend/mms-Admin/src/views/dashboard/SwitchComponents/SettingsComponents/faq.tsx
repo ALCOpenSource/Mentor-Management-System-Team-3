@@ -1,6 +1,5 @@
 import React from "react";
-import { Formik, Form } from "formik";
-import "../index.css";
+import { Formik } from "formik";
 import Accordion from "../../../../components/accordion/accordion";
 import { AccordionData } from "../../../../components/accordion/accordion-item";
 interface FormValues {
@@ -41,34 +40,35 @@ const NotificationPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="h-full w-full relative max-w-[895px]">
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({ errors, touched }) => (
-          <Form className="w-full profile-form h-screen">
-            <div style={{ maxHeight: "50%" }} className="flex flex-col p-5">
+          <div className="h-full w-full max-w-[1095px]">
+            <div style={{ maxHeight: "50%" }} className="flex flex-col max-w-[1095px] p-0">
               <label
-                className="text-[15px] strong-text"
+                className="text-[15px] outline-none font-bold p-[2px]"
                 style={{ fontSize: "20px" }}
               >
                 General FAQ
               </label>
-              <div className="flex scrollable-items-container">
+              <div className="max-h-[100%] scrollable-by-y overflow-x-hidden h-full ">
                 <Accordion items={initialValues.generalFAQData} />
+
               </div>
             </div>
 
-            <div style={{ maxHeight: "50%" }} className="flex flex-col p-5">
+            <div style={{ maxHeight: "50%" }} className="flex flex-col p-0">
               <label
-                className="text-[15px] strong-text"
+                className="text-[15px] outline-none my-3 font-bold p-[2px]"
                 style={{ fontSize: "20px" }}
               >
                 Technical FAQ
               </label>
-              <div className="flex scrollable-items-container">
+              <div className="max-h-[100%] scrollable-by-y overflow-x-hidden h-full">
                 <Accordion items={initialValues.technicalFAQData} />
               </div>
             </div>
-          </Form>
+          </div>
         )}
       </Formik>
     </div>

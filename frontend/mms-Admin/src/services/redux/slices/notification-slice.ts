@@ -5,13 +5,13 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { RootState, useAppSelector } from "../Store";
-import { Notification } from "../types/notification";
 import {
   fetchNotificationsApiAsync,
   updateAllNotificationsApiAsync,
   updateNotificationItemApiAsync,
 } from "../../axios/api-services/notifications";
-import { selectCurrentUserNameSelector } from "./current-user-slice";
+import { selectCurrentUserToken } from "./current-user-slice";
+import { Notification } from "../../../services/redux/types/notification";
 
 interface CurrentNotificationState {
   notification: Notification;
@@ -53,7 +53,11 @@ export const updateNotificationItem = createAsyncThunk(
     notificationDetails: { key: string; value: boolean; obj: Notification },
     thunkAPI
   ) => {
-    return await updateNotificationItemApiAsync(notificationDetails);
+    const state: any = thunkAPI.getState();
+    return await updateNotificationItemApiAsync(
+      notificationDetails,
+      state.currentUser.currentUser.userToken
+    );
   }
 );
 
@@ -68,8 +72,7 @@ export const fetchNotifications = createAsyncThunk(
   "current-notification/fetch-all-notifications",
   async (thunkAPI) => {
     return await fetchNotificationsApiAsync(
-      useAppSelector(selectCurrentUserNameSelector),
-      getEmptyNotification()
+      useAppSelector(selectCurrentUserToken)
     );
   }
 );
@@ -105,6 +108,18 @@ export const NotificationSlice = createSlice({
 
     builder.addCase(fetchNotifications.fulfilled, (state, action) => {
       state.notification = action.payload;
+    });
+
+    builder.addCase(updateNotificationItem.rejected, (state, action) => {
+      throw action.error;
+    });
+
+    builder.addCase(updateAllNotifications.rejected, (state, action) => {
+      throw action.error;
+    });
+
+    builder.addCase(fetchNotifications.rejected, (state, action) => {
+      throw action.error;
     });
   },
 });

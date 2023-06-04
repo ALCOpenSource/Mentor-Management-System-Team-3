@@ -1,22 +1,26 @@
+export interface NotifcationType {
+  inApp: boolean;
+  email: boolean;
+}
 export interface IGeneralNotifications {
-  enableAllNotifications: boolean;
-  enableProgramsNotifications: boolean;
-  enableTaskNotifcations: boolean;
-  enableApprovalRequestNotifications: boolean;
-  enableReportsNotifications: boolean;
+  enableAllNotifications: NotifcationType;
+  enableProgramsNotifications: NotifcationType;
+  enableTaskNotifcations: NotifcationType;
+  enableApprovalRequestNotifications: NotifcationType;
+  enableReportsNotifications: NotifcationType;
 }
 
 export interface IDiscussionNotifications {
-  enableCommentsOnMyPostsNotification: boolean;
-  enablePostsNotifications: boolean;
-  enableCommentsNotifications: boolean;
-  enableMentionsNotifications: boolean;
-  enableDirectMessageNotifications: boolean;
+  enableCommentsOnMyPostsNotification: NotifcationType;
+  enablePostsNotifications: NotifcationType;
+  enableCommentsNotifications: NotifcationType;
+  enableMentionsNotifications: NotifcationType;
+  enableDirectMessageNotifications: NotifcationType;
 }
 
 // This is the privacy interface to set whether to show the various contact info.
 export interface IPrivacyPreferences {
-  enableAllSocialLinksVisibility: boolean;
+  enableShowContactInfo: boolean;
   enableGithubLinkVisibility: boolean;
   enableInstagramLinkVisibility: boolean;
   enableLinkedinLinkVisibility: boolean;

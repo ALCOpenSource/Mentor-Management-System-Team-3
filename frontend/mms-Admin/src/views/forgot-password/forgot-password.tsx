@@ -4,6 +4,7 @@ import logo from "../../assets/images/mms_logo.svg";
 import FormikValidationMessageComponent from "../../components/error-messages/formik-validation-message-component";
 import { useState } from "react";
 import { resetCurrentUserPasswordApiAsync } from "../../services/axios/api-services/current-user";
+import LoadingComponent from "../../components/loading-components/loading-component";
 
 const ResetPasswordSchema = Yup.object().shape({
   email: Yup.string()
@@ -18,9 +19,11 @@ export interface EmailModel {
 const ResetPassword = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isBusy, setIsBusy] = useState(false);
 
   const showErrorMessage = (tt: any) => {
     try {
+      setIsBusy(false);
       setErrorMessage(tt?.message ?? tt);
     } catch (err) {
       setErrorMessage(tt);
@@ -29,9 +32,14 @@ const ResetPassword = () => {
 
   const handleSubmit = async (value: EmailModel) => {
     try {
-      await resetCurrentUserPasswordApiAsync(value.email ?? "");
-      setSuccessMessage("Password reset has been sent to your email");
       setErrorMessage("");
+      setSuccessMessage("");
+      setIsBusy(true);
+      await resetCurrentUserPasswordApiAsync(value.email ?? "")
+        .then(ff => {
+          setIsBusy(false);
+          setSuccessMessage("Password reset has been sent to your email")
+        }).catch(err => { showErrorMessage(err) });
     } catch (error: any) {
       showErrorMessage(error.message);
       setSuccessMessage("");
@@ -45,7 +53,7 @@ const ResetPassword = () => {
       onSubmit={handleSubmit}
     >
       {({ errors, touched }) => (
-        <Form className="flex w-full h-screen">
+        <Form className="flex w-screen h-screen">
           <div className="flex flex-col w-6/12 bg-green-three content-center justify-center">
             <div className="flex items-center justify-center w-full flex-col">
               <img src={logo} className="w-60 h-50 mb-11" alt="logo" />
@@ -70,13 +78,19 @@ const ResetPassword = () => {
                 />
                 <FormikValidationMessageComponent name="email" />
               </div>
-
+              <div className="flex absolute items-end justify-end flex-row w-full">
+                <LoadingComponent isBusy={isBusy} />
+              </div>
               <button
                 type="submit"
-                className="bg-green-three py-2 w-full text-white rounded-md font-medium text-lg"
+                className="btn-primary"
               >
                 Done
               </button>
+
+              <div className="flex items-end justify-end flex-row w-full">
+                <LoadingComponent isBusy={isBusy} />
+              </div>
 
               <h5 className="text-1xl text-gray-two font-bold mt-4">
                 {successMessage}

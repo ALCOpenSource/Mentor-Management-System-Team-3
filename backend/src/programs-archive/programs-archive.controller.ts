@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, Req } from "@nestjs/common";
 
 import { ProgramsArchiveService } from "./programs-archive.service";
-import { FindByUserIdDto } from "./dto/findbyuserid.dto";
+import { FindByUserIdDTO } from "./dto/findbyuserid.dto";
 import { FindByProgramIdDto } from "./dto/findbyprogramid.dto";
 import { ProgramsArchiveSearchDto } from "./dto/program-archive-search.dto";
 
@@ -17,7 +17,7 @@ export class ProgramsArchiveController {
   }
 
   @Get("user")
-  async findByUserId(@Query() findbyuserIdDto: FindByUserIdDto, @Req() req) {
+  async findByUserId(@Query() findbyuserIdDto: FindByUserIdDTO, @Req() req) {
     return this.programsArchiveService.findByUserId(
       req.user.sub,
       findbyuserIdDto,

@@ -6,7 +6,7 @@ import SuccessSplashComponent from "../../components/success-splash-component/su
 const ForgotPasswordSuccess = () => {
 
 	return (
-		<div className="flex w-full h-screen">
+		<div className="flex w-screen h-screen">
 			<div className="flex-col flex-auto w-6/12 bg-green-three">
 				<div className='flex items-center justify-center w-full flex-col mt-[22%]'>
 					<img src={logo} className="w-60 h-50 mb-11" alt="logo" />

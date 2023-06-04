@@ -1,17 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
-import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { Notification } from "../../../../services/redux/types/notification";
 import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentNotification, updateAllNotifications, updateNotificationItem } from "../../../../services/redux/slices/notification-slice";
+import LoadingComponent from "../../../../components/loading-components/loading-component";
+import { fetchNotificationsApiAsync } from "../../../../services/axios/api-services/notifications";
+import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 
 
 const NotificationPage: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const obj = useAppSelector(selectCurrentNotification);
+  const [isBusy, setIsBusy] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [currentNotification, setCurrentNotification] = useState(obj);
+  const token = useAppSelector(selectCurrentUserToken);
+
+  const showErrorMessage = (tt: any) => {
+    try {
+      setIsBusy(false);
+      setErrorMessage(tt?.message ?? tt);
+    } catch (err) {
+      setErrorMessage(tt);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotificationsApiAsync(token)
+      .then(notification => {
+        updateAllNotifications(notification);
+        setCurrentNotification(notification);
+      }).catch(err => console.log(err))
+  }, [token])
+
+
 
   const setNotification = async (key: string, value: boolean) => {
     var lastValue = Object.entries(currentNotification)
@@ -20,15 +45,25 @@ const NotificationPage: React.FC = () => {
     if (lastValue[1])
       return;
 
+    setErrorMessage("");
+    setSuccessMessage("");
+    setIsBusy(true);
+
     const obj = { ...currentNotification, [key]: value };
-    setCurrentNotification(obj);
-    await dispatch(updateNotificationItem({ key, value, obj }));
+
+    await dispatch(updateNotificationItem({ key, value, obj }))
+      .then(ff => {
+        setIsBusy(false);
+        setCurrentNotification(obj);
+        setSuccessMessage(`Changed ${key} successfully (${value})`)
+      }).catch(err => { showErrorMessage(err) });
   }
 
   const handleSubmit = async (values: Notification) => {
     await dispatch(updateAllNotifications(obj));
   };
 
+  const toggleSwitchLabel = "outline-none font-medium p-[2px]";
   return (
     <div>
       <Formik
@@ -36,31 +71,34 @@ const NotificationPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form h-screen">
+          <Form className="w-full profile-form max-w-[900px] h-full">
             <div className="flex flex-col relative p-5">
               <div className="flex w-full">
-                <label className="text-[15px] strong-text">
+                <label className="text-[15px] outline-none font-bold p-[2px]">
                   General Notifications
                 </label>
               </div>
               <div className="flex w-full">
                 <label
-                  className="text-[15px] strong-text"
+                  className="text-[15px] outline-none font-bold p-[2px]"
                   style={{ marginLeft: "400px" }}
                 >
                   Email
                 </label>
                 <label
-                  className="text-[15px] strong-text"
+                  className="text-[15px] outline-none whitespace-nowrap font-bold p-[2px]"
                   style={{ marginLeft: "40px" }}
                 >
                   In-app
                 </label>
+                <div className="flex items-end justify-end flex-row w-full">
+                  <LoadingComponent isBusy={isBusy} />
+                </div>
               </div>
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="allNotificationsEmail"
                   >
@@ -83,7 +121,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="programsEmail"
                   >
@@ -106,7 +144,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="tasksEmail"
                   >
@@ -129,7 +167,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="approvalRequestsEmail"
                   >
@@ -152,7 +190,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="reportsEmail"
                   >
@@ -175,21 +213,21 @@ const NotificationPage: React.FC = () => {
 
             <div className="flex mt-5 flex-col relative p-5">
               <div className="flex w-full">
-                <label className="text-[15px] strong-text">
+                <label className="text-[15px] outline-none font-bold p-[2px]">
 
                   Discussion Notifications
                 </label>
               </div>
               <div className="flex w-full">
                 <label
-                  className="text-[15px] strong-text"
+                  className="text-[15px] outline-none font-bold p-[2px]"
                   style={{ marginLeft: "400px" }}
                 >
 
                   Email
                 </label>
                 <label
-                  className="text-[15px] strong-text"
+                  className="text-[15px] outline-none font-bold p-[2px]"
                   style={{ marginLeft: "40px" }}
                 >
 
@@ -200,7 +238,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="commentsOnMyPostsEmail"
                   >
@@ -223,7 +261,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="postsEmail"
                   >
@@ -246,7 +284,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="commentsEmail"
                   >
@@ -269,7 +307,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="mentionsEmail"
                   >
@@ -292,7 +330,7 @@ const NotificationPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "400px" }}
                     htmlFor="directMessagesEmail"
                   >
@@ -311,6 +349,17 @@ const NotificationPage: React.FC = () => {
                   />
                 </div>
               </div>
+
+              <h5 className="text-1xl mt-12 text-gray-two font-bold">
+                {successMessage}
+              </h5>
+
+              <h5
+                style={{ color: "orangered" }}
+                className="text-1xl font-bold mt-4"
+              >
+                {errorMessage}
+              </h5>
             </div>
           </Form>
         )}

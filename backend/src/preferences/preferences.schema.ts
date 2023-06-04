@@ -17,32 +17,138 @@ export type PreferenceDocument = HydratedDocument<Preferences>;
 export class Preferences {
   @Prop(
     raw({
-      enableReportsNotifications: Boolean,
-      enableProgramsNotifications: Boolean,
-      enableTaskNotifcations: Boolean,
-      enableApprovalRequestNotifications: Boolean,
+      enableALLNotifications: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      enableReportsNotifications: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      enableProgramsNotifications: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      enableTaskNotifcations: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      enableApprovalRequestNotifications: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
     }),
   )
   generalNotifications: IGeneralNotifications;
 
   @Prop(
     raw({
-      enableCommentsOnMyPostsNotification: Boolean,
-      enablePostsNotifications: Boolean,
-      enableCommentsNotifications: Boolean,
-      enableMentionsNotifications: Boolean,
-      enableDirectMessageNotifications: Boolean,
+      enableCommentsOnMyPostsNotification: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      enablePostsNotifications: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      enableCommentsNotifications: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      enableMentionsNotifications: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      enableDirectMessageNotifications: {
+        inApp: {
+          type: Boolean,
+          default: true,
+        },
+        email: {
+          type: Boolean,
+          default: true,
+        },
+      },
     }),
   )
   discussionNotifications: IDiscussionNotifications;
 
   @Prop(
     raw({
-      enableAllSocialLinksVisibility: Boolean,
-      enableGithubLinkVisibility: Boolean,
-      enableInstagramLinkVisibility: Boolean,
-      enableLinkedinLinkVisibility: Boolean,
-      enableTwitterLinkVisibility: Boolean,
+      enableShowContactInfo: {
+        type: Boolean,
+        default: true,
+      },
+      enableGithubLinkVisibility: {
+        type: Boolean,
+        default: true,
+      },
+      enableInstagramLinkVisibility: {
+        type: Boolean,
+        default: true,
+      },
+      enableLinkedinLinkVisibility: {
+        type: Boolean,
+        default: true,
+      },
+      enableTwitterLinkVisibility: {
+        type: Boolean,
+        default: true,
+      },
     }),
   )
   privacyPreferences: IPrivacyPreferences;

@@ -84,7 +84,7 @@ module.exports = {
       height: {
         h: {
           50: "200px",
-          workArea:"calc(vh-500px)"
+          100:"700px"
         },
       },
     },

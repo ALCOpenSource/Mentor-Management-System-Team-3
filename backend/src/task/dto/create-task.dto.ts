@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   MaxLength,
   ArrayMaxSize,
+  IsMongoId,
 } from "class-validator";
 
 export class CreateTaskDTO {
@@ -19,10 +20,12 @@ export class CreateTaskDTO {
   @IsArray()
   @Type(() => String)
   @ArrayMaxSize(10)
+  @IsMongoId({ each: true })
   mentorManagers: string[];
 
   @IsArray()
   @Type(() => String)
   @ArrayMaxSize(10)
+  @IsMongoId({ each: true })
   mentors: string[];
 }

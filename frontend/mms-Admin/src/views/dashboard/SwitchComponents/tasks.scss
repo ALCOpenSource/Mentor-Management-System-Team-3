@@ -1,0 +1,61 @@
+h1 {
+  font-size: 1.3rem;
+  font-weight: 900;
+  margin-bottom: 2rem;
+}
+
+form {
+  // display: flex;
+  // flex-direction: row;
+  // align-items: center;
+  // justify-content: center;
+  width: 100%;
+
+  .title {
+    font-weight: 900;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .title-input {
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
+    margin-top: 0.8rem;
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .title-input-desc {
+    color: #ccc;
+    display: block;
+    font-size: 1rem;
+    margin: 0.6rem 0 2rem 0;
+  }
+
+  .textarea-label {
+    font-weight: 900;
+    font-size: 1.1rem;
+    // margin: 1rem 0 0.3rem 0;
+  }
+
+  textarea {
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
+    margin-top: 0.8rem;
+    padding: 1rem;
+    width: 100%;
+    height: 10rem;
+  }
+
+  .create-task-btn {
+    background-color: #058b94;
+    border: none;
+    border-radius: 0.5rem;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    padding: 0.7rem 2.5rem;
+  }
+}

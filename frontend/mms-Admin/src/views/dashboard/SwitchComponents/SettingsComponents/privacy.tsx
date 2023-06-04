@@ -1,32 +1,76 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
-import "../index.css";
+//import "../index.css";
 import ToggleSwitch from "../../../../components/ToggleSwitch'/ToggleSwitch";
 import { useAppDispatch, useAppSelector } from "../../../../services/redux/Store";
-import { selectCurrentPrivacy, updateAllPrivacies, updatePrivacyItem } from "../../../../services/redux/slices/privacy-slice";
+import { selectCurrentPrivacy, updateAllPrivacies, updateAllPrivaciesAction, updatePrivacyItem } from "../../../../services/redux/slices/privacy-slice";
 import { Privacy } from "../../../../services/redux/types/privacy";
-
+import { capitalizeEachWord } from "../../../../services/generalFunctions";
+import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import LoadingComponent from "../../../../components/loading-components/loading-component";
+import { fetchPrivaciesApiAsync } from "../../../../services/axios/api-services/privacy";
 
 const PrivacyPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const obj = useAppSelector(selectCurrentPrivacy);
   const [currentPrivacy, setCurrentPrivacy] = useState(obj);
+  const [isBusy, setIsBusy] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const token = useAppSelector(selectCurrentUserToken);
+
+  const showErrorMessage = (tt: any) => {
+    try {
+      setIsBusy(false);
+      setErrorMessage(tt?.message ?? tt);
+    } catch (err) {
+      setErrorMessage(tt);
+    }
+  };
+
+  useEffect(() => {
+    try {
+      setErrorMessage("");
+      setSuccessMessage("");
+
+      fetchPrivaciesApiAsync(token)
+        .then(obj => {
+          updateAllPrivaciesAction(obj);
+          setCurrentPrivacy(obj);
+        })
+        .catch(err => { showErrorMessage(err) });
+    } catch (error) { showErrorMessage(error) }
+  }, [token, dispatch])
 
   const setPrivacy = async (key: string, value: boolean) => {
-    var lastValue = Object.entries(currentPrivacy)
-      .filter(n => n[0] === key && n[1] === value);
+    try {
 
-    if (lastValue[1])
-      return;
+      setErrorMessage("");
+      setSuccessMessage("");
+      setIsBusy(true);
 
-    const obj = { ...currentPrivacy, [key]: value };
-    setCurrentPrivacy(obj);
-    await dispatch(updatePrivacyItem({ key, value, obj }));
+      var lastValue = Object.entries(currentPrivacy)
+        .filter(n => n[0] === key && n[1] === value);
+
+      if (lastValue[1])
+        return;
+
+      const obj = { ...currentPrivacy, [key]: value };    
+      await dispatch(updatePrivacyItem({ key, value, obj })
+      ).then(ff => {
+        setIsBusy(false);
+        setCurrentPrivacy(obj);
+        setSuccessMessage(`Successfully saved ${capitalizeEachWord(key)}  (${value})`.replace("Show", "Show "))
+      })
+        .catch(err => { showErrorMessage(err) });
+    } catch (error) { showErrorMessage(error) }
   }
 
   const handleSubmit = async (values: Privacy) => {
     await dispatch(updateAllPrivacies(obj));
   };
+
+  const toggleSwitchLabel = "outline-none font-medium p-[2px]";
 
   return (
     <div>
@@ -35,12 +79,12 @@ const PrivacyPage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form  h-screen">
+          <Form className="w-full profile-form max-w-[900px] h-full">
             <div className="flex flex-col relative p-5">
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showContactInfo"
                   >
@@ -51,13 +95,16 @@ const PrivacyPage: React.FC = () => {
                     isChecked={currentPrivacy.showContactInfo}
                     onChange={(event) => setPrivacy("showContactInfo", event)}
                   />
+                  <div className="flex items-end absolute justify-end flex-row w-full">
+                    <LoadingComponent isBusy={isBusy} />
+                  </div>
                 </div>
               </div>
 
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showGitHub"
                   >
@@ -74,7 +121,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showInstagram"
                   >
@@ -91,7 +138,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showLinkedin"
                   >
@@ -108,7 +155,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className="toggle-switch-label"
+                    className={toggleSwitchLabel}
                     style={{ width: "300px" }}
                     htmlFor="showTwitter"
                   >
@@ -121,6 +168,17 @@ const PrivacyPage: React.FC = () => {
                   />
                 </div>
               </div>
+
+              <h5 className="text-1xl mt-12 text-gray-two font-bold">
+                {successMessage}
+              </h5>
+
+              <h5
+                style={{ color: "orangered" }}
+                className="text-1xl font-bold mt-4"
+              >
+                {errorMessage}
+              </h5>
             </div>
           </Form>
         )}

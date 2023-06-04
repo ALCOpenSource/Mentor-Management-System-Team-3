@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import avatar from "./../../../../assets/images/avatar.svg";
-import "../index.css";
-import VALIDATION_PATTERNS from "../../../../assets/validation-patterns";
+import VALIDATION_PATTERNS from "../../../../constants/validation-patterns";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
 import linkedInSVG from "../../../../assets/images/social/Linkedin.svg";
 import githubSVG from "../../../../assets/images/social/Github.svg";
@@ -17,37 +16,46 @@ import {
 import {
   selectCurrentUser,
   selectCurrentUserProfilePicture,
+  selectCurrentUserToken,
   updateCurrentUser,
   updateCurrentUserProfilePicture,
 } from "../../../../services/redux/slices/current-user-slice";
+import { countries } from "../../../../services/countries";
+import MessagePopUpPage from "../../../../components/messages/message-pop-up";
+import FieldWithIconLabel from "../../../../components/FieldWithIconLabel";
+import { refreshCurrentUserApiAsync } from "../../../../services/axios/api-services/current-user";
+import LoadingComponent from "../../../../components/loading-components/loading-component";
 
 const EditProfilePage: React.FC = () => {
   const obj = useAppSelector(selectCurrentUser);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const token = useAppSelector(selectCurrentUserToken);
+  const [isBusy, setIsBusy] = useState(false);
   const [filebase64, setFileBase64] = useState<string>(
     useAppSelector(selectCurrentUserProfilePicture) ?? avatar
   );
 
   const showErrorMessage = (tt: any) => {
     try {
+      setIsBusy(false);
       setErrorMessage(tt?.message ?? tt);
     } catch (err) {
       setErrorMessage(tt);
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setSuccessMessage("");
-      setErrorMessage("");
-    }, 10000)
-  }, [errorMessage, successMessage])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setSuccessMessage("");
+  //     setErrorMessage("");
+  //   }, 10000)
+  // }, [errorMessage])
 
   const initialValues: SystemUser = {
     firstNames: "",
     lastName: "",
-    about: "",
+    bio: "",
     website: "",
     country: "",
     city: "",
@@ -55,12 +63,18 @@ const EditProfilePage: React.FC = () => {
     linkedin: "",
     instagram: "",
     twitter: "",
+    userId: "",
+    role: "",
+    email: ""
   };
 
   if (obj) {
     initialValues.firstNames = obj.firstNames;
     initialValues.lastName = obj.lastName;
-    initialValues.about = obj.about;
+    initialValues.userId = obj.userId;
+    initialValues.email = obj.email;
+    initialValues.role = obj.role;
+    initialValues.bio = obj.bio;
     initialValues.website = obj.website;
     initialValues.country = obj.country;
     initialValues.city = obj.city;
@@ -80,7 +94,6 @@ const EditProfilePage: React.FC = () => {
       if (files) {
         const fileRef = files[0] || "";
         const fileType: string = fileRef.type || "";
-        console.log("This file upload is of type:", fileType);
         const reader = new FileReader();
         reader.readAsBinaryString(fileRef);
         reader.onload = async (ev: any) => {
@@ -88,7 +101,9 @@ const EditProfilePage: React.FC = () => {
           // convert it to base64
           setFileBase64(img);
           try {
-            await dispatch(updateCurrentUserProfilePicture(img));
+            dispatch(updateCurrentUserProfilePicture(img))
+              .then(err => setSuccessMessage("Successfully changed profile picture"))
+              .catch(err => showErrorMessage(err));
           } catch (error) { showErrorMessage(error) }
         };
       }
@@ -100,7 +115,7 @@ const EditProfilePage: React.FC = () => {
   const validationSchema = Yup.object().shape({
     firstNames: Yup.string().required("First name is required please"),
     lastName: Yup.string().required("Last name is required please"),
-    about: Yup.string().required("Please your bio is required"),
+    bio: Yup.string().required("Please your bio is required"),
     website: Yup.string().matches(
       VALIDATION_PATTERNS.WEBSITE_URL,
       "Please enter a valid website url"
@@ -125,11 +140,18 @@ const EditProfilePage: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const handleSubmit = async (values: SystemUser) => {
-    console.log(values);
     try {
+      setErrorMessage("");
+      setSuccessMessage("");
+      setIsBusy(true);
+      
       await dispatch(updateCurrentUser(values))
-      .then(tt => setSuccessMessage("Successfully updated"))
-      .catch(error => showErrorMessage(error));
+        .then(async tt => {
+          setIsBusy(false);
+          await refreshCurrentUserApiAsync(token, values.role ?? "user", dispatch)
+          setSuccessMessage("Successfully updated");
+        })
+        .catch(error => showErrorMessage(error));
     } catch (error) { showErrorMessage(error) }
   };
 
@@ -141,12 +163,12 @@ const EditProfilePage: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="w-full profile-form  h-screen">
+          <Form className="profile-form max-w-[900px]">
             <div className="row w-full mb-6">
               <div className="flex items-start justify-start w-full flex-row mt-[2%]">
                 <img
                   src={filebase64}
-                  className="ms-3 mt-4 profile-avatar"
+                  className="ms-3 mt-4 rounded-full w-[73px] h-[73px]"
                   alt="user profile avatar"
                 />
                 <div>
@@ -154,7 +176,7 @@ const EditProfilePage: React.FC = () => {
                     Set Profile Picture
                   </h3>
                   <label
-                    className="bg-green-three ms-11 text-white rounded-[10px] p-[5px] pt-2 pb-2 pe-3 pe-[30px] ps-[30px]  font-medium mt-1"
+                    className="btn-primary py-1 h-[42px] ms-11"
                     htmlFor="uploadFile"
                   >
                     Update Picture
@@ -164,9 +186,21 @@ const EditProfilePage: React.FC = () => {
                     id="uploadFile"
                     name="uploadFile"
                     accept="image/*"
-                    className="bg-green-three ms-11 text-white rounded-[10px] p-[5px]  pe-[30px] ps-[30px]  font-medium mt-1"
+                    className="hidden -z-50 absolute"
                     onChange={(e) => convertFile(e.target.files)}
                   />
+                </div>
+                <div className="ms-5">
+                  <h5 className="text-1xl text-gray-two font-bold mt-4">
+                    {successMessage}
+                  </h5>
+
+                  <h5
+                    style={{ color: "orangered" }}
+                    className="text-1xl font-bold mt-4"
+                  >
+                    {errorMessage}
+                  </h5>
                 </div>
               </div>
             </div>
@@ -174,7 +208,7 @@ const EditProfilePage: React.FC = () => {
               <div className="flex flex-col relative">
                 <div className="mb-5">
                   <div className="flex flex-row  relative  w-full">
-                    <label className="text-label" htmlFor="lastName">
+                    <label className="text-label" htmlFor="firstNames">
                       Full Name
                     </label>
                     <Field
@@ -198,20 +232,20 @@ const EditProfilePage: React.FC = () => {
 
                 <div className="mb-5">
                   <div className="flex flex-row  relative  w-full">
-                    <label className="text-label" htmlFor="about">
+                    <label className="text-label" htmlFor="bio">
                       About
                     </label>
                     <Field
                       type="text"
-                      id="about"
+                      id="bio"
                       style={{ minHeight: "120px" }}
                       as="textarea"
-                      name="about"
+                      name="bio"
                       placeholder="Your Bio"
                       className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
-                  <FormikValidationMessageComponent name="about" />
+                  <FormikValidationMessageComponent name="bio" />
                 </div>
 
                 <div className="mb-5">
@@ -235,12 +269,16 @@ const EditProfilePage: React.FC = () => {
                     <label className="text-label" htmlFor="country">
                       Country
                     </label>
-                    <select
+                    <Field
                       id="country"
                       name="country"
                       placeholder="Select Country"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                    />
+                      className="form-control text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      as="select"
+                    //onChange={this.onItemTypeDropdownSelected}
+                    >
+                      {countries.map((item, i) => (<option>{item.name}</option>))}
+                    </Field>
                     <label
                       style={{ paddingLeft: "44px" }}
                       className="text-label"
@@ -248,106 +286,40 @@ const EditProfilePage: React.FC = () => {
                     >
                       City
                     </label>
-                    <select
-                      id="city"
+                    <Field
+                      type="text"
                       name="city"
+                      list="cities"
+                      id="city"
                       placeholder="Select City"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
+                      className="form-control text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
+                    <datalist id="cities">
+                      {countries.map((item, i) => (<option
+                        value={`${item.capital}`}
+                        key={`${item.capital}`}
+                      >
+                        {`${item.capital}`}
+                      </option>))}
+                    </datalist>
                   </div>
                   <FormikValidationMessageComponent name="country" />
                   <FormikValidationMessageComponent name="city" />
                 </div>
 
                 <div className="mb-0 flex flex-row">
-                  <div className="flex flex-row input-icons relative w-full">
+                  <div className="flex flex-row  mb-[5px] pl-[2px]  relative w-full">
                     <label className="text-label" htmlFor="github">
                       Social
                     </label>
-                    <div className="flex flex-col input-icons ps-5 relative w-full">
-                      <div className="flex flex-row input-icons relative w-full">
-                        <div className="flex flex-row input-icons ms-1 w-full">
-                          <img
-                            src={githubSVG}
-                            alt="profile logo"
-                            className="icon"
-                          />
-                          <Field
-                            disabled
-                            type="text"
-                            value="GitHub"
-                            className="text-input input-icon-label ms-1 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                          <Field
-                            type="text"
-                            id="github"
-                            name="github"
-                            placeholder="@githubuser"
-                            className="text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                        </div>
-                        <div className="flex flex-row input-icons ms-6 w-full">
-                          <img
-                            src={instagramSVG}
-                            alt="profile logo"
-                            className="icon"
-                          />
-                          <Field
-                            disabled
-                            type="text"
-                            value="Instagram"
-                            className="text-input input-icon-label ms-1 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                          <Field
-                            type="text"
-                            id="instagram"
-                            name="instagram"
-                            placeholder="@instagramuser"
-                            className="text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                        </div>
+                    <div className="flex ms-[-5px] flex-col mb-[5px] pl-[2px]  relative w-full">
+                      <div className="flex flex-row  mb-[5px] pl-[2px]  relative w-full">
+                        <FieldWithIconLabel id="github" name="github" label="GitHub" icon={githubSVG} placeholder="@githubuser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-1 w-full" />
+                        <FieldWithIconLabel id="instagram" name="instagram" label="Instagram" icon={instagramSVG} placeholder="@instagramuser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-6 w-full" />
                       </div>
-                      <div className="flex flex-row input-icons relative w-full">
-                        <div className="flex flex-row input-icons ms-1 w-full">
-                          <img
-                            src={linkedInSVG}
-                            alt="profile logo"
-                            className="icon"
-                          />
-                          <Field
-                            disabled
-                            type="text"
-                            value="LinkedIn"
-                            className="text-input input-icon-label ms-1 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                          <Field
-                            type="text"
-                            id="linkedin"
-                            name="linkedin"
-                            placeholder="@linkedinuser"
-                            className="text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                        </div>
-                        <div className="flex flex-row input-icons ms-6 w-full">
-                          <img
-                            src={twitterSVG}
-                            alt="profile logo"
-                            className="icon"
-                          />
-                          <Field
-                            disabled
-                            type="text"
-                            value="Twitter"
-                            className="text-input input-icon-label ms-1 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                          <Field
-                            type="text"
-                            id="twitter"
-                            name="twitter"
-                            placeholder="@twitteruser"
-                            className="text-input input-icon-field ms-0 border-2 border-lightGray-two rounded-[5px] ps-14 text-[15px] "
-                          />
-                        </div>
+                      <div className="flex flex-row mb-[5px] pl-[2px]  relative w-full">
+                        <FieldWithIconLabel id="linkedin" name="linkedin" label="LinkedIn" icon={linkedInSVG} placeholder="@linkedinuser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-1 w-full" />
+                        <FieldWithIconLabel id="twitter" name="twitter" label="Twitter" icon={twitterSVG} placeholder="@twitteruser" extraStyles="flex flex-row w-full mb-[5px] pl-[2px]  ms-6 w-full" />
                       </div>
                     </div>
                   </div>
@@ -358,26 +330,23 @@ const EditProfilePage: React.FC = () => {
                 <FormikValidationMessageComponent name="twitter" />
               </div>
             </div>
-            <div className="flex w-full">
+            {successMessage?.length > 7
+              && (<MessagePopUpPage
+                persist={false}
+                toggle={() => { setSuccessMessage(""); setErrorMessage("") }}
+                message={"Profile Successfully Saved"} />
+              )}
+
+            <div className="flex items-end justify-end flex-row w-full">
+              <LoadingComponent isBusy={isBusy} />
               <button
                 type="submit"
-                style={{ marginLeft: "auto" }}
-                className="bg-green-three text-white rounded-[10px] p-[10px] pe-[40px] ps-[40px] font-medium mt-1"
+                className="btn-primary h-[50px] ml-auto mt-1"
               >
                 Save Changes
               </button>
             </div>
 
-            <h5 className="text-1xl text-gray-two font-bold mt-4">
-              {successMessage}
-            </h5>
-
-            <h5
-              style={{ color: "orangered" }}
-              className="text-1xl font-bold mt-4"
-            >
-              {errorMessage}
-            </h5>
           </Form>
         )}
       </Formik>

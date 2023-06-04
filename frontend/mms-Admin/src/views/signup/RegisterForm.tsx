@@ -28,7 +28,7 @@ function RegisterForm() {
         }
     };
         return (
-          <div className="flex w-full h-screen ">
+          <div className="flex w-screen h-screen ">
             <div className="flex-col flex-auto w-6/12">
               <img src="/images/signup.png" alt="signup"/>              
             </div>
@@ -66,9 +66,9 @@ function RegisterForm() {
                   />
                   <img className="h-10 w-10 absolute inset-y-0 right-0 flex items-center pr-3" src="/images/eye-password.png" alt="Password"/>             
                 </div>  
-                <button type="submit" className="bg-green-three text-white shadow appearance-none border rounded w-full py-2 px-3 m-2 leading-tight focus:outline-none focus:shadow-outline">Register</button>
+                <button type="submit" className="btn-primary">Register</button>
                 <div className="flex flex-col m-2">     
-                  <button type="button" onClick={handleSignUpWithGoogle} className=" flex flex-row justify-center items-center bg-white text-green-two shadow appearance-none border rounded w-full py-2 px-3 m-2 leading-tight focus:outline-none focus:shadow-outline">
+                  <button type="button" onClick={handleSignUpWithGoogle} className="btn-secondary flex flex-row justify-center items-center bg-white text-green-two shadow appearance-none border rounded w-full py-2 px-3 m-2 leading-tight focus:outline-none focus:shadow-outline">
                     <img className="h-5 w-5 mx-2" src="/images/google.png" alt="Google"/>
                     <span className="mx-2">Sign up with Google</span>
                   </button>
