@@ -12,8 +12,9 @@ import settings from "../../assets/images/sidebar/settings.svg";
 import mentors from "../../assets/images/sidebar/mentors.svg";
 import logout from "../../assets/images/sidebar/logout.svg";
 import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../../services/redux/Store";
-import { selectCurrentUser } from "../../services/redux/slices/current-user-slice";
+import { useAppDispatch, useAppSelector } from "../../services/redux/Store";
+import { logoutCurrentUser, selectCurrentUser } from "../../services/redux/slices/current-user-slice";
+import { googleLogout } from "@react-oauth/google";
 
 export const navMenuItems = [
   {
@@ -84,7 +85,15 @@ export const navMenuItems = [
 ];
 
 function Sidebar() {
-
+  const dispatch = useAppDispatch();
+  function logout(label: string) {
+      if (label === "Logout") {
+      try {
+        dispatch(logoutCurrentUser());
+        googleLogout();
+      } catch (error) { console.log(error) }
+    }
+  }
   const { lastName, firstNames, role } = useAppSelector(selectCurrentUser);
   return (
     <div className="flex h-full my-auto">
@@ -97,6 +106,7 @@ function Sidebar() {
           {navMenuItems.map((item, i) => {
             return (
               <div
+               onClick={() => logout(item.label)}
                 key="i"
                 className="flex items-stretch focus:bg-white focus:font-bold hover:bg-white py-[5px] text-justify"
               >
@@ -104,14 +114,14 @@ function Sidebar() {
                   to={item.route === "login" ? "/login" : `/dashboard/${item.route}`}
                   className="relative px-8 btn-animate w-full flex items-stretch focus:bg-white focus:font-bold active:bg-white"
                 >
-                   <span className="sr-only">Notifications</span>
-                   <div className={`${item.route !== "messages" ? "hidden" : ""} ml-auto left-[50px] absolute btn-animate inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-three border-0 border-white rounded-full`}>20</div>
+                  <span className="sr-only">Notifications</span>
+                  <div className={`${item.route !== "messages" ? "hidden" : ""} ml-auto left-[50px] absolute btn-animate inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-three border-0 border-white rounded-full`}>20</div>
                   <img
                     src={item.icon}
                     alt="profile logo"
                     className="h-8 mr-5"
                   />
-                 
+
                   <span className="text-sm focus:bg-white focus:font-bold text-gray-one">{item.label}</span>
                 </NavLink>
               </div>

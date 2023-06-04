@@ -4,8 +4,6 @@ import * as Yup from "yup";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
 import liveChatIcon from "../../../../assets/images/LiveChat.svg";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
-//import PopUpPage from "./pop-up-page";
-import LiveChatPage from "./live-chats-page";
 import { sendSupportMessageApiAsync } from "../../../../services/axios/api-services/support";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
@@ -221,7 +219,7 @@ const SupportPage: React.FC = () => {
                     if (pageRef?.current?.values)
                       pageRef.current.values = { title: "", email: "", body: "", userId: "", name: "", attachments: undefined };
                   }}
-                  message={"Successfully send the message"} />
+                  message={"Message successfully sent"} />
                 )}
               <div className="flex w-full">
                 <label
@@ -273,7 +271,7 @@ const SupportPage: React.FC = () => {
                 <div className="p-5 h-[66px] w-[66px] bg-lighterGreen-two items-center justify-center rounded-full" > <img src={liveChatIcon} alt="Attach file icon"></img></div>
               </button>
               <dialog className="absolute top-0 right-[300px] mr-0 bg-white z-50" ref={chatDialogRef} >
-                <SupportLiveChatPage />
+                <SupportLiveChatPage dialogRef={chatDialogRef} />
               </dialog>
             </div>
           </Form>
