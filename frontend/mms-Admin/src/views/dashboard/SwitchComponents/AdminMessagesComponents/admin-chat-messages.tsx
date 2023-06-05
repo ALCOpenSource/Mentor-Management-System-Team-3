@@ -31,7 +31,7 @@ function Settings() {
             return (
               <section
                 key="i"
-                className="flex hover:bg-white py-2 text-center"
+                className="mr-[20px] pl-[20px] rounded-lg ml-[20px] border-[1px] border-lightGray-two btn-animate flex-row mt-[10px] flex hover:bg-white py-2 text-center"
               >
                 <NavLink
                   className="mentor-border left_navlinks"

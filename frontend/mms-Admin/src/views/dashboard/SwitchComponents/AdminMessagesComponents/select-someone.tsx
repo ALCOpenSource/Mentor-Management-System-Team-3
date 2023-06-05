@@ -119,7 +119,7 @@ const SelectSomeOne: React.FC = () => {
                                                 ) => (
                                                     <React.Fragment key={index}>
                                                         <label htmlFor="pet" onClick={() => navigate("/dashboard/messages/admin-chat-messages")} className="w-full">
-                                                            <div className="mentor-border btn-animate flex flex-row mt-[10px]">
+                                                            <div className="w-[810px] mr-[20px] pl-[50px] py-[5px] rounded-lg ml-[20px] border-[1px]  border-lightGray-two btn-animate flex flex-row mt-[10px]">
                                                                 <img
                                                                     src={mentor.icon}
                                                                     alt="profile logo"
@@ -135,21 +135,21 @@ const SelectSomeOne: React.FC = () => {
                                                                     </label>
                                                                     <div className="flex flex-row mt-0 relative  w-full">
                                                                         <label
-                                                                            className="relative h-[20px] leading-[20px] text-gray-two left-[20px] top-0 font-mukta text-[12px]"
+                                                                            className="relative h-[20px] leading-[20px] text-gray-two left-[20px] top-[-5px] font-mukta text-[12px]"
                                                                             htmlFor="about"
                                                                         >
                                                                             {mentor.details}
                                                                         </label>
 
                                                                         <label
-                                                                            className="relative font-mukta left-[25%] color[#4d4d4d] top-[-10px] text-[12px] leading-[20px]"
+                                                                            className="relative px-3 rounded-lg bg-[#E6FDFE] font-mukta left-[25%] color[#4d4d4d] top-[-10px] text-[12px] leading-[20px]"
                                                                             htmlFor="about"
                                                                         >
                                                                             {mentor.title}
                                                                         </label>
 
                                                                         <label
-                                                                            className="message-title-text ms-12"
+                                                                            className="relative px-3 rounded-lg bg-[#E6FDFE] font-mukta left-[25%] color[#4d4d4d] top-[-10px] text-[12px] leading-[20px] ms-12"
                                                                             htmlFor="about"
                                                                         >
                                                                             {mentor.mentor}

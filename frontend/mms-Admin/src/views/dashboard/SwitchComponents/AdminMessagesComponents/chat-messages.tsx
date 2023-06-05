@@ -174,13 +174,13 @@ function ChatMessages() {
     const token = useAppSelector(selectCurrentUserToken);
     const [xCurrentMessages, setXCurrentMessages] = useState<ChatMessageProp[]>([]);
 
-    // useEffect(() => {
-    //     try {
-    //         fetchAdminChatMessagesApiAsync(token)
-    //             .then(xx => xx. setXCurrentMessages(xx.))
-    //             .catch(error => console.error(error));
-    //     } catch (ee) { console.error(ee) }
-    // });
+    useEffect(() => {
+        try {
+            fetchAdminChatMessagesApiAsync(token)
+                .then(xx => xx().then(c => setXCurrentMessages(c)))
+                .catch(error => console.error(error));
+        } catch (ee) { console.error(ee) }
+    });
 
     return (
         <div className="flex flex-row mt-0 relative h-full w-full">

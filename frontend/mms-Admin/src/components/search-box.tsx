@@ -15,7 +15,7 @@ const SearchBox: FC<SearchBoxProps> = ({ id, name, placeholder, iconLeftPosition
     return (
         <div className="w-full transform hover:translate-y-1 hover:bg-opacity-80 transition ease-out duration-300">
             <button
-                className={`focus:outline-none pl-0 text-gray-two z-10 absolute left-[${iconLeftPosition ?? 20}px] top-[16px]`}
+                className={`focus:outline-none pl-0 text-gray-two z-10 absolute left-[${iconLeftPosition ?? 10}px] top-[16px]`}
                 type="button"
                 onClick={handleClick}
             >
