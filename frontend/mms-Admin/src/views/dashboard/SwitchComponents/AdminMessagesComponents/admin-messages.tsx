@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import NoMessageIcon from "../../../../assets/images/messages/NoMessages.svg";
-import "./messages.css"
 import { useNavigate } from "react-router-dom";
-import { ChatMessageProp } from "../SettingsComponents/live-chats-page";
-
+import { ChatMessageProp } from "../SettingsComponents/support-live-chat";
 interface ChatProp {
   name: string;
   id: string;
@@ -17,27 +15,22 @@ const NoMessagesComponent: React.FC = () => {
 
   return (
     <div style={{ alignItems: "center", justifyContent: "center" }} className="flex w-full h-full">
-      <div style={{ display: "inline-block", textAlign: "center", justifyContent: "center" }} >
+      <div className="flex justify-center text-center flex-col" >
         <img
           src={NoMessageIcon}
-          style={{
-            height: "44.2px",
-            width: "44.2px",
-            margin: "auto"
-          }}
+          className="h-[44.2px] w-[44.2px] m-auto"
           alt="Attach file icon"
         />
-        <label className="no-messages-box">
+        <label className="font-mukta text-[20px] leading-[33px] w-full items-center font-semibold text-center text-[#141414] ">
           No Messages, Yet
         </label>
-        <label className="no-message-details-box">
+        <label className="m-auto font-mukta font-[16px] leading-[27px] mb-[50px] items-center text-center text-[#999999]">
           No messages in your chatbox, yet. Start chatting with other users
         </label>
         <button
           type="button"
           onClick={browsePeople}
-          style={{ marginBottom: "20px", marginTop: "50px", margin: "auto" }}
-          className="bg-green-three text-white rounded-[10px] p-[10px] font-medium mt-0"
+           className="btn-primary relative mx-auto p-[10px]"
         >
           Browse People
         </button>
@@ -49,7 +42,7 @@ const NoMessagesComponent: React.FC = () => {
 const ExistsMessagesComponent: React.FC = () => {
   return (
     <div style={{ alignItems: "center" }} className="flex w-full h-full">
-      <label>Kuna messages</label>
+      <label>messages found</label>
       <img
         src={NoMessageIcon}
         style={{
@@ -95,11 +88,10 @@ const AdminMessages: React.FC = () => {
         {({ errors, touched }) => {
           return (
             <Form className="w-full h-screen">
-              <div className="flex w-full">
+              <div className="flex flex-col w-full py-3">
                 <button
                   type="submit"
-                  style={{ marginLeft: "auto", marginBottom: "20px", marginTop: "-20px" }}
-                  className="bg-green-three text-white rounded-[10px] p-[10px] font-medium mt-0"
+                  className="btn-primary ml-auto my-auto"
                 >
                   Send Broadcast Message
                 </button>

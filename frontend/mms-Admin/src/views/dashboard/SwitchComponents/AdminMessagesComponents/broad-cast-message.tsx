@@ -1,13 +1,13 @@
 import { Field, FieldArray, Formik } from "formik";
-import { ChatMessageProp, MessageType } from "../SettingsComponents/live-chats-page";
 import { getShortTime } from "../../../../services/dateFunctions";
 import React, { useEffect, useState } from "react";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
 import ChatSendMessage from "../../../../assets/images/programs/ChatSendMessage.svg";
 import ChatImoji from "../../../../assets/images/programs/ChatImoji.svg";
-import { fetchAdminBroadcastMessagesApiAsync, fetchAdminChatMessagesApiAsync } from "../../../../services/axios/api-services/chat-messages";
+import { fetchAdminBroadcastMessagesApiAsync } from "../../../../services/axios/api-services/chat-messages";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import { ChatMessageProp, MessageType } from "../SettingsComponents/support-live-chat";
 
 function BroadCastMessage() {
     const [currentMessages, setCurrentMessages] = useState<ChatMessageProp[] | undefined>(undefined);
@@ -31,7 +31,7 @@ function BroadCastMessage() {
                     <div className="mt-0 relative h-full w-full bg-lighterGreen-three">
                         <div className="flex w-full flex-row">
                             <label
-                                className="mentor-title w-full ms-5 pt-0 text-customBlack-one text-lg"
+                        className="w-full relative text-[20px] font-semibold leading-[33px] text-[#333] h-[33px] left-0 top-[12px] font-mukta ms-5 pt-0"
                                 htmlFor="about"
                                 style={{ color: "#141414", fontSize: "24px" }}
                             >
@@ -40,8 +40,7 @@ function BroadCastMessage() {
 
                             <button
                                 type="submit"
-                                style={{ marginLeft: "auto" }}
-                                className="bg-green-three px-10 text-white rounded-[10px] p-[10px] font-medium mt-0"
+                                className="ml-auto btn-primary mt-0"
                             >
                                 Close
                             </button>

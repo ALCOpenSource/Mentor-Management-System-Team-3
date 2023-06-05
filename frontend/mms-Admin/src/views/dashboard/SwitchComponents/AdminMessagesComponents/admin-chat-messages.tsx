@@ -2,7 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import { MentorProp } from "./select-someone";
 import { getRandomInteger } from "../../../../services/mathFunctions";
 import avatarSVG from "../../../../assets/images/avatar.svg";
-import "./messages.css";
+//import "./messages.css";
 import ChatMessages from "./chat-messages";
 import { useState } from "react";
 
@@ -38,7 +38,7 @@ function Settings() {
                   to={"/dashboard/messages/admin-chat-messages"} state= {mentor}
                   
                 >
-                  <div style={{ width: "360px", marginTop: "0px" }} className="flex flex-row mt-[1px]  ">
+                  <div style={{ width: "360px", marginTop: "0px" }} className="flex flex-row mt-[1px] btn-animate ">
                     <img
                       src={mentor.icon}
                       alt="profile logo"
@@ -47,7 +47,7 @@ function Settings() {
                     <div className="w-full relative">
                       <div className="flex flex-row mt-0 relative  w-full">
                         <label
-                          className="mentor-title"
+                          className="relative text-[20px] font-semibold leading-[33px] text-[#333] h-[33px] left-0 top-[12px] font-mukta ms-5 pt-0"
                           style={{ top: "3px", left: "20px", marginRight: "auto" }}
                           htmlFor="about"
                         >
@@ -56,7 +56,7 @@ function Settings() {
                       </div>
                       <div className="flex flex-row mt-0 relative  w-full">
                         <label
-                          className="small-detail-text"
+                          className="relative h-[20px] leading-[20px] text-gray-two left-[20px] top-0 font-mukta text-[12px]"
                           htmlFor="about"
                         >
                           {mentor.details}

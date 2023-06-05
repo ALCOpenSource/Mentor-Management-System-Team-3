@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Formik, Form, FormikProps, Field, FieldArray } from "formik";
 import * as Yup from "yup";
 import logo from "../../../../assets/images/mms_logo.svg";
@@ -9,11 +9,13 @@ import {
   useAppSelector,
 } from "../../../../services/redux/Store";
 import ChatIcon from "../../../../assets/images/programs/ChatIcon.svg";
-import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import { selectCurrentUserNameSelector, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import { getShortTime } from "../../../../services/dateFunctions";
 import LoadingComponent from "../../../../components/loading-components/loading-component";
 import { sendSupportChatMessageApiAsync } from "../../../../services/axios/api-services/support";
-interface MessageProp {
+import { fetchChatMessagesApiAsync } from "../../../../services/axios/api-services/chat-messages";
+
+export interface ChatMessageProp {
   name: string;
   date: Date;
   icon: any;
@@ -21,12 +23,12 @@ interface MessageProp {
   message: string;
 }
 
-enum MessageType {
+export enum MessageType {
   Send = "send",
   Recieved = "Recieved",
 }
 export interface SupportChatModel {
-  messages: MessageProp[];
+  messages: ChatMessageProp[];
   pageTitle: string;
   pageIcon: any;
   pageSubTitle: string;
@@ -41,39 +43,26 @@ const initialValues: SupportChatModel = {
   pageIcon: logo,
 };
 
-const messages = [
-  "Hello! How are you doing?",
-  "A'm doing well, thanks you.\r\nHow can I help",
-  "I have a question about the return policy for a product I purchased.",
-  "Ok! Kindly what is the problem",
-  "It's showing that is expired",
-  "It's even unable to be loaded",
-  "Help me with your insurance number",
-];
-
-for (let i = 0; i < messages.length; i++) {
-  var isReceived = i % 2 === 0;
-  if (i > 4) isReceived = i % 2 !== 0;
-  initialValues.messages.push({
-    name: !isReceived ? "Assistant" : "Anonymous",
-    date: new Date(),
-    icon: ChatIcon,
-    messageType: isReceived ? MessageType.Recieved : MessageType.Send,
-    message: messages[i],
-  });
-}
-
 interface SupportChatProps {
   dialogRef: React.RefObject<HTMLDialogElement>;
 }
 
 const SupportLiveChatPage: React.FC<SupportChatProps> = ({ dialogRef }) => {
-  // const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
+  const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
   const token = useAppSelector(selectCurrentUserToken);
   const [isBusy, setIsBusy] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const pageRef = useRef<FormikProps<SupportChatModel>>(null);
+
+  useEffect(() => {
+    try {
+        fetchChatMessagesApiAsync(token, userId??"", email??"")
+            .then(xx => xx().then(mm => 
+              mm.forEach(c => initialValues.messages.push(c))))
+            .catch(error => console.error(error));
+    } catch (ee) { console.error(ee) }
+});
 
   const showErrorMessage = (tt: any) => {
     try {
@@ -148,7 +137,7 @@ const SupportLiveChatPage: React.FC<SupportChatProps> = ({ dialogRef }) => {
                       {values.messages && values.messages.length > 0
                         ? values.messages.map(
                           (
-                            message: MessageProp,
+                            message: ChatMessageProp,
                             index: React.Key | null | undefined
                           ) => {
                             function getMessageBlock() {

@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { MentorProp } from "./select-someone";
 import { useEffect, useState } from "react";
 import { Field, FieldArray, Formik } from "formik";
-import { ChatMessageProp, MessageType } from "../SettingsComponents/live-chats-page";
 import { getMonthDay, getShortTime } from "../../../../services/dateFunctions";
 import React from "react";
 import { fetchAdminChatMessagesApiAsync } from "../../../../services/axios/api-services/chat-messages";
@@ -11,6 +10,7 @@ import { selectCurrentUserToken } from "../../../../services/redux/slices/curren
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
 import ChatSendMessage from "../../../../assets/images/programs/ChatSendMessage.svg";
 import ChatImoji from "../../../../assets/images/programs/ChatImoji.svg";
+import { ChatMessageProp, MessageType } from "../SettingsComponents/support-live-chat";
 
 let currentUser: MentorProp | undefined = undefined;
 
@@ -30,10 +30,10 @@ const NoMessagesComponent: React.FC = () => {
                     }}
                     alt="Attach file icon"
                 />
-                <label className="no-messages-box">
+                <label className="font-mukta text-[20px] leading-[33px] w-full items-center font-semibold text-center text-[#141414]">
                     No Messages, Yet
                 </label>
-                <label className="no-message-details-box">
+                <label className="m-auto font-mukta font-[16px] leading-[27px] items-center text-center text-[#999999]">
                     No messages in your chatbox, yet. Start chatting with other users
                 </label>
                 <button
@@ -174,13 +174,13 @@ function ChatMessages() {
     const token = useAppSelector(selectCurrentUserToken);
     const [xCurrentMessages, setXCurrentMessages] = useState<ChatMessageProp[]>([]);
 
-    useEffect(() => {
-        try {
-            fetchAdminChatMessagesApiAsync(token)
-                .then(xx => setXCurrentMessages(xx))
-                .catch(error => console.error(error));
-        } catch (ee) { console.error(ee) }
-    });
+    // useEffect(() => {
+    //     try {
+    //         fetchAdminChatMessagesApiAsync(token)
+    //             .then(xx => xx. setXCurrentMessages(xx.))
+    //             .catch(error => console.error(error));
+    //     } catch (ee) { console.error(ee) }
+    // });
 
     return (
         <div className="flex flex-row mt-0 relative h-full w-full">
