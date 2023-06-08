@@ -23,13 +23,19 @@ import SettingsFAQ from "./views/dashboard/SwitchComponents/SettingsComponents/f
 import LoginForm from './views/login/LoginForm';
 import Mentors from "./views/dashboard/SwitchComponents/mentor/mentor";
 import ProtectedRoutes from "./components/protectedRoute";
-import ApprovalRequests from './views/dashboard/SwitchComponents/approval-requests';
+import ApprovalRequests from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/index';
 import MentorManagers from './views/dashboard/SwitchComponents/mentor-managers';
 import AdminMessages from './views/dashboard/SwitchComponents/AdminMessagesComponents/admin-messages';
 import AdminChatMessages from './views/dashboard/SwitchComponents/AdminMessagesComponents/admin-chat-messages';
 import SelectSomeOne from './views/dashboard/SwitchComponents/AdminMessagesComponents/select-someone';
 import BroadCastMessage from './views/dashboard/SwitchComponents/AdminMessagesComponents/broad-cast-message';
 import DiscussionForum from './views/dashboard/SwitchComponents/AdminMessagesComponents/discussion-forum';
+import ProgramRequests from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/program-request';
+import MentorManagerRequests from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/mentor-manager-request';
+import MentorManagerRequestDetails from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/mentor-manager-request-details';
+import MentorRequests from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/mentor-request';
+import MentorRequestDetails from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/mentor-request-details';
+import ProgramRequestDetails from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/program-request-details';
 
 function AppRoutes() {
   return (
@@ -65,7 +71,17 @@ function AppRoutes() {
             </Route>
             <Route path="certificates" element={<Certificates />} />
             <Route path="programs" element={<Programs />} />
-            <Route path="approval-requests" element={<ApprovalRequests />} />
+            <Route path="approval-requests" element={<ApprovalRequests />} >
+              <Route index element={<MentorManagerRequests />} />
+              <Route path="mentor-manager-request" element={<MentorManagerRequests />} />
+              <Route path="mentor-manager-request-details" element={<MentorManagerRequestDetails />} />
+              <Route path="mentor-request" element={<MentorRequests />} />
+              <Route path="mentor-request-details" element={<MentorRequestDetails />} />
+              <Route path="program-request-details" element={<ProgramRequestDetails />} />
+              <Route path="program-request" element={<ProgramRequests />} />
+              {/* <Route path="discussion-forum-post" element={<DiscussionForumPost />} /> */}
+              <Route path="*" element={<MentorManagerRequests />} />
+            </Route>           
             <Route path="mentor-managers" element={<MentorManagers />} />
             <Route path="reports" element={<Reports />} />
             <Route path="tasks" element={<Tasks />} />
