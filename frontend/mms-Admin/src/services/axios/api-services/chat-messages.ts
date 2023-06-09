@@ -1,4 +1,5 @@
 import ChatIcon from "../../../assets/images/programs/ChatIcon.svg";
+import { MentorProp } from "../../../views/dashboard/SwitchComponents/AdminMessagesComponents/select-someone";
 import { ChatMessageProp, MessageType } from "../../../views/dashboard/SwitchComponents/SettingsComponents/support-live-chat";
 
 export const fetchChatMessagesApiAsync = async (
@@ -34,16 +35,12 @@ export const fetchChatMessagesApiAsync = async (
     });
   }
 
-  let returnChats = async () => {
-    let output = await Promise.resolve(chats);
-    return output;
-  }
-  return returnChats;
+  return await Promise.resolve(chats);
 };
 
 
 export const fetchAdminChatMessagesApiAsync = async (
-  token: string
+  token: string, mentor: MentorProp|undefined
 ) => {
   const chats: ChatMessageProp[] = [];
 
@@ -65,19 +62,14 @@ export const fetchAdminChatMessagesApiAsync = async (
     var isReceived = i % 2 === 0;
     if (i > 4) isReceived = i % 2 !== 0;
     chats.push({
-      name: !isReceived ? "Assistant" : "Anonymous",
+      name: !isReceived ? mentor?.name??"" : "Anonymous",
       date: new Date(),
-      icon: ChatIcon,
+      icon: mentor?.icon ?? ChatIcon,
       messageType: isReceived ? MessageType.Recieved : MessageType.Send,
       message: messages[i],
     });
   }
-
-  let returnChats = async () => {
-    let output = await Promise.resolve(chats);
-    return output;
-  }
-  return returnChats;
+   return await Promise.resolve(chats);
 };
 
 export const fetchAdminBroadcastMessagesApiAsync = async (
@@ -110,10 +102,5 @@ export const fetchAdminBroadcastMessagesApiAsync = async (
       message: messages[i],
     });
   }
-
-  let returnChats = async () => {
-    let output = await Promise.resolve(chats);
-    return output;
-  }
-  return chats;
+  return await Promise.resolve(chats);
 };

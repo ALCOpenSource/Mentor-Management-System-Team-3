@@ -1,8 +1,7 @@
-import { Field, FieldArray, Form, Formik } from "formik";
+import { FieldArray, Form, Formik } from "formik";
 import React from "react";
 import { object, array, string } from "yup";
 import avatarSVG from "../../../../assets/images/avatar.svg";
-import searchIconSVG from "../../../../assets/images/search.svg";
 import messageCloseSVG from "./../../../../assets/images/messages/message-close.svg"
 import messageEarthingSVG from "./../../../../assets/images/messages/messages-earthing.svg"
 import NavigationFirst from "../../../../assets/images/programs/NavigationFirst.svg";
@@ -106,7 +105,7 @@ const SelectSomeOne: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="w-full flex h-full mt-12 pb-10">
+                        <div className="w-full flex h-full mt-1 pb-10">
                             <FieldArray
                                 name="mentors"
                                 render={(helpers) => (

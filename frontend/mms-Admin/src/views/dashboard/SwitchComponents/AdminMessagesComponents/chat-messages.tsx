@@ -20,7 +20,7 @@ const NoMessagesComponent: React.FC = () => {
 
     return (
         <div style={{ alignItems: "center", justifyContent: "center" }} className="flex w-full h-full">
-            <div style={{ display: "inline-block", textAlign: "center", justifyContent: "center" }} >
+            <div className="flex flex-col">
                 <img
                     src={currentUser?.icon}
                     style={{
@@ -33,7 +33,7 @@ const NoMessagesComponent: React.FC = () => {
                 <label className="font-mukta text-[20px] leading-[33px] w-full items-center font-semibold text-center text-[#141414]">
                     No Messages, Yet
                 </label>
-                <label className="m-auto font-mukta font-[16px] leading-[27px] items-center text-center text-[#999999]">
+                <label className="m-auto font-mukta font-[16px] leading-[27px] mb-10 items-center text-center text-[#999999]">
                     No messages in your chatbox, yet. Start chatting with other users
                 </label>
                 <button
@@ -69,7 +69,7 @@ function ChatMessagesComponent(props: {
             <FieldArray
                 name="messages"
                 render={(helpers) => (
-                    <div className="items-messages-container">
+                    <div className="h-[calc(100vh-100px)] scrollable-by-y">
                         {currentMessages && currentMessages.length > 0
                             ? currentMessages.map(
                                 (
@@ -79,38 +79,46 @@ function ChatMessagesComponent(props: {
                                     function getMessageBlock() {
                                         if (message.messageType === MessageType.Recieved) {
                                             return (
-                                                <div className="recieved-message-block bg-lighterGreen-three">
-                                                    <label
-                                                        className="received-message-text"
-                                                        htmlFor="about"
-                                                    >
-                                                        {message.message}
-                                                    </label>
-                                                    <br />
-                                                    <label
-                                                        className="recieved-time"
-                                                        htmlFor="about"
-                                                    >
-                                                        {getShortTime(message.date)}
-                                                    </label>
-                                                </div>
-                                            );
-                                        } else {
-                                            return (
-                                                <div>
-                                                    <div className="send-message-block">
-                                                        <img
-                                                            src={message.icon}
-                                                            alt="Attach file icon"
-                                                            className="chat-icon-image" />
+                                                <div className="relative min-w-[51%] float-right rounded-b-xl rounded-tl-xl text-[16px] leading-[24px] mx-[15px] my-[30px] ml-auto flex-col justify-end items-end px-[10px] py-[15px] pb-[6px] gap-[8px] max-w-[319px] flex-none flex-grow-0">
+                                                    <div className="flex flex-col content-end float-right bg-white">
                                                         <label
-                                                            className="send-message-text"
+                                                            className="max-w-[289px] px-3 float-right py-1 text-[16px] leading-[27px] text-[#0d082c]"
                                                             htmlFor="about"
                                                         >
                                                             {message.message}
                                                         </label>
-                                                        <br />
-                                                        <label className="send-time" htmlFor="about">
+
+                                                        <label
+                                                            className="mt-0 float-left mb-2 ml-4 self-start text-[14px] leading-[18px] text-[rgba(13,8,44,0.4)]"
+                                                            htmlFor="about"
+                                                        >
+                                                            {getShortTime(message.date)}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            );
+                                        } else {
+                                            return (
+                                                <div className="relative rounded-b-xl min-w-[51%] rounded-tr-xl text-[16px] float-left leading-[24px] mx-[15px] my-[30px] ml-[80px] mt-[30px] flex-row justify-end items-end px-[10px] py-[15px] pb-[-30px] max-w-[270px] flex-none flex-grow-0">
+                                                    <div className="flex flex-col content-start float-left bg-lighterGreen-one">
+                                                        <img
+                                                            src={message.icon}
+                                                            alt="Attach file icon"
+                                                            className="mt-[-40px] ml-[-80px] h-[60px] w-[60px]"
+                                                        />
+                                                        <label
+                                                            className="font-semibold whitespace-nowrap text-[16px] mb-0 leading-[27px] text-[#0d082c] mt-[-45px] ml-[-10px] w-full"
+                                                            htmlFor="about"
+                                                        >
+                                                            {message.name}
+                                                        </label>
+                                                        <label
+                                                            className="max-w-[270px] mt-0 px-3 py-1 leading-[27px] text-[16px] text-[#0d082c] flex-none"
+                                                            htmlFor="about"
+                                                        >
+                                                            {message.message}
+                                                        </label>                                                        
+                                                        <label className="mt-0 ml-4 block self-start text-[14px] leading-[18px] text-[rgba(44,8,8,0.4)]" htmlFor="about">
                                                             {getShortTime(message.date)}
                                                         </label>
                                                     </div>
@@ -121,15 +129,17 @@ function ChatMessagesComponent(props: {
 
                                     return (
                                         <React.Fragment>
-                                            <label htmlFor="message" className="w-full">
-                                                <div>{getMessageBlock()}</div>
-                                            </label>
+                                            <div className="min-w-[400px] w-full">
+                                                {getMessageBlock()}
+                                                <p className="min-w-[400px]" />
+                                            </div>
                                         </React.Fragment>
                                     );
                                 }
                             )
                             : null}
                     </div>
+
                 )} />
             <div style={{ textAlign: "center", justifyContent: "end", width: "100%" }}
                 className="flex flex-row mt-0 pe-5  relative  w-full">
@@ -170,17 +180,25 @@ function ChatMessagesComponent(props: {
 
 function ChatMessages() {
     const location = useLocation();
-    currentUser = location.state;
+    const user = currentUser = location.state;
     const token = useAppSelector(selectCurrentUserToken);
+    //const xCurrentMessages: ChatMessageProp[] = [];
     const [xCurrentMessages, setXCurrentMessages] = useState<ChatMessageProp[]>([]);
 
     useEffect(() => {
+        console.log("Getting messagess");
+        function getMessages(mentor: MentorProp | undefined) {
+            return fetchAdminChatMessagesApiAsync(token, mentor)
+                .then(xx => xx)
+                .catch(err => { throw err });
+        }
+
         try {
-            fetchAdminChatMessagesApiAsync(token)
-                .then(xx => xx().then(c => setXCurrentMessages(c)))
+            getMessages(user)
+                .then(xx => setXCurrentMessages(xx))
                 .catch(error => console.error(error));
         } catch (ee) { console.error(ee) }
-    });
+    }, [user, token]);
 
     return (
         <div className="flex flex-row mt-0 relative h-full w-full">

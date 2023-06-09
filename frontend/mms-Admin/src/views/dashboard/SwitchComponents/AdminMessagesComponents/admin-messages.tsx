@@ -62,6 +62,7 @@ const AdminMessages: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  setChatMessages([]);
   const showErrorMessage = (tt: any) => {
     try {
       setErrorMessage(tt?.message ?? tt);

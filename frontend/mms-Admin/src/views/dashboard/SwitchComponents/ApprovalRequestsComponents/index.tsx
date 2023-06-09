@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserNameSelector, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import { fetchApprovalRequestsMetaDataApiAsync } from "../../../../services/axios/api-services/approval-requests";
+import LoadingComponent from "../../../../components/loading-components/loading-component";
 
 export type RequestType = "MENTOR-MANAGER-REQUEST" | "MENTOR-REQUEST" | "PROGRAM-REQUEST";
 
@@ -12,7 +13,7 @@ function ApprovalRequests() {
     const [isBusy, setIsBusy] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const token = useAppSelector(selectCurrentUserToken);
+    const token: string = useAppSelector(selectCurrentUserToken);
     const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
     const navigate = useNavigate();
 
@@ -66,7 +67,7 @@ function ApprovalRequests() {
             <h5 className="text-1xl text-gray-two font-bold mt-4">
                 {successMessage}
             </h5>
-
+            <LoadingComponent isBusy={isBusy} />
             <h5
                 style={{ color: "orangered" }}
                 className="text-1xl font-bold mt-4"

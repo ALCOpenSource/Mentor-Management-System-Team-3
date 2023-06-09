@@ -35,7 +35,6 @@ const EditProfilePage: React.FC = () => {
   const [filebase64, setFileBase64] = useState<string>(
     useAppSelector(selectCurrentUserProfilePicture) ?? avatar
   );
-
   const showErrorMessage = (tt: any) => {
     try {
       setIsBusy(false);
@@ -101,8 +100,10 @@ const EditProfilePage: React.FC = () => {
           // convert it to base64
           setFileBase64(img);
           try {
+            setErrorMessage("");
+            setSuccessMessage("");
             dispatch(updateCurrentUserProfilePicture(img))
-              .then(err => setSuccessMessage("Successfully changed profile picture"))
+              .then(err => showErrorMessage(""))
               .catch(err => showErrorMessage(err));
           } catch (error) { showErrorMessage(error) }
         };
@@ -187,6 +188,7 @@ const EditProfilePage: React.FC = () => {
                     name="uploadFile"
                     accept="image/*"
                     className="hidden -z-50 absolute"
+                    onClick={()=> setSuccessMessage("")}
                     onChange={(e) => convertFile(e.target.files)}
                   />
                 </div>

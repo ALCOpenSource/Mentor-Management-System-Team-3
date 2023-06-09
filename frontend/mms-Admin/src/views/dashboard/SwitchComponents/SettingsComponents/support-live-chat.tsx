@@ -8,7 +8,6 @@ import ChatImoji from "../../../../assets/images/programs/ChatImoji.svg";
 import {
   useAppSelector,
 } from "../../../../services/redux/Store";
-import ChatIcon from "../../../../assets/images/programs/ChatIcon.svg";
 import { selectCurrentUserNameSelector, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import { getShortTime } from "../../../../services/dateFunctions";
 import LoadingComponent from "../../../../components/loading-components/loading-component";
@@ -58,8 +57,7 @@ const SupportLiveChatPage: React.FC<SupportChatProps> = ({ dialogRef }) => {
   useEffect(() => {
     try {
         fetchChatMessagesApiAsync(token, userId??"", email??"")
-            .then(xx => xx().then(mm => 
-              mm.forEach(c => initialValues.messages.push(c))))
+            .then(xx => xx.forEach(c => initialValues.messages.push(c)))
             .catch(error => console.error(error));
     } catch (ee) { console.error(ee) }
 });

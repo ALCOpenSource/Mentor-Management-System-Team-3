@@ -36,6 +36,7 @@ import MentorManagerRequestDetails from './views/dashboard/SwitchComponents/Appr
 import MentorRequests from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/mentor-request';
 import MentorRequestDetails from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/mentor-request-details';
 import ProgramRequestDetails from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/program-request-details';
+import ChatMessages from './views/dashboard/SwitchComponents/AdminMessagesComponents/chat-messages';
 
 function AppRoutes() {
   return (
@@ -48,7 +49,9 @@ function AppRoutes() {
             <Route path="messages" element={<Messages />} >
               <Route index element={<AdminMessages />} />
               <Route path="admin-messages" element={<AdminMessages />} />
-              <Route path="admin-chat-messages" element={<AdminChatMessages />} />
+              <Route path="admin-chat-messages" element={<AdminChatMessages />} >
+                <Route path="*" element={<ChatMessages />} />
+              </Route>
               <Route path="select-someone" element={<SelectSomeOne />} />
               <Route path="broadcast-message" element={<BroadCastMessage />} />
               <Route path="discussion-forum" element={<DiscussionForum />} />
