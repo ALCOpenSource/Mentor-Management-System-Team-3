@@ -87,8 +87,27 @@ function getOrdinalizeDates(
   } ${getShortYear(dateTo)}`;
 }
 
+const getMonthDay = function (dt: Date) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  return  `${dt.getDate()} ${months[dt.getMonth()]}` ;
+};
+
 export {
   getShortDate,
+  getMonthDay,
   getShortTime,
   addMinutes,
   getOrdinalNumber,

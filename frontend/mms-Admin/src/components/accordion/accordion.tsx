@@ -11,8 +11,7 @@ function Accordion({ items }: { items: Array<AccordionData> }) {
   const intValue = getRandomInteger(0,100000000);
   return (
     <ul className="list-none p-0 m-0 h-full w-full">
-      {items.map((item, idx) => {               
-        //console.log(idx, currentIdx, item);
+      {items.map((item, idx) => {  
         return (
           <AccordionItem
             key={idx + intValue}

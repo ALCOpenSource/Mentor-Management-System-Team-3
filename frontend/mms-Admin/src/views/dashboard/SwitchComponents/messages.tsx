@@ -1,11 +1,16 @@
-function Messages(){
+import { Outlet } from "react-router-dom";
+import "../../../index.css"
+import "./Messages.css"
 
-
+function Messages() {
     return (
-        <section>
-            <h1>Messages</h1>
-        </section>
-    )
+        <div className="h-screen w-full">
+            <section className="h-[90%] w-full">
+                <section className="h-full w-full border-solid p-1">
+                    <Outlet />
+                </section>
+            </section>
+        </div>
+    );
 }
-
 export default Messages;

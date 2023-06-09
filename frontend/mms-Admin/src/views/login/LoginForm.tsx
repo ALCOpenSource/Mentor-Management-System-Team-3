@@ -38,14 +38,17 @@ const PasswordPage: React.FC = () => {
             await dispatch(logoutCurrentUser());
             googleLogout();
           } catch (error) { console.log(error) }
-
+setIsBusy(true);
           await dispatch(
             loginCurrentUserWithGoogle({
               email: values.email,
               displayName: values.fullName,
               profilePicture: values.picture
             })
-          ).then(dd => navigate("/dashboard"))
+          ).then(dd => {
+            setIsBusy(false);
+            navigate("/dashboard");
+          })
             .catch(err => { showErrorMessage(err) });
         } catch (error: any) {
           showErrorMessage(error?.message);

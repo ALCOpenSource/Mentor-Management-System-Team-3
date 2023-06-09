@@ -16,6 +16,7 @@ import {
 } from "../../redux/slices/current-user-slice";
 import { Privacy } from "../../redux/types/privacy";
 import { Notification } from "../../redux/types/notification";
+
 export const changeCurrentUserPasswordApiAsync = async (
   userDetails: ChangePasswordDetails,
   token?: string
@@ -26,7 +27,7 @@ export const changeCurrentUserPasswordApiAsync = async (
     confirmNewPassword: userDetails.confirmPassword,
     userId: userDetails.userId,
   };
- 
+
   const updatePassword = await axiosWithBearer(token ?? "")
     .patch("/auth/reset-password", data)
     .then((data) => {
@@ -40,11 +41,11 @@ export const changeCurrentUserPasswordApiAsync = async (
 
 export const resetCurrentUserPasswordApiAsync = async (userEmail: string) => {
   const updatePassword = await axiosWithoutBearer
-  .patch<{
-    data: { access_token: string; email: string; id: string; role: string };
-  }>("/auth/forgot-password", {
-    email: `${userEmail}`
-  })
+    .patch<{
+      data: { access_token: string; email: string; id: string; role: string };
+    }>("/auth/forgot-password", {
+      email: `${userEmail}`,
+    })
     .then((data) => {
       return userEmail;
     })
@@ -71,35 +72,16 @@ export const updateCurrentUserApiAsync = async (
   return update;
 };
 
-// export const updateCurrentUserProfilePictureApiAsync = async (image: any, token:string) => {
-//   const saveUserAvatar =
-//     axiosWithBearer(token ?? "").patch("/auth/avatar",image, {
-//       responseType: "arraybuffer",
-//       responseEncoding: "base64",
-//       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-//     })
-//   .then((res) => {
-//     //return Buffer.from(res.data, "base64");
-//     return image;
-//   })
-//   .catch((err) => {
-//     throw err;
-//   });
-
-//   return saveUserAvatar;
-// };
 
 export const updateCurrentUserProfilePictureApiAsync = async (
   image: any,
   token: string
 ) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("avatar", image);
-
+  const data = {
+    avatar: image,
+  };
   const saveUserAvatar = axiosWithBearer(token ?? "")
-    .patch("/users/avatar", bodyFormData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    })
+    .patch("/users/avatar", data)
     .then((res) => {
       return image;
     })
@@ -112,45 +94,6 @@ export const updateCurrentUserProfilePictureApiAsync = async (
 
 export const logoutCurrentUserApiAsync = async () => {};
 
-// export const loginCurrentUserApiAsync = async (
-//   userDetails: UsernamePassword, dispatch: ThunkDispatch<unknown, unknown, AnyAction>
-// ) => {
-//   return new Promise<LoggedInUser>(function(resolve, reject){
-//     if (userDetails?.afterSuccessful) userDetails?.afterSuccessful();
-//     return getUser(dispatch);
-//   })
-// }
-
-// function getUser(dispatch: ThunkDispatch<unknown, unknown, AnyAction>): LoggedInUser {
-//   const flag = getCountryFlag("Ke");
-
-//   const oldUser: SystemUser = {
-//     firstNames: "Kabiru",
-//     lastName: "Ibrahim",
-//     userRole: "Admin",
-//     about:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dignissim  ut cursus purus efficitur et. Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus.  Duis ac enim tellus. Phasellus pharetra metus, ut cursus purus efficitur et. Duis ac enim tellus. Phasellus eget tortor dapibus, laoreet mauris sed, dignissim lectus. ",
-//     website: "www.pecular.com",
-//     country: "Nigeria",
-//     city: "Lagos",
-//     email: "pecular@andela.com",
-//     github: "@pecular.umeh",
-//     linkedin: "@pecular.umeh",
-//     instagram: "@pecular.umeh",
-//     twitter: "@pecular.umeh",
-//     countryFlagIcon: flag,
-//     userImage: avatar
-//   };
-
-//   const dispatch = useAppDispatch();
-//dispatch(updateLoggedInCurrentUser(oldUser));
-//   const logedInUser: LoggedInUser = {
-//     user: oldUser,
-//     userToken: "djhsgf dfgsdfjgdf gdfgsdfngsdf gdfgsdf",
-//     loginTime: new Date().getTime(),
-//   };
-//   return logedInUser;
-// }
 export const loginCurrentUserApiAsync = async (
   userDetails: UsernamePassword,
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>
@@ -179,37 +122,39 @@ export const loginCurrentUserApiAsync = async (
 
 export const refreshCurrentUserApiAsync = async (
   token: string,
-  role : string,
+  role: string,
   dispatch: ThunkDispatch<unknown, unknown, AnyAction>
-) => {  
+) => {
   const getUser = axiosWithBearer(token ?? "")
-        .get("/users/me")
-        .then((data) => {
-          return data;
-        })
-        .catch((err) => {
-          throw err?.response?.data?.message ?? err;
-        })    
+    .get("/users/me")
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      throw err?.response?.data?.message ?? err;
+    })
     .catch((err) => {
       throw err?.response?.data?.message ?? err;
     });
 
-  const getUserAvatar = axiosWithBearer(token ?? "").get("/users/avatar", {
-        responseType: "arraybuffer",
-        responseEncoding: "base64",
-      })
-    .then((res) => {
-      return Buffer.from(res.data, "base64");
+  const getUserAvatar:Promise<string> = axiosWithBearer(token ?? "")
+    .get("/users/avatar")
+    .then(async (res) => {
+      try {        
+        const img = res.data?.data?.avatar?.toString();
+        return img;
+      } catch (err) {
+        console.log(err);
+      }
     })
     .catch((err) => {
-      // if (userDetails?.afterUnSuccessful)
-      //   userDetails?.afterUnSuccessful(err);
+      console.log(err);
     });
 
   const finalize = Promise.all([getUser, getUserAvatar])
     .then((userData) => {
       const mx = userData[0].data.data;
-      const userProfileImage = userData[1] ?? avatar;
+       const userProfileImage = userData[1] ?? avatar;
 
       let loggedInUser: SystemUser = {
         userId: mx.userId,
@@ -379,9 +324,3 @@ export const loginCurrentUserWIthGoogleApiAsync = async (
     });
 };
 
-// var options = {
-//   method: 'GET',
-//   url: 'https://api.pexels.com/v1/curated',
-//   params: {page: '2', per_page: '40'},
-//   headers: {Authorization: '_authkey_'}
-// };

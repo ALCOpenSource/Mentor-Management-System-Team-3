@@ -16,6 +16,28 @@ export interface SystemUser {
   userImage?: any;
 }
 
+export interface MentorUser {
+  userId?: string|null|undefined;
+  userAvatar: any;
+  details: string;
+  title: string;
+  mentor: string;
+  firstNames?: string|null|undefined;
+  lastName?: string|null|undefined;
+  role?: string|null|undefined;
+  bio?: string|null|undefined;
+  email?: string|null|undefined;
+  technicalProficiency?: string|null|undefined;
+  previousPrograms?: string[]|null|undefined;
+  previousRolesHeld?: string[]|null|undefined;
+  availabiityForNewProgram?: string|null|undefined;
+  programOfInterest?: string|null|undefined;
+  beenAmentorBefore?: boolean|null|undefined;
+  technicalYearsExperience?: number|null|undefined;
+  documents?: string[]|null|undefined;
+  status?: "PENDING"|"APPROVED"|"REJECTED"|"RETURNED";
+}
+
 export interface LoggedInUser {
   user: SystemUser;
   loginTime?: number;
