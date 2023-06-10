@@ -1,46 +1,61 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { MentorProp } from "./select-someone";
 import { getRandomInteger } from "../../../../services/mathFunctions";
-import avatarSVG from "../../../../assets/images/avatar.svg";
-//import "./messages.css";
-import ChatMessages from "./chat-messages";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchAdminChatMessagesApiAsync } from "../../../../services/axios/api-services/chat-messages";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import { NoMessageSelectedsComponent } from "./chat-messages";
 
-function Settings() {
-  const currentMentors: MentorProp[] = [];
+function AdminChatMessages() {
   const [currentMentor, setCurrentMentor] = useState<MentorProp | undefined>(undefined);
+  const [currentMentors, setCurrentMentors] = useState<MentorProp[] | undefined>(undefined);
   const token = useAppSelector(selectCurrentUserToken);
 
-  for (let i = 0; i < 100; i++) {
-    const date = new Date();
-    date.setMinutes(date.getMinutes() - getRandomInteger(0, 1500000));
-    currentMentors.push({
-      name: "Mentor User " + i,
-      icon: avatarSVG,
-      details: "Mentor Assistant, Andela, She/her",
-      title: "MENTOR ASST.",
-      mentor: "MENTOR-GADS"
-    });
-  }
+  useEffect(() => {
+    function getMessages(mentor: MentorProp | undefined) {
+      return fetchAdminChatMessagesApiAsync(token, mentor)
+        .then(xx => xx)
+        .catch(err => { throw err });
+    }
+
+    try {
+         getMessages(currentMentor)
+        .then(xx => {
+          const objs = [];
+          for (let i = 0; i < xx.length; i++) {
+            const date = new Date();
+            date.setMinutes(date.getMinutes() - getRandomInteger(0, 1500000));
+            objs.push({
+              name: "User "+i,
+              icon: xx[i].icon,
+              details: "Mentor Assistant, Andela, She/her",
+              title: "MENTOR ASST.",
+              mentor: "MENTOR-GADS"
+            });
+          }
+          console.log(currentMentor);
+          setCurrentMentors(objs);
+        })
+        .catch(error => console.error(error));
+    } catch (ee) { console.error(ee) }
+  }, [token]);
+
 
   return (
     <div className="flex flex-col " >
       <h3 className="text-black text-2xl ms-0 pt-3 pb-1 font-bold">Chats</h3>
       <section style={{ width: "80vw" }} className="flex w-full">
         <section style={{ width: "600px" }} className="border-solid  overflow-y-scroll h-screen pb-11 left_navlinks">
-          {currentMentors.map((mentor, i) => {
+          {currentMentors?.map((mentor, i) => {
             return (
               <section
                 key="i"
                 className="mr-[20px] pl-[20px] rounded-lg ml-[20px] border-[1px] border-lightGray-two btn-animate flex-row mt-[10px] flex hover:bg-white py-2 text-center"
               >
                 <NavLink
-                  className="mentor-border left_navlinks"
+                  className="mentor-border left_navlinks" onClick = {() => setCurrentMentor(mentor)}
                   to={"/dashboard/messages/admin-chat-messages/chat-messages"} state={mentor}
-
                 >
                   <div style={{ width: "360px", marginTop: "0px" }} className="flex flex-row mt-[1px] btn-animate ">
                     <img
@@ -74,11 +89,11 @@ function Settings() {
           })}
         </section>
         <section className="w-full border-solid p-1">
-          {/* <ChatMessages /> */}
+          {(!currentMentor) && (<NoMessageSelectedsComponent />)}
           <Outlet />
         </section>
       </section>
     </div>
   );
 }
-export default Settings;
+export default AdminChatMessages;

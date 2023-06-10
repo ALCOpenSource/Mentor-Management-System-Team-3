@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import NoMessageIcon from "../../../../assets/images/messages/NoMessages.svg";
 import { useNavigate } from "react-router-dom";
 import { ChatMessageProp } from "../SettingsComponents/support-live-chat";
-interface ChatProp {
+import { useAppSelector } from "../../../../services/redux/Store";
+import { selectCurrentUserNameSelector, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import { fetchAllAdminChatMessagesApiAsync } from "../../../../services/axios/api-services/chat-messages";
+import AdminChatMessages from "./admin-chat-messages";
+export interface ChatProp {
   name: string;
   id: string;
   messages: ChatMessageProp[]
@@ -30,7 +34,7 @@ const NoMessagesComponent: React.FC = () => {
         <button
           type="button"
           onClick={browsePeople}
-           className="btn-primary relative mx-auto p-[10px]"
+          className="btn-primary relative mx-auto p-[10px]"
         >
           Browse People
         </button>
@@ -42,16 +46,7 @@ const NoMessagesComponent: React.FC = () => {
 const ExistsMessagesComponent: React.FC = () => {
   return (
     <div style={{ alignItems: "center" }} className="flex w-full h-full">
-      <label>messages found</label>
-      <img
-        src={NoMessageIcon}
-        style={{
-          height: "44.2px",
-          width: "44.2px",
-        }}
-        alt="Attach file icon"
-        className="dropdown-icon"
-      />
+      <AdminChatMessages />
     </div>
   )
 }
@@ -61,8 +56,25 @@ const AdminMessages: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const token = useAppSelector(selectCurrentUserToken);
+  const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
 
-  setChatMessages([]);
+  useEffect(() => {
+    function getMessages() {
+      return fetchAllAdminChatMessagesApiAsync(token, userId ?? "", email ?? "")
+        .then(xx => xx)
+        .catch(err => { throw err });
+    }
+
+    try {
+      getMessages()
+        .then(xx => setChatMessages(xx))
+        .catch(error => console.error(error));
+    } catch (ee) { console.error(ee) }
+  }, [userId, email, token]);
+
+
+  //setChatMessages([]);
   const showErrorMessage = (tt: any) => {
     try {
       setErrorMessage(tt?.message ?? tt);

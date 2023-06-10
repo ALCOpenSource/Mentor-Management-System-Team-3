@@ -117,7 +117,7 @@ const SelectSomeOne: React.FC = () => {
                                                     index: React.Key | null | undefined
                                                 ) => (
                                                     <React.Fragment key={index}>
-                                                        <label htmlFor="pet" onClick={() => navigate("/dashboard/messages/admin-chat-messages")} className="w-full">
+                                                        <label htmlFor="pet" onClick={() => navigate("/dashboard/messages/admin-chat-messages", {state:mentor})} className="w-full">
                                                             <div className="w-[810px] mr-[20px] pl-[50px] py-[5px] rounded-lg ml-[20px] border-[1px]  border-lightGray-two btn-animate flex flex-row mt-[10px]">
                                                                 <img
                                                                     src={mentor.icon}

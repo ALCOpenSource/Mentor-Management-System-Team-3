@@ -8,13 +8,12 @@ import { fetchAdminChatMessagesApiAsync } from "../../../../services/axios/api-s
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
+import noSelectedItem from "../../../../assets/images/messages/no-selected-item.svg"
 import ChatSendMessage from "../../../../assets/images/programs/ChatSendMessage.svg";
 import ChatImoji from "../../../../assets/images/programs/ChatImoji.svg";
 import { ChatMessageProp, MessageType } from "../SettingsComponents/support-live-chat";
 
-let currentUser: MentorProp | undefined = undefined;
-
-const NoMessagesComponent: React.FC = () => {
+export const NoMessageSelectedsComponent: React.FC = () => {
     const navigate = useNavigate();
     const browsePeople = () => navigate("/dashboard/messages/select-someone");
 
@@ -22,28 +21,20 @@ const NoMessagesComponent: React.FC = () => {
         <div style={{ alignItems: "center", justifyContent: "center" }} className="flex w-full h-full">
             <div className="flex flex-col">
                 <img
-                    src={currentUser?.icon}
+                    src={noSelectedItem}
                     style={{
-                        height: "44.2px",
-                        width: "44.2px",
+                        height: "49.86px",
+                        width: "44.57px",
                         margin: "auto"
                     }}
                     alt="Attach file icon"
                 />
                 <label className="font-mukta text-[20px] leading-[33px] w-full items-center font-semibold text-center text-[#141414]">
-                    No Messages, Yet
+                    No item selected yet
                 </label>
                 <label className="m-auto font-mukta font-[16px] leading-[27px] mb-10 items-center text-center text-[#999999]">
-                    No messages in your chatbox, yet. Start chatting with other users
+                    Select an item from the list to view a chat
                 </label>
-                <button
-                    type="button"
-                    onClick={browsePeople}
-                    style={{ marginBottom: "20px", marginTop: "50px", margin: "auto" }}
-                    className="bg-green-three text-white rounded-[10px] p-[10px] font-medium mt-0"
-                >
-                    Browse People
-                </button>
             </div>
         </div>
     )
@@ -117,7 +108,7 @@ function ChatMessagesComponent(props: {
                                                             htmlFor="about"
                                                         >
                                                             {message.message}
-                                                        </label>                                                        
+                                                        </label>
                                                         <label className="mt-0 ml-4 block self-start text-[14px] leading-[18px] text-[rgba(44,8,8,0.4)]" htmlFor="about">
                                                             {getShortTime(message.date)}
                                                         </label>
@@ -180,13 +171,11 @@ function ChatMessagesComponent(props: {
 
 function ChatMessages() {
     const location = useLocation();
-    const user = currentUser = location.state;
+    const user = location.state;
     const token = useAppSelector(selectCurrentUserToken);
-    //const xCurrentMessages: ChatMessageProp[] = [];
     const [xCurrentMessages, setXCurrentMessages] = useState<ChatMessageProp[]>([]);
 
     useEffect(() => {
-        console.log("Getting messagess");
         function getMessages(mentor: MentorProp | undefined) {
             return fetchAdminChatMessagesApiAsync(token, mentor)
                 .then(xx => xx)
@@ -208,7 +197,7 @@ function ChatMessages() {
             >
                 {({ errors, touched }) => (
                     <section className="flex flex-col mt-0 relative h-full w-full">
-                        {xCurrentMessages.length === 0 && (<NoMessagesComponent />)}
+                        {xCurrentMessages.length === 0 && (<NoMessageSelectedsComponent />)}
                         {xCurrentMessages.length !== 0 && (<ChatMessagesComponent conversationStartDate={new Date()} messsages={xCurrentMessages} />)}
                     </section>
                 )}
