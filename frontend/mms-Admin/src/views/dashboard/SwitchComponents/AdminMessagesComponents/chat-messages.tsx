@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { MentorProp } from "./select-someone";
 import { useEffect, useState } from "react";
 import { Field, FieldArray, Formik } from "formik";
@@ -14,9 +14,6 @@ import ChatImoji from "../../../../assets/images/programs/ChatImoji.svg";
 import { ChatMessageProp, MessageType } from "../SettingsComponents/support-live-chat";
 
 export const NoMessageSelectedsComponent: React.FC = () => {
-    const navigate = useNavigate();
-    const browsePeople = () => navigate("/dashboard/messages/select-someone");
-
     return (
         <div style={{ alignItems: "center", justifyContent: "center" }} className="flex w-full h-full">
             <div className="flex flex-col">
