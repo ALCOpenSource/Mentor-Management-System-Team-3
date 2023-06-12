@@ -1,5 +1,5 @@
 import MyGeneratedIcon from "./../../../assets/images/certificate-requests/my-generated-certificates.svg";
-import Programcon from "./../../../assets/images/certificate-requests/programs-requests.svg";
+import ApprovedIcon from "./../../../assets/images/certificate-requests/approved-certificates.svg";
 import certificateIcon from "./../../../assets/images/mentors/certificate.png";
 
 import { getRandomInteger } from "../../mathFunctions";
@@ -24,7 +24,7 @@ export const fetchCertificateRequestsMetaDataApiAsync = async (
     [];
   const recents: ProgramCertificate[] = [];
   categories.push({
-    icon: undefined,
+    icon: ApprovedIcon,
     url: "approved-certificates",
     name: "Approved Certificates",
     num: getRandomInteger(100, 500),
@@ -36,7 +36,7 @@ export const fetchCertificateRequestsMetaDataApiAsync = async (
     num: getRandomInteger(100, 400),
   });
   categories.push({
-    icon: Programcon,
+    icon: undefined,
     url: "pending-approval-certificates",
     name: "Certificates Pending Approval",
     num: getRandomInteger(100, 450),

@@ -54,7 +54,7 @@ const MyGeneratedCertificates: React.FC = () => {
                                 className="relative text-[20px] mt-[15px] font-semibold leading-[33px] text-[#333] h-[33px] left-0 font-mukta ms-5 pt-0"
                                 htmlFor="about"
                             >
-                                Certificate Manager Requests
+                                My Generated Certificates
                             </label>
 
                             <div className="w-auto ml-auto p-0 m-0 mr-[54px] flex flex-row content-end ">
