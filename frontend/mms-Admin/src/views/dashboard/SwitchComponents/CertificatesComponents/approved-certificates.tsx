@@ -3,15 +3,14 @@ import React, { useEffect, useState } from "react";
 import { object, array, string } from "yup";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserNameSelector, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
-import { fetchMentorManagersApprovalRequestsApiAsync } from "../../../../services/axios/api-services/approval-requests";
-import AccordionUserElement from "../../../../components/data-components/accordion-user-element";
-import { MentorUser } from "../../../../services/redux/types/system-user";
+import { ProgramCertificate, fetchProgramsApprovedCertificatesRequestsApiAsync } from "../../../../services/axios/api-services/certificates-requests";
+import AccordionCertificateElement from "../../../../components/data-components/accordion-certificate-element";
 
-const MentorManagerRequests: React.FC = () => {
+const ApprovedCertificates: React.FC = () => {
 
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [mentorManagerRequest, setMentorManagerRequest] = useState<undefined | MentorUser[]>();
+    const [approvedCertificateRequests, setApprovedCertificateRequests] = useState<undefined | ProgramCertificate[]>();
     const token = useAppSelector(selectCurrentUserToken);
     const { userId, email } = useAppSelector(selectCurrentUserNameSelector);
 
@@ -28,9 +27,9 @@ const MentorManagerRequests: React.FC = () => {
             setErrorMessage("");
             setSuccessMessage("");
 
-            fetchMentorManagersApprovalRequestsApiAsync(token, userId ?? "", email ?? "")
+            fetchProgramsApprovedCertificatesRequestsApiAsync(token, userId ?? "", email ?? "")
                 .then(obj => {
-                    setMentorManagerRequest(obj)
+                    setApprovedCertificateRequests(obj)
                 })
                 .catch(err => { showErrorMessage(err) });
         } catch (error) { showErrorMessage(error) }
@@ -42,7 +41,7 @@ const MentorManagerRequests: React.FC = () => {
                 initialValues={{}}
                 onSubmit={(values: {}) => console.log(values)}
                 validationSchema={object().shape({
-                    mentors: array().of(
+                    certificates: array().of(
                         object().shape({
                             firstName: string().required("Entering a first name is required"),
                         })
@@ -55,12 +54,12 @@ const MentorManagerRequests: React.FC = () => {
                                 className="relative text-[20px] mt-[15px] font-semibold leading-[33px] text-[#333] h-[33px] left-0 font-mukta ms-5 pt-0"
                                 htmlFor="about"
                             >
-                                Mentor Manager Requests
+                                Certificate Manager Requests
                             </label>
 
                             <div className="w-auto ml-auto p-0 m-0 mr-[54px] flex flex-row content-end ">
                                 <button type="submit" className="btn-primary">
-                                    Add new Mentor Manager
+                                    Add new Certificate Manager
                                 </button>
                             </div>
                         </div>
@@ -77,17 +76,17 @@ const MentorManagerRequests: React.FC = () => {
 
                         <div className="w-full flex scrollable-by-y h-[calc(100%-130px)] mt-1 pb-10">
                             <FieldArray
-                                name="mentors"
+                                name="certificates"
                                 render={(helpers) => (
                                     <div>
-                                        {mentorManagerRequest && mentorManagerRequest.length > 0
-                                            ? mentorManagerRequest.map(
+                                        {approvedCertificateRequests && approvedCertificateRequests.length > 0
+                                            ? approvedCertificateRequests.map(
                                                 (
-                                                    mentor: MentorUser,
+                                                    certificate: ProgramCertificate,
                                                     index: React.Key | null | undefined
                                                 ) => (
                                                     <React.Fragment key={index}>
-                                                    <AccordionUserElement isExpanded={false} width={736} user={mentor} id="{index}"   />
+                                                    <AccordionCertificateElement isExpanded={false} width={736} certificate={certificate} id="{index}"   />
                                                     </React.Fragment>
                                                 )
                                             )
@@ -102,4 +101,4 @@ const MentorManagerRequests: React.FC = () => {
         </div>
     )
 };
-export default MentorManagerRequests;
+export default ApprovedCertificates;

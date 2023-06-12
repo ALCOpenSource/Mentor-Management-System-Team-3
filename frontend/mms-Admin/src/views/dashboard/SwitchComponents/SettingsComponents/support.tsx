@@ -219,7 +219,7 @@ const SupportPage: React.FC = () => {
                     if (pageRef?.current?.values)
                       pageRef.current.values = { title: "", email: "", body: "", userId: "", name: "", attachments: undefined };
                   }}
-                  message={"Message successfully sent"} />
+                  message={"Message Sent Successfully"} />
                 )}
               <div className="flex w-full">
                 <label
@@ -247,14 +247,13 @@ const SupportPage: React.FC = () => {
                       </label>))
                   }
                 </div>
-                <div className="flex absolute items-end justify-end flex-row w-full">
+                <div className="flex absolute self-start right-[0px] items-end justify-end flex-row w-full">
                   <LoadingComponent isBusy={isBusy} />
                 </div>
 
                 <button
                   type="submit"
-                  style={{ marginLeft: "auto", maxHeight: "40px" }}
-                  className="btn-primary mt-0"
+                  className="btn-primary mr-10 ml-auto max-h-[40px] mt-0"
                 >
                   Send
                 </button>

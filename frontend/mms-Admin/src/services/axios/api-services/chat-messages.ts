@@ -1,5 +1,6 @@
 import ChatIcon from "../../../assets/images/programs/ChatIcon.svg";
 import { ChatProp } from "../../../views/dashboard/SwitchComponents/AdminMessagesComponents/admin-messages";
+import { ForumComment } from "../../../views/dashboard/SwitchComponents/AdminMessagesComponents/forum-comments";
 import { MentorProp } from "../../../views/dashboard/SwitchComponents/AdminMessagesComponents/select-someone";
 import {
   ChatMessageProp,
@@ -186,6 +187,37 @@ export const fetchAdminDiscussionForumsApiAsync = async (token: string) => {
       icon: ChatIcon,
       name: "User "+ i,
       message: messages[i],
+    });
+  }
+  return await Promise.resolve(chats);
+};
+
+
+
+export const fetchAdminDiscussionCommentsApiAsync = async (token: string, forum?:DiscussionForumProp) => {
+  const chats: ForumComment[] = [];
+
+  const messages = [
+    "Hello! How are you doing?",
+    "A'm doing well, thanks you.\r\nHow can I help",
+    "I have a question about the return policy for a product I purchased.",
+    "Ok! Kindly what is the problem",
+    "It's showing that is expired",
+    "It's even unable to be loaded",
+    "Help me with your insurance number",
+    "I can't find you in the system",
+    "What do you mean?",
+    "Let me channel the issue to technical team, then we will get back to you.",
+    "Ok",
+  ];
+
+  for (let i = 0; i < messages.length; i++) {
+    var isReceived = i % 2 === 0;
+    if (i > 4) isReceived = i % 2 !== 0;
+    chats.push({
+      time: new Date(),
+      comment:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enilf.",
+      name: "User "+ i,
     });
   }
   return await Promise.resolve(chats);

@@ -6,7 +6,6 @@ import Dashboard from "./views/dashboard/dashboard";
 import SignupForm1 from "./views/signup/SignForm1";
 import Profile from "./views/dashboard/SwitchComponents/profile";
 import Messages from "./views/dashboard/SwitchComponents/messages";
-import Certificates from "./views/dashboard/SwitchComponents/certificates";
 import Programs from "./views/dashboard/SwitchComponents/programs";
 import Reports from "./views/dashboard/SwitchComponents/reports";
 import Settings from "./views/dashboard/SwitchComponents/settings";
@@ -29,7 +28,6 @@ import AdminMessages from './views/dashboard/SwitchComponents/AdminMessagesCompo
 import AdminChatMessages from './views/dashboard/SwitchComponents/AdminMessagesComponents/admin-chat-messages';
 import SelectSomeOne from './views/dashboard/SwitchComponents/AdminMessagesComponents/select-someone';
 import BroadCastMessage from './views/dashboard/SwitchComponents/AdminMessagesComponents/broad-cast-message';
-import DiscussionForum from './views/dashboard/SwitchComponents/AdminMessagesComponents/discussion-forum';
 import ProgramRequests from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/program-request';
 import MentorManagerRequests from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/mentor-manager-request';
 import MentorManagerRequestDetails from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/mentor-manager-request-details';
@@ -37,6 +35,12 @@ import MentorRequests from './views/dashboard/SwitchComponents/ApprovalRequestsC
 import MentorRequestDetails from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/mentor-request-details';
 import ProgramRequestDetails from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/program-request-details';
 import ChatMessages from './views/dashboard/SwitchComponents/AdminMessagesComponents/chat-messages';
+import ForumComments from './views/dashboard/SwitchComponents/AdminMessagesComponents/forum-comments';
+import Certificates from './views/dashboard/SwitchComponents/CertificatesComponents';
+import ApprovedCertificates from './views/dashboard/SwitchComponents/CertificatesComponents/approved-certificates';
+import ApprovedCertificatesDetails from './views/dashboard/SwitchComponents/CertificatesComponents/certificates-details';
+import MyGeneratedCertificates from './views/dashboard/SwitchComponents/CertificatesComponents/my-generated-certificates';
+import PendingApprovalCertificates from './views/dashboard/SwitchComponents/CertificatesComponents/pending-approval-certificates';
 
 function AppRoutes() {
   return (
@@ -54,7 +58,8 @@ function AppRoutes() {
               </Route>
               <Route path="select-someone" element={<SelectSomeOne />} />
               <Route path="broadcast-message" element={<BroadCastMessage />} />
-              <Route path="discussion-forum" element={<DiscussionForum />} />
+              <Route path="discussion-forum" element={<Forums />} />
+              <Route path="forum-comments" element={<ForumComments />} />
               {/* <Route path="discussion-forum-post" element={<DiscussionForumPost />} /> */}
               <Route path="*" element={<AdminMessages />} />
             </Route>
@@ -72,7 +77,15 @@ function AppRoutes() {
               <Route path="faq" element={<SettingsFAQ />} />
               <Route path="*" element={<SettingsGeneral />} />
             </Route>
-            <Route path="certificates" element={<Certificates />} />
+            <Route path="certificates" element={<Certificates />} >
+              <Route index element={<ApprovedCertificates />} />
+              <Route path="approved-certificates" element={<ApprovedCertificates />} />
+              <Route path="certificates-details" element={<ApprovedCertificatesDetails />} />
+              <Route path="my-generated-certificates" element={<MyGeneratedCertificates />} />
+              <Route path="pending-approval-certificates" element={<PendingApprovalCertificates />} />
+              {/* <Route path="discussion-forum-post" element={<DiscussionForumPost />} /> */}
+              <Route path="*" element={<ApprovedCertificates />} />
+            </Route>
             <Route path="programs" element={<Programs />} />
             <Route path="approval-requests" element={<ApprovalRequests />} >
               <Route index element={<MentorManagerRequests />} />

@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { MentorProp } from "./select-someone";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { Field, FieldArray, Formik } from "formik";
 import { getMonthDay, getShortTime } from "../../../../services/dateFunctions";
 import React from "react";
@@ -170,9 +170,9 @@ function ChatMessages() {
     const location = useLocation();
     const user = location.state;
     const token = useAppSelector(selectCurrentUserToken);
-    const [xCurrentMessages, setXCurrentMessages] = useState<ChatMessageProp[]>([]);
+    const [xCurrentMessages, setXCurrentMessages] = useState<ChatMessageProp[]>([]);   
 
-    useEffect(() => {
+    useMemo(() =>{
         function getMessages(mentor: MentorProp | undefined) {
             return fetchAdminChatMessagesApiAsync(token, mentor)
                 .then(xx => xx)
@@ -184,7 +184,8 @@ function ChatMessages() {
                 .then(xx => setXCurrentMessages(xx))
                 .catch(error => console.error(error));
         } catch (ee) { console.error(ee) }
-    }, [user, token]);
+    }, [user, token] );
+
 
     return (
         <div className="flex flex-row mt-0 relative h-full w-full">

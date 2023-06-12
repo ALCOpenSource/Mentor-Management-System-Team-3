@@ -7,6 +7,7 @@ import { selectCurrentNotification, updateAllNotifications, updateNotificationIt
 import LoadingComponent from "../../../../components/loading-components/loading-component";
 import { fetchNotificationsApiAsync } from "../../../../services/axios/api-services/notifications";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
+import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 
 
 const NotificationPage: React.FC = () => {
@@ -360,6 +361,15 @@ const NotificationPage: React.FC = () => {
               >
                 {errorMessage}
               </h5>
+              {successMessage?.length > 7
+                && (<MessagePopUpPage
+                  persist={false}
+                  toggle={() => {
+                    setSuccessMessage("");
+                    setErrorMessage("");
+                  }}
+                  message={"Message Sent Successfully"} />
+                )}
             </div>
           </Form>
         )}

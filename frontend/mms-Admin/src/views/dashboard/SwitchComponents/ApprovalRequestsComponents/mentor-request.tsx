@@ -4,7 +4,7 @@ import { object, array, string } from "yup";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserNameSelector, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import { fetchMentorsApprovalRequestsApiAsync } from "../../../../services/axios/api-services/approval-requests";
-import AccordionUserElement from "../../../../components/shared/accordion-user-element";
+import AccordionUserElement from "../../../../components/data-components/accordion-user-element";
 import { MentorUser } from "../../../../services/redux/types/system-user";
 
 const MentorRequests: React.FC = () => {
