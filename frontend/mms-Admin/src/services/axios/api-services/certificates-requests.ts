@@ -52,7 +52,7 @@ export const fetchCertificateRequestsMetaDataApiAsync = async (
     recents.push({
       icon: certificateIcon,
       certificate:certificateIcon,
-      url: "view-certificate",
+      url: "certificates-details",
       name: "Alison Davis",
       program,
       status:"APPROVED",
@@ -113,7 +113,7 @@ export const fetchMyGeneratedCertificatesRequestsApiAsync = async (
     mentorRequests.push({
       icon: certificateIcon,
       certificate:certificateIcon,
-      status:"PENDING",
+      status:"APPROVED",
       type:"MY-GENERATED-CERTIFICATES",
       program,
       url: "program-request",
