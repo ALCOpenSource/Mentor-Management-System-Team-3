@@ -9,7 +9,7 @@ import Messages from "./views/dashboard/SwitchComponents/messages";
 import Programs from "./views/dashboard/SwitchComponents/programs";
 import Reports from "./views/dashboard/SwitchComponents/reports";
 import Settings from "./views/dashboard/SwitchComponents/settings";
-import Tasks from "./views/dashboard/SwitchComponents/tasks";
+import Tasks from "./views/dashboard/SwitchComponents/TasksandReports/index";
 import AdminDashboard from "./views/dashboard/SwitchComponents/admindashboard";
 import Forums from "./views/dashboard/SwitchComponents/forums";
 import SettingsGeneral from "./views/dashboard/SwitchComponents/SettingsComponents/edit-profile";
