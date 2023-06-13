@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './tasks.scss';
 
-function Tasks(){
+function EditTask(){
     const [tasks, setTasks] = useState([]);
     const [title, setTitle] = useState('');
     const [details, setDetails] = useState('');
@@ -34,4 +34,4 @@ function Tasks(){
     )
 }
 
-export default Tasks;
+export default EditTask;
