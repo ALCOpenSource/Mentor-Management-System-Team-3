@@ -13,6 +13,16 @@ export interface ProgramTask {
   taskReports: string[];
 }
 
+export const saveTaskApiAsync = async (
+  task:ProgramTask,
+  token: string,
+  isUpdating: boolean,
+  userId:string,
+  userEmail:string
+) => {
+  return await Promise.resolve(task);
+}
+
 export const fetchAllTaskDataApiAsync = async (
   token: string,
   userId: string,

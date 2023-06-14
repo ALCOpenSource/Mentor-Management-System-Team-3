@@ -41,6 +41,8 @@ import ApprovedCertificates from './views/dashboard/SwitchComponents/Certificate
 import ApprovedCertificatesDetails from './views/dashboard/SwitchComponents/CertificatesComponents/certificates-details';
 import MyGeneratedCertificates from './views/dashboard/SwitchComponents/CertificatesComponents/my-generated-certificates';
 import PendingApprovalCertificates from './views/dashboard/SwitchComponents/CertificatesComponents/pending-approval-certificates';
+import AssignTask from './views/dashboard/SwitchComponents/TasksandReports/assign-task';
+import EditTask from './views/dashboard/SwitchComponents/TasksandReports/edit-task';
 
 function AppRoutes() {
   return (
@@ -86,6 +88,9 @@ function AppRoutes() {
               {/* <Route path="discussion-forum-post" element={<DiscussionForumPost />} /> */}
               <Route path="*" element={<ApprovedCertificates />} />
             </Route>
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="assign-task" element={<AssignTask />} />
+            <Route path="edit-task" element={<EditTask />} />
             <Route path="programs" element={<Programs />} />
             <Route path="approval-requests" element={<ApprovalRequests />} >
               <Route index element={<MentorManagerRequests />} />
@@ -97,10 +102,9 @@ function AppRoutes() {
               <Route path="program-request" element={<ProgramRequests />} />
               {/* <Route path="discussion-forum-post" element={<DiscussionForumPost />} /> */}
               <Route path="*" element={<MentorManagerRequests />} />
-            </Route>           
+            </Route>
             <Route path="mentor-managers" element={<MentorManagers />} />
             <Route path="reports" element={<Reports />} />
-            <Route path="tasks" element={<Tasks />} />
             <Route path="profile" element={<Profile />} />
             <Route path="forum" element={<Forums />} />
             <Route path="mentors" element={<Mentors />} />
