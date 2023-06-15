@@ -47,8 +47,7 @@ function Certificates() {
             </h5>
             <LoadingComponent isBusy={isBusy} />
             <h5
-                style={{ color: "orangered" }}
-                className="text-1xl font-bold mt-4"
+                  className="text-1xl font-bold mt-4 text-lightRed-one"
             >
                 {errorMessage}
             </h5>

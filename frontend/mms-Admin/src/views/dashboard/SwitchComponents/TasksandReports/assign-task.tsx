@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './tasks.scss';
 
 function AssignTask() {
     const [tasks, setTasks] = useState([]);

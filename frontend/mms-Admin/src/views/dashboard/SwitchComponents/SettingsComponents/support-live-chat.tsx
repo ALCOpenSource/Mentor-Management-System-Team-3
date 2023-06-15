@@ -207,8 +207,7 @@ const SupportLiveChatPage: React.FC<SupportChatProps> = ({ dialogRef }) => {
                 </h5>
 
                 <h5
-                  style={{ color: "orangered" }}
-                  className="text-1xl font-bold mt-4"
+                  className="text-1xl font-bold text-lightRed-one mt-4"
                 >
                   {errorMessage}
                 </h5>
@@ -216,8 +215,7 @@ const SupportLiveChatPage: React.FC<SupportChatProps> = ({ dialogRef }) => {
               <div className="flex flex-row mt-5  relative  w-full">
                 <button
                   type="button"
-                  style={{ marginLeft: "auto" }}
-                  className="rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
+                  className="rounded-[10px] ml-auto ms-2 ps-3 me-2 font-medium mt-0"
                 >
                   <img src={ChatImoji} className="w-[20px] h-[20px]" alt="Attach file icon"></img>
                 </button>
@@ -226,20 +224,17 @@ const SupportLiveChatPage: React.FC<SupportChatProps> = ({ dialogRef }) => {
                   id="title"
                   name="title"
                   placeholder="Reply..."
-                  className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                  style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                  className="text-input ms-1 py-[7px] border-2 border-lightGray-two rounded-[5px] text-[15px] "
                 />
                 <button
                   type="button"
-                  style={{ marginLeft: "auto" }}
-                  className="rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
+                  className="ml-auto rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
                 >
                   <img src={ChatAttachFile} alt="Attach file icon"></img>
                 </button>
                 <button
                   type="submit"
-                  style={{ marginLeft: "auto" }}
-                  className="rounded-[10px] ms-2 ps-3 me-2 font-medium mt-0"
+                  className="rounded-[10px] ml-auto ms-2 ps-3 me-2 font-medium mt-0"
                 >
                   <img src={ChatSendMessage} className="w-[40px] h-[40px]" alt="Attach file icon"></img>
                 </button>

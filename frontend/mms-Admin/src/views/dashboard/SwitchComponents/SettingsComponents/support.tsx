@@ -130,8 +130,7 @@ const SupportPage: React.FC = () => {
               <div className="flex flex-col relative px-10">
                 <div className="flex flex-row  relative mb-3 w-full">
                   <label
-                    className="text-label"
-                    style={{ width: "200px" }}
+                    className="text-label w-[200px]"
                     htmlFor="name"
                   >
                     How can I help you?
@@ -144,8 +143,7 @@ const SupportPage: React.FC = () => {
                       id="name"
                       name="name"
                       placeholder="Name"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                      style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                      className="text-input py-[7px] ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="name" />
@@ -158,8 +156,7 @@ const SupportPage: React.FC = () => {
                       id="email"
                       name="email"
                       placeholder="Email"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                      style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                      className="text-input py-[7px] ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="email" />
@@ -172,8 +169,7 @@ const SupportPage: React.FC = () => {
                       id="title"
                       name="title"
                       placeholder="Title"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                      style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                      className="text-input py-[7px] ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="title" />
@@ -187,12 +183,7 @@ const SupportPage: React.FC = () => {
                       as="textarea"
                       name="body"
                       placeholder="Body"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                      style={{
-                        paddingTop: "7px",
-                        paddingBottom: "7px",
-                        height: "120px",
-                      }}
+                      className="text-input ms-1 py-[7px] h-[120px] border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="body" />
@@ -204,8 +195,7 @@ const SupportPage: React.FC = () => {
                 </h5>
 
                 <h5
-                  style={{ color: "orangered" }}
-                  className="text-1xl font-bold mt-4"
+                  className="text-1xl font-bold mt-4 text-lightRed-one"
                 >
                   {errorMessage}
                 </h5>
@@ -223,9 +213,8 @@ const SupportPage: React.FC = () => {
                 )}
               <div className="flex w-full">
                 <label
-                  className="rounded-[10px] p-[10px] ps-[40px] ms-[5px] font-medium mt-0"
+                  className="rounded-[10px] mr-auto p-[10px] ps-[40px] ms-[5px] font-medium mt-0"
                   htmlFor="uploadFile"
-                  style={{ marginRight: "auto" }}
                 >
                   <img src={attachFileIcon} alt="Attach file icon"></img>
                 </label>
@@ -237,7 +226,7 @@ const SupportPage: React.FC = () => {
                   onChange={(e) => convertFile(e.target.files)}
                 />
 
-                <div className="flex flex-col relative" style={{ marginRight: "auto" }}>
+                <div className="flex flex-col relative mr-auto" >
                   {
                     filebase64s.map((item, index) => (
                       <label > {item} <span className="close-attached-icon whitespace-nowrap font-bold pl-5 text-[20px] text-red-600"
@@ -263,9 +252,8 @@ const SupportPage: React.FC = () => {
             <div className="btn flex w-full" onClick={toggleChatDialogPopup}>
               <button
                 type="button"
-                style={{ marginLeft: "auto" }}
                 onClick={toggleChatDialogPopup}
-                className="btn-secondary rounded-[10px] p-[10px] pe-[40px] mt-[10px] font-medium"
+                className="btn-secondary ml-auto rounded-[10px] p-[10px] pe-[40px] mt-[10px] font-medium"
               >
                 <div className="p-5 h-[66px] w-[66px] bg-lighterGreen-two items-center justify-center rounded-full" > <img src={liveChatIcon} alt="Attach file icon"></img></div>
               </button>

@@ -114,8 +114,7 @@ const ApprovedCertificates: React.FC = () => {
                         </h5>
 
                         <h5
-                            style={{ color: "orangered" }}
-                            className="text-1xl font-bold mt-0"
+                            className="text-1xl font-bold mt-0 text-lightRed-one"
                         >
                             {errorMessage}
                         </h5>

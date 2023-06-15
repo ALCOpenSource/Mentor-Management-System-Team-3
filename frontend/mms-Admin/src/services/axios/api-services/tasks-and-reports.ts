@@ -1,5 +1,8 @@
+import { MentorProp } from "../../../views/dashboard/SwitchComponents/AdminMessagesComponents/select-someone";
 import { getRandomInteger } from "../../mathFunctions";
 import TasksIcon from "./../../../assets/images/dashboard-icons/tsaks.svg";
+import avatarSVG from "./../../../assets/images/avatar.svg";
+import { randomizeArray } from "../../generalFunctions";
 
 export type Status = "IN PROGRESS" | "CANCELLED" | "COMPLETED";
 export interface ProgramTask {
@@ -8,20 +11,21 @@ export interface ProgramTask {
   details: string;
   url: string;
   status: Status;
-  mentorManagersAssigned: string[];
-  mentorAssigned: string[];
+  mentorManagersAssigned: MentorProp[];
+  mentorAssigned: MentorProp[];
   taskReports: string[];
 }
 
 export const saveTaskApiAsync = async (
-  task:ProgramTask,
+  task: ProgramTask,
   token: string,
   isUpdating: boolean,
-  userId:string,
-  userEmail:string
+  userId: string,
+  userEmail: string
 ) => {
+  console.log(task, token,isUpdating,userEmail,userId);
   return await Promise.resolve(task);
-}
+};
 
 export const fetchAllTaskDataApiAsync = async (
   token: string,
@@ -46,12 +50,20 @@ export const fetchAllTaskDataApiAsync = async (
       mentorManagersAssigned: [],
       taskReports: [],
     };
-    for (let i = 0; i < getRandomInteger(0, getRandomInteger(5, 100)); i++) {
-      task.mentorAssigned.push(`Mentor ${i + 1}`);
-    }
-    for (let i = 0; i < getRandomInteger(0, getRandomInteger(5, 50)); i++) {
-      task.mentorManagersAssigned.push(`Mentor Manager ${i + 1}`);
-    }
+
+    Promise.all([fetchAllMentorApiAsync(token,userId,email), fetchAllMentorManagerApiAsync(token,userId,email)])
+    .then(tt =>{
+      const allMentors = randomizeArray(tt[0]);
+      const allMentorManagers = randomizeArray(tt[1]);
+
+      for (let i = 0; i < getRandomInteger(0, getRandomInteger(5, 40)); i++) {
+        task.mentorAssigned.push(allMentors[i]);
+      }
+      for (let i = 0; i < getRandomInteger(0, getRandomInteger(5, 20)); i++) {
+        task.mentorManagersAssigned.push(allMentorManagers[i]);
+      }
+    });
+
     for (let i = 0; i < getRandomInteger(0, getRandomInteger(5, 100)); i++) {
       task.taskReports.push(`Report ${i + 1}`);
     }
@@ -59,4 +71,44 @@ export const fetchAllTaskDataApiAsync = async (
   }
 
   return await Promise.resolve(tasks);
+};
+
+export const fetchAllMentorApiAsync = async (
+  token: string,
+  userId: string,
+  email: string
+) => {
+  const mentors: MentorProp[] = [];
+  for (let i = 0; i < 100; i++) {
+    const date = new Date();
+    date.setMinutes(date.getMinutes() - getRandomInteger(0, 1500000));
+    mentors.push({
+      name: "Mentor User " + i,
+      icon: avatarSVG,
+      details: "Program Assistant, Andela, She/her",
+      title: "PROGRAM ASST.",
+      mentor: "MENTOR-GADS",
+    });
+  }
+  return await Promise.resolve(mentors);
+};
+
+export const fetchAllMentorManagerApiAsync = async (
+  token: string,
+  userId: string,
+  email: string
+) => {
+  const mentors: MentorProp[] = [];
+  for (let i = 0; i < 100; i++) {
+    const date = new Date();
+    date.setMinutes(date.getMinutes() - getRandomInteger(0, 1500000));
+    mentors.push({
+      name: "MMS User " + i,
+      icon: avatarSVG,
+      details: "Program Assistant, Andela, She/her",
+      title: "PROGRAM ASST.",
+      mentor: "MENTOR-GADS",
+    });
+  }
+  return await Promise.resolve(mentors);
 };

@@ -50,8 +50,7 @@ function Certificates() {
             </h5>
             <LoadingComponent isBusy={isBusy} />
             <h5
-                style={{ color: "orangered" }}
-                className="text-1xl font-bold mt-4"
+                className="text-1xl font-bold mt-4 text-lightRed-one"
             >
                 {errorMessage}
             </h5>
@@ -101,7 +100,7 @@ function Certificates() {
                 </div>
             </div>
             <div className="max-w-[757px] w-full relative h-full flex flex-col">
-                <button className="btn-primary mr-2 mb-4 ml-auto" >
+                <button onClick={tt => {tt.preventDefault(); navigate("/dashboard/edit-task")}} className="btn-primary mr-2 mb-4 ml-auto" >
                     Create New Task
                 </button>
                 {currentTask &&
@@ -173,9 +172,9 @@ function Certificates() {
                                     <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M0.635742 5.38459H2.89002M2.89002 5.38459H20.9243M2.89002 5.38459V20.0573C2.89002 20.6132 3.12753 21.1464 3.55028 21.5395C3.97304 21.9326 4.54643 22.1534 5.1443 22.1534H16.4157C17.0136 22.1534 17.587 21.9326 18.0097 21.5395C18.4325 21.1464 18.67 20.6132 18.67 20.0573V5.38459H2.89002ZM6.27144 5.38459V3.28849C6.27144 2.73257 6.50895 2.19941 6.9317 1.80632C7.35446 1.41322 7.92785 1.19238 8.52572 1.19238H13.0343C13.6322 1.19238 14.2055 1.41322 14.6283 1.80632C15.0511 2.19941 15.2886 2.73257 15.2886 3.28849V5.38459M8.52572 10.6249V16.9132M13.0343 10.6249V16.9132" stroke="#FF647C" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                     Delete
+                                    Delete
                                 </button>
-                                <button onClick={tt => tt.preventDefault()} className="btn-primary mr-[1px] ml-auto max-h-[30px] p-0" >Edit Task</button>
+                                <button onClick={tt => {tt.preventDefault(); navigate("/dashboard/edit-task", {state:currentTask})}} className="btn-primary mr-[1px] ml-auto max-h-[30px] p-0" >Edit Task</button>
                             </div>
                         </div>
                     </div>)}

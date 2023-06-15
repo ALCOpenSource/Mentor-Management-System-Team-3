@@ -30,8 +30,7 @@ const AccordionUserElement: FC<AccordionUserElementProps> = ({ id, name, width, 
                         />
                         <div className="w-full">
                             <label
-                                className="relative text-[20px] font-semibold leading-[33px] text-[#333] h-[33px] left-0 top-[12px] font-mukta ms-5 pt-0 "
-                                style={{ top: "3px" }}
+                                className="relative top-[3px]  text-[20px] font-semibold leading-[33px] text-[#333] h-[33px] left-0 font-mukta ms-5 pt-0 "
                                 htmlFor="about"
                             >
                                 {`${user.firstNames} ${user.lastName}`}

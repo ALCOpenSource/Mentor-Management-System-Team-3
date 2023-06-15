@@ -61,7 +61,7 @@ function AdminDashboard() {
                 <h3 className="text-white mt-4 pl-[12px] text-[20px] font-bold">
                   <span>Active <br /> Programs</span>
                 </h3>
-                <button onClick={() => navigate("/dashboard/programs")} className="btn-secondary text-green-three bg-white mt-3 mr-8 rounded-md px-2 ml-[-15px]">View</button>
+                <button onClick={() => navigate("/dashboard/programs")} className="btn-secondary text-green-three bg-white mt-3 ml-0 -left-7 rounded-md px-2">View</button>
               </section>
 
               <div className="h-[92px] w-full flex flex-row bg-lighterGreen-three">

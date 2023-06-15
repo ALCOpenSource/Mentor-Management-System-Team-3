@@ -33,15 +33,13 @@ const AccordionCertificateElement: FC<AccordionCertificateElementProps> = ({ id,
                         />
                         <div className="w-full flex flex-col">
                             <label
-                                className="relative text-[16px] font-semibold leading-[6.59px] text-[#333] left-0 mt-[12px] font-mukta ml-12 pt-0 "
-                                style={{ top: "3px" }}
-                                htmlFor="about"
+                                className="top-[3px] relative text-[16px] font-semibold leading-[6.59px] text-[#333] left-0 mt-[12px] font-mukta ml-12 pt-0 "
+                                 htmlFor="about"
                             >
                                 {`${certificate.name}`}
                             </label>
                             <label
-                                className="relative text-[16px] font-semibold leading-[26.59px] text-[#333] left-0 top-[-12px] font-mukta ml-12 pt-0 "
-                                style={{ top: "3px" }}
+                                className="top-[3px] relative text-[16px] font-semibold leading-[26.59px] text-[#333] left-0 font-mukta ml-12 pt-0 "
                                 htmlFor="about"
                             >
                                 {`${certificate.program}`}

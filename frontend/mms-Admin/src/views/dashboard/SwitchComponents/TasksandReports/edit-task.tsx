@@ -7,9 +7,15 @@ import PasswordField from "../../../../components/passwordField";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
 import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 import LoadingComponent from "../../../../components/loading-components/loading-component";
-import { ProgramTask, saveTaskApiAsync } from "../../../../services/axios/api-services/tasks-and-reports";
+import { ProgramTask, fetchAllMentorApiAsync, fetchAllMentorManagerApiAsync, saveTaskApiAsync } from "../../../../services/axios/api-services/tasks-and-reports";
 import { Outlet, useLocation } from "react-router-dom";
 import TasksIcon from "./../../../../assets/images/dashboard-icons/tsaks.svg";
+import SearchBox from "../../../../components/search-box";
+import messageCloseSVG from "./../../../../assets/images/messages/message-close.svg";
+import messageEarthingSVG from "./../../../../assets/images/messages/messages-earthing.svg";
+import { MentorProp } from "../AdminMessagesComponents/select-someone";
+import CheckedUserElement from "../../../../components/data-components/checked-user-element";
+
 
 function getNewTask(): ProgramTask {
     return {
@@ -33,9 +39,9 @@ const EditTask: React.FC = () => {
     const [isBusy, setIsBusy] = useState(false);
     const isAddingNewTask = location.state ? false : true;
     const initialValues: ProgramTask = location.state ?? getNewTask();
-
-    const [selectedMentorManagers, setSelectedMentorManagers] = useState([]);
-    const [selectedMentors, setSelectedMentors] = useState([]);
+    const [currentData, setCurrentData] = useState<MentorProp[]>([]);
+    const [selectedMentorManagers, setSelectedMentorManagers] = useState<MentorProp[]>(initialValues.mentorManagersAssigned ?? []);
+    const [selectedMentors, setSelectedMentors] = useState<MentorProp[]>(initialValues.mentorAssigned ?? []);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const pageRef = useRef<FormikProps<ProgramTask>>(null);
@@ -50,9 +56,11 @@ const EditTask: React.FC = () => {
     };
 
     const validationSchema = Yup.object().shape({
-        title: Yup.string().required(
-            "Title is required please"
-        ).length(32, "Title should not exceed 32 characters"),
+        title: Yup.string().required("Title is required please")
+        .matches(
+        /^.{4,32}$/gm,
+          "Title should be atleast 3 characters and not more than 32 characters"
+        ),
         details: Yup.string()
             .required("Please enter the details")
     });
@@ -62,8 +70,10 @@ const EditTask: React.FC = () => {
             setErrorMessage("");
             setSuccessMessage("");
             setIsBusy(true);
+
+            const task: ProgramTask = { ...values, mentorAssigned: selectedMentors, mentorManagersAssigned: selectedMentorManagers }
             await
-                saveTaskApiAsync(values, token, !isAddingNewTask, userId ?? "", email ?? "")
+                saveTaskApiAsync(task, token, !isAddingNewTask, userId ?? "", email ?? "")
                     .then(ff => {
                         setIsBusy(false);
                         setSuccessMessage(`Task ${(isAddingNewTask ? "created" : "updated")} successfully`)
@@ -72,6 +82,51 @@ const EditTask: React.FC = () => {
             showErrorMessage(error.message);
         }
     };
+
+    function checkIfSelected(user: MentorProp): boolean {
+        if (loadExtra === "MENTORMANAGERS")
+            return selectedMentorManagers.filter(v => v.name === user.name).length > 0;
+        else if (loadExtra === "MENTORS")
+            return selectedMentors.filter(v => v.name === user.name).length > 0;
+        return false;
+    }
+
+    function isSelectedChanged(user: MentorProp, isSelected: boolean): void {
+        if (loadExtra === "MENTORMANAGERS") {
+            if (isSelected)
+                setSelectedMentorManagers([...selectedMentorManagers, user])
+            else
+                setSelectedMentorManagers(selectedMentorManagers.filter(v => v.name !== user.name));
+        }
+        else if (loadExtra === "MENTORS") {
+            if (isSelected)
+                setSelectedMentors([...selectedMentors, user])
+            else
+                setSelectedMentors(selectedMentors.filter(v => v.name !== user.name));
+        }
+    }
+
+    function setCurrentLoadType(loadType: showExtraData): void {
+        setLoadExtra(loadType);
+        try {
+            setErrorMessage("");
+            setSuccessMessage("");
+            setCurrentData([]);
+
+            let data: null | Promise<MentorProp[]> = null;
+            if (loadType === "MENTORMANAGERS")
+                data = fetchAllMentorManagerApiAsync(token, userId ?? "", email ?? "");
+            else if (loadType === "MENTORS")
+                data = fetchAllMentorApiAsync(token, userId ?? "", email ?? "");
+
+            if (data === null)
+                setCurrentData([])
+            else
+                data?.then(obj => {
+                    setCurrentData(obj);
+                }).catch(err => { showErrorMessage(err) });
+        } catch (error) { showErrorMessage(error) }
+    }
 
     return (
         <div>
@@ -83,7 +138,7 @@ const EditTask: React.FC = () => {
             >
                 {({ errors, touched }) => (
                     <Form className="w-full profile-form  max-w-[1100px] h-full absolute">
-                        <div className="flex flex-col">
+                        <div className="flex flex-row">
                             <div className="h-full max-h-[400px] w-full">
                                 <label
                                     className="w-full relative text-[24px] font-semibold leading-[33px] text-[#141414] h-[33px] ml-5  top-[12px] font-mukta pt-0"
@@ -106,9 +161,8 @@ const EditTask: React.FC = () => {
                                             type="text"
                                             id="title"
                                             name="title"
-                                            style={{ marginTop: "0px" }}
-                                            placeholder="Enter title"
-                                            className="text-input border-2 ml-2 border-lightGray-two rounded-[5px] text-[20px] "
+                                             placeholder="Enter title"
+                                            className="text-input mt-0 border-2 ml-2 border-lightGray-two rounded-[5px] text-[20px] "
                                         />
                                     </div>
                                     <label
@@ -144,7 +198,7 @@ const EditTask: React.FC = () => {
                                     <div className="flex flex-row w-[calc(50%-10px)] ml-5 mt-5 py-3 px-11 bg-lighterGreen-three">
                                         <div className="flex flex-col w-3/5 content-center">
                                             <label
-                                                className="relative text-center text-[20px] font-semibold text-[#333] font-mukta pt-0"
+                                                className="relative whitespace-nowrap text-center text-[20px] font-semibold text-[#333] font-mukta pt-0"
                                                 htmlFor="about" >
                                                 Add Mentor Manager
                                             </label>
@@ -161,9 +215,9 @@ const EditTask: React.FC = () => {
                                             </div>
                                         </div>
                                         <button
-                                            type="button" onClick={() => setLoadExtra("MENTORMANAGERS")}
+                                            type="button" onClick={() => setCurrentLoadType("MENTORMANAGERS")}
                                             className="inline-flex bg-green-three max-h-[24px] my-auto items-center px-3 text-[12px] leading-6 text-lighterGreen-three ml-auto rounded-md shadow btn-animate"
-                                            disabled>
+                                        >
                                             Select
                                         </button>
                                     </div>
@@ -171,7 +225,7 @@ const EditTask: React.FC = () => {
                                     <div className="flex flex-row w-[calc(50%-10px)] ml-5 mt-5 py-3 px-11 bg-lighterGreen-three">
                                         <div className="flex flex-col w-3/5 content-center">
                                             <label
-                                                className="relative text-center text-[20px] font-semibold text-[#333] font-mukta pt-0"
+                                                className="relative text-center whitespace-nowrap text-[20px] font-semibold text-[#333] font-mukta pt-0"
                                                 htmlFor="about" >
                                                 Add Mentor
                                             </label>
@@ -188,26 +242,72 @@ const EditTask: React.FC = () => {
                                             </div>
                                         </div>
                                         <button
-                                            type="button" onClick={() => setLoadExtra("MENTORS")}
+                                            type="button" onClick={() => setCurrentLoadType("MENTORS")}
                                             className="inline-flex bg-green-three max-h-[24px] my-auto items-center px-3 text-[12px] leading-6 text-lighterGreen-three ml-auto rounded-md shadow btn-animate"
-                                            disabled>
+                                        >
                                             Select
                                         </button>
                                     </div>
                                 </div>
-                                <button className="btn-primary m-5">{`${(isAddingNewTask?"Create":"Update")} Task`}</button>
+                                <button className="btn-primary m-5">{`${(isAddingNewTask ? "Create" : "Update")} Task`}</button>
 
+                                {successMessage?.length > 7
+                                    && (<MessagePopUpPage
+                                        persist={false}
+                                        toggle={() => {
+                                            setSuccessMessage("");
+                                            setErrorMessage("");
+                                            if (pageRef?.current?.values)
+                                                pageRef.current.values = getNewTask();
+                                        }}
+                                        message={successMessage} />
+                                    )}
+
+                                <div className="flex items-end justify-end flex-row w-full">
+                                    <LoadingComponent isBusy={isBusy} />
+                                </div>
+                                <h5 className="text-1xl text-gray-two font-bold mt-4">
+                                    {successMessage}
+                                </h5>
+
+                                <h5
+                                    className="text-lightRed-one text-1xl font-bold mt-4"
+                                >
+                                    {errorMessage}
+                                </h5>
                             </div>
-                            <div className="max-w-[350px] w-auto h-full p-1 m-1">
-                                {
-                                   (loadExtra === "MENTORMANAGERS") &&
-                                   (<div> Mentor Managers </div>)
-                                }
-                                 {
-                                   (loadExtra === "MENTORS") &&
-                                   (<div> Mentor  </div>)
-                                }
-                            </div>
+                            {
+                                (loadExtra !== "NONE") &&
+                                (<div className="w-[530px] h-screen overflow-y-hidden mb-8 pl-5 m-0">
+                                    <div className="flex flex-row">
+                                        <SearchBox id="search-users" name="search-users" placeholder="Search" />
+                                        <img className="ml-[20px] btn-animate mt-[18px] h-[24px] w-[24px] max-h-[40px]" src={messageEarthingSVG} alt="earthing icon" />
+                                        <img onClick={() => setCurrentLoadType("NONE")} className="ml-[20px] btn-animate mt-[20px] h-[16px] w-[16px] max-h-[40px]" src={messageCloseSVG} alt="close icon" />
+                                    </div>
+                                    <div className="flex flex-col h-full w-full">
+                                        {
+                                            (loadExtra === "MENTORMANAGERS") &&
+                                            (<ul className="list-none scrollable-by-y p-0 m-0 w-full">
+                                                {currentData.map((item, idx) => {
+                                                    return (
+                                                        <CheckedUserElement handleClick={isSelectedChanged} user={item} isSelected={checkIfSelected(item)} />
+                                                    );
+                                                })}
+                                            </ul>)
+                                        }
+                                        {
+                                            (loadExtra === "MENTORS") &&
+                                            (<ul className="list-none scrollable-by-y p-0 m-0 w-full">
+                                                {currentData.map((item, idx) => {
+                                                    return (
+                                                        <CheckedUserElement handleClick={isSelectedChanged} user={item} isSelected={checkIfSelected(item)} />
+                                                    );
+                                                })}
+                                            </ul>)
+                                        }
+                                    </div>
+                                </div>)
+                            }
                         </div>
                     </Form>
                 )}
@@ -217,3 +317,5 @@ const EditTask: React.FC = () => {
 };
 
 export default EditTask;
+
+
