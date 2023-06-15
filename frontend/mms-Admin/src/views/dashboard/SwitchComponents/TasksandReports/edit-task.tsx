@@ -3,12 +3,11 @@ import { Formik, Form, FormikProps, Field } from "formik";
 import * as Yup from "yup";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserNameSelector, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
-import PasswordField from "../../../../components/passwordField";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
 import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 import LoadingComponent from "../../../../components/loading-components/loading-component";
 import { ProgramTask, fetchAllMentorApiAsync, fetchAllMentorManagerApiAsync, saveTaskApiAsync } from "../../../../services/axios/api-services/tasks-and-reports";
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import TasksIcon from "./../../../../assets/images/dashboard-icons/tsaks.svg";
 import SearchBox from "../../../../components/search-box";
 import messageCloseSVG from "./../../../../assets/images/messages/message-close.svg";
@@ -57,10 +56,13 @@ const EditTask: React.FC = () => {
 
     const validationSchema = Yup.object().shape({
         title: Yup.string().required("Title is required please")
-        .matches(
-        /^.{4,32}$/gm,
-          "Title should be atleast 3 characters and not more than 32 characters"
-        ),
+            .matches(
+                /^.{4,32}$/gm,
+                "Title should be atleast 3 characters and not more than 32 characters"
+            ).matches(
+                /^.{4,32}$/gm,
+                "Title should be atleast 3 characters and not more than 32 characters"
+            ),
         details: Yup.string()
             .required("Please enter the details")
     });
@@ -161,7 +163,7 @@ const EditTask: React.FC = () => {
                                             type="text"
                                             id="title"
                                             name="title"
-                                             placeholder="Enter title"
+                                            placeholder="Enter title"
                                             className="text-input mt-0 border-2 ml-2 border-lightGray-two rounded-[5px] text-[20px] "
                                         />
                                     </div>

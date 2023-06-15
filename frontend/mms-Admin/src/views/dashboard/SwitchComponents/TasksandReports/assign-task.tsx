@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 function AssignTask() {
-    const [tasks, setTasks] = useState([]);
+   // const [tasks, setTasks] = useState([]);
     const [title, setTitle] = useState('');
     const [details, setDetails] = useState('');
 
