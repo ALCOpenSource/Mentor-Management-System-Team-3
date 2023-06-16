@@ -125,6 +125,90 @@ export const fetchAllReportsDataApiAsync = async (
   return await Promise.resolve(tasks);
 };
 
+export const fetchAllTaskReportsDataApiAsync = async (
+  token: string,
+  userId: string,
+  email: string
+) => {
+  const tasks: ProgramReport[] = [];
+  for (let index = 0; index < 20; index++) {
+    let rnd = getRandomInteger(0, 10);
+    let status: Status = "IN PROGRESS";
+    if (rnd === 1) status = "CANCELLED";
+    if (rnd > 1 && rnd < 5) status = "COMPLETED";
+
+    rnd = getRandomInteger(0, getRandomInteger(2, 4));
+    let user = "Ibrahim Kabiru";
+    if (rnd === 1) user = "Alvis Davis";
+    else if (rnd === 2) user = "Peculiar Umeh";
+
+    rnd = getRandomInteger(0, getRandomInteger(3, 4));
+    const fromDate = addMinutes(
+      new Date(),
+      (rnd === 2 ? -1 : 1) * getRandomInteger(60, 27000)
+    );
+    const toDate = addMinutes(fromDate, getRandomInteger(70, 27000));
+    const task: ProgramReport = {
+      icon: reportSVG,
+      title: "Room Library article written in Java " + (index + 1),
+      doneBy: user,
+      url: "reports",
+      status: status,
+      from: fromDate,
+      to: toDate,
+    };
+    tasks.push(task);
+    const details: ReportDetail[] = [];
+    for (let k = 0; k < getRandomInteger(2, getRandomInteger(5, 20)); k++) {
+      const subDetails: ReportDetail[] = [];
+      const isDetailed = getRandomInteger(0, getRandomInteger(4, 5)) === 3;
+      if (isDetailed)
+        for (let j = 0; j < getRandomInteger(2, getRandomInteger(3, 5)); j++) {
+          const smallSubDetails: ReportDetail[] = [];
+          const isDetailed2 = getRandomInteger(0, getRandomInteger(3, 5)) === 3;
+          if (isDetailed2)
+            for (
+              let i = 0;
+              i < getRandomInteger(2, getRandomInteger(3, 4));
+              i++
+            ) {
+              smallSubDetails.push([
+                `Small Sub-Title ${i}`,
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+              ]);
+            }
+          if (smallSubDetails.length > 1) {
+            subDetails.push([
+              `Sub-Title ${j}`,
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+              smallSubDetails,
+            ]);
+          } else {
+            subDetails.push([
+              `Sub-Title ${j}`,
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+            ]);
+          }
+        }
+
+      if (subDetails.length > 1) {
+        details.push([
+          `Title ${k}`,
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+          subDetails,
+        ]);
+      } else {
+        details.push([
+          `Title ${k}`,
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+        ]);
+      }
+      task.details = details;  
+    }
+  }
+  return await Promise.resolve(tasks);
+};
+
 export const fetchAllTaskDataApiAsync = async (
   token: string,
   userId: string,
