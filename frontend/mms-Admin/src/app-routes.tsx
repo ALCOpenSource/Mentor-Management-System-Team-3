@@ -7,7 +7,7 @@ import SignupForm1 from "./views/signup/SignForm1";
 import Profile from "./views/dashboard/SwitchComponents/profile";
 import Messages from "./views/dashboard/SwitchComponents/messages";
 import Programs from "./views/dashboard/SwitchComponents/programs";
-import Reports from "./views/dashboard/SwitchComponents/reports";
+import Reports from "./views/dashboard/SwitchComponents/TasksandReports/reports";
 import Settings from "./views/dashboard/SwitchComponents/settings";
 import Tasks from "./views/dashboard/SwitchComponents/TasksandReports/index";
 import AdminDashboard from "./views/dashboard/SwitchComponents/admindashboard";

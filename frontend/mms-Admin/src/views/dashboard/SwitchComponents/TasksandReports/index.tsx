@@ -11,7 +11,7 @@ import mentorSVG from "./../../../../assets/images/mentor-icon.svg";
 import mentorManagerSVG from "./../../../../assets/images/mentor-manager-icon.svg";
 import reportsTaskSVG from "./../../../../assets/images/reports-2.svg";
 
-function Certificates() {
+function Tasks() {
     const [tasks, setTasks] = useState<undefined | ProgramTask[]>(undefined);
     const [currentTask, setCurrentTask] = useState<undefined | ProgramTask>(undefined);
     const [isBusy, setIsBusy] = useState(false);
@@ -183,4 +183,4 @@ function Certificates() {
     )
 }
 
-export default Certificates;
+export default Tasks;

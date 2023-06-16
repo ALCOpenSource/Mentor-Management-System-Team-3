@@ -57,11 +57,11 @@ const EditTask: React.FC = () => {
     const validationSchema = Yup.object().shape({
         title: Yup.string().required("Title is required please")
             .matches(
-                /^.{4,32}$/gm,
-                "Title should be atleast 3 characters and not more than 32 characters"
+                /^.{4,}$/gm,
+                "Title should be atleast 3 characters"
             ).matches(
                 /^.{4,32}$/gm,
-                "Title should be atleast 3 characters and not more than 32 characters"
+                "Title should not more than 32 characters"
             ),
         details: Yup.string()
             .required("Please enter the details")

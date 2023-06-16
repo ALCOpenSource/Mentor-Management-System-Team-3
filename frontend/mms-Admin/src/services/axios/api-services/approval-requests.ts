@@ -48,7 +48,7 @@ export const fetchApprovalRequestsMetaDataApiAsync = async (
     recents.push({
       icon: MentorAvatar,
       url: "mentor-request-details",
-      name: "Kibiru Ibrahim",
+      name: "Kbiru Ibrahim",
       num: 0,
       type: "MENTOR-REQUEST",
     });

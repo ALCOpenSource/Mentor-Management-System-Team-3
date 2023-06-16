@@ -2,9 +2,12 @@ import { MentorProp } from "../../../views/dashboard/SwitchComponents/AdminMessa
 import { getRandomInteger } from "../../mathFunctions";
 import TasksIcon from "./../../../assets/images/dashboard-icons/tsaks.svg";
 import avatarSVG from "./../../../assets/images/avatar.svg";
+import reportSVG from "./../../../assets/images/reports-2.svg";
 import { randomizeArray } from "../../generalFunctions";
+import { addMinutes } from "../../dateFunctions";
 
 export type Status = "IN PROGRESS" | "CANCELLED" | "COMPLETED";
+export type ReportDetail = [string, string] | [string, string, ReportDetail[]];
 export interface ProgramTask {
   icon: any;
   title: string;
@@ -16,6 +19,17 @@ export interface ProgramTask {
   taskReports: string[];
 }
 
+export interface ProgramReport {
+  icon: any;
+  title: string;
+  doneBy: string;
+  url: string;
+  status: Status;
+  from: Date;
+  to: Date;
+  details?: ReportDetail[];
+}
+
 export const saveTaskApiAsync = async (
   task: ProgramTask,
   token: string,
@@ -23,8 +37,92 @@ export const saveTaskApiAsync = async (
   userId: string,
   userEmail: string
 ) => {
-  console.log(task, token,isUpdating,userEmail,userId);
+  console.log(task, token, isUpdating, userEmail, userId);
   return await Promise.resolve(task);
+};
+
+export const fetchAllReportsDataApiAsync = async (
+  token: string,
+  userId: string,
+  email: string
+) => {
+  const tasks: ProgramReport[] = [];
+  for (let index = 0; index < 20; index++) {
+    let rnd = getRandomInteger(0, 10);
+    let status: Status = "IN PROGRESS";
+    if (rnd === 1) status = "CANCELLED";
+    if (rnd > 1 && rnd < 5) status = "COMPLETED";
+
+    rnd = getRandomInteger(0, getRandomInteger(2, 4));
+    let user = "Ibrahim Kabiru";
+    if (rnd === 1) user = "Alvis Davis";
+    else if (rnd === 2) user = "Peculiar Umeh";
+
+    rnd = getRandomInteger(0, getRandomInteger(3, 4));
+    const fromDate = addMinutes(
+      new Date(),
+      (rnd === 2 ? -1 : 1) * getRandomInteger(60, 27000)
+    );
+    const toDate = addMinutes(fromDate, getRandomInteger(70, 27000));
+    const task: ProgramReport = {
+      icon: reportSVG,
+      title: "Google Africa Scholarship Report " + (index + 1),
+      doneBy: user,
+      url: "reports",
+      status: status,
+      from: fromDate,
+      to: toDate,
+    };
+    tasks.push(task);
+    const details: ReportDetail[] = [];
+    for (let k = 0; k < getRandomInteger(2, getRandomInteger(5, 20)); k++) {
+      const subDetails: ReportDetail[] = [];
+      const isDetailed = getRandomInteger(0, getRandomInteger(4, 5)) === 3;
+      if (isDetailed)
+        for (let j = 0; j < getRandomInteger(2, getRandomInteger(3, 5)); j++) {
+          const smallSubDetails: ReportDetail[] = [];
+          const isDetailed2 = getRandomInteger(0, getRandomInteger(3, 5)) === 3;
+          if (isDetailed2)
+            for (
+              let i = 0;
+              i < getRandomInteger(2, getRandomInteger(3, 4));
+              i++
+            ) {
+              smallSubDetails.push([
+                `Small Sub-Title ${i}`,
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+              ]);
+            }
+          if (smallSubDetails.length > 1) {
+            subDetails.push([
+              `Sub-Title ${j}`,
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+              smallSubDetails,
+            ]);
+          } else {
+            subDetails.push([
+              `Sub-Title ${j}`,
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+            ]);
+          }
+        }
+
+      if (subDetails.length > 1) {
+        details.push([
+          `Title ${k}`,
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+          subDetails,
+        ]);
+      } else {
+        details.push([
+          `Title ${k}`,
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
+        ]);
+      }
+      task.details = details;  
+    }
+  }
+  return await Promise.resolve(tasks);
 };
 
 export const fetchAllTaskDataApiAsync = async (
@@ -51,8 +149,10 @@ export const fetchAllTaskDataApiAsync = async (
       taskReports: [],
     };
 
-    Promise.all([fetchAllMentorApiAsync(token,userId,email), fetchAllMentorManagerApiAsync(token,userId,email)])
-    .then(tt =>{
+    Promise.all([
+      fetchAllMentorApiAsync(token, userId, email),
+      fetchAllMentorManagerApiAsync(token, userId, email),
+    ]).then((tt) => {
       const allMentors = randomizeArray(tt[0]);
       const allMentorManagers = randomizeArray(tt[1]);
 
