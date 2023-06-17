@@ -69,7 +69,7 @@ function Reports() {
         });
     }
 
-    const btnTitle = "bg-green-three cursor-pointer tracking-wider text-white rounded-[10px] p-[1px] pe-[4px] ps-[4px] min-h-[42px] font-semibold mt-0 overflow-hidden focus:shadow-md leading-tight focus:outline-none relative hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300 focus:bg-lighterGreen-three focus:text-green-three";
+    const btnTitle = "cursor-pointer tracking-wider rounded-[10px] p-[1px] pe-[4px] ps-[4px] min-h-[42px] font-semibold mt-0 overflow-hidden focus:shadow-md leading-tight focus:outline-none relative hover:shadow-inner transform hover:scale-105 hover:bg-opacity-80 transition ease-out duration-300 focus:bg-lighterGreen-three focus:text-green-three";
 
     return (
         <div className="w-full mt-[3px] ml-0 h-full flex p-4 flex-row">
@@ -85,10 +85,10 @@ function Reports() {
             <div className="w-[350px] h-full flex flex-col my-0 mx-0">
                 <div className="w-[350px] h-full flex flex-col">
                     <div className="flex flex-row px-3 py-1 rounded-lg bg-green-three mx-1 my-2">
-                        <button onClick={() => setDataToLoad("REPORTS")} className={`mr-auto ml-0 ${btnTitle}`} >
+                        <button onClick={() => setDataToLoad("REPORTS")} className={`mr-auto ml-0 ${dataToLoad === "REPORTS"?"bg-lighterGreen-three text-green-three":"bg-green-three text-white"} ${btnTitle}`} >
                             Program Reports
                         </button>
-                        <button onClick={() => setDataToLoad("TASKS")} className={`ml- mr-0 ${btnTitle}`} >
+                        <button onClick={() => setDataToLoad("TASKS")} className={`ml-auto ${dataToLoad !== "REPORTS"?"bg-lighterGreen-three text-green-three":"bg-green-three text-white"} mr-0 ${btnTitle}`} >
                             Task Reports
                         </button>
                     </div>

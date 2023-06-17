@@ -3,18 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserNameSelector, selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import LoadingComponent from "../../../../components/loading-components/loading-component";
-import { ProgramTask, fetchAllTaskDataApiAsync } from "../../../../services/axios/api-services/tasks-and-reports";
 import messageEarthingSVG from "./../../../../assets/images/messages/messages-earthing.svg"
 import searchIconSVG from "./../../../../assets/images/search-green.svg";
 import calendarSVG from "./../../../../assets/calendar.svg";
 import mentorSVG from "./../../../../assets/images/mentor-icon.svg";
 import mentorManagerSVG from "./../../../../assets/images/mentor-manager-icon.svg";
-import reportsTaskSVG from "./../../../../assets/images/reports-2.svg";
+import reportsProgramSVG from "./../../../../assets/images/reports-2.svg";
 import noSelectedItem from "./../../../../assets/images/messages/no-selected-item.svg"
+import { Program, fetchAllProgramsDataApiAsync } from "../../../../services/axios/api-services/programs";
+import { getShortDate, getShortTime } from "../../../../services/dateFunctions";
+import Timer from './../../../../assets/images/time.svg';
 
-function Tasks() {
-    const [tasks, setTasks] = useState<undefined | ProgramTask[]>(undefined);
-    const [currentTask, setCurrentTask] = useState<undefined | ProgramTask>(undefined);
+function Programs() {
+    const [programs, setPrograms] = useState<undefined | Program[]>(undefined);
+    const [currentProgram, setCurrentProgram] = useState<undefined | Program>(undefined);
     const [isBusy, setIsBusy] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -36,9 +38,9 @@ function Tasks() {
             setErrorMessage("");
             setSuccessMessage("");
 
-            fetchAllTaskDataApiAsync(token, userId ?? "", email ?? "")
+            fetchAllProgramsDataApiAsync(token, userId ?? "", email ?? "")
                 .then(obj => {
-                    setTasks(obj);
+                    setPrograms(obj);
                 })
                 .catch(err => { showErrorMessage(err) });
         } catch (error) { showErrorMessage(error) }
@@ -62,7 +64,7 @@ function Tasks() {
                             className="relative text-[20px] whitespace-nowrap mt-[10px] font-semibold leading-[33px] text-[#333] h-[33px] left-0 font-mukta ms-5 pt-0"
                             htmlFor="about"
                         >
-                            Tasks
+                            Programs
                         </label>
                         <div className="ml-auto mr-0">
                             <button type="submit" >
@@ -78,34 +80,70 @@ function Tasks() {
                         </div>
                     </div>
                     <ul className="list-none px-3 m-0 scrollable-by-y mt-5 h-full w-full">
-                        {tasks?.map((item, idx) => {
+                        {programs?.map((program, idx) => {
                             return (
-                                <button onClick={() => setCurrentTask(item)} className="w-full focus:bg-white hover:shadow-lg focus:btn-animate" >
-                                    <div className="w-full rounded-lg mr-5 border my-1 border-lightgray-three focus:bg-white items-center flex flex-row">
-                                        <img
-                                            src={item.icon}
-                                            alt="profile logo"
-                                            className="w-[31.64px] h-[34.78px] mx-5 my-2"
-                                        />
-                                        <div className="flex w-[210px] flex-col">
-                                            <label className="font-mukta text-left truncate mx-1 align text-customBlack-two ml-[1px] px-2 mt-[-4px] font-bold text-[16px] leading-[29.59px]" >{item.title}</label>
-                                            <span className="mt-[-8px] flex flex-grow ml-[10px]">
-                                                <img src={calendarSVG} alt="Calendar" className="mr-4 w-[16.67px] h-[16.67px]" />
-                                                <span className="text-[12px] text-gray-two">{`3 days from now`}</span>
-                                            </span>
+                                <div className="border-[1px] border-gray-300 focus:border-lighterGreen-three hover:border-lighterGreen-two rounded-[5px] flex flex-row h-[71px] mt-[10px]">
+                                    <img
+                                        src={program.icon}
+                                        alt="profile logo"
+                                        className="w-[47px] mt-[11.39px] ml-[30.78px] h-[49px]"
+                                    />
+                                    <div className="w-full">
+                                        <label
+                                            className="pt-0 text-[20px] font-bold relative top-3 left-7 text-customBlack-two"
+                                            htmlFor="about"
+                                        >
+                                            {program.title}
+                                        </label>
+                                        <div className="flex flex-row mt-2 left-7 relative  w-full">
+                                            <button
+                                                type="button"
+                                                className="btn-secondary calender-button"
+                                            >
+                                                <img
+                                                    src={calendarSVG}
+                                                    alt="Attach file icon"
+                                                    className="w-[16.67px] h-[16.67px] mt-[2px]"
+                                                />
+                                            </button>
+                                            <label
+                                                className="text-[12px] text-gray-two ml-3 mt-[1px]"
+                                                htmlFor="about"
+                                            >
+                                                {getShortDate(program.from)}
+                                            </label>
+
+                                            <button
+                                                type="button"
+                                                className="btn-secondary timer-button ml-8"
+                                            >
+                                                <img
+                                                    src={Timer}
+                                                    alt="Timer icon"
+                                                    className="w-[16.67px] h-[16.67px] mt-[2px]"
+                                                    style={{ left: "2px", bottom: "3px" }}
+                                                />
+                                            </button>
+                                            <label
+                                                className="text-[12px] text-gray-two ml-3 mt-[1px]"
+                                                htmlFor="about"
+                                            >
+                                                {getShortTime(program.from)}
+                                            </label>
                                         </div>
                                     </div>
-                                </button>);
+                                </div>
+                            );
                         })}
                     </ul>
                 </div>
             </div>
             <div className="max-w-[757px] w-full relative h-full flex flex-col">
-                <button onClick={tt => { tt.preventDefault(); navigate("/dashboard/edit-task") }} className="btn-primary mr-2 mb-4 ml-auto" >
-                    Create New Task
+                <button onClick={tt => { tt.preventDefault(); navigate("/dashboard/edit-program") }} className="btn-primary mr-2 mb-4 ml-auto" >
+                    Create New Program
                 </button>
                 {
-                    (!currentTask) && (
+                    (!currentProgram) && (
                         <div className="flex flex-col h-full w-full">
                             <div className="flex flex-col border border-lightGray-two w-full h-full">
                                 <div className="flex flex-col items-center my-auto">
@@ -118,23 +156,23 @@ function Tasks() {
                                         No item selected yet
                                     </label>
                                     <label className="m-auto font-mukta font-[16px] leading-[27px] mb-10 items-center text-center text-[#999999]">
-                                        Select an item from the list to view task detail
+                                        Select an item from the list to view program detail
                                     </label>
                                 </div>
                             </div>
                         </div>
                     )
                 }
-                {currentTask &&
+                {currentProgram &&
                     (<div className="w-full relative h-full border mt- pt-5 border-lightGray-two flex flex-col">
                         <div className="w-full rounded-lg mr-5 my-1 focus:bg-white items-center flex flex-row">
                             <img
-                                src={currentTask?.icon}
+                                src={currentProgram?.icon}
                                 alt="profile logo"
                                 className="w-[31.64px] h-[34.78px] mx-5 my-2"
                             />
                             <div className="flex w-full flex-col">
-                                <label className="font-mukta text-left truncate mx-1 align text-customBlack-two ml-[1px] px-2 mt-[-4px] font-bold text-[16px] leading-[29.59px]" >{currentTask?.title}</label>
+                                <label className="font-mukta text-left truncate mx-1 align text-customBlack-two ml-[1px] px-2 mt-[-4px] font-bold text-[16px] leading-[29.59px]" >{currentProgram?.title}</label>
                                 <span className="mt-[-4px] flex flex-grow ml-[10px]">
                                     <img src={calendarSVG} alt="Calendar" className="mr-4 w-[16.67px] h-[16.67px]" />
                                     <span className="text-[12px] text-gray-two">{`3 days from now`}</span>
@@ -151,23 +189,22 @@ function Tasks() {
                                     alt="profile logo"
                                     className="w-[20px] h-[20px] mx-5 my-auto"
                                 />
-                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[32px]" >{currentTask?.mentorManagersAssigned?.length}</label>
-                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[20px]" >Mentor Managers assigned to this task</label>
+                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[32px]" >{currentProgram?.mentorManagersAssigned?.length}</label>
+                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[20px]" >Mentor Managers assigned to this program</label>
                                 <button
                                     type="button"
                                     className="inline-flex bg-green-three items-center px-3 text-[12px] mr-11 leading-6 my-auto text-white ml-auto rounded-md shadow btn-animate">
                                     View
                                 </button>
                             </div>
-
                             <div className="flex flex-row mt-3 rounded-lg bg-lighterGreen-two">
                                 <img
                                     src={mentorSVG}
                                     alt="profile logo"
                                     className="w-[20px] h-[20px] mx-5 my-auto"
                                 />
-                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[32px]" >{currentTask?.mentorAssigned?.length}</label>
-                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[20px]" >Mentors assigned to this task</label>
+                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[32px]" >{currentProgram?.mentorAssigned?.length}</label>
+                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[20px]" >Mentors assigned to this program</label>
                                 <button
                                     type="button"
                                     className="inline-flex bg-green-three items-center px-3 text-[12px] mr-11 leading-6 my-auto text-white ml-auto rounded-md shadow btn-animate">
@@ -177,12 +214,12 @@ function Tasks() {
 
                             <div className="flex flex-row mt-3 rounded-lg bg-lighterGreen-two">
                                 <img
-                                    src={reportsTaskSVG}
+                                    src={reportsProgramSVG}
                                     alt="profile logo"
                                     className="w-[20px] h-[20px] mx-5 my-auto"
                                 />
-                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[32px]" >{currentTask?.taskReports?.length}</label>
-                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[20px]" >Task reports</label>
+                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[32px]" >{currentProgram?.taskReports?.length}</label>
+                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[20px]" >Program reports</label>
                                 <button
                                     type="button"
                                     className="inline-flex bg-green-three items-center px-3 text-[12px] mr-11 leading-6 my-auto text-white ml-auto rounded-md shadow btn-animate">
@@ -196,7 +233,7 @@ function Tasks() {
                                     </svg>
                                     Delete
                                 </button>
-                                <button onClick={tt => { tt.preventDefault(); navigate("/dashboard/edit-task", { state: currentTask }) }} className="btn-primary mr-[1px] ml-auto max-h-[30px] p-0" >Edit Task</button>
+                                <button onClick={tt => { tt.preventDefault(); navigate("/dashboard/edit-program", { state: currentProgram }) }} className="btn-primary mr-[1px] ml-auto max-h-[30px] p-0" >Edit Program</button>
                             </div>
                         </div>
                     </div>)}
@@ -205,4 +242,4 @@ function Tasks() {
     )
 }
 
-export default Tasks;
+export default Programs;
