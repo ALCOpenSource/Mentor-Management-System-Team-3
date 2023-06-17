@@ -85,9 +85,6 @@ const EditProfilePage: React.FC = () => {
     initialValues.countryFlagIcon = obj.countryFlagIcon;
   }
 
-
-
-
   function convertFile(files: FileList | null) {
     try {
       if (files) {

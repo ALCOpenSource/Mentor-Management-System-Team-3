@@ -43,6 +43,7 @@ import MyGeneratedCertificates from './views/dashboard/SwitchComponents/Certific
 import PendingApprovalCertificates from './views/dashboard/SwitchComponents/CertificatesComponents/pending-approval-certificates';
 import AssignTask from './views/dashboard/SwitchComponents/TasksandReports/assign-task';
 import EditTask from './views/dashboard/SwitchComponents/TasksandReports/edit-task';
+import EditProgram from './views/dashboard/SwitchComponents/Programs/edit-program';
 
 function AppRoutes() {
   return (
@@ -91,6 +92,7 @@ function AppRoutes() {
             <Route path="tasks" element={<Tasks />} />
             <Route path="assign-task" element={<AssignTask />} />
             <Route path="edit-task" element={<EditTask />} />
+            <Route path="edit-program" element={<EditProgram />} />
             <Route path="programs" element={<Programs />} />
             <Route path="approval-requests" element={<ApprovalRequests />} >
               <Route index element={<MentorManagerRequests />} />

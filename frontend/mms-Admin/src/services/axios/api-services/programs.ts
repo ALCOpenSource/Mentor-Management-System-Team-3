@@ -1,7 +1,7 @@
 import { MentorProp } from "../../../views/dashboard/SwitchComponents/AdminMessagesComponents/select-someone";
 import { getRandomInteger } from "../../mathFunctions";
 import avatarSVG from "./../../../assets/images/avatar.svg";
-import reportSVG from "./../../../assets/images/reports-2.svg";
+import googleSVG from "./../../../assets/images/google.svg";
 import { addMinutes } from "../../dateFunctions";
 import { randomizeArray } from "../../generalFunctions";
 
@@ -19,7 +19,7 @@ export interface Program {
   details?: string;
   mentorAssigned: MentorProp[];
   mentorManagersAssigned: MentorProp[];
-  taskReports: string[];
+  creteriasAssigned: MentorProp[];
 }
 
 export const saveTaskApiAsync = async (
@@ -57,7 +57,7 @@ export const fetchAllProgramsDataApiAsync = async (
     );
     const toDate = addMinutes(fromDate, getRandomInteger(70, 27000));
     const task: Program = {
-      icon: reportSVG,
+      icon: googleSVG,
       title: "Google Africa Scholarship Report " + (index + 1),
       doneBy: user,
       url: "reports",
@@ -66,7 +66,7 @@ export const fetchAllProgramsDataApiAsync = async (
       to: toDate,
       mentorAssigned: [],
       mentorManagersAssigned: [],
-      taskReports: [],
+      creteriasAssigned: [],
       details:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. ",
     };
@@ -87,7 +87,7 @@ export const fetchAllProgramsDataApiAsync = async (
     });
 
     for (let i = 0; i < getRandomInteger(0, getRandomInteger(5, 100)); i++) {
-      task.taskReports.push(`Report ${i + 1}`);
+      //task.creteriasAssigned.push([]);
     }
 
     tasks.push(task);
@@ -96,6 +96,27 @@ export const fetchAllProgramsDataApiAsync = async (
 };
 
 export const fetchAllMentorApiAsync = async (
+  token: string,
+  userId: string,
+  email: string
+) => {
+  const mentors: MentorProp[] = [];
+  for (let i = 0; i < 100; i++) {
+    const date = new Date();
+    date.setMinutes(date.getMinutes() - getRandomInteger(0, 1500000));
+    mentors.push({
+      name: "Mentor User " + i,
+      icon: avatarSVG,
+      details: "Program Assistant, Andela, She/her",
+      title: "PROGRAM ASST.",
+      mentor: "MENTOR-GADS",
+    });
+  }
+  return await Promise.resolve(mentors);
+};
+
+
+export const fetchAllCreteriasApiAsync = async (
   token: string,
   userId: string,
   email: string

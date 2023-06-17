@@ -82,57 +82,59 @@ function Programs() {
                     <ul className="list-none px-3 m-0 scrollable-by-y mt-5 h-full w-full">
                         {programs?.map((program, idx) => {
                             return (
-                                <div className="border-[1px] border-gray-300 focus:border-lighterGreen-three hover:border-lighterGreen-two rounded-[5px] flex flex-row h-[71px] mt-[10px]">
-                                    <img
-                                        src={program.icon}
-                                        alt="profile logo"
-                                        className="w-[47px] mt-[11.39px] ml-[30.78px] h-[49px]"
-                                    />
-                                    <div className="w-full">
-                                        <label
-                                            className="pt-0 text-[20px] font-bold relative top-3 left-7 text-customBlack-two"
-                                            htmlFor="about"
-                                        >
-                                            {program.title}
-                                        </label>
-                                        <div className="flex flex-row mt-2 left-7 relative  w-full">
-                                            <button
-                                                type="button"
-                                                className="btn-secondary calender-button"
-                                            >
-                                                <img
-                                                    src={calendarSVG}
-                                                    alt="Attach file icon"
-                                                    className="w-[16.67px] h-[16.67px] mt-[2px]"
-                                                />
-                                            </button>
+                                <button onClick={() => setCurrentProgram(program)} className="w-full focus:bg-white hover:shadow-lg focus:btn-animate" >
+                                    <div className={`border-[1px] ${program === currentProgram ? "bg-lighterGreen-two" : "bg-white"}  border-gray-300 focus:border-lighterGreen-three hover:border-lighterGreen-two rounded-[5px] flex flex-row h-[71px] mt-[10px]`}>
+                                        <img
+                                            src={program.icon}
+                                            alt="profile logo"
+                                            className="w-[29.74px] my-auto mx-3 h-[31.17px]"
+                                        />
+                                        <div className="w-[calc(100%-60px)] flex flex-col">
                                             <label
-                                                className="text-[12px] text-gray-two ml-3 mt-[1px]"
+                                                className="pt-3 text-[16px] w-full font-semibold truncate top-3 text-customBlack-two"
                                                 htmlFor="about"
                                             >
-                                                {getShortDate(program.from)}
+                                                {program.title}
                                             </label>
+                                            <div className="flex flex-row mt-0 relative  w-full">
+                                                <button
+                                                    type="button"
+                                                    className="btn-secondary calender-button"
+                                                >
+                                                    <img
+                                                        src={calendarSVG}
+                                                        alt="Attach file icon"
+                                                        className="w-[16.67px] h-[16.67px] mt-[2px]"
+                                                    />
+                                                </button>
+                                                <label
+                                                    className="text-[12px] text-gray-two ml-3 mt-[1px]"
+                                                    htmlFor="about"
+                                                >
+                                                    {getShortDate(program.from)}
+                                                </label>
 
-                                            <button
-                                                type="button"
-                                                className="btn-secondary timer-button ml-8"
-                                            >
-                                                <img
-                                                    src={Timer}
-                                                    alt="Timer icon"
-                                                    className="w-[16.67px] h-[16.67px] mt-[2px]"
-                                                    style={{ left: "2px", bottom: "3px" }}
-                                                />
-                                            </button>
-                                            <label
-                                                className="text-[12px] text-gray-two ml-3 mt-[1px]"
-                                                htmlFor="about"
-                                            >
-                                                {getShortTime(program.from)}
-                                            </label>
+                                                <button
+                                                    type="button"
+                                                    className="btn-secondary timer-button ml-5"
+                                                >
+                                                    <img
+                                                        src={Timer}
+                                                        alt="Timer icon"
+                                                        className="w-[16.67px] h-[16.67px] mt-[2px]"
+                                                        style={{ left: "2px", bottom: "3px" }}
+                                                    />
+                                                </button>
+                                                <label
+                                                    className="text-[12px] text-gray-two ml-3 mt-[1px]"
+                                                    htmlFor="about"
+                                                >
+                                                    {getShortTime(program.from)}
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </button>
                             );
                         })}
                     </ul>
@@ -164,19 +166,49 @@ function Programs() {
                     )
                 }
                 {currentProgram &&
-                    (<div className="w-full relative h-full border mt- pt-5 border-lightGray-two flex flex-col">
-                        <div className="w-full rounded-lg mr-5 my-1 focus:bg-white items-center flex flex-row">
-                            <img
-                                src={currentProgram?.icon}
-                                alt="profile logo"
-                                className="w-[31.64px] h-[34.78px] mx-5 my-2"
-                            />
-                            <div className="flex w-full flex-col">
-                                <label className="font-mukta text-left truncate mx-1 align text-customBlack-two ml-[1px] px-2 mt-[-4px] font-bold text-[16px] leading-[29.59px]" >{currentProgram?.title}</label>
-                                <span className="mt-[-4px] flex flex-grow ml-[10px]">
-                                    <img src={calendarSVG} alt="Calendar" className="mr-4 w-[16.67px] h-[16.67px]" />
-                                    <span className="text-[12px] text-gray-two">{`3 days from now`}</span>
-                                </span>
+                    (<div className="w-full relative h-full border mt-4 pt-1 border-lightGray-two flex flex-col">
+                        <div className="w-full rounded-lg ml-5 my-1 focus:bg-white items-center flex flex-col">
+                            <label
+                                className="pt-3 text-[20px] w-full font-semibold truncate top-3 text-customBlack-two"
+                                htmlFor="about"
+                            >
+                                {currentProgram.title}
+                            </label>
+                            <div className="flex flex-row mt-0 relative  w-full">
+                                <button
+                                    type="button"
+                                    className="btn-secondary calender-button"
+                                >
+                                    <img
+                                        src={calendarSVG}
+                                        alt="Attach file icon"
+                                        className="w-[16.67px] h-[16.67px] mt-[2px]"
+                                    />
+                                </button>
+                                <label
+                                    className="text-[12px] text-gray-two ml-3 mt-[1px]"
+                                    htmlFor="about"
+                                >
+                                    {getShortDate(currentProgram.from)}
+                                </label>
+
+                                <button
+                                    type="button"
+                                    className="btn-secondary timer-button ml-5"
+                                >
+                                    <img
+                                        src={Timer}
+                                        alt="Timer icon"
+                                        className="w-[16.67px] h-[16.67px] mt-[2px]"
+                                        style={{ left: "2px", bottom: "3px" }}
+                                    />
+                                </button>
+                                <label
+                                    className="text-[12px] text-gray-two ml-3 mt-[1px]"
+                                    htmlFor="about"
+                                >
+                                    {getShortTime(currentProgram.from)}
+                                </label>
                             </div>
                         </div>
                         <div className="flex px-5 flex-col mt-3 w-full h-full bg-lighterGreen-three">
@@ -218,7 +250,7 @@ function Programs() {
                                     alt="profile logo"
                                     className="w-[20px] h-[20px] mx-5 my-auto"
                                 />
-                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[32px]" >{currentProgram?.taskReports?.length}</label>
+                                <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[32px]" >{currentProgram?.creteriasAssigned?.length}</label>
                                 <label className="font-mukta text-left text-[#333] my-auto px-2 font-bold text-[20px]" >Program reports</label>
                                 <button
                                     type="button"
@@ -228,10 +260,10 @@ function Programs() {
                             </div>
                             <div className="flex mr-0 mt-9 ml-auto flex-row">
                                 <button onClick={tt => tt.preventDefault()} className="bg-transparent btn-animate text-red-three font-semibold flex flex-row hover:text-red-two px-6 pt-3 max-h-[40px] mx-4 border-none hover:border-none rounded-lg">
-                                    <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0.635742 5.38459H2.89002M2.89002 5.38459H20.9243M2.89002 5.38459V20.0573C2.89002 20.6132 3.12753 21.1464 3.55028 21.5395C3.97304 21.9326 4.54643 22.1534 5.1443 22.1534H16.4157C17.0136 22.1534 17.587 21.9326 18.0097 21.5395C18.4325 21.1464 18.67 20.6132 18.67 20.0573V5.38459H2.89002ZM6.27144 5.38459V3.28849C6.27144 2.73257 6.50895 2.19941 6.9317 1.80632C7.35446 1.41322 7.92785 1.19238 8.52572 1.19238H13.0343C13.6322 1.19238 14.2055 1.41322 14.6283 1.80632C15.0511 2.19941 15.2886 2.73257 15.2886 3.28849V5.38459M8.52572 10.6249V16.9132M13.0343 10.6249V16.9132" stroke="#FF647C" stroke-linecap="round" stroke-linejoin="round" />
+                                    <svg width="18" className="mt-1 mx-3" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8.99935 4.50008L13.9993 9.50008M13.9993 4.50008L8.99935 9.50008M5.96905 1.16675L0.666016 7.00008L5.96905 12.8334H15.666C16.5865 12.8334 17.3327 12.0872 17.3327 11.1667V2.83341C17.3327 1.91294 16.5865 1.16675 15.666 1.16675H5.96905Z" stroke="#CC000E" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                    Delete
+                                    Delete/Archive Program
                                 </button>
                                 <button onClick={tt => { tt.preventDefault(); navigate("/dashboard/edit-program", { state: currentProgram }) }} className="btn-primary mr-[1px] ml-auto max-h-[30px] p-0" >Edit Program</button>
                             </div>
