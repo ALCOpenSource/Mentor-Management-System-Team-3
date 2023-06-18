@@ -23,7 +23,7 @@ import LoginForm from './views/login/LoginForm';
 import Mentors from "./views/dashboard/SwitchComponents/mentor/mentor";
 import ProtectedRoutes from "./components/protectedRoute";
 import ApprovalRequests from './views/dashboard/SwitchComponents/ApprovalRequestsComponents/index';
-import MentorManagers from './views/dashboard/SwitchComponents/mentor-managers';
+import MentorManagers from "./views/dashboard/SwitchComponents/MentorManagers/index"
 import AdminMessages from './views/dashboard/SwitchComponents/AdminMessagesComponents/admin-messages';
 import AdminChatMessages from './views/dashboard/SwitchComponents/AdminMessagesComponents/admin-chat-messages';
 import SelectSomeOne from './views/dashboard/SwitchComponents/AdminMessagesComponents/select-someone';
@@ -44,6 +44,7 @@ import PendingApprovalCertificates from './views/dashboard/SwitchComponents/Cert
 import AssignTask from './views/dashboard/SwitchComponents/TasksandReports/assign-task';
 import EditTask from './views/dashboard/SwitchComponents/TasksandReports/edit-task';
 import EditProgram from './views/dashboard/SwitchComponents/Programs/edit-program';
+import MentorManagerDetails from './views/dashboard/SwitchComponents/MentorManagers/mentor-manager-detail';
 
 function AppRoutes() {
   return (
@@ -92,6 +93,7 @@ function AppRoutes() {
             <Route path="tasks" element={<Tasks />} />
             <Route path="assign-task" element={<AssignTask />} />
             <Route path="edit-task" element={<EditTask />} />
+            <Route path="mentor-manager-detail" element={<MentorManagerDetails />} />
             <Route path="edit-program" element={<EditProgram />} />
             <Route path="programs" element={<Programs />} />
             <Route path="approval-requests" element={<ApprovalRequests />} >

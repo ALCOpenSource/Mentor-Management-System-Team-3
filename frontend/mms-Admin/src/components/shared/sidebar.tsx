@@ -122,7 +122,7 @@ function Sidebar() {
                     className="h-8 mr-5"
                   />
 
-                  <span className="text-sm focus:bg-white focus:font-bold text-gray-one">{item.label}</span>
+                  <span className="text-sm focus:bg-white whitespace-nowrap focus:font-bold text-gray-one">{item.label}</span>
                 </NavLink>
               </div>
             );
