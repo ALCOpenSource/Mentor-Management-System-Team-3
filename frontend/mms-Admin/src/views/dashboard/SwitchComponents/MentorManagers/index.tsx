@@ -133,7 +133,7 @@ function MentorManagers() {
                     </div>
 
                     <div className="w-full flex flex-row max-w-[1095px] bg-red-400 h-full mt-1 pb-10">
-                        {loadingStyle !== "LINEAR" && (<div className="px-3 m-0 mt-5 container grid grid-flow-row w-full h-full">
+                        {loadingStyle !== "LINEAR" && (<div className="px-3 m-0 mt-5 grid grid-cols-2 gap-1 w-full h-full">
                             {mentorManagers?.map((mentor, index) =>
                             (
                                 <React.Fragment key={index}>
