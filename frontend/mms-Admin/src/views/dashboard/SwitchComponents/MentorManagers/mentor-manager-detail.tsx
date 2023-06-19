@@ -63,7 +63,7 @@ tabs.splice(2, 0, {
                 <div className="flex items-center gap-x-3.5">
                   <img
                     src={mentor.icon}
-                    alt={mentor?.name??"" +" avatar"}
+                    alt={`${mentor?.name} avatar`}
                     className="w-[45px] h-[43px] object-cover rounded-full"
                   />
                   <div className="leading-5">

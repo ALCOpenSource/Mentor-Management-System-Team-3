@@ -16,7 +16,7 @@ import { fetchAllMentorManagerApiAsync } from "../../../../services/axios/api-se
 function MentorManagers() {
     type LoadStyle = "NONE" | "GRID" | "LINEAR"
     const [mentorManagers, setMentorManagers] = useState<undefined | MentorProp[]>(undefined);
-    const [currentMentorManager, setCurrentMentorManager] = useState<undefined | MentorProp>(undefined);
+   // const [currentMentorManager, setCurrentMentorManager] = useState<undefined | MentorProp>(undefined);
     const [isBusy, setIsBusy] = useState(false);
     const [loadingStyle, setLoadingStyle] = useState<LoadStyle>("NONE");
     const [successMessage, setSuccessMessage] = useState("");

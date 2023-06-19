@@ -39,7 +39,7 @@ function AdminChatMessages() {
         })
         .catch(error => console.error(error));
     } catch (ee) { console.error(ee) }
-  }, [token]);
+  }, [token, currentMentor]);
 
 
   return (
