@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import "../../../index.css"
-import "./Messages.css"
 
 function Messages() {
     return (
