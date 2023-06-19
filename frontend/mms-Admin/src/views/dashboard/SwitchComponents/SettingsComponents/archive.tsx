@@ -69,7 +69,7 @@ const App: React.FC = () => {
                 name="searchArchive"
                 placeholder="Search archive"
                 extraStyles="h-[38px] rounded-[5px] "
-              />              
+              />
               <div className="mt-5 min-w-[250px] items-center justify-center">
                 <button type="button" className="btn-secondary navigation-button">
                   <img
@@ -97,7 +97,7 @@ const App: React.FC = () => {
                   />
                 </button>
 
-                <button type="button" className="btn-secondary navigation-button">
+                <button type="button" className="btn-animate navigation-button">
                   <img
                     src={NavigationLast}
                     alt="Attach file icon"
@@ -153,7 +153,7 @@ const App: React.FC = () => {
 
                                     <button
                                       type="button"
-                                      className="btn-secondary timer-button ml-8"
+                                      className="btn-secondary mr-5 right-8 timer-button ml-8"
                                     >
                                       <img
                                         src={Timer}
@@ -172,13 +172,11 @@ const App: React.FC = () => {
                                 </div>
                                 <button
                                   type="submit"
-                                  className="dropdown-button"
+                                  className="dropdown-button px-5"
                                 >
-                                  <img
-                                    src={DropdownListIcon}
-                                    alt="Attach file icon"
-                                    className="dropdown-icon"
-                                  />
+                                  <svg className="transform rotate-180" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.7175 16.7175C14.9359 18.4991 12.5196 19.5 10 19.5C8.75244 19.5 7.5171 19.2543 6.36451 18.7769C5.21191 18.2994 4.16464 17.5997 3.28249 16.7175C1.50089 14.9359 0.5 12.5196 0.5 10C0.5 7.48044 1.50089 5.06408 3.28249 3.28249C4.16464 2.40033 5.21191 1.70056 6.36451 1.22314C7.5171 0.745725 8.75244 0.5 10 0.5C11.2476 0.5 12.4829 0.745725 13.6355 1.22314C14.7881 1.70056 15.8354 2.40033 16.7175 3.28249C17.5997 4.16464 18.2994 5.21191 18.7769 6.36451C19.2543 7.5171 19.5 8.75244 19.5 10C19.5 12.5196 18.4991 14.9359 16.7175 16.7175ZM3.98959 16.0104C5.58365 17.6045 7.74566 18.5 10 18.5C12.2543 18.5 14.4163 17.6045 16.0104 16.0104C17.6045 14.4163 18.5 12.2543 18.5 10C18.5 7.74566 17.6045 5.58365 16.0104 3.98959C14.4163 2.39553 12.2543 1.5 10 1.5C7.74566 1.5 5.58365 2.39553 3.98959 3.98959C2.39553 5.58365 1.5 7.74566 1.5 10C1.5 12.2543 2.39553 14.4163 3.98959 16.0104ZM6.20711 11.5L10 7.70711L13.7929 11.5H6.20711Z" fill="#058B94" stroke="#058B94" />
+                                  </svg>
                                 </button>
                               </div>
                             </label>

@@ -38,14 +38,17 @@ const PasswordPage: React.FC = () => {
             await dispatch(logoutCurrentUser());
             googleLogout();
           } catch (error) { console.log(error) }
-
+setIsBusy(true);
           await dispatch(
             loginCurrentUserWithGoogle({
               email: values.email,
               displayName: values.fullName,
               profilePicture: values.picture
             })
-          ).then(dd => navigate("/dashboard"))
+          ).then(dd => {
+            setIsBusy(false);
+            navigate("/dashboard");
+          })
             .catch(err => { showErrorMessage(err) });
         } catch (error: any) {
           showErrorMessage(error?.message);
@@ -148,8 +151,7 @@ const PasswordPage: React.FC = () => {
                     <LoadingComponent isBusy={isBusy} />
                   </div>
                   <h5
-                    style={{ color: "orangered" }}
-                    className="text-1xl font-bold mt-4"
+                    className="text-1xl font-bold mt-4 text-lightRed-one"
                   >
                     {errorMessage}
                   </h5>

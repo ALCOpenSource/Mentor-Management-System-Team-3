@@ -35,7 +35,6 @@ const EditProfilePage: React.FC = () => {
   const [filebase64, setFileBase64] = useState<string>(
     useAppSelector(selectCurrentUserProfilePicture) ?? avatar
   );
-
   const showErrorMessage = (tt: any) => {
     try {
       setIsBusy(false);
@@ -86,9 +85,6 @@ const EditProfilePage: React.FC = () => {
     initialValues.countryFlagIcon = obj.countryFlagIcon;
   }
 
-
-
-
   function convertFile(files: FileList | null) {
     try {
       if (files) {
@@ -101,8 +97,10 @@ const EditProfilePage: React.FC = () => {
           // convert it to base64
           setFileBase64(img);
           try {
+            setErrorMessage("");
+            setSuccessMessage("");
             dispatch(updateCurrentUserProfilePicture(img))
-              .then(err => setSuccessMessage("Successfully changed profile picture"))
+              .then(err => showErrorMessage(""))
               .catch(err => showErrorMessage(err));
           } catch (error) { showErrorMessage(error) }
         };
@@ -187,6 +185,7 @@ const EditProfilePage: React.FC = () => {
                     name="uploadFile"
                     accept="image/*"
                     className="hidden -z-50 absolute"
+                    onClick={()=> setSuccessMessage("")}
                     onChange={(e) => convertFile(e.target.files)}
                   />
                 </div>
@@ -196,8 +195,7 @@ const EditProfilePage: React.FC = () => {
                   </h5>
 
                   <h5
-                    style={{ color: "orangered" }}
-                    className="text-1xl font-bold mt-4"
+                    className="text-1xl font-bold mt-4 text-lightRed-one"
                   >
                     {errorMessage}
                   </h5>

@@ -97,8 +97,7 @@ const PasswordPage: React.FC = () => {
                       <input type="hidden" id="userId" name="userId" />
                       <input type="hidden" id="email" name="email" />
                       <label
-                        className="text-label"
-                        style={{ width: "250px" }}
+                        className="text-label w-[250px]"
                         htmlFor="currentpassword"
                       >
                         Current Password
@@ -115,8 +114,7 @@ const PasswordPage: React.FC = () => {
                   <div className="mb-5">
                     <div className="flex flex-row  relative  w-full">
                       <label
-                        className="text-label"
-                        style={{ width: "250px" }}
+                        className="text-label w-[250px]"
                         htmlFor="newPassword"
                       >
                         New Password
@@ -133,8 +131,7 @@ const PasswordPage: React.FC = () => {
                   <div className="mb-5">
                     <div className="flex flex-row  relative  w-full">
                       <label
-                        className="text-label"
-                        style={{ width: "250px" }}
+                        className="text-label w-[250px]"
                         htmlFor="confirmPassword"
                       >
                         Confirm New Password
@@ -152,8 +149,7 @@ const PasswordPage: React.FC = () => {
               <div className="flex w-full">
                 <button
                   type="submit"
-                  style={{ marginLeft: "auto" }}
-                  className="btn-primary mt-1"
+                  className="btn-primary mt-1 ml-auto"
                 >
                   Save new password
                 </button>
@@ -187,8 +183,7 @@ const PasswordPage: React.FC = () => {
               </h5>
 
               <h5
-                style={{ color: "orangered" }}
-                className="text-1xl font-bold mt-4"
+                 className="text-1xl font-bold mt-4 text-lightRed-one"
               >
                 {errorMessage}
               </h5>

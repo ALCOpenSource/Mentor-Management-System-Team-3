@@ -61,7 +61,7 @@ function AdminDashboard() {
                 <h3 className="text-white mt-4 pl-[12px] text-[20px] font-bold">
                   <span>Active <br /> Programs</span>
                 </h3>
-                <button onClick={() => navigate("/dashboard/programs")} className="btn-secondary text-green-three bg-white mt-3 mr-8 rounded-md px-2 ml-[-15px]">View</button>
+                <button onClick={() => navigate("/dashboard/programs")} className="btn-secondary text-green-three bg-white mt-3 ml-0 -left-7 rounded-md px-2">View</button>
               </section>
 
               <div className="h-[92px] w-full flex flex-row bg-lighterGreen-three">
@@ -128,10 +128,10 @@ function AdminDashboard() {
             <div className="h-[92px] w-full flex flex-row bg-lighterGreen-three">
               {reportsOverview.map((item, i) => {
                 return (
-                  <div className="btn-animate h-[64px] rounded-lg min-w-[332px] flex flex-row relative mt-[12px] bg-lighterGreen-two mr-4">
-                    <div className="ml-10 mt-2 pr-3">
-                      <div className="flex flex-col items-start justify-between p-0">
-                        <h3 className="text-[20px] whitespace-nowrap max-h-[33px] font-normal text-customBlack-two mt-0 ml-[19px]">{item.name}</h3>
+                  <div className="btn-animate h-[64px] rounded-lg w-[332px] flex flex-row relative mt-[12px] bg-lighterGreen-two mr-4">
+                    <div className="pl-10 mt-2 w-[332px]">
+                      <div className="flex flex-col p-0">
+                        <h3 className="text-[20px] truncate max-h-[33px] font-normal text-customBlack-two mt-0 pl-[19px]">{item.name}</h3>
                         <span className="mt-[30px] flex flex-grow absolute ml-[19px]">
                           <span className="text-[12px] font-semibold text-gray-two">{` By ${item.by}`}</span>
                           <span className="text-[12px] text-gray-two">{" "}{`  -    ${getOrdinalizeDates(item.from, item.to)}`}</span>

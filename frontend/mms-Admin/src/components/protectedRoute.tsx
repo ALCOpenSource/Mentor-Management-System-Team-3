@@ -25,8 +25,7 @@ const ProtectedRoutes = () => {
     }
 
     const { auth, role } = useAuth();
-    console.log(auth, role);
-
+    
     if (auth && (role?.toLowerCase().includes("user") || role?.toLowerCase().includes("admin")))
         return (<Outlet />);
     return <Navigate to="/login" />

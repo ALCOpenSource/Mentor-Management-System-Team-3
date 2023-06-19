@@ -84,8 +84,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className={toggleSwitchLabel}
-                    style={{ width: "300px" }}
+                    className={`${toggleSwitchLabel} w-[300px]`}
                     htmlFor="showContactInfo"
                   >
                     Show contact info
@@ -104,8 +103,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className={toggleSwitchLabel}
-                    style={{ width: "300px" }}
+                    className={`${toggleSwitchLabel} w-[300px]`}
                     htmlFor="showGitHub"
                   >
                     Show GitHub
@@ -121,8 +119,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className={toggleSwitchLabel}
-                    style={{ width: "300px" }}
+                    className={`${toggleSwitchLabel} w-[300px]`}
                     htmlFor="showInstagram"
                   >
                     Show Instagram
@@ -138,8 +135,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className={toggleSwitchLabel}
-                    style={{ width: "300px" }}
+                    className={`${toggleSwitchLabel} w-[300px]`}
                     htmlFor="showLinkedin"
                   >
                     Show linkedin
@@ -155,8 +151,7 @@ const PrivacyPage: React.FC = () => {
               <div className="mb-2">
                 <div className="flex flex-row  relative  w-full">
                   <label
-                    className={toggleSwitchLabel}
-                    style={{ width: "300px" }}
+                    className={`${toggleSwitchLabel} w-[300px]`}
                     htmlFor="showTwitter"
                   >
                     Show Twitter
@@ -174,8 +169,7 @@ const PrivacyPage: React.FC = () => {
               </h5>
 
               <h5
-                style={{ color: "orangered" }}
-                className="text-1xl font-bold mt-4"
+                className="text-1xl font-bold mt-4 text-lightRed-one"
               >
                 {errorMessage}
               </h5>

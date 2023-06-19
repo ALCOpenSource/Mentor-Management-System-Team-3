@@ -4,13 +4,12 @@ import * as Yup from "yup";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
 import liveChatIcon from "../../../../assets/images/LiveChat.svg";
 import FormikValidationMessageComponent from "../../../../components/error-messages/formik-validation-message-component";
-//import PopUpPage from "./pop-up-page";
-import LiveChatPage from "./live-chats-page";
 import { sendSupportMessageApiAsync } from "../../../../services/axios/api-services/support";
 import { useAppSelector } from "../../../../services/redux/Store";
 import { selectCurrentUserToken } from "../../../../services/redux/slices/current-user-slice";
 import MessagePopUpPage from "../../../../components/messages/message-pop-up";
 import LoadingComponent from "../../../../components/loading-components/loading-component";
+import SupportLiveChatPage from "./support-live-chat";
 export interface SupportModel {
   userId: string;
   name: string;
@@ -131,8 +130,7 @@ const SupportPage: React.FC = () => {
               <div className="flex flex-col relative px-10">
                 <div className="flex flex-row  relative mb-3 w-full">
                   <label
-                    className="text-label"
-                    style={{ width: "200px" }}
+                    className="text-label w-[200px]"
                     htmlFor="name"
                   >
                     How can I help you?
@@ -145,8 +143,7 @@ const SupportPage: React.FC = () => {
                       id="name"
                       name="name"
                       placeholder="Name"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                      style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                      className="text-input py-[7px] ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="name" />
@@ -159,8 +156,7 @@ const SupportPage: React.FC = () => {
                       id="email"
                       name="email"
                       placeholder="Email"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                      style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                      className="text-input py-[7px] ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="email" />
@@ -173,8 +169,7 @@ const SupportPage: React.FC = () => {
                       id="title"
                       name="title"
                       placeholder="Title"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                      style={{ paddingTop: "7px", paddingBottom: "7px" }}
+                      className="text-input py-[7px] ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="title" />
@@ -188,12 +183,7 @@ const SupportPage: React.FC = () => {
                       as="textarea"
                       name="body"
                       placeholder="Body"
-                      className="text-input ms-1 border-2 border-lightGray-two rounded-[5px] text-[15px] "
-                      style={{
-                        paddingTop: "7px",
-                        paddingBottom: "7px",
-                        height: "120px",
-                      }}
+                      className="text-input ms-1 py-[7px] h-[120px] border-2 border-lightGray-two rounded-[5px] text-[15px] "
                     />
                   </div>
                   <FormikValidationMessageComponent name="body" />
@@ -205,8 +195,7 @@ const SupportPage: React.FC = () => {
                 </h5>
 
                 <h5
-                  style={{ color: "orangered" }}
-                  className="text-1xl font-bold mt-4"
+                  className="text-1xl font-bold mt-4 text-lightRed-one"
                 >
                   {errorMessage}
                 </h5>
@@ -220,13 +209,12 @@ const SupportPage: React.FC = () => {
                     if (pageRef?.current?.values)
                       pageRef.current.values = { title: "", email: "", body: "", userId: "", name: "", attachments: undefined };
                   }}
-                  message={"Successfully send the message"} />
+                  message={"Message Sent Successfully"} />
                 )}
               <div className="flex w-full">
                 <label
-                  className="rounded-[10px] p-[10px] ps-[40px] ms-[5px] font-medium mt-0"
+                  className="rounded-[10px] mr-auto p-[10px] ps-[40px] ms-[5px] font-medium mt-0"
                   htmlFor="uploadFile"
-                  style={{ marginRight: "auto" }}
                 >
                   <img src={attachFileIcon} alt="Attach file icon"></img>
                 </label>
@@ -238,7 +226,7 @@ const SupportPage: React.FC = () => {
                   onChange={(e) => convertFile(e.target.files)}
                 />
 
-                <div className="flex flex-col relative" style={{ marginRight: "auto" }}>
+                <div className="flex flex-col relative mr-auto" >
                   {
                     filebase64s.map((item, index) => (
                       <label > {item} <span className="close-attached-icon whitespace-nowrap font-bold pl-5 text-[20px] text-red-600"
@@ -248,14 +236,13 @@ const SupportPage: React.FC = () => {
                       </label>))
                   }
                 </div>
-                <div className="flex absolute items-end justify-end flex-row w-full">
+                <div className="flex absolute self-start right-[0px] items-end justify-end flex-row w-full">
                   <LoadingComponent isBusy={isBusy} />
                 </div>
 
                 <button
                   type="submit"
-                  style={{ marginLeft: "auto", maxHeight: "40px" }}
-                  className="btn-primary mt-0"
+                  className="btn-primary mr-10 ml-auto max-h-[40px] mt-0"
                 >
                   Send
                 </button>
@@ -265,16 +252,13 @@ const SupportPage: React.FC = () => {
             <div className="btn flex w-full" onClick={toggleChatDialogPopup}>
               <button
                 type="button"
-                style={{ marginLeft: "auto" }}
                 onClick={toggleChatDialogPopup}
-                className="btn-secondary rounded-[10px] p-[10px] pe-[40px] mt-[10px] font-medium"
+                className="btn-secondary ml-auto rounded-[10px] p-[10px] pe-[40px] mt-[10px] font-medium"
               >
                 <div className="p-5 h-[66px] w-[66px] bg-lighterGreen-two items-center justify-center rounded-full" > <img src={liveChatIcon} alt="Attach file icon"></img></div>
               </button>
               <dialog className="absolute top-0 right-[300px] mr-0 bg-white z-50" ref={chatDialogRef} >
-                <div className="w-[450px] z-50 h-[700px]">
-                  <LiveChatPage />
-                </div>
+                <SupportLiveChatPage dialogRef={chatDialogRef} />
               </dialog>
             </div>
           </Form>
