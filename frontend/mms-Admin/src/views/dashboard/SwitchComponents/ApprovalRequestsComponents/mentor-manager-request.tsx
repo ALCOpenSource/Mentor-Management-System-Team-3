@@ -86,7 +86,7 @@ const MentorManagerRequests: React.FC = () => {
                                                     index: React.Key | null | undefined
                                                 ) => (
                                                     <React.Fragment key={index}>
-                                                    <AccordionUserElement isExpanded={false} width={736} user={mentor} id="{index}"   />
+                                                    <AccordionUserElement isExpanded={false} width={936} user={mentor} id="{index}"   />
                                                     </React.Fragment>
                                                 )
                                             )

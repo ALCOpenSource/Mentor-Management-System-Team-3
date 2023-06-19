@@ -11,25 +11,42 @@ import google from "../../../../assets/images/google.svg";
 import time from "../../../../assets/images/time.svg";
 import certificate from "../../../../assets/images/mentors/certificate.png";
 import file from "../../../../assets/images/file.svg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MentorProp } from "../AdminMessagesComponents/select-someone";
-import { Tabs } from "../mentor/config/mentors";
+import { Tabs as MentorsTabs } from "../mentor/config/mentors";
 import DetailCards from "../mentor/components/detailCard";
 
 const FIXEDHEIGHT = {
-  height: `calc(100vh - 139px)`,
+  height: `calc(100vh-70px)`,
 };
 
 function MentorManagerDetails() {
   const location = useLocation();
+  const navigate = useNavigate();
   const state: [MentorProp[], MentorProp] = location.state;
   const [currentMentorManager, setCurrentMentorManager]  = useState(state[1]);
   const mentorManagers = state[0] ?? [];
   const [activeTab, setActiveTab] = useState("about");
+const tabs = MentorsTabs.filter(c => c.lable !== "Mentors");
+tabs.splice(2, 0, {
+  lable: 'Mentors',
+});
+
+
+  const handleSubmit = async (values: any) => {
+    try {
+      navigate("/dashboard/messages/broadcast-message")
+    } catch (error: any) {
+     // showErrorMessage(error.message);
+     //  setSuccessMessage("");
+    }
+  };
+
+
   return (
-    <section className="relative overflow-hidden" style={FIXEDHEIGHT}>
-      <section className="flex gap-x-7 h-full">
-        <section className="w-[310px] shrink-0">
+    <section className="relative h-full overflow-hidden" style={FIXEDHEIGHT}>
+      <section className="flex h-full gap-x-7">
+        <section className="w-[310px] h-full shrink-0">
           <section className="flex justify-between">
             <h1 className="text-2xl font-semibold">Mentors</h1>
             <div className="flex justify-between items-center gap-x-[34px]">
@@ -37,7 +54,7 @@ function MentorManagerDetails() {
               <img src={filter} alt="Filter" className="cursor-pointer" />
             </div>
           </section>
-          <section className="flex flex-col gap-y-2.5 text-2xl mt-5 h-[90%] py-2 pr-2 scrollbar-thin scrollbar-thumb-green-four scrollbar-track-white overflow-y-scroll">
+          <section className="flex flex-col gap-y-2.5 text-2xl mt-5 max-h-[calc(100%-100px)] py-2 pr-2 scrollbar-thin scrollbar-thumb-green-four scrollbar-track-white overflow-y-scroll">
             {mentorManagers.map((mentor, index) => {
               return (<div onClick={() => setCurrentMentorManager(mentor)}
                 key={mentor.name}
@@ -61,7 +78,7 @@ function MentorManagerDetails() {
             })}
           </section>
         </section>
-        <section className="mt-3 grow h-full">
+        <section className="mt-2 grow h-full">
           <section className="flex items-center justify-between">
             <div className="flex items-center gap-x-[22px]">
               <img
@@ -81,10 +98,10 @@ function MentorManagerDetails() {
               </div>
             </div>
             <div className="flex items-center gap-x-5">
-              <button className="bg-green-three w-[179px] h-[47px] text-white rounded-[10px] text-[16px] font-semibold">
+              <button onClick={handleSubmit} className="bg-green-three btn-animate w-[179px] h-[47px] text-white rounded-[10px] text-[16px] font-semibold">
                 Send Message
               </button>
-              <button className="bg-white w-[117px] h-[47px] text-green-three mr-5 rounded-[10px] border-2 border-green-three">
+              <button onClick={() => navigate("/dashboard/mentor-managers")} className="bg-white w-[117px] h-[47px] btn-animate text-green-three mr-5 rounded-[10px] border-2 border-green-three">
                 Close
               </button>
             </div>
@@ -92,11 +109,11 @@ function MentorManagerDetails() {
           <section
             role="tablist"
             aria-label="Tab_content"
-            className="mt-8 pr-4"
+            className="mt-3 pr-4"
           >
             <div className="text-[20px] font-normal text-center text-gray-two border-b-2 border-lightGray-two">
               <ul className="flex justify-between -mb-px">
-                {Tabs.map((tab) => {
+                {tabs.map((tab) => {
                   const { lable } = tab;
                   return (
                     <li className="mr-2" key={lable}>

@@ -1,6 +1,6 @@
 import { Field, FieldArray, Formik } from "formik";
 import { getShortDate, getShortTime } from "../../../../services/dateFunctions";
-import React, { useEffect, useState } from "react";
+import React, {  useMemo, useState } from "react";
 import attachFileIcon from "../../../../assets/images/AttachFile.svg";
 import ChatSendMessage from "../../../../assets/images/programs/ChatSendMessage.svg";
 import ChatImoji from "../../../../assets/images/programs/ChatImoji.svg";
@@ -13,13 +13,13 @@ function BroadCastMessage() {
     const [currentMessages, setCurrentMessages] = useState<ChatMessageProp[] | undefined>(undefined);
     const token = useAppSelector(selectCurrentUserToken);
 
-    useEffect(() => {
+    useMemo(() => {
         try {
             fetchAdminBroadcastMessagesApiAsync(token)
                 .then(xx => setCurrentMessages(xx))
                 .catch(error => console.error(error));
         } catch (ee) { console.error(ee) }
-    });
+    }, [token]);
 
     return (
         <div className="mt-0 px-5 py-2 relative h-full w-full">

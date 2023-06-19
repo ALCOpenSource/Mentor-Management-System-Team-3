@@ -9,11 +9,9 @@ import NavigationFirst from "./../../../../assets/images/programs/NavigationFirs
 import NavigationLast from "./../../../../assets/images/programs/NavigationLast.svg";
 import NavigationNext from "./../../../../assets/images/programs/NavigationNext.svg";
 import NavigationPrevious from "./../../../../assets/images/programs/NavigationPrevious.svg";
-import { FieldArray } from "formik";
 import { MentorProp } from "../AdminMessagesComponents/select-someone";
 import React from "react";
 import { fetchAllMentorManagerApiAsync } from "../../../../services/axios/api-services/tasks-and-reports";
-
 
 function MentorManagers() {
     type LoadStyle = "NONE" | "GRID" | "LINEAR"
@@ -132,13 +130,13 @@ function MentorManagers() {
                         </div>
                     </div>
 
-                    <div className="w-full flex flex-row max-w-[1095px] bg-red-400 h-full mt-1 pb-10">
-                        {loadingStyle !== "LINEAR" && (<div className="px-3 m-0 mt-5 grid grid-cols-2 gap-1 w-full h-full">
+                    <div className="w-full flex flex-row max-w-[1095px] h-full mt-1 pb-10">
+                        {loadingStyle !== "LINEAR" && (<div className="px-3 m-0 mt-5 grid grid-cols-2 gap-5 w-full h-full">
                             {mentorManagers?.map((mentor, index) =>
                             (
                                 <React.Fragment key={index}>
                                     <label htmlFor="pet" onClick={() => navigate("/dashboard/mentor-manager-detail", { state: [mentorManagers, mentor] })} className="w-full">
-                                        <div className="w-[calc(40%-30px)] grid-cols-6 mr-[20px] pl-[30px] py-[5px] rounded-lg ml-[20px] border-[1px] border-lightGray-two hover:bg-lighterGreen-three flex flex-row mt-[10px]">
+                                        <div className="w-full grid-cols-6 mr-[20px] pl-[30px] py-[5px] rounded-lg ml-[20px] border-[1px] border-lightGray-two hover:bg-lighterGreen-two flex flex-row mt-[10px]">
                                             <img
                                                 src={mentor.icon}
                                                 alt="profile logo"
@@ -202,7 +200,7 @@ function MentorManagers() {
                             (
                                 <React.Fragment key={index}>
                                     <label htmlFor="pet" onClick={() => navigate("/dashboard/mentor-manager-detail", { state: [mentorManagers, mentor] })} className="w-full">
-                                        <div className="max-w-[1095px] mr-[20px] pl-[50px] py-[5px] rounded-lg ml-[20px] border-[1px]  border-lightGray-two hover:bg-lighterGreen-three flex flex-row mt-[10px]">
+                                        <div className="max-w-[1095px] mr-[20px] pl-[50px] py-[5px] rounded-lg ml-[20px] border-[1px]  border-lightGray-two hover:bg-lighterGreen-two flex flex-row mt-[10px]">
                                             <img
                                                 src={mentor.icon}
                                                 alt="profile logo"
