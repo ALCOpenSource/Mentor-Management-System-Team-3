@@ -52,8 +52,8 @@ Beckend
 
 ## Design
 
-The design can be find [here](https://www.figma.com/file/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?node-id=30-29\&t=AFjjeY6lHF5p9Sr5-0)
-Find the Prototype [here](https://www.figma.com/proto/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?page-id=6782%3A4428\&node-id=6784-8953\&viewport=565%2C382%2C0.02\&scaling=min-zoom\&starting-point-node-id=6784%3A6712)
+The design can be find [here](https://www.figma.com/proto/Uyj0o0nX8f5QdXfGzO3ZCZ/MMS-Project-Official?page-id=121%3A20&node-id=2919-69751&starting-point-node-id=2527%3A72409&show-proto-sidebar=1)
+Find the Prototype [here](https://www.figma.com/proto/Uyj0o0nX8f5QdXfGzO3ZCZ/MMS-Project-Official?page-id=121%3A20&node-id=2919-69751&starting-point-node-id=2527%3A72409&show-proto-sidebar=1)
 
 Work on your Team assigned task eg. Team 1, Team 2 etc.
 
