@@ -1,66 +1,66 @@
 a:link,
 a:active {
-    color:   blue;
-    text-decoration:   none;
+    color:  blue;
+    text-decoration:  none;
 }
 
 a:visited {
-    color:   darkblue;
-    text-decoration:   none;
+    color:  darkblue;
+    text-decoration:  none;
 }
 
 a:hover {
-    color:   blue;
-    text-decoration:   underline;
+    color:  blue;
+    text-decoration:  underline;
 }
 
 div.menuv {
-    float:   left;
-    width:   10em;
-    padding:   1em;
-    font-size:   small;
+    float:  left;
+    width:  10em;
+    padding:  1em;
+    font-size:  small;
 }
 
 
 div.menuv ul,
 div.menuv li,
 div.menuv .menuv-current li {
-    margin:   0;
-    padding:   0;
-    list-style:   none;
-    margin-bottom:   5px;
-    font-weight:   normal;
+    margin:  0;
+    padding:  0;
+    list-style:  none;
+    margin-bottom:  5px;
+    font-weight:  normal;
 }
 
 div.menuv ul ul {
-    padding-left:   12px;
+    padding-left:  12px;
 }
 
 div.menuv a:link,
 div.menuv a:visited,
 div.menuv a:active,
 div.menuv a:hover {
-    display:   block;
-    text-decoration:   none;
-    padding:   2px 2px 2px 3px;
-    border-bottom:   1px dotted #999999;
+    display:  block;
+    text-decoration:  none;
+    padding:  2px 2px 2px 3px;
+    border-bottom:  1px dotted #999999;
 }
 
 div.menuv a:hover,
 div.menuv .menuv-current li a:hover {
-    padding:   2px 0px 2px 1px;
-    border-left:   2px solid green;
-    border-right:   2px solid green;
+    padding:  2px 0px 2px 1px;
+    border-left:  2px solid green;
+    border-right:  2px solid green;
 }
 
 div.menuv .menuv-current {
-    font-weight:   bold;
+    font-weight:  bold;
 }
 
 div.menuv .menuv-current a:hover {
-    padding:   2px 2px 2px 3px;
-    border-left:   none;
-    border-right:   none;
-    border-bottom:   1px dotted #999999;
-    color:   darkblue;
+    padding:  2px 2px 2px 3px;
+    border-left:  none;
+    border-right:  none;
+    border-bottom:  1px dotted #999999;
+    color:  darkblue;
 }
