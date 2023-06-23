@@ -16,11 +16,12 @@ coordination of mentors needed to execute projects, ranging from recruitment to 
 
 To get it up and running on your local machine, follow the steps below:
 
-*   Clone the repo with the command \`git clonn
+
+*   Clone the repo with the command \`git clone
 
 *   Indicate your interest to work on any issue. "eg. I want to work on this issue or I am interested in this issue"
 
-*   Open a feature branch from the 'develop' branch. eg feat/
+*   Open a feature branch from the 'develop' branch. eg feat/ or open a fix branch from the develop branch eg fix/
 
 *   Make sure the name is descriptive for your branch but not too long. Lead with what the the branch is doing eg new feature or bug but follow this pattern `type/branch-description` eg `feature/add-login-functionality`.
 
@@ -34,28 +35,27 @@ To get it up and running on your local machine, follow the steps below:
 
 ### Frontend
 
-*   Navigate to the project directory with the command `cd Mentor-Management-System-Team-1`
+*   Navigate to the project directory with the command `cd Mentor-Management-System-Team-3`
 
-*   Navigate to the frontend directory with the command `cd frontend`
-
-*   Navigate to the frontend directory with the command `cd frontend mms-Admin`
+*   Navigate to the frontend directory with the command `cd frontend/mms-Admin` 'We are working on the mms-Admin module'
 
 *   Install all the dependencies with the command `npm install`
 
-*   Start the app with the command `npm run dev`
+*   Start the app with the command `npm run start`
 
 *   Navigate to the app on your browser with the url `http://localhost:****` where \*\*\*\* is the port number displayed on your terminal.
+  
+*   Kindly code the features according to the design below.
+  
+## Design
+
+The design can be find [here](https://www.figma.com/proto/Uyj0o0nX8f5QdXfGzO3ZCZ/MMS-Project-Official?page-id=121%3A20&node-id=2919-69751&starting-point-node-id=2527%3A72409&show-proto-sidebar=1)
+Find the Prototype [here](https://www.figma.com/proto/Uyj0o0nX8f5QdXfGzO3ZCZ/MMS-Project-Official?page-id=121%3A20&node-id=2919-69751&starting-point-node-id=2527%3A72409&show-proto-sidebar=1)
+
 
 #### Backend
 
-Beckend
-
-## Design
-
-The design can be find [here](https://www.figma.com/file/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?node-id=30-29\&t=AFjjeY6lHF5p9Sr5-0)
-Find the Prototype [here](https://www.figma.com/proto/JNZKj3lachPypSOMBOhC1e/MMS-ALC-0pen-Source-Project?page-id=6782%3A4428\&node-id=6784-8953\&viewport=565%2C382%2C0.02\&scaling=min-zoom\&starting-point-node-id=6784%3A6712)
-
-Work on your Team assigned task eg. Team 1, Team 2 etc.
+Backend
 
 NOTE: Stickly adhere to the style guide on the design, buttons, texts etc.
 
@@ -65,8 +65,7 @@ Raise any identified issue with your TTL
 
 ## Other commands available
 
-1.  `npm run build` - Builds the app for production to the `dist` folder
-2.  `npm run lint` - Lints the codebase.
-3.  `npm run lint:fix` - Lints the codebase and fixes auto-fixable error.
+1.  `npm run start:dev` - Builds the app to the `dist` folder for development
+2.  `npm run lint` - Lints and fixthe codebase.
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/098d739ea9504dadabbcc4898eaff86e)](https://app.codacy.com/gh/ALCOpenSource/Mentor-Management-System-Team-1/dashboard?utm_source=gh\&utm_medium=referral\&utm_content=\&utm_campaign=Badge_grade)
